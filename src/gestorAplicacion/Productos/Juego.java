@@ -1,4 +1,4 @@
-package gestorAplicacion.arcProductos;
+package gestorAplicacion.Productos;
 
 public class Juego extends Producto {
     private String genero;

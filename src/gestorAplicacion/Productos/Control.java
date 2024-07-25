@@ -1,4 +1,4 @@
-package gestorAplicacion.arcProductos;
+package gestorAplicacion.Productos;
 
 public class Control extends Producto {
     private String consola;
