@@ -1,7 +1,7 @@
 package gestorAplicacion.Productos;
 
 import java.io.Serializable;
-
+/*aquí va un comentario */
 public class Producto implements Serializable {
     // Atributos de clase
     protected static int id = 0;
