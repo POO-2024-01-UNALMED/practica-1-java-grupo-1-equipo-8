@@ -1,6 +1,5 @@
 package gestorAplicacion.Productos;
 
-public class Consola extends Producto {
+public class Accesorio extends Producto {
     /* ### Constructores ### */
-    public Consola( )
 }
