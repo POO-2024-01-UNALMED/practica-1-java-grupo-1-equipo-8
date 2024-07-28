@@ -2,16 +2,24 @@ package gestorAplicacion;
 
 public class Fecha {
     private int totalDias;
-    private final int year;
-    private final int mes;
-    private final int dia;
+    private int year;
+    private int mes;
+    private int dia;
 
+    // Constructor por dia, mes y año
     public Fecha (int dia, int mes, int year) {
         this.dia = dia;
         this.mes = mes;
         this.year = year;
 
         this.totalDias = fechaADias(dia, mes, year);
+    }
+
+    // Constructor por total de dias
+    public Fecha (int dias) {
+        this.totalDias = dias;
+
+        diasAFecha(dias);
     }
 
     private int fechaADias(int dia, int mes, int year) {
@@ -56,7 +64,7 @@ public class Fecha {
         return this.totalDias;
     }
 
-    String diasAFecha(int totalDias) {
+    void diasAFecha(int totalDias) {
         int year = 0;
         int mes = 1;
         int dia = 0;
@@ -116,9 +124,15 @@ public class Fecha {
                     }
                     break;
             }
+
         }
-        return dia + "/" + mes + "/" + year;
+
+        this.dia = dia;
+        this.mes = mes;
+        this.year = year;
     }
+
+
 
     boolean esBisiesto(int year) {
         return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
