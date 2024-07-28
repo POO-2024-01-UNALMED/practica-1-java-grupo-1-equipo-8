@@ -1,7 +1,5 @@
 package gestorAplicacion.Productos;
 
-import gestorAplicacion.Fecha;
-
 public class Accesorio extends Producto {
 	
 	/*atributos*/
