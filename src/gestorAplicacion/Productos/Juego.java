@@ -1,5 +1,7 @@
 package gestorAplicacion.Productos;
 
+import gestorAplicacion.Fecha;
+
 public class Juego extends Producto {
 	
 	/*atributos*/
@@ -9,8 +11,8 @@ public class Juego extends Producto {
 	
 	/* ### Constructores ### */
 	
-	public Juego (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, Fecha fechaLanzamiento, String genero, String plataforma) {
-		super(codigo, nombre, cantidad, cantidadInicial, prestable, condiciones, fechaLanzamiento);
+	public Juego (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
+		super(codigo, nombre, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
 		this.genero = genero;
 		this.plataforma = plataforma;
 	}
