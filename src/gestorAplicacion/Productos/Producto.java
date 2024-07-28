@@ -14,8 +14,8 @@ abstract class Producto implements Serializable{
 	protected Fecha fechaLanzamiento;
 
     /* ### Constructores ### */
-    public Producto (int Codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, Fecha fechaLanzamiento){
-		this.codigo = Codigo;
+    public Producto (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, Fecha fechaLanzamiento){
+		this.codigo = codigo;
 		this.nombre = nombre;
 		this.cantidad = cantidad;
 		this.cantidadInicial = cantidadInicial;
