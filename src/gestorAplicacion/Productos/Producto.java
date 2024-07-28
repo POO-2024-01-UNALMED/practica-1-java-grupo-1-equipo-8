@@ -1,7 +1,7 @@
 package gestorAplicacion.Productos;
 
 import java.io.Serializable;
-public class Producto{
-   /*Inicio
-   * commit prueba 2*/
+abstract class Producto implements Serializable{
+   /*Atributos*/
+
 }
