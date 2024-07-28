@@ -16,6 +16,7 @@ abstract class Producto implements Serializable{
 	protected Fecha fechaLanzamiento;
 
     /* ### Constructores ### */
+	// Constructor con todos los atributos. Recibe dia, mes y año por separado
     public Producto (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz) {
 		this.codigo = codigo;
 		this.nombre = nombre;
@@ -24,6 +25,16 @@ abstract class Producto implements Serializable{
 		this.prestable = prestable;
 		this.condicion = condiciones;
 		this.fechaLanzamiento = new Fecha(diaLanz, mesLanz, yearLanz);
+	}
+	// Constructor con todos los atributos. Recibe fecha en dias
+	public Producto (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz) {
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.cantidad = cantidad;
+		this.cantidadInicial = cantidadInicial;
+		this.prestable = prestable;
+		this.condicion = condiciones;
+		this.fechaLanzamiento = new Fecha(diaLanz);
 	}
 
 	/* ### Métodos ### */
