@@ -1,5 +1,7 @@
 package gestorAplicacion.Productos;
 
+import gestorAplicacion.Fecha;
+
 import java.io.Serializable;
 abstract class Producto implements Serializable{
 	
