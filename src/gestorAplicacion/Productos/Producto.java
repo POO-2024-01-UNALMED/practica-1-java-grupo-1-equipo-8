@@ -2,5 +2,6 @@ package gestorAplicacion.Productos;
 
 import java.io.Serializable;
 public class Producto{
-   /*Inicio*/
+   /*Inicio
+   * commit prueba 2*/
 }
