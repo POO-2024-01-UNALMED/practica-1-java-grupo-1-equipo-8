@@ -17,6 +17,7 @@ abstract class Producto implements Serializable{
 
     /* ### Constructores ### */
 	// Constructor con todos los atributos. Recibe dia, mes y año por separado
+	public Producto(){}
     public Producto (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz) {
 		this.codigo = codigo;
 		this.nombre = nombre;
