@@ -1,5 +1,9 @@
 package gestorAplicacion.Productos;
 
 public class Juego extends Producto {
-/*inicio*/
+	
+	/*atributos*/
+	
+	private String genero;
+	private String plataforma;
 }

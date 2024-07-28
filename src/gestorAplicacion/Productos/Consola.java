@@ -1,6 +1,8 @@
 package gestorAplicacion.Productos;
 
 public class Consola extends Producto {
-    /*texto*/
-    /*commit cosa*/
+	
+	/*atributos*/
+	
+	private String marca;
 }

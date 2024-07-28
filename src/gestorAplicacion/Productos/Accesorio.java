@@ -1,5 +1,9 @@
 package gestorAplicacion.Productos;
 
 public class Accesorio extends Producto {
-    /* ### Constructores ### */
+	
+	/*atributos*/
+	
+	private String marca;
+	private String consola;
 }
