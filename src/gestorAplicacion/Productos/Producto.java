@@ -34,7 +34,7 @@ abstract class Producto implements Serializable{
 		this.cantidadInicial = cantidadInicial;
 		this.prestable = prestable;
 		this.condicion = condiciones;
-		this.fechaLanzamiento = new Fecha(diaLanz, mesLanz, yearLanz);
+		this.fechaLanzamiento = new Fecha(diaLanz);
 	}
 
 	/* ### Métodos ### */
