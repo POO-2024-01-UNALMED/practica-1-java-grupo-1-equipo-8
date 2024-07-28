@@ -6,4 +6,13 @@ public class Juego extends Producto {
 	
 	private String genero;
 	private String plataforma;
+	
+	/* ### Constructores ### */
+	
+	public Juego (String genero, String plataforma) {
+		this.genero = genero;
+		this.plataforma = plataforma;
+	}
+	
+	
 }

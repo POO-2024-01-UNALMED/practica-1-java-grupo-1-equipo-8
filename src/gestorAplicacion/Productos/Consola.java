@@ -2,7 +2,7 @@ package gestorAplicacion.Productos;
 
 public class Consola extends Producto {
 	
-	/*atributos*/
+	/*### Atributos ###*/
 	
 	private String marca;
 }
