@@ -6,7 +6,7 @@ import java.io.Serializable;
 abstract class Producto implements Serializable{
 	
 	/* ### Atributos ### */
-	
+	private static final long serialVersionUID = 1L;
 	protected int codigo;
 	protected String nombre;
 	protected int cantidad;
