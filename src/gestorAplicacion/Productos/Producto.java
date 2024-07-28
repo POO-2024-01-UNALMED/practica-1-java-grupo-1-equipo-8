@@ -14,7 +14,6 @@ abstract class Producto implements Serializable{
 	protected Fecha fechaLanzamiento;
 
     /* ### Constructores ### */
-    // Constructor general
     public Producto (int Codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, Fecha fechaLanzamiento){
 		this.codigo = Codigo;
 		this.nombre = nombre;
@@ -28,5 +27,53 @@ abstract class Producto implements Serializable{
 	/* ### Métodos ### */
 
 
+	/* ### Getters y setters ### */
+	public int getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
 
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public int getCantidadInicial() {
+		return cantidadInicial;
+	}
+	public void setCantidadInicial(int cantidadInicial) {
+		this.cantidadInicial = cantidadInicial;
+	}
+
+	public boolean isPrestable() {
+		return prestable;
+	}
+	public void setPrestable(boolean prestable) {
+		this.prestable = prestable;
+	}
+
+	public byte getCondicion() {
+		return condicion;
+	}
+	public void setCondicion(byte condicion) {
+		this.condicion = condicion;
+	}
+
+	public Fecha getFechaLanzamiento() {
+		return fechaLanzamiento;
+	}
+	public void setFechaLanzamiento(Fecha fechaLanzamiento) {
+		this.fechaLanzamiento = fechaLanzamiento;
+	}
 }
