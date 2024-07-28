@@ -14,14 +14,14 @@ abstract class Producto implements Serializable{
 	protected Fecha fechaLanzamiento;
 
     /* ### Constructores ### */
-    public Producto (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, Fecha fechaLanzamiento){
+    public Producto (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.cantidad = cantidad;
 		this.cantidadInicial = cantidadInicial;
 		this.prestable = prestable;
 		this.condicion = condiciones;
-		this.fechaLanzamiento = fechaLanzamiento;
+		this.fechaLanzamiento = new Fecha(diaLanz, mesLanz, yearLanz);
 	}
 
 	/* ### Métodos ### */
