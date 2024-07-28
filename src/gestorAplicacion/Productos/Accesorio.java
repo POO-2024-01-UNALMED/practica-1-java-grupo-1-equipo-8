@@ -11,4 +11,11 @@ public class Accesorio extends Producto {
 		super(codigo, nombre, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
 		this.marca = marca;
 	}
+	//~~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~~//
+	public String getMarca(){
+		return marca;
+	}
+	public void setMarca(String mark){
+		this.marca = mark;
+	}
 }
