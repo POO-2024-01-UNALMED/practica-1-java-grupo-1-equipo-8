@@ -15,7 +15,7 @@ public class Juego extends Producto {
 		this.genero = genero;
 		this.plataforma = plataforma;
 	}
-	//~~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~~//
+							//~~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~~//
 	public String getGenero(){
 		return genero;
 	}
