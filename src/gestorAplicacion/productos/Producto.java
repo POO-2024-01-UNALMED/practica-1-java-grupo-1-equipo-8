@@ -1,11 +1,13 @@
-package gestorAplicacion.Productos;
+package gestorAplicacion.productos;
 
-import gestorAplicacion.Fecha;
+import gestorAplicacion.tiempo.Fecha;
 
+import java.io.Serial;
 import java.io.Serializable;
 abstract class Producto implements Serializable{
 	
 	/* ### Atributos ### */
+	@Serial
 	private static final long serialVersionUID = 1L;
 	protected int codigo;
 	protected String nombre;

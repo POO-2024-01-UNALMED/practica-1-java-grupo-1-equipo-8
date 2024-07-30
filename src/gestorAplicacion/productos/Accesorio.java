@@ -1,4 +1,4 @@
-package gestorAplicacion.Productos;
+package gestorAplicacion.productos;
 
 public class Accesorio extends Producto {
 	

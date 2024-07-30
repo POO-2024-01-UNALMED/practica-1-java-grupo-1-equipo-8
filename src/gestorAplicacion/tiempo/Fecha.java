@@ -1,6 +1,9 @@
-package gestorAplicacion;
-
-public class Fecha {
+package gestorAplicacion.tiempo;
+import java.io.Serializable;
+import java.io.Serial;
+public class Fecha implements Serializable{
+    @Serial
+    private static final long serialVersionUID = 1L;
     private int totalDias;
     private int year;
     private int mes;
