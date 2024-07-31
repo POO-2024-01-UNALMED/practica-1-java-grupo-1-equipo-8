@@ -1,10 +1,10 @@
 package gestorAplicacion.productos;
 
-import gestorAplicacion.tiempo.Fecha;
+import gestorAplicacion.manejoLocal.Fecha;
 
 import java.io.Serial;
 import java.io.Serializable;
-abstract class Producto implements Serializable{
+public abstract class Producto implements Serializable{
 	
 	/* ### Atributos ### */
 	@Serial
