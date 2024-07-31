@@ -1,6 +1,7 @@
-package gestorAplicacion.tiempo;
+package gestorAplicacion.manejoLocal;
 import java.io.Serializable;
 import java.io.Serial;
+
 public class Fecha implements Serializable{
     @Serial
     private static final long serialVersionUID = 1L;
