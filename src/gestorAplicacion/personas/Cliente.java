@@ -6,7 +6,7 @@ import gestorAplicacion.informacionVenta.Transaccion;
 import java.util.ArrayList;
 
 public class Cliente extends Persona{
-
+//prueba
     /*~~ Atributos ~~*/
     private int puntosFidelidad;
     private ArrayList<Prestamo> prestamos;
