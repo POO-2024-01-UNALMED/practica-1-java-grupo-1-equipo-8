@@ -25,6 +25,7 @@ public class Main {
 
             System.out.println("Ingrese el número de la opción que desea ejecutar:");
 
+            // Recibir entrada del usuario
             opcion = sc.nextByte();
 
             switch (opcion) {
@@ -57,9 +58,8 @@ public class Main {
                     System.out.println("Opción inválida. Intente de nuevo.");
                     System.out.println("##################################\n");
                     break;
-
             }
-        } while (opcion < 0 || opcion > 5);
+        } while (opcion != 0);
     }
 
     // Separador de la TUI
