@@ -1,5 +1,7 @@
 package gestorAplicacion.Productos;
 
+import gestorAplicacion.productos.Producto;
+
 public class Accesorio extends Producto {
 	
 	/*### Atributos ###*/
