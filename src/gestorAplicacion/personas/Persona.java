@@ -5,18 +5,26 @@ public abstract class Persona implements Serializable{
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /*~~ Atributos ~~*/
-    private long cedula;
+    /* ~~~ Atributos ~~~ */
+    private int cedula;
     private String nombre;
     private String correo;
     private long telefono;
 
-            /*~~ Metodos get y set ~~*/
+    /* ~~~ Constructores ~~~ */
+    public Persona(int cedula, String nombre, String correo, long telefono) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.telefono = telefono;
+    }
 
-    public long getCedula() {
+    /* ~~~ Metodos get y set ~~~ */
+
+    public int getCedula() {
         return cedula;
     }
-    public void setCedula(long cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
     public String getNombre() {

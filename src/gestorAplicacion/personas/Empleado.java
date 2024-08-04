@@ -3,13 +3,22 @@ package gestorAplicacion.personas;
 import java.util.ArrayList;
 
 public class Empleado extends Persona{
-    /*~~ Atributos ~~*/
+    /* ~~~ Atributos ~~~ */
     private int salario;
     private int salarioPorcentual;
     private int acumuladoMensual;
     private ArrayList<Meta> metas;
 
-                    /*~~ Metodos get y set ~~*/
+    /* ~~~ Constructores ~~~ */
+    public Empleado(int cedula, String nombre, String correo, long telefono, int salario, int salarioPorcentual) {
+        super(cedula, nombre, correo, telefono);
+        this.salario = salario;
+        this.salarioPorcentual = salarioPorcentual;
+        this.acumuladoMensual = 0;
+        this.metas = new ArrayList<Meta>();
+    }
+
+    /* ~~~ Metodos get y set ~~~ */
 
     public int getSalario() {
         return salario;

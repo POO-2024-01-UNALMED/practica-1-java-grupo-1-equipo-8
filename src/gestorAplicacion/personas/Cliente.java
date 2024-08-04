@@ -6,13 +6,23 @@ import gestorAplicacion.informacionVenta.Transaccion;
 import java.util.ArrayList;
 
 public class Cliente extends Persona{
-
     /*~~ Atributos ~~*/
+    public static ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+
     private int puntosFidelidad;
     private ArrayList<Prestamo> prestamos;
     private ArrayList<Transaccion> compras;
 
-                /*~~ Metodos get y set ~~*/
+    /* ~~~ Constructores ~~~ */
+    public Cliente(int cedula, String nombre, String email, long telefono) {
+        super(cedula, nombre, email, telefono);
+        this.puntosFidelidad = 0;
+        this.prestamos = new ArrayList<Prestamo>();
+        this.compras = new ArrayList<Transaccion>();
+        clientes.add(this);
+    }
+
+    /* ~~~ Metodos get y set ~~~ */
 
     public int getPuntosFidelidad() {
         return puntosFidelidad;
