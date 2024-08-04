@@ -17,7 +17,7 @@ public class Tienda implements Serializable {
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
     private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
-    private ArrayList<Empleado> empleados = new ArrayList<Empleado>();
+    public ArrayList<Empleado> empleados = new ArrayList<Empleado>();
 
     /*~~~ Constructores ~~~*/
     public Tienda(){
@@ -27,6 +27,7 @@ public class Tienda implements Serializable {
         this.nombre = nombre;
         this.fondos = fondos;
         Tienda.locales.add(this);
+        this.empleados = new ArrayList<Empleado>();
 
     }
     /*~~~ Métodos ~~~*/
@@ -71,5 +72,11 @@ public class Tienda implements Serializable {
     }
     public static void setLocales(ArrayList<Tienda> locales) {
         Tienda.locales = locales;
+    }
+    public ArrayList<Empleado> getEmpleados() {
+        return empleados;
+    }
+    public void setEmpleados(ArrayList<Empleado> empleados) {
+        this.empleados = empleados;
     }
 }
