@@ -70,8 +70,8 @@ public class Main {
             do{
                 imprimirSeparador();
 
+                int j = 1;
                 for (Tienda i : Tienda.getLocales()){ // Bucle para imprimir los locales
-                    int j = 1;
                     System.out.println(j+". "+i.getNombre());
                     j= j+1;
                 }
@@ -87,6 +87,7 @@ public class Main {
                         break;
                     }
                     else{
+                        System.out.print("\n### ERROR ###\n");
                         System.out.println("Local no encontrado. Presione enter para volver a intentar.");
                         sc.nextLine();
                         break;

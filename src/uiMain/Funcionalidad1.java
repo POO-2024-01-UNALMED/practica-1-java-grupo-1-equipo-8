@@ -142,7 +142,7 @@ public class Funcionalidad1 {
                         // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
                         if (cliente == null) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Cliente no encontrado. ¿Desea intentar de nuevo? (y/n).\n");
+                            System.out.println("Cliente no encontrado. ¿Desea intentar de nuevo? (Y/n).\n");
                             char decision = 'y';
                             decision = sc.next().charAt(0);
                             if (decision == 'n' || decision == 'N') {
