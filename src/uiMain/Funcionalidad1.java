@@ -42,19 +42,73 @@ public class Funcionalidad1 {
 
             // Recibir entrada del usuario
             opcion = sc.nextByte();
+            sc.nextLine();  // Limpiar el buffer
+
+            Producto producto;
 
             switch (opcion) {
                 case 1:
                     // Agregar producto
-                    seleccionarProducto(local);
+
+                    // Clonar el producto seleccionado para evitar modificar el original
+                    try {
+                        producto = (seleccionarProducto(local).clone());
+                    }
+                    catch (CloneNotSupportedException e) {
+                        System.out.println("\n### ERROR ###");
+                        System.out.println("Error al clonar el producto. Presione Enter para cancelar la operación.");
+                        sc.nextLine();  // Limpiar el buffer
+                        sc.nextLine();  // Esperar a que el usuario presione Enter
+
+                        return;
+                    }
+
+
+                    // Verificar si el producto ya está en el carrito
+                    Producto productoEnCarrito = hallarEnCarrito(producto, carrito);
+
+                    if (productoEnCarrito != null) { // Si está, aumentar la cantidad en 1
+                        if (productoEnCarrito.getCantidad() >= producto.getCantidad()) { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
+                            System.out.println("No hay más unidades de '" + producto.getNombre() + "' disponibles.");
+                            System.out.println("\nPresione Enter para continuar.");
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                            break;
+                        } else {
+                            productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() + 1);
+                        }
+                    }
+                    else { // De no estar, agregarlo al carrito con cantidad 1
+                        producto.setCantidad(1);
+                        carrito.add(producto);
+                    }
+
                     break;
 
                 case 2:
                     // Eliminar producto
+                    // TODO: Implementar la eliminación de productos del carrito
                     break;
 
                 case 3:
                     // Ver productos en el carrito
+
+                    // Comprobar que el carrito no esté vacío
+                    if (carrito.isEmpty()) {
+                        System.out.println("El carrito está vacío.");
+                        System.out.println("\nPresione Enter para continuar.");
+                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        break;
+                    }
+
+                    System.out.println("CARRITO:");
+
+                    for (Producto p : carrito) {
+                        System.out.println("* " + p);
+                    }
+
+                    System.out.println("\nPresione Enter para continuar.");
+                    sc.nextLine();  // Esperar a que el usuario presione Enter
+
                     break;
 
                 case 4:
@@ -64,7 +118,6 @@ public class Funcionalidad1 {
                 default:
                     System.out.println("\n### ERROR ###");
                     System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
-                    sc.nextLine();  // Limpiar el buffer
                     sc.nextLine();  // Esperar a que el usuario presione Enter
                     break;
             }
@@ -285,4 +338,15 @@ public class Funcionalidad1 {
 
         } while (true);
     }
+
+    private static Producto hallarEnCarrito(Producto producto, ArrayList<Producto> carrito){
+        for (Producto p : carrito) {
+            if (p.getNombre().equals(producto.getNombre())) {
+                return p;
+            }
+        }
+
+        return null;
+    }
+
 }

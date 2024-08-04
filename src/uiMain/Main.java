@@ -19,6 +19,7 @@ public class Main {
         tienda1.agregarProducto(new Consola(3, "Noentiendo Swap", 300, 20, 20, false, (byte) 5, 13, 7, 2018, "Noentiendo"));
         tienda1.agregarProducto(new Consola(4, "Polystation 4", 250, 25, 25, false, (byte) 5, 14, 11, 2013, "Sony"));
         tienda1.agregarProducto(new Consola(5, "Xbox 360", 200, 30, 30, false, (byte) 5, 15, 12, 2005, "Microsoft"));
+        tienda1.agregarProducto(new Consola(6, "Polystation 6", 500, 1, 1, false, (byte) 5, 16, 11, 2028, "Sony"));
 
         tienda1.agregarProducto(new Juego(1, "Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, "Deportes", "Polystation 5"));
         tienda1.agregarProducto(new Juego(2, "Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, "FPS", "Xbox 360"));

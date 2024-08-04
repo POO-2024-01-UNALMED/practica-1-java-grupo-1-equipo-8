@@ -4,9 +4,9 @@ import gestorAplicacion.manejoLocal.Fecha;
 
 import java.io.Serial;
 import java.io.Serializable;
-public abstract class Producto implements Serializable{
+public abstract class Producto implements Serializable, Cloneable{
 	
-	/* ### Atributos ### */
+	/* ~~~ Atributos ~~~ */
 	@Serial
 	private static final long serialVersionUID = 1L;
 	protected int codigo;
@@ -18,7 +18,7 @@ public abstract class Producto implements Serializable{
 	protected byte condicion;
 	protected Fecha fechaLanzamiento;
 
-    /* ### Constructores ### */
+    /* ~~~ Constructores ~~~ */
 	// Constructor con todos los atributos. Recibe dia, mes y año por separado
 	public Producto(){}
     public Producto (int codigo, String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz) {
@@ -42,10 +42,26 @@ public abstract class Producto implements Serializable{
 		this.fechaLanzamiento = new Fecha(diaLanz);
 	}
 
-	/* ### Métodos ### */
+	/* ~~~ Métodos ~~~ */
+
+	/* ~~ Método para vender un producto ~~ */
+	public void vender(int cantidad) {
+		this.cantidad -= cantidad;
+	}
+
+	/* ~~ Método para retornar un producto ~~ */
+	public void retornar(int cantidad) {
+		this.cantidad += cantidad;
+	}
 
 
-	/* ## Método toString ## */
+	/* ~~ Método para clonar un producto ~~ */
+	@Override
+	public Producto clone() throws CloneNotSupportedException {
+		return (Producto) super.clone();
+	}
+
+	/* ~~ Método toString ~~ */
 	@Override
 	public String toString() {
 		return "COD: " + codigo + " | " +
