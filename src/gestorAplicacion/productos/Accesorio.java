@@ -13,5 +13,6 @@ public class Accesorio extends Producto {
 	public Accesorio (int codigo, String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz, String marca, String consola) {
 		super(codigo, nombre, valor, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
 		this.marca = marca;
+		this.consola = consola;
 	}
 }

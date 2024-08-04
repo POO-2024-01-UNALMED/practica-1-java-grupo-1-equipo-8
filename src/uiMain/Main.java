@@ -14,19 +14,38 @@ public class Main {
 
     static Tienda tienda1 = new Tienda("Volador",123);
     static {
-        tienda1.agregarProducto(new Consola(1, "Polystation 5", 400, 10, 10, true, (byte) 5, 11, 11, 2021, "Sony"));
-        tienda1.agregarProducto(new Consola(2, "Xbox 720", 350, 15, 15, true, (byte) 5, 12, 12, 2021, "Microsoft"));
-        tienda1.agregarProducto(new Consola(3, "Noentiendo Swap", 300, 20, 20, true, (byte) 5, 13, 7, 2018, "Noentiendo"));
-        tienda1.agregarProducto(new Consola(4, "Polystation 4", 250, 25, 25, true, (byte) 5, 14, 11, 2013, "Sony"));
-        tienda1.agregarProducto(new Consola(5, "Xbox 360", 200, 30, 30, true, (byte) 5, 15, 12, 2005, "Microsoft"));
+        tienda1.agregarProducto(new Consola(1, "Polystation 5", 400, 10, 10, false, (byte) 5, 11, 11, 2021, "Sony"));
+        tienda1.agregarProducto(new Consola(2, "Xbox 720", 350, 15, 15, false, (byte) 5, 12, 12, 2021, "Microsoft"));
+        tienda1.agregarProducto(new Consola(3, "Noentiendo Swap", 300, 20, 20, false, (byte) 5, 13, 7, 2018, "Noentiendo"));
+        tienda1.agregarProducto(new Consola(4, "Polystation 4", 250, 25, 25, false, (byte) 5, 14, 11, 2013, "Sony"));
+        tienda1.agregarProducto(new Consola(5, "Xbox 360", 200, 30, 30, false, (byte) 5, 15, 12, 2005, "Microsoft"));
 
+        tienda1.agregarProducto(new Juego(1, "Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, "Deportes", "Polystation 5"));
+        tienda1.agregarProducto(new Juego(2, "Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, "FPS", "Xbox 360"));
+        tienda1.agregarProducto(new Juego(3, "Carlos Duty 2, Ahora es personal", 60, 30, 30, false , (byte) 5, 20, 10, 2024, "FPS", "Xbox 720"));
+        tienda1.agregarProducto(new Juego(4, "Super Mario 128", 40, 50, 50, false, (byte) 5, 10, 10, 2021, "Plataformas", "Noentiendo Swap"));
+
+        tienda1.agregarProducto(new Accesorio(1, "Control Polystation 5", 50, 60, 60, false, (byte) 5, 11, 11, 2021, "Sony", "Polystation 5"));
+        tienda1.agregarProducto(new Accesorio(2, "Control Polystation 4", 40, 50, 50, false, (byte) 5, 12, 12, 2013, "Sony", "Polystation 4"));
+        tienda1.agregarProducto(new Accesorio(3, "Control Polystation 3", 30, 40, 40, false, (byte) 5, 13, 11, 2006, "Sony", "Polystation 3"));
+        tienda1.agregarProducto(new Accesorio(4, "Control Xbox 720", 55, 50, 30, false, (byte) 5, 14, 11, 2021, "Microsoft", "Xbox 720"));
+        tienda1.agregarProducto(new Accesorio(5, "Control Xbox 360", 45, 40, 20, false, (byte) 5, 15, 12, 2005, "Microsoft", "Xbox 360"));
+        tienda1.agregarProducto(new Accesorio(6, "Control JoyCon Noentiendo Swap", 70, 40, 40, false, (byte) 5, 13, 7, 2018, "Noentiendo", "Noentiendo Swap"));
+        tienda1.agregarProducto(new Accesorio(7, "Control Pro Noentiendo Swap", 80, 40, 40, false, (byte) 5, 13, 7, 2018, "Noentiendo", "Noentiendo Swap"));
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);
     static {
-        tienda2.agregarProducto(new Consola(1, "Polystation 5", 450, 10, 10, true, (byte) 5, 11, 11, 2021, "Sony"));
-        tienda2.agregarProducto(new Consola(2, "Polystation 4", 280, 15, 15, true, (byte) 5, 12, 12, 2013, "Sony"));
-        tienda2.agregarProducto(new Consola(3, "Polystation 3", 180, 20, 20, true, (byte) 5, 13, 11, 2006, "Sony"));
+        tienda2.agregarProducto(new Consola(1, "Polystation 5", 450, 10, 10, false, (byte) 5, 11, 11, 2021, "Sony"));
+        tienda2.agregarProducto(new Consola(2, "Polystation 4", 280, 15, 15, false, (byte) 5, 12, 12, 2013, "Sony"));
+        tienda2.agregarProducto(new Consola(3, "Polystation 3", 180, 20, 20, false, (byte) 5, 13, 11, 2006, "Sony"));
+
+        tienda1.agregarProducto(new Juego(1, "Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, "Deportes", "Polystation 5"));
+        tienda1.agregarProducto(new Juego(2, "Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, "FPS", "Polystation 4"));
+
+        tienda1.agregarProducto(new Accesorio(1, "Control Polystation 5", 50, 70, 70, false, (byte) 5, 11, 11, 2021, "Sony", "Polystation 5"));
+        tienda1.agregarProducto(new Accesorio(2, "Control Polystation 4", 40, 60, 60, false, (byte) 5, 12, 12, 2013, "Sony", "Polystation 4"));
+        tienda1.agregarProducto(new Accesorio(3, "Control Polystation 3", 30, 50, 50, false, (byte) 5, 13, 11, 2006, "Sony", "Polystation 3"));
     }
 
     /* ~~~~~~~~~~~~~~~~~~ */
