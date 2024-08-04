@@ -16,7 +16,8 @@ public class Tienda implements Serializable {
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
     private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
-                /*~~ Constructores ~~*/
+
+    /*~~~ Constructores ~~~*/
     public Tienda(){
         super();
     }
@@ -26,8 +27,13 @@ public class Tienda implements Serializable {
         Tienda.locales.add(this);
 
     }
-                /*~~ Metodos get y set ~~*/
+    /*~~~ Métodos ~~~*/
+    public void agregarProducto(Producto producto){
+        this.inventario.add(producto);
+    }
 
+
+    /*~~ Getters y setters ~~*/
     public String getNombre() {
         return nombre;
     }

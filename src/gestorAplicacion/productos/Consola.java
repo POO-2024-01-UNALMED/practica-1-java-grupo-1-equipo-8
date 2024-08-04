@@ -6,8 +6,8 @@ public class Consola extends Producto {
 	
 	private String marca;
 	public Consola(){}	// constructor vacío //
-	public Consola (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz, String marca) {
-		super(codigo, nombre, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
+	public Consola (int codigo, String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz, String marca) {
+		super(codigo, nombre, valor, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
 		this.marca = marca;
 	}
 										//~~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~~//

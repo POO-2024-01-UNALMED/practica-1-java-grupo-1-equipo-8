@@ -23,7 +23,9 @@ public class Funcionalidad1 {
 
 
 
+
         /* ~~~ Calcular recomendaciones ~~~ */
+
 
 
 
@@ -111,14 +113,12 @@ public class Funcionalidad1 {
                     long telefono = sc.nextLong();
                     sc.nextLine();  // Limpiar el buffer
 
-                    cliente = new Cliente(cedula, nombre, correo, telefono);
-
-                    break;
+                    return new Cliente(cedula, nombre, correo, telefono);
 
                 case 2:
                     // Cliente existente
 
-                    while (true) {
+                    while (cliente == null) {
                         System.out.println("Ingrese cédula del cliente:");
 
                         // Buscar al cliente en la lista de clientes por su cédula
@@ -128,7 +128,7 @@ public class Funcionalidad1 {
                             for (Cliente c : Cliente.clientes) {
                                 if (c.getCedula() == cedula) {
                                     cliente = c;
-                                    break;
+                                    return cliente;
                                 }
                             }
                         } catch (Exception e) {
@@ -146,7 +146,7 @@ public class Funcionalidad1 {
                             char decision = 'y';
                             decision = sc.next().charAt(0);
                             if (decision == 'n' || decision == 'N') {
-                                break;
+                                return null;
                             }
                         }
                     }
@@ -163,11 +163,6 @@ public class Funcionalidad1 {
             }
         } while (opcion < 1 || opcion > 2);
 
-        // En caso de no haber escogido un cliente, retornar null para cancelar la operacion
-        if (cliente == null) {
-            System.out.println("Cancelando");
-            return null;
-        }
         return cliente;
     }
 
@@ -197,9 +192,10 @@ public class Funcionalidad1 {
             switch (opcion) {
                 case 1:
                     // Consola
+                    System.out.println("Consolas disponibles:");
                     for (Producto p : local.getInventario()) {
                         if (p instanceof Consola) {
-                            System.out.println(p);
+                            System.out.println("* " + p);
                         }
                     }
                     break;

@@ -1,15 +1,44 @@
 package uiMain;
 
 import gestorAplicacion.manejoLocal.Tienda;
+import gestorAplicacion.productos.*;
+import gestorAplicacion.personas.*;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    //  ~~ Crear una clase Tienda para comprobar el codigo ~~ //
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+    /* ~~~ Objetos para pruebas ~~~ */
+
+    static Tienda tienda1 = new Tienda("Volador",123);
     static {
-        Tienda tienda1 = new Tienda("Perez",123);
+        tienda1.agregarProducto(new Consola(1, "Polystation 5", 400, 10, 10, true, (byte) 5, 11, 11, 2021, "Sony"));
+        tienda1.agregarProducto(new Consola(2, "Xbox 720", 350, 15, 15, true, (byte) 5, 12, 12, 2021, "Microsoft"));
+        tienda1.agregarProducto(new Consola(3, "Noentiendo Swap", 300, 20, 20, true, (byte) 5, 13, 7, 2018, "Noentiendo"));
+        tienda1.agregarProducto(new Consola(4, "Polystation 4", 250, 25, 25, true, (byte) 5, 14, 11, 2013, "Sony"));
+        tienda1.agregarProducto(new Consola(5, "Xbox 360", 200, 30, 30, true, (byte) 5, 15, 12, 2005, "Microsoft"));
+
     }
+
+    static Tienda tienda2 = new Tienda("Robledo",1420);
+    static {
+        tienda2.agregarProducto(new Consola(1, "Polystation 5", 450, 10, 10, true, (byte) 5, 11, 11, 2021, "Sony"));
+        tienda2.agregarProducto(new Consola(2, "Polystation 4", 280, 15, 15, true, (byte) 5, 12, 12, 2013, "Sony"));
+        tienda2.agregarProducto(new Consola(3, "Polystation 3", 180, 20, 20, true, (byte) 5, 13, 11, 2006, "Sony"));
+    }
+
+    /* ~~~~~~~~~~~~~~~~~~ */
+    /* Clientes */
+    static Cliente cliente1 = new Cliente(123, "Juan", "juan@mail.com", 311203);
+    static Cliente cliente2 = new Cliente(125, "Pedro", "pedro@mail.com", 311204);
+    static Cliente cliente3 = new Cliente(126, "Maria", "maria@mail.com@", 311205);
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+
     // Variable scanner para entrada de datos
     static Scanner sc = new Scanner(System.in);
 
@@ -41,6 +70,7 @@ public class Main {
                     else{
                         System.out.println("Local no encontrado. Presione enter para volver a intentar.");
                         sc.nextLine();
+                        break;
                     }
                 }
             } while (local == null);

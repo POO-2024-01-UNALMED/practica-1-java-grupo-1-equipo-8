@@ -11,6 +11,7 @@ public abstract class Producto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	protected int codigo;
 	protected String nombre;
+	protected int valor;
 	protected int cantidad;
 	protected int cantidadInicial;
 	protected boolean prestable ;
@@ -20,9 +21,10 @@ public abstract class Producto implements Serializable{
     /* ### Constructores ### */
 	// Constructor con todos los atributos. Recibe dia, mes y año por separado
 	public Producto(){}
-    public Producto (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz) {
+    public Producto (int codigo, String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz) {
 		this.codigo = codigo;
 		this.nombre = nombre;
+		this.valor = valor;
 		this.cantidad = cantidad;
 		this.cantidadInicial = cantidadInicial;
 		this.prestable = prestable;
@@ -41,6 +43,16 @@ public abstract class Producto implements Serializable{
 	}
 
 	/* ### Métodos ### */
+
+
+	/* ## Método toString ## */
+	@Override
+	public String toString() {
+		return "COD: " + codigo + " | " +
+				"NOMBRE: " + nombre + " | " +
+				"$ " + valor + " | " +
+				"CANT: " + cantidad;
+	}
 
 
 	/* ### Getters y setters ### */

@@ -10,8 +10,8 @@ public class Juego extends Producto {
 	/* ### Constructores ### */
 	public Juego(){}/*### constructor vacio ###*/
 
-	public Juego (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
-		super(codigo, nombre, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
+	public Juego (int codigo, String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
+		super(codigo, nombre, valor, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
 		this.genero = genero;
 		this.plataforma = plataforma;
 	}
