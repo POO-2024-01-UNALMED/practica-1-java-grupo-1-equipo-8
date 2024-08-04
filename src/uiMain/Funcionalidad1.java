@@ -29,7 +29,7 @@ public class Funcionalidad1 {
 
 
         /* ~~~ Selección de productos ~~~ */
-        byte opcion = 0;
+        byte opcion;
         ArrayList<Producto> carrito = new ArrayList<Producto>();
 
         do {
@@ -46,7 +46,7 @@ public class Funcionalidad1 {
             switch (opcion) {
                 case 1:
                     // Agregar producto
-                    agregarProducto(local);
+                    seleccionarProducto(local);
                     break;
 
                 case 2:
@@ -165,7 +165,7 @@ public class Funcionalidad1 {
         return cliente;
     }
 
-    private static void agregarProducto (Tienda local) {
+    private static Producto seleccionarProducto(Tienda local) {
         byte opcion = 0;
 
         do {
@@ -176,37 +176,77 @@ public class Funcionalidad1 {
             System.out.println("2. Juego");
             System.out.println("3. Accesorio");
 
-            // Recibir entrada del usuario
+            // Recibir selección del usuario
             try {
                 opcion = sc.nextByte();
             }
             catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
                 System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                sc.nextLine();  // nextLine para limpiar el buffer
-                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
                 continue;
             }
+
+            // Selección de producto
+            int codigo = 0;
 
             switch (opcion) {
                 case 1:
                     // Consola
+                    // Mostrar consolas disponibles
                     System.out.println("Consolas disponibles:");
                     for (Producto p : local.getInventario()) {
-                        if (p instanceof Consola) {
+                        if (p instanceof Consola && p.getCantidad() > 0) {
                             System.out.println("* " + p);
                         }
                     }
+
+                    // Recibir selección del usuario
+                    System.out.print("Ingrese el código de la consola que desea agregar: ");
+                    codigo = sc.nextInt();
+                    sc.nextLine();  // Limpiar el buffer
+
+                    for (Producto p : local.getInventario()) {
+                        if (p instanceof Consola && p.getCodigo() == codigo) {
+                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            return p;
+                        }
+                    }
+
+                    // Esta parte sólo se ejecutará si no se encontró el código dado
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Consola no encontrada. Presione Enter para volver a intentar.\n");
+                    sc.nextLine();  // Esperar a que el usuario presione Enter
                     break;
 
                 case 2:
                     // Juego
+                    // Mostrar juegos disponibles
                     for (Producto p : local.getInventario()) {
                         if (p instanceof Juego) {
                             System.out.println(p);
                         }
                     }
+
+                    // Recibir selección del usuario
+                    System.out.print("Ingrese el código del juego que desea agregar: ");
+                    codigo = sc.nextInt();
+                    sc.nextLine();  // Limpiar el buffer
+
+                    for (Producto p : local.getInventario()) {
+                        if (p instanceof Juego && p.getCodigo() == codigo) {
+                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            return p;
+                        }
+                    }
+
+                    // Esta parte sólo se ejecutará si no se encontró el código dado
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Juego no encontrado. Presione Enter para volver a intentar.\n");
+                    sc.nextLine();  // Esperar a que el usuario presione Enter
                     break;
+
 
                 case 3:
                     // Accesorio
@@ -215,7 +255,25 @@ public class Funcionalidad1 {
                             System.out.println(p);
                         }
                     }
+
+                    // Recibir selección del usuario
+                    System.out.print("Ingrese el código del accesorio que desea agregar: ");
+                    codigo = sc.nextInt();
+                    sc.nextLine();  // Limpiar el buffer
+
+                    for (Producto p : local.getInventario()) {
+                        if (p instanceof Accesorio && p.getCodigo() == codigo) {
+                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            return p;
+                        }
+                    }
+
+                    // Esta parte sólo se ejecutará si no se encontró el código dado
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Accesorio no encontrado. Presione Enter para volver a intentar.\n");
+                    sc.nextLine();  // Esperar a que el usuario presione Enter
                     break;
+
 
                 default:
                     System.out.println("\n### ERROR ###");
@@ -225,6 +283,6 @@ public class Funcionalidad1 {
                     break;
             }
 
-        } while (opcion < 1 || opcion > 3);
+        } while (true);
     }
 }
