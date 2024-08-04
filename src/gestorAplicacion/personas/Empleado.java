@@ -7,7 +7,7 @@ public class Empleado extends Persona{
     private int salario;
     private int salarioPorcentual;
     private int acumuladoMensual;
-    private ArrayList<Meta> metas;
+    private ArrayList<Meta> metas = new ArrayList<Meta>();
 
     /* ~~~ Constructores ~~~ */
     public Empleado(int cedula, String nombre, String correo, long telefono, int salario, int salarioPorcentual) {

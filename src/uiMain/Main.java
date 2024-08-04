@@ -1,9 +1,15 @@
 package uiMain;
 
+import gestorAplicacion.manejoLocal.Tienda;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+    //  ~~ Crear una clase Tienda para comprobar el codigo ~~ //
+    static {
+        Tienda tienda1 = new Tienda("Perez",123);
+    }
     // Variable scanner para entrada de datos
     static Scanner sc = new Scanner(System.in);
 
@@ -13,7 +19,27 @@ public class Main {
         // TODO: Agregar selección de tienda
 
         /* ~~~ Menu principal ~~~ */
-
+        Tienda local = new Tienda();// ~~ Se adquiere el local con el que se quiere trabajar ~~ //
+            do{
+                imprimirSeparador();
+                System.out.println("Ingrese el nombre del local");
+                for (Tienda i : Tienda.getLocales()){
+                    int j = 1;
+                    System.out.println(j+". "+i.getNombre());
+                    j= j+1;
+                }
+                local.setNombre(sc.nextLine());
+                sc.nextLine();
+                for (Tienda i : Tienda.getLocales()){
+                    if (i.getNombre().equals(local.getNombre())) {
+                        local = i;
+                        break;
+                    }
+                    else{
+                        break;
+                    }
+                }
+            }while (local.getFondos() == 0);
         byte opcion = 1;
             do {
                 imprimirSeparador();

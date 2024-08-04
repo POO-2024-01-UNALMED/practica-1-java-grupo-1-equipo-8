@@ -8,10 +8,9 @@ import java.util.ArrayList;
 public class Cliente extends Persona{
     /*~~ Atributos ~~*/
     public static ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-
     private int puntosFidelidad;
-    private ArrayList<Prestamo> prestamos;
-    private ArrayList<Transaccion> compras;
+    private ArrayList<Prestamo> prestamos = new ArrayList<Prestamo>();
+    private ArrayList<Transaccion> compras = new ArrayList<Transaccion>();
 
     /* ~~~ Constructores ~~~ */
     public Cliente(int cedula, String nombre, String email, long telefono) {

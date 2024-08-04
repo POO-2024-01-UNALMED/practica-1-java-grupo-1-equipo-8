@@ -45,7 +45,7 @@ public class Funcionalidad1 {
             switch (opcion) {
                 case 1:
                     // Agregar producto
-                    agregarProducto();
+                    agregarProducto(local);
                     break;
 
                 case 2:
@@ -61,9 +61,10 @@ public class Funcionalidad1 {
                     break;
 
                 default:
-                    System.out.println("\n##################################");
-                    System.out.println("Opción inválida. Intente de nuevo.");
-                    System.out.println("##################################\n");
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
+                    sc.nextLine();  // Limpiar el buffer
+                    sc.nextLine();  // Esperar a que el usuario presione Enter
                     break;
             }
         } while (opcion != 4);
@@ -170,7 +171,7 @@ public class Funcionalidad1 {
         return cliente;
     }
 
-    private static void agregarProducto () {
+    private static void agregarProducto (Tienda local) {
         byte opcion = 0;
 
         do {
@@ -196,7 +197,7 @@ public class Funcionalidad1 {
             switch (opcion) {
                 case 1:
                     // Consola
-                    for (Producto p : local.inventario) {
+                    for (Producto p : local.getInventario()) {
                         if (p instanceof Consola) {
                             System.out.println(p);
                         }
@@ -205,7 +206,7 @@ public class Funcionalidad1 {
 
                 case 2:
                     // Juego
-                    for (Producto p : local.inventario) {
+                    for (Producto p : local.getInventario()) {
                         if (p instanceof Juego) {
                             System.out.println(p);
                         }
@@ -214,7 +215,7 @@ public class Funcionalidad1 {
 
                 case 3:
                     // Accesorio
-                    for (Producto p : local.inventario) {
+                    for (Producto p : local.getInventario()) {
                         if (p instanceof Accesorio) {
                             System.out.println(p);
                         }

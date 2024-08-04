@@ -10,13 +10,30 @@ public class Tienda implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /*~~ Atributos ~~*/
+    private String nombre;
     private long fondos;
-    private ArrayList<Fecha> caja;
-    private ArrayList<Producto> inventario;
-    private ArrayList<Reabastecimiento> reabastecimientos;
+    private ArrayList<Fecha> caja = new ArrayList<Fecha>();
+    private ArrayList<Producto> inventario = new ArrayList<Producto>();
+    private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
+    private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
+                /*~~ Constructores ~~*/
+    public Tienda(){
+        super();
+    }
+    public Tienda(String nombre, long fondos){
+        this.nombre = nombre;
+        this.fondos = fondos;
+        Tienda.locales.add(this);
 
+    }
                 /*~~ Metodos get y set ~~*/
 
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
     public long getFondos() {
         return fondos;
     }
@@ -41,5 +58,10 @@ public class Tienda implements Serializable {
     public void setReabastecimientos(ArrayList<Reabastecimiento> reabastecimientos) {
         this.reabastecimientos = reabastecimientos;
     }
-
+    public static ArrayList<Tienda> getLocales() {
+        return locales;
+    }
+    public static void setLocales(ArrayList<Tienda> locales) {
+        Tienda.locales = locales;
+    }
 }

@@ -1,6 +1,5 @@
-package gestorAplicacion.Productos;
+package gestorAplicacion.productos;
 
-import gestorAplicacion.productos.Producto;
 
 public class Accesorio extends Producto {
 	
