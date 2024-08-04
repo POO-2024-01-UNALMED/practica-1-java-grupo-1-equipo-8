@@ -10,6 +10,8 @@ public class Main {
     public static void main(String[] args) {
         imprimirLogo();
 
+        // TODO: Agregar selección de tienda
+
         /* ~~~ Menu principal ~~~ */
 
         byte opcion = 1;
@@ -40,7 +42,7 @@ public class Main {
                 switch (opcion) {
                     case 1:
                         // Registrar compra
-                        Funcionalidad1.registrarCompra();
+                        Funcionalidad1.registrarCompra(local);
 
                         sc.nextLine();  // Limpiar el buffer
                         break;

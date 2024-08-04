@@ -6,13 +6,14 @@ import java.util.Scanner;
 
 import static uiMain.Main.imprimirSeparador;
 
+import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
-import gestorAplicacion.productos.Producto;
+import gestorAplicacion.productos.*;
 
 public class Funcionalidad1 {
     static Scanner sc = new Scanner(System.in);
 
-    public static void registrarCompra() {
+    public static void registrarCompra(Tienda local) {
         /* ~~~ Identificación del cliente ~~~ */
         Cliente cliente = identificarCliente();
 
@@ -170,7 +171,7 @@ public class Funcionalidad1 {
     }
 
     private static void agregarProducto () {
-        byte option = 0;
+        byte opcion = 0;
 
         do {
             imprimirSeparador();
@@ -181,8 +182,53 @@ public class Funcionalidad1 {
             System.out.println("3. Accesorio");
 
             // Recibir entrada del usuario
-            option = sc.nextByte();
+            try {
+                opcion = sc.nextByte();
+            }
+            catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
 
-        } while (option < 1 || option > 3);
+            switch (opcion) {
+                case 1:
+                    // Consola
+                    for (Producto p : local.inventario) {
+                        if (p instanceof Consola) {
+                            System.out.println(p);
+                        }
+                    }
+                    break;
+
+                case 2:
+                    // Juego
+                    for (Producto p : local.inventario) {
+                        if (p instanceof Juego) {
+                            System.out.println(p);
+                        }
+                    }
+                    break;
+
+                case 3:
+                    // Accesorio
+                    for (Producto p : local.inventario) {
+                        if (p instanceof Accesorio) {
+                            System.out.println(p);
+                        }
+                    }
+                    break;
+
+                default:
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                    break;
+            }
+
+        } while (opcion < 1 || opcion > 3);
     }
 }
