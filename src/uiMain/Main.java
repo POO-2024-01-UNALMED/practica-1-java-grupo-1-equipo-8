@@ -33,7 +33,8 @@ public class Main {
                     opcion = sc.nextByte();
                 }
                 catch (InputMismatchException error) {
-                    System.out.println("Ingrese un número válido.");
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
                     sc.nextLine();
                     sc.nextLine();
                     continue;
@@ -65,9 +66,8 @@ public class Main {
                         break;
 
                     default:
-                        System.out.println("\n#########################################");
-                        System.out.println("Opción fuera del rango. Intente de nuevo.");
-                        System.out.println("#########################################\n");
+                        System.out.println("\n### ERROR ###");
+                        System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
                         wait.nextLine();
                         break;
                 }
