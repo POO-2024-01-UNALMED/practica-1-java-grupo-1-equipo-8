@@ -61,9 +61,10 @@ public class Funcionalidad1 {
                     break;
 
                 default:
-                    System.out.println("\n##################################");
-                    System.out.println("Opción inválida. Intente de nuevo.");
-                    System.out.println("##################################\n");
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
+                    sc.nextLine();  // Limpiar el buffer
+                    sc.nextLine();  // Esperar a que el usuario presione Enter
                     break;
             }
         } while (opcion != 4);
