@@ -35,7 +35,6 @@ public class Tienda implements Serializable {
         this.inventario.add(producto);
     }
 
-
     /*~~ Getters y setters ~~*/
     public String getNombre() {
         return nombre;
