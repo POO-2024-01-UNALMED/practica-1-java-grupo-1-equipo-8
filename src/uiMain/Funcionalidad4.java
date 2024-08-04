@@ -11,7 +11,8 @@ import gestorAplicacion.personas.Empleado;
 public class Funcionalidad4 {
     static Scanner sc = new Scanner(System.in);
     public static void inspeccionEmpleado(Tienda local){
-        identificarEmpleado(local);
+        /* ~~~ Identificación del empleado ~~~ */
+        Empleado empleado = identificarEmpleado(local);
     }
 
     private static Empleado identificarEmpleado(Tienda local){
@@ -24,7 +25,7 @@ public class Funcionalidad4 {
         System.out.println("Empleados de la tienda:");
 
         for (Empleado e : local.getEmpleados()) {
-            System.out.println("* " + e.getNombre() + " - " + e.getCedula());
+            System.out.println("* Nombre: " + e.getNombre() + " - Cedula: " + e.getCedula());
         }
 
         while (empleado == null) {
@@ -38,6 +39,9 @@ public class Funcionalidad4 {
                     if (e.getCedula() == cedula){
                         empleado = e;
                         return empleado;
+                    }
+                    else {
+                        cedula = 0;
                     }
                 }
             } catch (InputMismatchException error) {
