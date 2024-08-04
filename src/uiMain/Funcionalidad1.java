@@ -12,7 +12,7 @@ import gestorAplicacion.productos.*;
 
 public class Funcionalidad1 {
     static Scanner sc = new Scanner(System.in);
-
+    // Commit de proeba
     public static void registrarCompra(Tienda local) {
         /* ~~~ Identificación del cliente ~~~ */
         Cliente cliente = identificarCliente();
