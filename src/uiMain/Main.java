@@ -40,12 +40,12 @@ public class Main {
         tienda2.agregarProducto(new Consola(2, "Polystation 4", 280, 15, 15, false, (byte) 5, 12, 12, 2013, "Sony"));
         tienda2.agregarProducto(new Consola(3, "Polystation 3", 180, 20, 20, false, (byte) 5, 13, 11, 2006, "Sony"));
 
-        tienda1.agregarProducto(new Juego(1, "Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, "Deportes", "Polystation 5"));
-        tienda1.agregarProducto(new Juego(2, "Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, "FPS", "Polystation 4"));
+        tienda2.agregarProducto(new Juego(1, "Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, "Deportes", "Polystation 5"));
+        tienda2.agregarProducto(new Juego(2, "Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, "FPS", "Polystation 4"));
 
-        tienda1.agregarProducto(new Accesorio(1, "Control Polystation 5", 50, 70, 70, false, (byte) 5, 11, 11, 2021, "Sony", "Polystation 5"));
-        tienda1.agregarProducto(new Accesorio(2, "Control Polystation 4", 40, 60, 60, false, (byte) 5, 12, 12, 2013, "Sony", "Polystation 4"));
-        tienda1.agregarProducto(new Accesorio(3, "Control Polystation 3", 30, 50, 50, false, (byte) 5, 13, 11, 2006, "Sony", "Polystation 3"));
+        tienda2.agregarProducto(new Accesorio(1, "Control Polystation 5", 50, 70, 70, false, (byte) 5, 11, 11, 2021, "Sony", "Polystation 5"));
+        tienda2.agregarProducto(new Accesorio(2, "Control Polystation 4", 40, 60, 60, false, (byte) 5, 12, 12, 2013, "Sony", "Polystation 4"));
+        tienda2.agregarProducto(new Accesorio(3, "Control Polystation 3", 30, 50, 50, false, (byte) 5, 13, 11, 2006, "Sony", "Polystation 3"));
     }
 
     /* ~~~~~~~~~~~~~~~~~~ */
