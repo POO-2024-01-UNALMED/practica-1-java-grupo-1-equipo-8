@@ -1,4 +1,5 @@
 package gestorAplicacion.manejoLocal;
+import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.Producto;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class Tienda implements Serializable {
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
     private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
+    private ArrayList<Empleado> empleados = new ArrayList<Empleado>();
 
     /*~~~ Constructores ~~~*/
     public Tienda(){
