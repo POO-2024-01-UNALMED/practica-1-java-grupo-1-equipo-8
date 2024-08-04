@@ -7,17 +7,69 @@ import java.util.Scanner;
 import static uiMain.Main.imprimirSeparador;
 
 import gestorAplicacion.personas.Cliente;
-import gestorAplicacion.informacionVenta.Transaccion;
-import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.Producto;
 
 public class Funcionalidad1 {
     static Scanner sc = new Scanner(System.in);
 
     public static void registrarCompra() {
-        imprimirSeparador();
-
         /* ~~~ Identificación del cliente ~~~ */
+        Cliente cliente = identificarCliente();
+
+        if (cliente == null) {
+            return;
+        }
+
+
+
+        /* ~~~ Calcular recomendaciones ~~~ */
+
+
+
+        /* ~~~ Selección de productos ~~~ */
+        byte opcion = 0;
+        ArrayList<Producto> carrito = new ArrayList<Producto>();
+
+        do {
+            imprimirSeparador();
+            System.out.println("1. Agregar producto");
+            System.out.println("2. Eliminar producto");
+            System.out.println("3. Ver productos en el carrito");
+
+            System.out.println("4. Confirmar compra");
+
+            // Recibir entrada del usuario
+            opcion = sc.nextByte();
+
+            switch (opcion) {
+                case 1:
+                    // Agregar producto
+                    agregarProducto();
+                    break;
+
+                case 2:
+                    // Eliminar producto
+                    break;
+
+                case 3:
+                    // Ver productos en el carrito
+                    break;
+
+                case 4:
+                    // Confirmar compra
+                    break;
+
+                default:
+                    System.out.println("\n##################################");
+                    System.out.println("Opción inválida. Intente de nuevo.");
+                    System.out.println("##################################\n");
+                    break;
+            }
+        } while (opcion != 4);
+    }
+
+    private static Cliente identificarCliente() {
+        imprimirSeparador();
 
         Cliente cliente = null;
         int cedula;
@@ -109,58 +161,12 @@ public class Funcionalidad1 {
             }
         } while (opcion < 1 || opcion > 2);
 
-        // En caso de no haber escogido un cliente, cancelar la compra
+        // En caso de no haber escogido un cliente, retornar null para cancelar la operacion
         if (cliente == null) {
             System.out.println("Cancelando");
-            return;
+            return null;
         }
-
-
-
-        /* ~~~ Calcular recomendaciones ~~~ */
-
-
-
-        /* ~~~ Selección de productos ~~~ */
-        opcion = 0;
-        ArrayList<Producto> carrito = new ArrayList<Producto>();
-
-        do {
-            imprimirSeparador();
-            System.out.println("1. Agregar producto");
-            System.out.println("2. Eliminar producto");
-            System.out.println("3. Ver productos en el carrito");
-
-            System.out.println("4. Confirmar compra");
-
-            // Recibir entrada del usuario
-            opcion = sc.nextByte();
-
-            switch (opcion) {
-                case 1:
-                    // Agregar producto
-                    agregarProducto();
-                    break;
-
-                case 2:
-                    // Eliminar producto
-                    break;
-
-                case 3:
-                    // Ver productos en el carrito
-                    break;
-
-                case 4:
-                    // Confirmar compra
-                    break;
-
-                default:
-                    System.out.println("\n##################################");
-                    System.out.println("Opción inválida. Intente de nuevo.");
-                    System.out.println("##################################\n");
-                    break;
-            }
-        } while (opcion != 4);
+        return cliente;
     }
 
     private static void agregarProducto () {
