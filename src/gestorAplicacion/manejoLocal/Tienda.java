@@ -27,8 +27,6 @@ public class Tienda implements Serializable {
         this.nombre = nombre;
         this.fondos = fondos;
         Tienda.locales.add(this);
-        this.empleados = new ArrayList<Empleado>();
-
     }
     /*~~~ Métodos ~~~*/
     public void agregarProducto(Producto producto){
