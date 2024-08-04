@@ -7,8 +7,6 @@ import java.util.Scanner;
 public class Main {
     // Variable scanner para entrada de datos
     static Scanner sc = new Scanner(System.in);
-    // Variable scanner para esperar a que el usuario presione Enter
-    static Scanner wait = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
         imprimirLogo();
@@ -35,30 +33,35 @@ public class Main {
                 catch (InputMismatchException error) {
                     System.out.println("\n### ERROR ###");
                     System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                    sc.nextLine();
-                    sc.nextLine();
+                    sc.nextLine();  // nextLine para limpiar el buffer
+                    sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
                     continue;
                 }
 
                 switch (opcion) {
                     case 1:
                         // Registrar compra
+                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 2:
                         // Registrar préstamo
+                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 3:
                         // Administrar inventario
+                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 4:
                         // Gestionar empleados
+                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 5:
                         // ~~Placeholder para quinta funcionalidad~~
+                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 0:
@@ -68,7 +71,8 @@ public class Main {
                     default:
                         System.out.println("\n### ERROR ###");
                         System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
-                        wait.nextLine();
+                        sc.nextLine(); // Limpiar el buffer
+                        sc.nextLine(); // Esperar a que el usuario presione Enter
                         break;
                 }
             } while (opcion != 0);
