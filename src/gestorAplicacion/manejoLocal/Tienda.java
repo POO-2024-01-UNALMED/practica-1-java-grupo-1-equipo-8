@@ -35,6 +35,10 @@ public class Tienda implements Serializable {
         this.inventario.add(producto);
     }
 
+    public void agregarEmpleado(Empleado empleado){
+        this.empleados.add(empleado);
+    }
+
 
     /*~~ Getters y setters ~~*/
     public String getNombre() {
