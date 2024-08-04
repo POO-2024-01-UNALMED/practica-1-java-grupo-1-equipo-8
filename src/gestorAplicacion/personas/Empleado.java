@@ -1,5 +1,7 @@
 package gestorAplicacion.personas;
 
+import gestorAplicacion.manejoLocal.Tienda;
+
 import java.util.ArrayList;
 
 public class Empleado extends Persona{
@@ -8,14 +10,16 @@ public class Empleado extends Persona{
     private int salarioPorcentual;
     private int acumuladoMensual;
     private ArrayList<Meta> metas = new ArrayList<Meta>();
+    private Tienda tienda;
 
     /* ~~~ Constructores ~~~ */
-    public Empleado(int cedula, String nombre, String correo, long telefono, int salario, int salarioPorcentual) {
+    public Empleado(int cedula, String nombre, String correo, long telefono, int salario, int salarioPorcentual, Tienda tienda) {
         super(cedula, nombre, correo, telefono);
         this.salario = salario;
         this.salarioPorcentual = salarioPorcentual;
         this.acumuladoMensual = 0;
         this.metas = new ArrayList<Meta>();
+        tienda.agregarEmpleado(this);
     }
 
     /* ~~~ Metodos get y set ~~~ */
