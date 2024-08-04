@@ -65,6 +65,9 @@ public class Main {
         /* ~~~ Menu principal ~~~ */
         imprimirLogo();
 
+        // TODO: Seleccion de fecha
+        // TODO: Imprimir local y fecha actuales en el menu principal
+
         /* ~~ Selección de local ~~ */
         Tienda local = null; // Se adquiere el local con el que se quiere trabajar
             do{
