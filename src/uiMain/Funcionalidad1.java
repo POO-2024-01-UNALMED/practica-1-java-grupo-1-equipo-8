@@ -20,7 +20,7 @@ public class Funcionalidad1 {
         /* ~~~ Identificación del cliente ~~~ */
 
         Cliente cliente = null;
-        int cedula = 0;
+        int cedula;
 
         // Elegir si el cliente es nuevo o uno ya existente
         System.out.println("¿Cliente nuevo o existente?");
@@ -59,7 +59,6 @@ public class Funcionalidad1 {
 
                     cliente = new Cliente(cedula, nombre, correo, telefono);
 
-                    sc.nextLine();  // Limpiar el buffer
                     break;
 
                 case 2:
