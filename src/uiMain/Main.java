@@ -14,35 +14,42 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
+        /* ~~~ Menu principal ~~~ */
         imprimirLogo();
 
-        // TODO: Agregar selección de tienda
-
-        /* ~~~ Menu principal ~~~ */
-        Tienda local = new Tienda();// ~~ Se adquiere el local con el que se quiere trabajar ~~ //
+        /* ~~ Selección de local ~~ */
+        Tienda local = null; // Se adquiere el local con el que se quiere trabajar
             do{
                 imprimirSeparador();
-                System.out.println("Ingrese el nombre del local");
-                for (Tienda i : Tienda.getLocales()){
+
+                for (Tienda i : Tienda.getLocales()){ // Bucle para imprimir los locales
                     int j = 1;
                     System.out.println(j+". "+i.getNombre());
                     j= j+1;
                 }
-                local.setNombre(sc.nextLine());
-                sc.nextLine();
-                for (Tienda i : Tienda.getLocales()){
-                    if (i.getNombre().equals(local.getNombre())) {
+
+                System.out.println("Ingrese el nombre del local");
+
+                String nombreLocal = sc.nextLine(); // Recibir entrada del usuario
+                // sc.nextLine();
+
+                for (Tienda i : Tienda.getLocales()){ // Bucle para encontrar el local
+                    if (i.getNombre().equals(nombreLocal)) {
                         local = i;
                         break;
                     }
                     else{
-                        break;
+                        System.out.println("Local no encontrado. Presione enter para volver a intentar.");
+                        sc.nextLine();
                     }
                 }
-            }while (local.getFondos() == 0);
+            } while (local == null);
+
+        /* ~~ Selección de funcionalidad ~~ */
         byte opcion = 1;
             do {
                 imprimirSeparador();
+                System.out.println("MENU PRINCIPAL");
                 System.out.println("1. Registrar compra");
                 System.out.println("2. Registrar préstamo");
                 System.out.println("3. Administrar inventario");
