@@ -22,6 +22,10 @@ public class Empleado extends Persona{
         tienda.agregarEmpleado(this);
     }
 
+    public void ingresarMeta(Meta meta){
+        this.metas.add(meta);
+    }
+
     /* ~~~ Metodos get y set ~~~ */
 
     public int getSalario() {
