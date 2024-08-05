@@ -84,39 +84,19 @@ public class Funcionalidad4 {
             System.out.println("* Codigo: " + m.getCodigo() + " - Fecha Límite: " + m.getDiaLimite()+ "/" + m.getMesLimite() + "/" + m.getYearLimite() + " - Valor a alcanzar: " + m.getValorAlcanzar() + " - Acumulado: " + m.getAcumulado() + " - Estado: " + m.getEstado()) ;
         }
 
-        while (meta == null) {
-            System.out.println("Ingrese el código de la meta que desea calcular su porcentaje de progreso");
+        System.out.println("Presione enter para calcular el porcentaje de progreso de las metas");
+        sc.nextLine();
+        sc.nextLine();
 
-            //Buscar la meta en la lista por su código
-            try {
-                codigo = sc.nextInt();
+        for (Meta m : empleado.getMetas()) {
+            System.out.println("Porcentaje de progreso de las metas del empleado" + empleado.getNombre());
 
-                for (Meta m : empleado.getMetas()) {
-                    if (m.getCodigo() == codigo) {
-                        meta = m;
-                    } else {
-                        codigo = 0;
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                sc.nextLine();  // nextLine para limpiar el buffer
-                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
-                continue;
-            }
-
-            // En caso de que la meta no sea encontrada dar la opción de intentar de nuevo
-            if (codigo == 0) {
-                System.out.println("\n### ERROR ###");
-                System.out.println("Meta no encontrada. ¿Desea intentar de nuevo? (Y/n).\n");
-                char decision = 'y';
-                decision = sc.next().charAt(0);
-                if (decision == 'n' || decision == 'N') {
-                    return null;
-                }
-            }
+            int porcentajeProgreso = 0;
+            porcentajeProgreso = (m.getAcumulado()*100)/m.getValorAlcanzar();
+            System.out.println("Código: " + m.getCodigo() + " - Porcentaje de progreso: " + porcentajeProgreso + "%");
         }
+
+
         return meta;
     }
 

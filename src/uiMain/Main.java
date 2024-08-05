@@ -40,6 +40,7 @@ public class Main {
 
         //metas
         new Meta(1, empleado1, 15, 6, 2024, 30, 8000, "Bien", 10 );
+        new Meta(2, empleado1, 18, 6, 2024, 35, 10000, "Bien", 10);
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);

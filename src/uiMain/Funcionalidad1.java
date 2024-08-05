@@ -93,7 +93,7 @@ public class Funcionalidad1 {
                     System.out.println("CARRITO:");
                     int i = 1;
                     for (Producto p : carrito) {
-                        System.out.println(i + ". " + p.getNombre() " | " + p.getCantidad() + " unidades");
+                        System.out.println(i + ". " + p.getNombre() + " | " + p.getCantidad() + " unidades");
                         i++;
                     }
 
@@ -103,7 +103,7 @@ public class Funcionalidad1 {
                         int seleccion = sc.nextInt();
                         sc.nextLine();  // Limpiar el buffer
                     }
-                    catch { // En caso de que la selección no sea válida
+                    catch(Exception e) { // En caso de que la selección no sea válida
                         System.out.println("\n### ERROR ###");
                         System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
                         sc.nextLine();  // Limpiar el buffer
