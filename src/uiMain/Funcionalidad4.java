@@ -16,7 +16,8 @@ public class Funcionalidad4 {
         Empleado empleado = identificarEmpleado(local);
 
         /* ~~~ Calcular meta ~~~ */
-        identificarMeta(empleado);
+        Meta meta = identificarMeta(empleado);
+        calcularProgreso(meta);
     }
 
     private static Empleado identificarEmpleado(Tienda local){
@@ -72,6 +73,7 @@ public class Funcionalidad4 {
     }
 
     private static Meta identificarMeta(Empleado empleado){
+        imprimirSeparador();
 
         int codigo = 0;
         Meta meta = null;
@@ -79,12 +81,13 @@ public class Funcionalidad4 {
         //Mostrar metas del empleado
         System.out.println("Metas del empleado:");
         for (Meta m : empleado.getMetas()) {
-            System.out.println("* Codigo: " + m.getCodigo() + " - Fecha Límite: " + m.getDiaLimite()+ "/" + m.getMesLimite() + "/" + m.getYearLimite() + " - Valor a alcanzar: " + m.getValorAlcanzar() + " - Estado: " + m.getEstado()) ;
+            System.out.println("* Codigo: " + m.getCodigo() + " - Fecha Límite: " + m.getDiaLimite()+ "/" + m.getMesLimite() + "/" + m.getYearLimite() + " - Valor a alcanzar: " + m.getValorAlcanzar() + " - Acumulado: " + m.getAcumulado() + " - Estado: " + m.getEstado()) ;
         }
-        System.out.println("Ingrese el código de la meta que desea calcular su porcentaje de progreso");
 
         while (meta == null) {
+            System.out.println("Ingrese el código de la meta que desea calcular su porcentaje de progreso");
 
+            //Buscar la meta en la lista por su código
             try {
                 codigo = sc.nextInt();
 
@@ -115,5 +118,19 @@ public class Funcionalidad4 {
             }
         }
         return meta;
+    }
+
+    private static void calcularProgreso(Meta meta){
+        imprimirSeparador();
+
+        int porcentaProgreso = 0;
+
+        System.out.println("Valor a alcanzar de la meta: " + meta.getValorAlcanzar());
+        System.out.println("Valor acumulado actual: " + meta.getAcumulado());
+        System.out.println("Calculando el progreso de la meta... ");
+
+        porcentaProgreso = (meta.getAcumulado()*100)/meta.getValorAlcanzar();
+
+        System.out.println("El porcentaje de progreso es del: " + porcentaProgreso + "%");
     }
 }
