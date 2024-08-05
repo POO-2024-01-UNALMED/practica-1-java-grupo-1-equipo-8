@@ -35,8 +35,11 @@ public class Main {
         tienda1.agregarProducto(new Accesorio(7, "Control Pro Noentiendo Swap", 80, 40, 40, false, (byte) 5, 13, 7, 2018, "Noentiendo", "Noentiendo Swap"));
 
         // personal
-        new Empleado(1, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, tienda1);
-        new Empleado(2, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, tienda1);
+        Empleado empleado1 = new Empleado(1, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, tienda1);
+        Empleado empleado2 = new Empleado(2, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, tienda1);
+
+        //metas
+        new Meta(1, empleado1, 15, 6, 2024, 30, 8000, "Bien", 10 );
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);

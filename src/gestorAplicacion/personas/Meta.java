@@ -4,10 +4,28 @@ import gestorAplicacion.manejoLocal.Fecha;
 public class Meta implements Serializable{
     /*~~ Atributos ~~*/
     private Empleado empleado;
-    private Fecha fechaLimite;
+    private int diaLimite;
+    private int mesLimite;
+    private int yearLimite;
     private int valorAlcanzar;
     private int valorBonificacion;
     private String estado;
+    private int acumulado;
+    private int codigo;
+
+                    /*~~ Constructor ~~*/
+    public Meta (int codigo, Empleado empleado, int diaLimite, int mesLimite, int yearLimite, int valorAlcanzar, int valorBonificacion, String estado, int acumulado){
+        this.codigo = codigo;
+        this.empleado = empleado;
+        this.diaLimite = diaLimite;
+        this.mesLimite = mesLimite;
+        this.yearLimite = yearLimite;
+        this.valorAlcanzar = valorAlcanzar;
+        this.valorBonificacion = valorBonificacion;
+        this.estado = estado;
+        this.acumulado = acumulado;
+        empleado.ingresarMeta(this);
+    }
 
                     /*~~ Metodos get y set ~~*/
 
@@ -16,12 +34,6 @@ public class Meta implements Serializable{
     }
     public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
-    }
-    public Fecha getFechaLimite() {
-        return fechaLimite;
-    }
-    public void setFechaLimite(Fecha fechaLimite) {
-        this.fechaLimite = fechaLimite;
     }
     public int getValorAlcanzar() {
         return valorAlcanzar;
@@ -41,7 +53,34 @@ public class Meta implements Serializable{
     public void setEstado(String estado) {
         this.estado = estado;
     }
-
-
-
+    public int getAcumulado() {
+        return acumulado;
+    }
+    public void setAcumulado(int acumulado) {
+        this.acumulado = acumulado;
+    }
+    public int getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+    public int getDiaLimite() {
+        return diaLimite;
+    }
+    public void setDiaLimite(int diaLimite) {
+        this.diaLimite = diaLimite;
+    }
+    public int getMesLimite() {
+        return mesLimite;
+    }
+    public void setMesLimite(int mesLimite) {
+        this.mesLimite = mesLimite;
+    }
+    public int getYearLimite() {
+        return yearLimite;
+    }
+    public void setYearLimite(int yearLimite) {
+        this.yearLimite = yearLimite;
+    }
 }
