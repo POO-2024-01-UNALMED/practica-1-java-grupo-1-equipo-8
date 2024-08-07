@@ -52,7 +52,7 @@ public class Funcionalidad1 {
 
                     // Clonar el producto seleccionado para evitar modificar el original
                     try {
-                        producto = (seleccionarProducto(local).clone());
+                        producto = (seleccionarProducto(local.getInventario()).clone());
                     }
                     catch (CloneNotSupportedException e) {
                         System.out.println("\n### ERROR ###");
@@ -245,7 +245,7 @@ public class Funcionalidad1 {
         return cliente;
     }
 
-    private static Producto seleccionarProducto(Tienda local) {
+    private static Producto seleccionarProducto(ArrayList<Producto> inventario) {
         byte opcion = 0;
 
         do {
@@ -276,7 +276,7 @@ public class Funcionalidad1 {
                     // Consola
                     // Mostrar consolas disponibles
                     System.out.println("Consolas disponibles:");
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Consola && p.getCantidad() > 0) {
                             System.out.println("* " + p);
                         }
@@ -287,9 +287,9 @@ public class Funcionalidad1 {
                     codigo = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Consola && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            System.out.println( "'" + p.getNombre() + "' seleccionado.");
                             return p;
                         }
                     }
@@ -303,7 +303,7 @@ public class Funcionalidad1 {
                 case 2:
                     // Juego
                     // Mostrar juegos disponibles
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Juego) {
                             System.out.println(p);
                         }
@@ -314,9 +314,9 @@ public class Funcionalidad1 {
                     codigo = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Juego && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            System.out.println( "'" + p.getNombre() + "' seleccionado.");
                             return p;
                         }
                     }
@@ -330,7 +330,7 @@ public class Funcionalidad1 {
 
                 case 3:
                     // Accesorio
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Accesorio) {
                             System.out.println(p);
                         }
@@ -341,9 +341,9 @@ public class Funcionalidad1 {
                     codigo = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Accesorio && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            System.out.println( "'" + p.getNombre() + "' seleccionado");
                             return p;
                         }
                     }
