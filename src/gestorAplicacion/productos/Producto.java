@@ -143,4 +143,18 @@ public abstract class Producto implements Serializable, Cloneable{
 	public void setFechaLanzamiento(Fecha fechaLanzamiento) {
 		this.fechaLanzamiento = fechaLanzamiento;
 	}
+
+	public int getDescuento() {
+		return descuento;
+	}
+	public void setDescuento(int descuento) {
+		this.descuento = descuento;
+	}
+
+	public int getPuntosRequeridos() {
+		return puntosRequeridos;
+	}
+	public void setPuntosRequeridos(int puntosRequeridos) {
+		this.puntosRequeridos = puntosRequeridos;
+	}
 }

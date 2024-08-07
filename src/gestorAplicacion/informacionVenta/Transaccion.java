@@ -45,8 +45,21 @@ public class Transaccion implements Serializable{
         this.valorFinal = valorFinal;
     }
 
+    public Transaccion(Fecha fecha, Cliente cliente, Tienda local, ArrayList<Producto> productos) {
+        this.fecha = fecha;
+        this.cliente = cliente;
+        this.local = local;
+        this.productos = productos;
+        this.valorSinDescuento = hallarValorSinDescuento(this.productos);
+        //TODO: Valor final
+    }
+
 
     /* ~~~ Métodos ~~~ */
+    public void agregarALocal(Tienda local){
+        this.local.agregarTransaccion(this);
+    }
+
     public int hallarValorSinDescuento(ArrayList<Producto> productos){
         int valor = 0;
         for (Producto p : productos) {

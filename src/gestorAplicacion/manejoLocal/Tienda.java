@@ -1,4 +1,5 @@
 package gestorAplicacion.manejoLocal;
+import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.Producto;
 
@@ -13,7 +14,7 @@ public class Tienda implements Serializable {
     /*~~ Atributos ~~*/
     private String nombre;
     private long fondos;
-    private ArrayList<Fecha> caja = new ArrayList<Fecha>();
+    private ArrayList<Transaccion> caja = new ArrayList<Transaccion>();
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
     private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
@@ -37,6 +38,10 @@ public class Tienda implements Serializable {
         this.empleados.add(empleado);
     }
 
+    public void agregarTransaccion(Transaccion transaccion){
+        this.caja.add(transaccion);
+    }
+
 
     /*~~ Getters y setters ~~*/
     public String getNombre() {
@@ -51,10 +56,10 @@ public class Tienda implements Serializable {
     public void setFondos(long fondos) {
         this.fondos = fondos;
     }
-    public ArrayList<Fecha> getCaja() {
+    public ArrayList<Transaccion> getCaja() {
         return caja;
     }
-    public void setCaja(ArrayList<Fecha> caja) {
+    public void setCaja(ArrayList<Transaccion> caja) {
         this.caja = caja;
     }
     public ArrayList<Producto> getInventario() {

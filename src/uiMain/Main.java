@@ -1,5 +1,6 @@
 package uiMain;
 
+import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
 import gestorAplicacion.personas.*;
@@ -77,6 +78,10 @@ public class Main {
         // TODO: Seleccion de fecha
         // TODO: Imprimir local y fecha actuales en el menu principal
 
+        Fecha fechaActual = new Fecha(10000);
+
+
+
         /* ~~ Selección de local ~~ */
         Tienda local = null; // Se adquiere el local con el que se quiere trabajar
             do{
@@ -137,7 +142,7 @@ public class Main {
                 switch (opcion) {
                     case 1:
                         // Registrar compra
-                        Funcionalidad1.registrarCompra(local);
+                        Funcionalidad1.registrarCompra(local, fechaActual);
 
                         sc.nextLine();  // Limpiar el buffer
                         break;

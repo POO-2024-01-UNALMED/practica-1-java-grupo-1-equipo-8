@@ -8,13 +8,14 @@ import java.util.Scanner;
 import static uiMain.Main.imprimirSeparador;
 
 import gestorAplicacion.informacionVenta.Transaccion;
+import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
 import gestorAplicacion.productos.*;
 
 public class Funcionalidad1 {
     static Scanner sc = new Scanner(System.in);
-    public static void registrarCompra(Tienda local) {
+    public static void registrarCompra(Tienda local, Fecha fecha) {
         /* ~~~ Identificación del cliente ~~~ */
         Cliente cliente = identificarCliente();
 
@@ -142,7 +143,6 @@ public class Funcionalidad1 {
 
                 case 2:
                     // Eliminar producto
-                    // TODO: Implementar la eliminación de productos del carrito
 
                     // Mostrar productos en carrito
                     /*
@@ -207,6 +207,10 @@ public class Funcionalidad1 {
                     break;
 
                 case 4:
+                    //TODO: IMPORTANTE: Verificar que el carrito no esté vacío
+                    int valorFinal = calcularDescuentos(carrito, cliente);
+                    Transaccion transaccion = new Transaccion(fecha, cliente, local, carrito, valorFinal);
+
                     // Confirmar compra
                     break;
 
@@ -289,10 +293,7 @@ public class Funcionalidad1 {
                         // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
                         if (cliente == null) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Cliente no encontrado. ¿Desea intentar de nuevo? (Y/n).\n");
-                            char decision = 'y';
-                            decision = sc.next().charAt(0);
-                            if (decision == 'n' || decision == 'N') {
+                            if (siNo("Cliente no encontrado. ¿Desea intentar de nuevo?")) {
                                 return null;
                             }
                         }
@@ -444,14 +445,50 @@ public class Funcionalidad1 {
         return null;
     }
 
-    /* EN PROGRESO
-    private static void calcularDescuentos(ArrayList<Producto> carrito, Cliente cliente) {
-        for (Producto p : carrito) {
-            if (p.getDes) {
-            }
+    private static int calcularDescuentos(ArrayList<Producto> carrito, Cliente cliente) {
+        int precioFinal = 0; // Precio final de la transacción con descuentos aplicados
+        int puntosUsados = 0; // Cantidad de puntos que se usan en la transacción. Siempre será menor a la cantidad de puntos del cliente
+        int valorTemp; // Variable usada para el calculo de descuentos
 
+        for (Producto p : carrito) {
+            valorTemp = 0;
+
+            if (p.getDescuento() > 0) { // En caso de que el producto tenga descuento
+                if (p.getPuntosRequeridos() == 0){ // En caso de que el producto no requiera mínimo de puntos
+                    valorTemp = p.getValor() * p.getCantidad();
+                    precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+                }
+                else if (p.getPuntosRequeridos() > 0 && cliente.getPuntosFidelidad() >= p.getPuntosRequeridos()) { // En caso de que el producto tenga un mínimo de puntos requeridos y el cliente tenga saldo suficiente
+                        valorTemp = p.getValor() * p.getCantidad();
+                        precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+                }
+                else { // En caso de que el producto tenga mínimo de puntos pero el cliente no tenga saldo suficiente
+                    precioFinal += p.getValor() * p.getCantidad();
+                }
+
+            }
+            else { // En caso de que el producto no tenga descuento
+                precioFinal += p.getValor() * p.getCantidad();
+            }
+        }
+
+        if (puntosUsados > 0) {
+            System.out.println("En esta compra se usaron " + puntosUsados + " puntos");
+
+            cliente.setPuntosFidelidad(cliente.getPuntosFidelidad() - puntosUsados);
+        }
+
+        return precioFinal;
     }
-     */
+
+    // Devuelve true si la respuesta no es No (ni "n" ni "N")
+    private static boolean siNo(String pregunta) {
+        System.out.println(pregunta + " (S/n)");
+        char respuesta = sc.next().charAt(0);
+        sc.nextLine();  // Limpiar el buffer
+
+        return !(respuesta == 'n' || respuesta == 'N');
+    }
 
 }
 
