@@ -77,6 +77,9 @@ public class Funcionalidad1 {
         }
 
         // TODO: Comprobar que funcione
+        // Despues de comprobar que funcione, añadir la parte que recomienda productos basados en el género favorito
+
+        // TODO: Recomendaciones segun plataforma
 
 
         /* ~~~ Selección de productos ~~~ */
@@ -441,9 +444,18 @@ public class Funcionalidad1 {
         return null;
     }
 
+    /* EN PROGRESO
+    private static void calcularDescuentos(ArrayList<Producto> carrito, Cliente cliente) {
+        for (Producto p : carrito) {
+            if (p.getDes) {
+            }
+
+    }
+     */
+
 }
 
-/*
+/* NO REMOVER HASTA COMPROBAR QUE LA APROXIMACION ACTUAL FUNCIONA
 class Par {
     String primero;
     int segundo;

@@ -9,6 +9,7 @@ public abstract class Producto implements Serializable, Cloneable{
 	/* ~~~ Atributos ~~~ */
 	@Serial
 	private static final long serialVersionUID = 1L;
+	protected static int ultimoCodigo = 1;
 	protected int codigo;
 	protected String nombre;
 	protected int valor;
@@ -17,29 +18,44 @@ public abstract class Producto implements Serializable, Cloneable{
 	protected boolean prestable ;
 	protected byte condicion;
 	protected Fecha fechaLanzamiento;
+	protected int descuento;
+	protected int puntosRequeridos;
 
     /* ~~~ Constructores ~~~ */
+	// Constructor vacio
+	public Producto() {
+		this.codigo = ultimoCodigo;
+		ultimoCodigo++;
+	}
+
 	// Constructor con todos los atributos. Recibe dia, mes y año por separado
-	public Producto(){}
-    public Producto (int codigo, String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz) {
-		this.codigo = codigo;
+    public Producto (String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, int descuento, int puntosRequeridos) {
+		this.codigo = ultimoCodigo;
+		ultimoCodigo++;
 		this.nombre = nombre;
 		this.valor = valor;
 		this.cantidad = cantidad;
 		this.cantidadInicial = cantidadInicial;
 		this.prestable = prestable;
-		this.condicion = condiciones;
+		this.condicion = condicion;
 		this.fechaLanzamiento = new Fecha(diaLanz, mesLanz, yearLanz);
+		this.descuento = descuento;
+		this.puntosRequeridos = puntosRequeridos;
 	}
+
 	// Constructor con todos los atributos. Recibe fecha en dias
-	public Producto (int codigo, String nombre, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz) {
-		this.codigo = codigo;
+	public Producto (String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diasLanz, int descuento, int puntosRequeridos) {
+		this.codigo = ultimoCodigo;
+		ultimoCodigo++;
 		this.nombre = nombre;
+		this.valor = valor;
 		this.cantidad = cantidad;
 		this.cantidadInicial = cantidadInicial;
 		this.prestable = prestable;
-		this.condicion = condiciones;
-		this.fechaLanzamiento = new Fecha(diaLanz);
+		this.condicion = condicion;
+		this.fechaLanzamiento = new Fecha(diasLanz);
+		this.descuento = descuento;
+		this.puntosRequeridos = puntosRequeridos;
 	}
 
 	/* ~~~ Métodos ~~~ */

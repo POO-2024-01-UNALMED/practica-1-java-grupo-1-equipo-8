@@ -9,9 +9,9 @@ public class Accesorio extends Producto {
 	private String consola;
 	
 	/* ### Constructores ### */
-	
-	public Accesorio (int codigo, String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz, String marca, String consola) {
-		super(codigo, nombre, valor, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
+
+	public Accesorio(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, int descuento, int puntosRequeridos, String marca, String consola) {
+		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diaLanz, mesLanz, yearLanz, descuento, puntosRequeridos);
 		this.marca = marca;
 		this.consola = consola;
 	}
