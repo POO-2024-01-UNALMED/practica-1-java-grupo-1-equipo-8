@@ -21,6 +21,14 @@ public class Cliente extends Persona{
         clientes.add(this);
     }
 
+    /* ~~~ Métodos ~~~ */
+    public void agregarPrestamo(Prestamo prestamo){
+        this.prestamos.add(prestamo);
+    }
+    public void agregarCompra(Transaccion compra){
+        this.compras.add(compra);
+    }
+
     /* ~~~ Metodos get y set ~~~ */
 
     public int getPuntosFidelidad() {

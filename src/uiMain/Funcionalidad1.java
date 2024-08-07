@@ -1,11 +1,13 @@
 package uiMain;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static uiMain.Main.imprimirSeparador;
 
+import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
 import gestorAplicacion.productos.*;
@@ -20,12 +22,61 @@ public class Funcionalidad1 {
             return;
         }
 
-
-
-
         /* ~~~ Calcular recomendaciones ~~~ */
+        /* APROXIMACION UTILIZANDO UNA LISTA DE PARES (CLASE PROPIA) | NO FUNCIONA
+        String generoFav;
+
+        ArrayList<Par> generos = new ArrayList<Par>();
 
 
+        for (Transaccion t : cliente.getCompras()) { // Buscar en cada compra del cliente
+            for (Producto p : t.getProductos()) { // Buscar cada producto en la lista de productos
+                if (p instanceof Juego) {
+                    for (Par par : generos) { // Buscar si el género ya está en la lista
+                        if (par.getPrimero().equals(((Juego) p).getGenero())) {
+                            par.setSegundo(par.getSegundo() + 1);
+                            break;
+                        }
+                        else {
+                            generos.add(new Par(((Juego) p).getGenero(), 1));
+                        }
+                    }
+                }
+            }
+        }
+        */
+
+        // ArrayLists para almacenar los géneros y la cantidad de veces que se han comprado. Estan en el mismo indice
+        ArrayList<Integer> generosCant = new ArrayList<Integer>();
+        ArrayList<String> generos = new ArrayList<String>();
+
+        for (Transaccion t : cliente.getCompras()) { // Buscar en cada compra del cliente
+            for (Producto p : t.getProductos()) { // Buscar cada producto en la lista de productos
+                if (p instanceof Juego) {
+                    if (generos.contains(((Juego) p).getGenero())) {    // Si el género ya está en la lista, aumentar la cantidad
+                        int indice = generos.indexOf(((Juego) p).getGenero());
+                        generosCant.set(indice, generosCant.get(indice) + 1);
+                    }
+                    else { // si no está, agregarlo a la lista
+                        generos.add(((Juego) p).getGenero());
+                        generosCant.add(1);
+                    }
+                }
+            }
+        }
+
+        // Encontrar el género más comprado
+        int max = 0;
+        String generoFav = "";
+
+        for (int i = 0; i < generosCant.size(); i++) {
+            if (generosCant.get(i) > max) {
+                max = generosCant.get(i);
+                generoFav = generos.get(i);
+            }
+        }
+
+        // TODO: Comprobar que funcione
 
 
         /* ~~~ Selección de productos ~~~ */
@@ -65,22 +116,24 @@ public class Funcionalidad1 {
 
 
                     // Verificar si el producto ya está en el carrito
-                    Producto productoEnCarrito = hallarEnCarrito(producto, carrito);
+                    Producto estaEnCarrito = hallarEnCarrito(producto, carrito);
 
-                    if (productoEnCarrito != null) { // Si está, aumentar la cantidad en 1
-                        if (productoEnCarrito.getCantidad() >= producto.getCantidad()) { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
+                    if (estaEnCarrito != null) { // Si está, aumentar la cantidad en 1
+                        if (estaEnCarrito.getCantidad() >= producto.getCantidad()) { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
                             System.out.println("No hay más unidades de '" + producto.getNombre() + "' disponibles.");
                             System.out.println("\nPresione Enter para continuar.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
                             break;
                         } else {
-                            productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() + 1);
+                            estaEnCarrito.setCantidad(estaEnCarrito.getCantidad() + 1);
                         }
                     }
                     else { // De no estar, agregarlo al carrito con cantidad 1
                         producto.setCantidad(1);
                         carrito.add(producto);
                     }
+
+                    System.out.println("Producto agregado al carrito.");
 
                     break;
 
@@ -89,14 +142,16 @@ public class Funcionalidad1 {
                     // TODO: Implementar la eliminación de productos del carrito
 
                     // Mostrar productos en carrito
-
+                    /*
                     System.out.println("CARRITO:");
                     int i = 1;
                     for (Producto p : carrito) {
                         System.out.println(i + ". " + p.getNombre() + " | " + p.getCantidad() + " unidades");
                         i++;
                     }
+                    */
 
+                    /*
                     // Recibir selección del usuario
                     System.out.println("Ingrese el número del producto que desea eliminar:");
                     try {
@@ -110,9 +165,19 @@ public class Funcionalidad1 {
                         sc.nextLine();  // Esperar a que el usuario presione Enter
                         break;
                     }
+                    */
 
-                    // TODO: Implementar la eliminación del producto seleccionado del carrito
                     // TODO: Cambiar el formato de los códigos a uno con letra y número
+
+                    Producto productoEnCarrito = seleccionarProducto(carrito);
+
+                    if (productoEnCarrito.getCantidad() > 1) {
+                        productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() - 1);
+                    } else {
+                        carrito.remove(productoEnCarrito);
+                    }
+
+                    System.out.println("Producto eliminado del carrito.");
 
                     break;
 
@@ -283,7 +348,7 @@ public class Funcionalidad1 {
                     }
 
                     // Recibir selección del usuario
-                    System.out.print("Ingrese el código de la consola que desea agregar: ");
+                    System.out.print("Ingrese el código de la consola que desea seleccionar: ");
                     codigo = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
@@ -377,3 +442,29 @@ public class Funcionalidad1 {
     }
 
 }
+
+/*
+class Par {
+    String primero;
+    int segundo;
+
+    public Par(String primero, int segundo) {
+        this.primero = primero;
+        this.segundo = segundo;
+    }
+
+    public String getPrimero() {
+        return primero;
+    }
+    public int getSegundo() {
+        return segundo;
+    }
+
+    public void setPrimero(String primero) {
+        this.primero = primero;
+    }
+    public void setSegundo(int segundo) {
+        this.segundo = segundo;
+    }
+}
+ */

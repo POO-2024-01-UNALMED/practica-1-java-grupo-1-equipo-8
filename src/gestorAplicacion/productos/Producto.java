@@ -86,6 +86,13 @@ public abstract class Producto implements Serializable, Cloneable{
 		this.nombre = nombre;
 	}
 
+	public int getValor() {
+		return valor;
+	}
+	public void setValor(int valor) {
+		this.valor = valor;
+	}
+
 	public int getCantidad() {
 		return cantidad;
 	}
