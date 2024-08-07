@@ -15,6 +15,7 @@ public class Tienda implements Serializable {
     private String nombre;
     private long fondos;
     private ArrayList<Transaccion> caja = new ArrayList<Transaccion>();
+    //TODO: Implementar inventario para artículos usados y de préstamo
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
     private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
@@ -34,12 +35,45 @@ public class Tienda implements Serializable {
         this.inventario.add(producto);
     }
 
+    // Metodo que reduce la cantidad de un producto en el inventario segun el entero que se le ingrese
+    public void venderProducto(Producto producto, int cantidad){
+        for (Producto p : this.inventario) {
+            if (p.equals(producto)) {
+                p.setCantidad(p.getCantidad() - cantidad);
+            }
+        }
+    }
+
     public void agregarEmpleado(Empleado empleado){
         this.empleados.add(empleado);
     }
 
     public void agregarTransaccion(Transaccion transaccion){
         this.caja.add(transaccion);
+    }
+
+    public void reabastecerProducto(Producto producto, int cantidad){
+        for (Producto p : this.inventario) {
+            if (p.equals(producto)) {
+                p.setCantidad(p.getCantidad() + cantidad);
+                p.setCantidadInicial(p.getCantidadInicial() + cantidad);
+
+                break;
+            }
+        }
+
+        // En caso de que el producto no se encuentre
+        this.inventario.add(producto);
+    }
+
+    // Metodo para retirar producto reabastecido en otro local
+    public void retirarProducto(Producto producto, int cantidad){
+        for (Producto p : this.inventario) {
+            if (p.equals(producto)) {
+                p.setCantidad(p.getCantidad() - cantidad);
+                p.setCantidadInicial(p.getCantidadInicial() - cantidad);
+            }
+        }
     }
 
 

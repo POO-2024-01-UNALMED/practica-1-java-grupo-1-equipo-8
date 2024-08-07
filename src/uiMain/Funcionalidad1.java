@@ -14,7 +14,10 @@ import gestorAplicacion.personas.Cliente;
 import gestorAplicacion.productos.*;
 
 public class Funcionalidad1 {
-    static Scanner sc = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in); // variable scanner
+    static int puntosUsados = 0; // Cantidad de puntos que se usan en la transacción. Siempre será menor a la cantidad de puntos del cliente
+
+
     public static void registrarCompra(Tienda local, Fecha fecha) {
         /* ~~~ Identificación del cliente ~~~ */
         Cliente cliente = identificarCliente();
@@ -207,11 +210,105 @@ public class Funcionalidad1 {
                     break;
 
                 case 4:
-                    //TODO: IMPORTANTE: Verificar que el carrito no esté vacío
-                    int valorFinal = calcularDescuentos(carrito, cliente);
+                    if (carrito.isEmpty()) {
+                        System.out.println("El carrito está vacío.");
+                        System.out.println("\nPresione Enter para continuar.");
+                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        continue;
+                    }
+
+                    //TODO: IMPORTANTE: Verificar que el carrito no esté vacío | Confirmar que funcione
+
+                    int valorFinal = calcularDescuentos(carrito, cliente);  // Calcular valor total de la compra con descuentos
                     Transaccion transaccion = new Transaccion(fecha, cliente, local, carrito, valorFinal);
 
-                    // Confirmar compra
+                    //TODO: Confirmar compra
+                    int valorIngresado = 0;
+                    int cambio = 0;
+
+                    System.out.println("Valor total de la compra: $" + valorFinal + "\n");
+
+                    // Ingreso de dinero
+                    // TODO: Pago fraccionado
+
+                        // Recibir efectivo
+                    while (true) {
+                        valorIngresado = 0;
+                        System.out.print("Ingrese el valor con el que pagará:");
+
+                        try {
+                            valorIngresado = sc.nextInt();
+                        } catch (InputMismatchException error) {
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                            sc.nextLine();  // Limpiar el buffer
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                            continue;
+                        }
+
+                        if (valorIngresado < valorFinal) {
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("El valor ingresado es menor al total de la compra. Presiona enter para volver a intentar.\n");
+                            sc.nextLine();  // Limpiar el buffer
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                        } else {
+                            break;
+                        }
+                    }
+
+                    cambio = valorIngresado - valorFinal;
+
+                    System.out.println("Cambio: $" + cambio);
+                    System.out.println("\nPresione Enter para confirmar la compra.");
+                    sc.nextLine();  // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+
+                    // Actualizar inventario
+                    for (Producto p : carrito) {
+                        if (p instanceof Consola) {
+                            for (Producto p2 : local.getInventario()) {
+                                if (p2 instanceof Consola && p2.getCodigo() == (p.getCodigo())) {
+                                    p2.setCantidad(p2.getCantidad() - p.getCantidad());
+                                }
+                            }
+                        }
+                        else if (p instanceof Juego) {
+                            for (Producto p2 : local.getInventario()) {
+                                if (p2 instanceof Juego && p2.getCodigo() == (p.getCodigo())) {
+                                    p2.setCantidad(p2.getCantidad() - p.getCantidad());
+                                }
+                            }
+                        }
+                        else if (p instanceof Accesorio) {
+                            for (Producto p2 : local.getInventario()) {
+                                if (p2 instanceof Accesorio && p2.getCodigo() == (p.getCodigo())) {
+                                    p2.setCantidad(p2.getCantidad() - p.getCantidad());
+                                }
+                            }
+                        }
+
+                        else { System.out.println("Error al actualizar el inventario."); return;}
+                    }
+
+                    // Añadir la transacción a la lista de transacciones de la tienda
+                    local.agregarTransaccion(transaccion);
+
+                    // Actualizar cliente
+                        // Actualizar puntos de fidelidad
+                    cliente.setPuntosFidelidad(cliente.getPuntosFidelidad() - puntosUsados);
+                        // Agregar compra a la lista de compras del cliente
+                    cliente.agregarCompra(transaccion);
+
+                    // Finalización
+                    System.out.println("""
+                            ...
+                            
+                            (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
+                            ¡Compra realizada con éxito!
+                            """);
+
+                    // TODO: Método que cambia el emoji aleatoriamente en cada compra
+
                     break;
 
                 default:
@@ -447,7 +544,7 @@ public class Funcionalidad1 {
 
     private static int calcularDescuentos(ArrayList<Producto> carrito, Cliente cliente) {
         int precioFinal = 0; // Precio final de la transacción con descuentos aplicados
-        int puntosUsados = 0; // Cantidad de puntos que se usan en la transacción. Siempre será menor a la cantidad de puntos del cliente
+        int puntosUsados = 0;
         int valorTemp; // Variable usada para el calculo de descuentos
 
         for (Producto p : carrito) {
@@ -458,9 +555,11 @@ public class Funcionalidad1 {
                     valorTemp = p.getValor() * p.getCantidad();
                     precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
                 }
-                else if (p.getPuntosRequeridos() > 0 && cliente.getPuntosFidelidad() >= p.getPuntosRequeridos()) { // En caso de que el producto tenga un mínimo de puntos requeridos y el cliente tenga saldo suficiente
+                else if (p.getPuntosRequeridos() > 0 && (cliente.getPuntosFidelidad() - puntosUsados) >= p.getPuntosRequeridos()) { // En caso de que el producto tenga un mínimo de puntos requeridos y el cliente tenga saldo suficiente
                         valorTemp = p.getValor() * p.getCantidad();
                         precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+
+                        puntosUsados += p.getPuntosRequeridos(); // Actualizar puntos usados
                 }
                 else { // En caso de que el producto tenga mínimo de puntos pero el cliente no tenga saldo suficiente
                     precioFinal += p.getValor() * p.getCantidad();
@@ -470,12 +569,6 @@ public class Funcionalidad1 {
             else { // En caso de que el producto no tenga descuento
                 precioFinal += p.getValor() * p.getCantidad();
             }
-        }
-
-        if (puntosUsados > 0) {
-            System.out.println("En esta compra se usaron " + puntosUsados + " puntos");
-
-            cliente.setPuntosFidelidad(cliente.getPuntosFidelidad() - puntosUsados);
         }
 
         return precioFinal;
