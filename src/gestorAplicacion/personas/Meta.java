@@ -1,5 +1,7 @@
 package gestorAplicacion.personas;
 import java.io.Serializable;
+import java.util.ArrayList;
+
 import gestorAplicacion.manejoLocal.Fecha;
 public class Meta implements Serializable{
     /*~~ Atributos ~~*/
@@ -9,12 +11,12 @@ public class Meta implements Serializable{
     private int yearLimite;
     private int valorAlcanzar;
     private int valorBonificacion;
-    private String estado;
+    private String estado = "En proceso";
     private int acumulado;
     private int codigo;
 
                     /*~~ Constructor ~~*/
-    public Meta (int codigo, Empleado empleado, int diaLimite, int mesLimite, int yearLimite, int valorAlcanzar, int valorBonificacion, String estado, int acumulado){
+    public Meta (int codigo, Empleado empleado, int diaLimite, int mesLimite, int yearLimite, int valorAlcanzar, int valorBonificacion, int acumulado){
         this.codigo = codigo;
         this.empleado = empleado;
         this.diaLimite = diaLimite;
@@ -22,7 +24,6 @@ public class Meta implements Serializable{
         this.yearLimite = yearLimite;
         this.valorAlcanzar = valorAlcanzar;
         this.valorBonificacion = valorBonificacion;
-        this.estado = estado;
         this.acumulado = acumulado;
         empleado.ingresarMeta(this);
     }

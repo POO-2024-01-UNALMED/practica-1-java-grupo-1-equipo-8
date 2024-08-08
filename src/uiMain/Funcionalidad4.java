@@ -1,5 +1,6 @@
 package uiMain;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -17,7 +18,7 @@ public class Funcionalidad4 {
 
         /* ~~~ Calcular meta ~~~ */
         Meta meta = identificarMeta(empleado);
-        calcularProgreso(meta);
+
     }
 
     private static Empleado identificarEmpleado(Tienda local){
@@ -57,10 +58,10 @@ public class Funcionalidad4 {
                 continue;
             }
 
-            // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
+            // En caso de que el empleado no sea encontrado dar la opción de intentar de nuevo
             if (cedula == 0) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Cliente no encontrado. ¿Desea intentar de nuevo? (Y/n).\n");
+                System.out.println("Empleado no encontrado. ¿Desea intentar de nuevo? (Y/n).\n");
                 char decision = 'y';
                 decision = sc.next().charAt(0);
                 if (decision == 'n' || decision == 'N') {
@@ -75,6 +76,40 @@ public class Funcionalidad4 {
     private static Meta identificarMeta(Empleado empleado){
         imprimirSeparador();
 
+        int diaHoy = 0;
+        int mesHoy = 0;
+        int yearHoy = 0;
+        try{
+            System.out.println("Ingrese el día en el que estamos: ");
+            diaHoy = sc.nextInt();
+        } catch (Exception e){
+            System.out.println("\n### ERROR ###");
+            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+            sc.nextLine();  // nextLine para limpiar el buffer
+            sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+        }
+
+        try{
+            System.out.println("Ingrese el mes en el que estamos: ");
+            mesHoy = sc.nextInt();
+        } catch (Exception e){
+            System.out.println("\n### ERROR ###");
+            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+            sc.nextLine();  // nextLine para limpiar el buffer
+            sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+        }
+
+        try{
+            System.out.println("Ingrese el año en el que estamos: ");
+            yearHoy = sc.nextInt();
+        } catch (Exception e){
+            System.out.println("\n### ERROR ###");
+            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+            sc.nextLine();  // nextLine para limpiar el buffer
+            sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+        }
+
+
         int codigo = 0;
         Meta meta = null;
 
@@ -88,29 +123,114 @@ public class Funcionalidad4 {
         sc.nextLine();
         sc.nextLine();
 
+        //Calcular porcetanje de las metas
         for (Meta m : empleado.getMetas()) {
-            System.out.println("Porcentaje de progreso de las metas del empleado" + empleado.getNombre());
+            System.out.println("Porcentaje de progreso de las metas del empleado " + empleado.getNombre());
 
             int porcentajeProgreso = 0;
             porcentajeProgreso = (m.getAcumulado()*100)/m.getValorAlcanzar();
             System.out.println("Código: " + m.getCodigo() + " - Porcentaje de progreso: " + porcentajeProgreso + "%");
+
+            if (porcentajeProgreso == 100) {
+                empleado.ingresarMetasAlcanzdas(m);
+                m.setEstado("Meta cumplida");
+            }
+
+            if (yearHoy > m.getYearLimite() || yearHoy == m.getYearLimite() && mesHoy > m.getMesLimite() || yearHoy == m.getYearLimite() && mesHoy == m.getMesLimite() && diaHoy > m.getDiaLimite())  {
+                empleado.ingresarMetasCaducadas(m);
+                m.setEstado("Meta caducada");
+            }
+
         }
+
+        System.out.println("Presione enter para revisar si hay metas alcanzadas");
+        sc.nextLine();
+        sc.nextLine();
+
+        //Revisar si hay metas alcanzadas
+        RevisarMetasAlcanzadas(empleado);
+
+        //Revisar si hay metas caducadas
+        RevisarMetasCaducadas(empleado);
 
 
         return meta;
     }
 
-    private static void calcularProgreso(Meta meta){
-        imprimirSeparador();
-
-        int porcentaProgreso = 0;
-
-        System.out.println("Valor a alcanzar de la meta: " + meta.getValorAlcanzar());
-        System.out.println("Valor acumulado actual: " + meta.getAcumulado());
-        System.out.println("Calculando el progreso de la meta... ");
-
-        porcentaProgreso = (meta.getAcumulado()*100)/meta.getValorAlcanzar();
-
-        System.out.println("El porcentaje de progreso es del: " + porcentaProgreso + "%");
+    private static void RevisarMetasAlcanzadas(Empleado empleado){
+        if (empleado.getMetasAlcanzadas().isEmpty()){
+            System.out.println("El empleado " + empleado.getNombre() + " todavía no ha cumplido con ninguna meta. Ánimo.");
+            System.out.println("Presione enter para continuar");
+            sc.nextLine();
+            sc.nextLine();
+        } else {
+            System.out.println("Las metas alcanzadas por el empleado: " + empleado.getNombre() + " son: ");
+            for (Meta m : empleado.getMetasAlcanzadas()){
+                System.out.println("Código de meta: " + m.getCodigo() + " | Valor a alcanzar: " + m.getValorAlcanzar() + " |  Valor de bonificación: " + m.getValorBonificacion() + " | Fecha límite: " + m.getDiaLimite() + "/" + m.getMesLimite() + "/" +m.getYearLimite() );
+            }
+        }
     }
+
+    private static Meta RevisarMetasCaducadas(Empleado empleado){
+        if (empleado.getMetasCaducadas().isEmpty()){
+            System.out.println("El empleado " + empleado.getNombre() + " no tiene metas caducadas");
+            System.out.println("Presione enter para continuar");
+            sc.nextLine();
+            sc.nextLine();
+            return null;
+        } else {
+            System.out.println("Las metas caducadas por el empleado: " + empleado.getNombre() + " son: ");
+            for (Meta m : empleado.getMetasCaducadas()) {
+                System.out.println("Código de meta: " + m.getCodigo() + " | Valor a alcanzar: " + m.getValorAlcanzar() + " |  Valor de bonificación: " + m.getValorBonificacion() + " | Fecha límite: " + m.getDiaLimite() + "/" + m.getMesLimite() + "/" + m.getYearLimite());
+            }
+        }
+        System.out.println("¿Desea ampliar el plazo de alguna meta? (Y/n. \n");
+        char decision = 'y';
+        decision = sc.next().charAt(0);
+        if (decision == 'n' || decision == 'N'){
+            return null;
+        }
+        else {
+            int codigo = 0;
+            Meta meta = null;
+
+            System.out.println("Ingrese el código de la meta que desea ampliar el plazo: ");
+
+            try {
+                codigo = sc.nextInt();
+
+                for (Meta m : empleado.getMetasCaducadas()){
+                    if (m.getCodigo() == codigo){
+                        meta = m;
+                        return meta;
+                    }
+                    else {
+                        codigo = 0;
+                    }
+                }
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+            }
+
+            if (codigo == 0) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Meta no encontrada. ¿Desea intentar de nuevo? (Y/n).\n");
+                char decision1 = 'y';
+                decision1 = sc.next().charAt(0);
+                if (decision1 == 'n' || decision1 == 'N') {
+                    return null;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    private static void eliminarMetaCaducada(Empleado empleado){
+
+    }
+
 }

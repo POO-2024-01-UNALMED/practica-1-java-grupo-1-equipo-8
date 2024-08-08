@@ -39,8 +39,8 @@ public class Main {
         Empleado empleado2 = new Empleado(2, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, tienda1);
 
         //metas
-        new Meta(1, empleado1, 15, 6, 2024, 30, 8000, "Bien", 10 );
-        new Meta(2, empleado1, 18, 6, 2024, 35, 10000, "Bien", 10);
+        new Meta(1, empleado1, 15, 6, 2024, 30, 8000, 10 );
+        new Meta(2, empleado1, 18, 6, 2024, 35, 10000, 10);
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);
