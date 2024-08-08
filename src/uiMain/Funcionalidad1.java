@@ -1,6 +1,5 @@
 package uiMain;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -249,7 +248,8 @@ public class Funcionalidad1 {
 
                         if (valorIngresado < valorFinal) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("El valor ingresado es menor al total de la compra. Presiona enter para volver a intentar.\n");
+                            System.out.println("El valor ingresado es menor al total de la compra. (ノ ゜Д゜)ノ ︵ ┻━┻\n" +
+                                    "Presiona enter para volver a intentar.\n");
                             sc.nextLine();  // Limpiar el buffer
                             sc.nextLine();  // Esperar a que el usuario presione Enter
                         } else {
@@ -580,6 +580,7 @@ public class Funcionalidad1 {
     }
 
     // Devuelve true si la respuesta no es No (ni "n" ni "N")
+    // TODO: Volver siNO en un método público en main
     private static boolean siNo(String pregunta) {
         System.out.println(pregunta + " (S/n)");
         char respuesta = sc.next().charAt(0);
@@ -587,31 +588,4 @@ public class Funcionalidad1 {
 
         return !(respuesta == 'n' || respuesta == 'N');
     }
-
 }
-
-/* NO REMOVER HASTA COMPROBAR QUE LA APROXIMACION ACTUAL FUNCIONA
-class Par {
-    String primero;
-    int segundo;
-
-    public Par(String primero, int segundo) {
-        this.primero = primero;
-        this.segundo = segundo;
-    }
-
-    public String getPrimero() {
-        return primero;
-    }
-    public int getSegundo() {
-        return segundo;
-    }
-
-    public void setPrimero(String primero) {
-        this.primero = primero;
-    }
-    public void setSegundo(int segundo) {
-        this.segundo = segundo;
-    }
-}
- */
