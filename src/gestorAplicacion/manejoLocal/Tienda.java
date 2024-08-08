@@ -1,4 +1,5 @@
 package gestorAplicacion.manejoLocal;
+import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.Producto;
 
@@ -13,7 +14,8 @@ public class Tienda implements Serializable {
     /*~~ Atributos ~~*/
     private String nombre;
     private long fondos;
-    private ArrayList<Fecha> caja = new ArrayList<Fecha>();
+    private ArrayList<Transaccion> caja = new ArrayList<Transaccion>();
+    //TODO: Implementar inventario para artículos usados y de préstamo
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
     private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
@@ -33,8 +35,45 @@ public class Tienda implements Serializable {
         this.inventario.add(producto);
     }
 
+    // Metodo que reduce la cantidad de un producto en el inventario segun el entero que se le ingrese
+    public void venderProducto(Producto producto, int cantidad){
+        for (Producto p : this.inventario) {
+            if (p.equals(producto)) {
+                p.setCantidad(p.getCantidad() - cantidad);
+            }
+        }
+    }
+
     public void agregarEmpleado(Empleado empleado){
         this.empleados.add(empleado);
+    }
+
+    public void agregarTransaccion(Transaccion transaccion){
+        this.caja.add(transaccion);
+    }
+
+    public void reabastecerProducto(Producto producto, int cantidad){
+        for (Producto p : this.inventario) {
+            if (p.equals(producto)) {
+                p.setCantidad(p.getCantidad() + cantidad);
+                p.setCantidadInicial(p.getCantidadInicial() + cantidad);
+
+                break;
+            }
+        }
+
+        // En caso de que el producto no se encuentre
+        this.inventario.add(producto);
+    }
+
+    // Metodo para retirar producto reabastecido en otro local
+    public void retirarProducto(Producto producto, int cantidad){
+        for (Producto p : this.inventario) {
+            if (p.equals(producto)) {
+                p.setCantidad(p.getCantidad() - cantidad);
+                p.setCantidadInicial(p.getCantidadInicial() - cantidad);
+            }
+        }
     }
 
 
@@ -51,10 +90,10 @@ public class Tienda implements Serializable {
     public void setFondos(long fondos) {
         this.fondos = fondos;
     }
-    public ArrayList<Fecha> getCaja() {
+    public ArrayList<Transaccion> getCaja() {
         return caja;
     }
-    public void setCaja(ArrayList<Fecha> caja) {
+    public void setCaja(ArrayList<Transaccion> caja) {
         this.caja = caja;
     }
     public ArrayList<Producto> getInventario() {

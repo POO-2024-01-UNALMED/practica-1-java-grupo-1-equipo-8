@@ -1,18 +1,24 @@
 package uiMain;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static uiMain.Main.imprimirSeparador;
 
+import gestorAplicacion.informacionVenta.Transaccion;
+import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
 import gestorAplicacion.productos.*;
 
 public class Funcionalidad1 {
-    static Scanner sc = new Scanner(System.in);
-    public static void registrarCompra(Tienda local) {
+    static Scanner sc = new Scanner(System.in); // variable scanner
+    static int puntosUsados = 0; // Cantidad de puntos que se usan en la transacción. Siempre será menor a la cantidad de puntos del cliente
+
+
+    public static void registrarCompra(Tienda local, Fecha fecha) {
         /* ~~~ Identificación del cliente ~~~ */
         Cliente cliente = identificarCliente();
 
@@ -20,13 +26,71 @@ public class Funcionalidad1 {
             return;
         }
 
-
-
-
         /* ~~~ Calcular recomendaciones ~~~ */
 
+        if (!(cliente.getCompras().isEmpty())) { // Sólo en caso de que la lista no esté vacía
+            // ArrayLists para almacenar los géneros y la cantidad de veces que se han comprado. Estan en el mismo indice
+            ArrayList<Integer> generosCant = new ArrayList<Integer>();
+            ArrayList<String> generos = new ArrayList<String>();
+
+            for (Transaccion t : cliente.getCompras()) { // Buscar en cada compra del cliente
+                for (Producto p : t.getProductos()) { // Buscar cada producto en la lista de productos
+                    if (p instanceof Juego) {
+                        if (generos.contains(((Juego) p).getGenero())) {    // Si el género ya está en la lista, aumentar la cantidad
+                            int indice = generos.indexOf(((Juego) p).getGenero());
+                            generosCant.set(indice, generosCant.get(indice) + 1);
+                        } else { // si no está, agregarlo a la lista
+                            generos.add(((Juego) p).getGenero());
+                            generosCant.add(1);
+                        }
+                    }
+                }
+            }
+            // Encontrar el género más comprado
+            int max = 0;
+            String generoFav = "";
 
 
+
+            for (int i = 0; i < generosCant.size(); i++) {
+                if (generosCant.get(i) > max) {
+                    max = generosCant.get(i);
+                    generoFav = generos.get(i);
+                }
+            }
+
+            // TODO: Recomendar juegos del género más comprado
+
+            // Mostrar género favorito
+            if (generosCant.size() > 0) {
+                System.out.println("Género favorito: " + generoFav);
+            }
+            else {
+                System.out.println("No hay suficientes compras para hacer una recomendación.");
+            }
+
+            // Recomendaciones segun plataforma
+            ArrayList<String> plataformas = new ArrayList<String>();
+
+            // Encontrar plataformas para la que el cliente ha comprado productos
+            for (Transaccion t : cliente.getCompras()) { // Buscar en cada compra del cliente
+                for (Producto p : t.getProductos()) { // Buscar cada producto en la lista de productos
+                    if (p instanceof Juego) {
+                        if (!(plataformas.contains(((Juego) p).getPlataforma()))) { // Si la plataforma no está en la lista, agregarla
+                            plataformas.add(((Juego) p).getPlataforma());
+                        }
+                    }
+                }
+            }
+
+            // Mostrar las plataformas
+            if (plataformas.size() > 0) {
+                System.out.println("Plataformas en las que ha comprado:");
+                for (String p : plataformas) {
+                    System.out.println("* " + p);
+                }
+            }
+        }
 
         /* ~~~ Selección de productos ~~~ */
         byte opcion;
@@ -47,12 +111,11 @@ public class Funcionalidad1 {
             Producto producto;
 
             switch (opcion) {
-                case 1:
-                    // Agregar producto
+                case 1: // Agregar producto
 
                     // Clonar el producto seleccionado para evitar modificar el original
                     try {
-                        producto = (seleccionarProducto(local).clone());
+                        producto = (seleccionarProducto(local.getInventario()).clone());
                     }
                     catch (CloneNotSupportedException e) {
                         System.out.println("\n### ERROR ###");
@@ -65,16 +128,16 @@ public class Funcionalidad1 {
 
 
                     // Verificar si el producto ya está en el carrito
-                    Producto productoEnCarrito = hallarEnCarrito(producto, carrito);
+                    Producto estaEnCarrito = hallarEnCarrito(producto, carrito);
 
-                    if (productoEnCarrito != null) { // Si está, aumentar la cantidad en 1
-                        if (productoEnCarrito.getCantidad() >= producto.getCantidad()) { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
+                    if (estaEnCarrito != null) { // Si está, aumentar la cantidad en 1
+                        if (estaEnCarrito.getCantidad() >= producto.getCantidad()) { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
                             System.out.println("No hay más unidades de '" + producto.getNombre() + "' disponibles.");
                             System.out.println("\nPresione Enter para continuar.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
                             break;
                         } else {
-                            productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() + 1);
+                            estaEnCarrito.setCantidad(estaEnCarrito.getCantidad() + 1);
                         }
                     }
                     else { // De no estar, agregarlo al carrito con cantidad 1
@@ -82,21 +145,23 @@ public class Funcionalidad1 {
                         carrito.add(producto);
                     }
 
+                    System.out.println("Producto agregado al carrito.");
+
                     break;
 
-                case 2:
-                    // Eliminar producto
-                    // TODO: Implementar la eliminación de productos del carrito
+                case 2: // Eliminar producto
 
                     // Mostrar productos en carrito
-
+                    /*
                     System.out.println("CARRITO:");
                     int i = 1;
                     for (Producto p : carrito) {
                         System.out.println(i + ". " + p.getNombre() + " | " + p.getCantidad() + " unidades");
                         i++;
                     }
+                    */
 
+                    /*
                     // Recibir selección del usuario
                     System.out.println("Ingrese el número del producto que desea eliminar:");
                     try {
@@ -110,14 +175,23 @@ public class Funcionalidad1 {
                         sc.nextLine();  // Esperar a que el usuario presione Enter
                         break;
                     }
+                    */
 
-                    // TODO: Implementar la eliminación del producto seleccionado del carrito
                     // TODO: Cambiar el formato de los códigos a uno con letra y número
+
+                    Producto productoEnCarrito = seleccionarProducto(carrito);
+
+                    if (productoEnCarrito.getCantidad() > 1) {
+                        productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() - 1);
+                    } else {
+                        carrito.remove(productoEnCarrito);
+                    }
+
+                    System.out.println("Producto eliminado del carrito.");
 
                     break;
 
-                case 3:
-                    // Ver productos en el carrito
+                case 3: // Ver productos en el carrito
 
                     // Comprobar que el carrito no esté vacío
                     if (carrito.isEmpty()) {
@@ -138,8 +212,106 @@ public class Funcionalidad1 {
 
                     break;
 
-                case 4:
-                    // Confirmar compra
+                case 4: // Completar compra
+
+                    if (carrito.isEmpty()) {
+                        System.out.println("El carrito está vacío.");
+                        System.out.println("\nPresione Enter para continuar.");
+                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        continue;
+                    }
+
+                    int valorFinal = calcularDescuentos(carrito, cliente);  // Calcular valor total de la compra con descuentos
+                    Transaccion transaccion = new Transaccion(fecha, cliente, local, carrito, valorFinal);
+
+                    int valorIngresado = 0;
+                    int cambio = 0;
+
+                    System.out.println("Valor total de la compra: $" + valorFinal + "\n");
+
+                    // Ingreso de dinero
+                    // TODO: Pago fraccionado
+
+                        // Recibir efectivo
+                    while (true) {
+                        valorIngresado = 0;
+                        System.out.print("Ingrese el valor con el que pagará:");
+
+                        try {
+                            valorIngresado = sc.nextInt();
+                        } catch (InputMismatchException error) {
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                            sc.nextLine();  // Limpiar el buffer
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                            continue;
+                        }
+
+                        if (valorIngresado < valorFinal) {
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("El valor ingresado es menor al total de la compra. Presiona enter para volver a intentar.\n");
+                            sc.nextLine();  // Limpiar el buffer
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                        } else {
+                            break;
+                        }
+                    }
+
+                    cambio = valorIngresado - valorFinal;
+
+                    System.out.println("Cambio: $" + cambio);
+                    System.out.println("\nPresione Enter para confirmar la compra.");
+                    sc.nextLine();  // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+
+                    // Actualizar inventario
+                    for (Producto p : carrito) {
+                        if (p instanceof Consola) {
+                            for (Producto p2 : local.getInventario()) {
+                                if (p2 instanceof Consola && p2.getCodigo() == (p.getCodigo())) {
+                                    p2.setCantidad(p2.getCantidad() - p.getCantidad());
+                                }
+                            }
+                        }
+                        else if (p instanceof Juego) {
+                            for (Producto p2 : local.getInventario()) {
+                                if (p2 instanceof Juego && p2.getCodigo() == (p.getCodigo())) {
+                                    p2.setCantidad(p2.getCantidad() - p.getCantidad());
+                                }
+                            }
+                        }
+                        else if (p instanceof Accesorio) {
+                            for (Producto p2 : local.getInventario()) {
+                                if (p2 instanceof Accesorio && p2.getCodigo() == (p.getCodigo())) {
+                                    p2.setCantidad(p2.getCantidad() - p.getCantidad());
+                                }
+                            }
+                        }
+
+                        else { System.out.println("Error al actualizar el inventario."); return;}
+                    }
+
+                    // Añadir la transacción a la lista de transacciones de la tienda
+                    local.agregarTransaccion(transaccion);
+
+                    // Actualizar cliente
+                        // Actualizar puntos de fidelidad
+                    cliente.setPuntosFidelidad(cliente.getPuntosFidelidad() - puntosUsados);
+                        // Agregar compra a la lista de compras del cliente
+                    cliente.agregarCompra(transaccion);
+
+                    // Finalización
+                    System.out.println("""
+                            ...
+                            
+                            ᕕ( ᐛ )ᕗ
+                            ¡Compra realizada con éxito!
+                            """);
+
+                    //(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
+
+                    // TODO: Método que cambia el emoji aleatoriamente en cada compra
+
                     break;
 
                 default:
@@ -192,6 +364,7 @@ public class Funcionalidad1 {
                     long telefono = sc.nextLong();
                     sc.nextLine();  // Limpiar el buffer
 
+                    System.out.println("Cliente '" + nombre + "' registrado.\n");
                     return new Cliente(cedula, nombre, correo, telefono);
 
                 case 2:
@@ -207,6 +380,7 @@ public class Funcionalidad1 {
                             for (Cliente c : Cliente.clientes) {
                                 if (c.getCedula() == cedula) {
                                     cliente = c;
+                                    System.out.println("Cliente '" + cliente.getNombre() + "' encontrado.\n");
                                     return cliente;
                                 }
                             }
@@ -221,10 +395,7 @@ public class Funcionalidad1 {
                         // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
                         if (cliente == null) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Cliente no encontrado. ¿Desea intentar de nuevo? (Y/n).\n");
-                            char decision = 'y';
-                            decision = sc.next().charAt(0);
-                            if (decision == 'n' || decision == 'N') {
+                            if (siNo("Cliente no encontrado. ¿Desea intentar de nuevo?")) {
                                 return null;
                             }
                         }
@@ -245,7 +416,7 @@ public class Funcionalidad1 {
         return cliente;
     }
 
-    private static Producto seleccionarProducto(Tienda local) {
+    private static Producto seleccionarProducto(ArrayList<Producto> inventario) {
         byte opcion = 0;
 
         do {
@@ -276,20 +447,20 @@ public class Funcionalidad1 {
                     // Consola
                     // Mostrar consolas disponibles
                     System.out.println("Consolas disponibles:");
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Consola && p.getCantidad() > 0) {
                             System.out.println("* " + p);
                         }
                     }
 
                     // Recibir selección del usuario
-                    System.out.print("Ingrese el código de la consola que desea agregar: ");
+                    System.out.print("Ingrese el código de la consola que desea seleccionar: ");
                     codigo = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Consola && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            System.out.println( "'" + p.getNombre() + "' seleccionado.");
                             return p;
                         }
                     }
@@ -303,7 +474,7 @@ public class Funcionalidad1 {
                 case 2:
                     // Juego
                     // Mostrar juegos disponibles
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Juego) {
                             System.out.println(p);
                         }
@@ -314,9 +485,9 @@ public class Funcionalidad1 {
                     codigo = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Juego && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            System.out.println( "'" + p.getNombre() + "' seleccionado.");
                             return p;
                         }
                     }
@@ -330,7 +501,7 @@ public class Funcionalidad1 {
 
                 case 3:
                     // Accesorio
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Accesorio) {
                             System.out.println(p);
                         }
@@ -341,9 +512,9 @@ public class Funcionalidad1 {
                     codigo = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
-                    for (Producto p : local.getInventario()) {
+                    for (Producto p : inventario) {
                         if (p instanceof Accesorio && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' agregado al carrito.");
+                            System.out.println( "'" + p.getNombre() + "' seleccionado");
                             return p;
                         }
                     }
@@ -376,4 +547,71 @@ public class Funcionalidad1 {
         return null;
     }
 
+    private static int calcularDescuentos(ArrayList<Producto> carrito, Cliente cliente) {
+        int precioFinal = 0; // Precio final de la transacción con descuentos aplicados
+        int puntosUsados = 0;
+        int valorTemp; // Variable usada para el calculo de descuentos
+
+        for (Producto p : carrito) {
+            valorTemp = 0;
+
+            if (p.getDescuento() > 0) { // En caso de que el producto tenga descuento
+                if (p.getPuntosRequeridos() == 0){ // En caso de que el producto no requiera mínimo de puntos
+                    valorTemp = p.getValor() * p.getCantidad();
+                    precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+                }
+                else if (p.getPuntosRequeridos() > 0 && (cliente.getPuntosFidelidad() - puntosUsados) >= p.getPuntosRequeridos()) { // En caso de que el producto tenga un mínimo de puntos requeridos y el cliente tenga saldo suficiente
+                        valorTemp = p.getValor() * p.getCantidad();
+                        precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+
+                        puntosUsados += p.getPuntosRequeridos(); // Actualizar puntos usados
+                }
+                else { // En caso de que el producto tenga mínimo de puntos pero el cliente no tenga saldo suficiente
+                    precioFinal += p.getValor() * p.getCantidad();
+                }
+
+            }
+            else { // En caso de que el producto no tenga descuento
+                precioFinal += p.getValor() * p.getCantidad();
+            }
+        }
+
+        return precioFinal;
+    }
+
+    // Devuelve true si la respuesta no es No (ni "n" ni "N")
+    private static boolean siNo(String pregunta) {
+        System.out.println(pregunta + " (S/n)");
+        char respuesta = sc.next().charAt(0);
+        sc.nextLine();  // Limpiar el buffer
+
+        return !(respuesta == 'n' || respuesta == 'N');
+    }
+
 }
+
+/* NO REMOVER HASTA COMPROBAR QUE LA APROXIMACION ACTUAL FUNCIONA
+class Par {
+    String primero;
+    int segundo;
+
+    public Par(String primero, int segundo) {
+        this.primero = primero;
+        this.segundo = segundo;
+    }
+
+    public String getPrimero() {
+        return primero;
+    }
+    public int getSegundo() {
+        return segundo;
+    }
+
+    public void setPrimero(String primero) {
+        this.primero = primero;
+    }
+    public void setSegundo(int segundo) {
+        this.segundo = segundo;
+    }
+}
+ */

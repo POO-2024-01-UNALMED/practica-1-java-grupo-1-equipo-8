@@ -10,11 +10,19 @@ public class Juego extends Producto {
 	/* ### Constructores ### */
 	public Juego(){}/*### constructor vacio ###*/
 
-	public Juego (int codigo, String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condiciones, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
-		super(codigo, nombre, valor, cantidad, cantidadInicial, prestable, condiciones, diaLanz, mesLanz, yearLanz);
+	public Juego(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, int descuento, int puntosRequeridos, String genero, String plataforma) {
+		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diaLanz, mesLanz, yearLanz, descuento, puntosRequeridos);
 		this.genero = genero;
 		this.plataforma = plataforma;
 	}
+
+	public Juego(String nombre, int cantidad, int valor, int cantidadInicial, boolean prestable, byte condicion, int diasLanz, int descuento, int puntosRequeridos, String genero, String plataforma) {
+		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diasLanz, descuento, puntosRequeridos);
+		this.genero = genero;
+		this.plataforma = plataforma;
+	}
+
+
 							//~~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~~//
 	public String getGenero(){
 		return genero;

@@ -1,5 +1,5 @@
 package gestorAplicacion.informacionVenta;
-import gestorAplicacion.manejoLocal.Fecha;
+import gestorAplicacion.manejoLocal.*;
 import gestorAplicacion.personas.Cliente;
 import gestorAplicacion.productos.Producto;
 
@@ -11,17 +11,54 @@ public class Transaccion implements Serializable{
     @Serial
     private static final long serialVersionUID = 1L;
 
-                    /* ~~~ Atributos ~~~ */
+    /* ~~~ Atributos ~~~ */
 
+    private static int ultimoID = 1;
     private int id;
-    private int cantidad;
     private Fecha fecha;
     private Cliente cliente;
+    private Tienda local;
     private ArrayList<Producto> productos;
     private int valorSinDescuento;
-    private int valorTotal;
+    private int valorFinal;
 
-                /*~~ Metodos get y set ~~*/
+    /* ~~~ Constructores ~~~ */
+
+    // Constructor con todos los atributos
+    public Transaccion(int id, Fecha fecha, Cliente cliente, Tienda local, ArrayList<Producto> productos, int valorSinDescuento, int valorFinal) {
+        this.id = id;
+        this.fecha = fecha;
+        this.cliente = cliente;
+        this.local = local;
+        this.productos = productos;
+        this.valorSinDescuento = valorSinDescuento;
+        this.valorFinal = valorFinal;
+    }
+
+    // Constructor sin id ni valorSinDescuento (se calcula automáticamente)
+    public Transaccion(Fecha fecha, Cliente cliente, Tienda local, ArrayList<Producto> productos, int valorFinal) {
+        this.fecha = fecha;
+        this.cliente = cliente;
+        this.local = local;
+        this.productos = productos;
+        this.valorSinDescuento = hallarValorSinDescuento(this.productos);
+        this.valorFinal = valorFinal;
+    }
+
+    /* ~~~ Métodos ~~~ */
+    public void agregarALocal(Tienda local){
+        this.local.agregarTransaccion(this);
+    }
+
+    public int hallarValorSinDescuento(ArrayList<Producto> productos){
+        int valor = 0;
+        for (Producto p : productos) {
+            valor += p.getValor();
+        }
+        return valor;
+    }
+
+    /*~~ Metodos get y set ~~*/
 
     public int getId() {
         return id;
@@ -29,12 +66,7 @@ public class Transaccion implements Serializable{
     public void setId(int id) {
         this.id = id;
     }
-    public int getCantidad() {
-        return cantidad;
-    }
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
+
     public Fecha getFecha() {
         return fecha;
     }
@@ -59,11 +91,11 @@ public class Transaccion implements Serializable{
     public void setValorSinDescuento(int valorSinDescuento) {
         this.valorSinDescuento = valorSinDescuento;
     }
-    public int getValorTotal() {
-        return valorTotal;
+    public int getValorFinal() {
+        return valorFinal;
     }
-    public void setValorTotal(int valorTotal) {
-        this.valorTotal = valorTotal;
+    public void setValorFinal(int valorFinal) {
+        this.valorFinal = valorFinal;
     }
 
 }
