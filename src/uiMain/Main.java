@@ -121,7 +121,7 @@ public class Main {
                 System.out.println("2. Registrar préstamo");
                 System.out.println("3. Administrar inventario");
                 System.out.println("4. Gestionar empleados");
-                System.out.println("5. ~~Placeholder para quinta funcionalidad~~");
+                System.out.println("5. Subastar");
 
                 System.out.println("0. Salir");
 

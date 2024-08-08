@@ -27,64 +27,70 @@ public class Funcionalidad1 {
         }
 
         /* ~~~ Calcular recomendaciones ~~~ */
-        /* APROXIMACION UTILIZANDO UNA LISTA DE PARES (CLASE PROPIA) | NO FUNCIONA
-        String generoFav;
 
-        ArrayList<Par> generos = new ArrayList<Par>();
+        if (!(cliente.getCompras().isEmpty())) { // Sólo en caso de que la lista no esté vacía
+            // ArrayLists para almacenar los géneros y la cantidad de veces que se han comprado. Estan en el mismo indice
+            ArrayList<Integer> generosCant = new ArrayList<Integer>();
+            ArrayList<String> generos = new ArrayList<String>();
 
-
-        for (Transaccion t : cliente.getCompras()) { // Buscar en cada compra del cliente
-            for (Producto p : t.getProductos()) { // Buscar cada producto en la lista de productos
-                if (p instanceof Juego) {
-                    for (Par par : generos) { // Buscar si el género ya está en la lista
-                        if (par.getPrimero().equals(((Juego) p).getGenero())) {
-                            par.setSegundo(par.getSegundo() + 1);
-                            break;
-                        }
-                        else {
-                            generos.add(new Par(((Juego) p).getGenero(), 1));
+            for (Transaccion t : cliente.getCompras()) { // Buscar en cada compra del cliente
+                for (Producto p : t.getProductos()) { // Buscar cada producto en la lista de productos
+                    if (p instanceof Juego) {
+                        if (generos.contains(((Juego) p).getGenero())) {    // Si el género ya está en la lista, aumentar la cantidad
+                            int indice = generos.indexOf(((Juego) p).getGenero());
+                            generosCant.set(indice, generosCant.get(indice) + 1);
+                        } else { // si no está, agregarlo a la lista
+                            generos.add(((Juego) p).getGenero());
+                            generosCant.add(1);
                         }
                     }
                 }
             }
-        }
-        */
+            // Encontrar el género más comprado
+            int max = 0;
+            String generoFav = "";
 
-        // ArrayLists para almacenar los géneros y la cantidad de veces que se han comprado. Estan en el mismo indice
-        ArrayList<Integer> generosCant = new ArrayList<Integer>();
-        ArrayList<String> generos = new ArrayList<String>();
 
-        for (Transaccion t : cliente.getCompras()) { // Buscar en cada compra del cliente
-            for (Producto p : t.getProductos()) { // Buscar cada producto en la lista de productos
-                if (p instanceof Juego) {
-                    if (generos.contains(((Juego) p).getGenero())) {    // Si el género ya está en la lista, aumentar la cantidad
-                        int indice = generos.indexOf(((Juego) p).getGenero());
-                        generosCant.set(indice, generosCant.get(indice) + 1);
-                    }
-                    else { // si no está, agregarlo a la lista
-                        generos.add(((Juego) p).getGenero());
-                        generosCant.add(1);
+
+            for (int i = 0; i < generosCant.size(); i++) {
+                if (generosCant.get(i) > max) {
+                    max = generosCant.get(i);
+                    generoFav = generos.get(i);
+                }
+            }
+
+            // TODO: Recomendar juegos del género más comprado
+
+            // Mostrar género favorito
+            if (generosCant.size() > 0) {
+                System.out.println("Género favorito: " + generoFav);
+            }
+            else {
+                System.out.println("No hay suficientes compras para hacer una recomendación.");
+            }
+
+            // Recomendaciones segun plataforma
+            ArrayList<String> plataformas = new ArrayList<String>();
+
+            // Encontrar plataformas para la que el cliente ha comprado productos
+            for (Transaccion t : cliente.getCompras()) { // Buscar en cada compra del cliente
+                for (Producto p : t.getProductos()) { // Buscar cada producto en la lista de productos
+                    if (p instanceof Juego) {
+                        if (!(plataformas.contains(((Juego) p).getPlataforma()))) { // Si la plataforma no está en la lista, agregarla
+                            plataformas.add(((Juego) p).getPlataforma());
+                        }
                     }
                 }
             }
-        }
 
-        // Encontrar el género más comprado
-        int max = 0;
-        String generoFav = "";
-
-        for (int i = 0; i < generosCant.size(); i++) {
-            if (generosCant.get(i) > max) {
-                max = generosCant.get(i);
-                generoFav = generos.get(i);
+            // Mostrar las plataformas
+            if (plataformas.size() > 0) {
+                System.out.println("Plataformas en las que ha comprado:");
+                for (String p : plataformas) {
+                    System.out.println("* " + p);
+                }
             }
         }
-
-        // TODO: Comprobar que funcione
-        // Despues de comprobar que funcione, añadir la parte que recomienda productos basados en el género favorito
-
-        // TODO: Recomendaciones segun plataforma
-
 
         /* ~~~ Selección de productos ~~~ */
         byte opcion;
@@ -105,8 +111,7 @@ public class Funcionalidad1 {
             Producto producto;
 
             switch (opcion) {
-                case 1:
-                    // Agregar producto
+                case 1: // Agregar producto
 
                     // Clonar el producto seleccionado para evitar modificar el original
                     try {
@@ -144,8 +149,7 @@ public class Funcionalidad1 {
 
                     break;
 
-                case 2:
-                    // Eliminar producto
+                case 2: // Eliminar producto
 
                     // Mostrar productos en carrito
                     /*
@@ -187,8 +191,7 @@ public class Funcionalidad1 {
 
                     break;
 
-                case 3:
-                    // Ver productos en el carrito
+                case 3: // Ver productos en el carrito
 
                     // Comprobar que el carrito no esté vacío
                     if (carrito.isEmpty()) {
@@ -209,7 +212,8 @@ public class Funcionalidad1 {
 
                     break;
 
-                case 4:
+                case 4: // Completar compra
+
                     if (carrito.isEmpty()) {
                         System.out.println("El carrito está vacío.");
                         System.out.println("\nPresione Enter para continuar.");
@@ -217,12 +221,9 @@ public class Funcionalidad1 {
                         continue;
                     }
 
-                    //TODO: IMPORTANTE: Verificar que el carrito no esté vacío | Confirmar que funcione
-
                     int valorFinal = calcularDescuentos(carrito, cliente);  // Calcular valor total de la compra con descuentos
                     Transaccion transaccion = new Transaccion(fecha, cliente, local, carrito, valorFinal);
 
-                    //TODO: Confirmar compra
                     int valorIngresado = 0;
                     int cambio = 0;
 
@@ -303,9 +304,11 @@ public class Funcionalidad1 {
                     System.out.println("""
                             ...
                             
-                            (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
+                            ᕕ( ᐛ )ᕗ
                             ¡Compra realizada con éxito!
                             """);
+
+                    //(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
 
                     // TODO: Método que cambia el emoji aleatoriamente en cada compra
 
@@ -361,6 +364,7 @@ public class Funcionalidad1 {
                     long telefono = sc.nextLong();
                     sc.nextLine();  // Limpiar el buffer
 
+                    System.out.println("Cliente '" + nombre + "' registrado.\n");
                     return new Cliente(cedula, nombre, correo, telefono);
 
                 case 2:
@@ -376,6 +380,7 @@ public class Funcionalidad1 {
                             for (Cliente c : Cliente.clientes) {
                                 if (c.getCedula() == cedula) {
                                     cliente = c;
+                                    System.out.println("Cliente '" + cliente.getNombre() + "' encontrado.\n");
                                     return cliente;
                                 }
                             }
