@@ -1,6 +1,7 @@
 package gestorAplicacion.informacionVenta;
 import gestorAplicacion.manejoLocal.*;
 import gestorAplicacion.personas.Cliente;
+import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.Producto;
 
 import java.io.Serial;
@@ -17,6 +18,7 @@ public class Transaccion implements Serializable{
     private int id;
     private Fecha fecha;
     private Cliente cliente;
+    private Empleado empleado;
     private Tienda local;
     private ArrayList<Producto> productos;
     private int valorSinDescuento;
@@ -25,10 +27,11 @@ public class Transaccion implements Serializable{
     /* ~~~ Constructores ~~~ */
 
     // Constructor con todos los atributos
-    public Transaccion(int id, Fecha fecha, Cliente cliente, Tienda local, ArrayList<Producto> productos, int valorSinDescuento, int valorFinal) {
+    public Transaccion(int id, Fecha fecha, Cliente cliente, Empleado empleado, Tienda local, ArrayList<Producto> productos, int valorSinDescuento, int valorFinal) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
+        this.empleado = empleado;
         this.local = local;
         this.productos = productos;
         this.valorSinDescuento = valorSinDescuento;
@@ -36,9 +39,10 @@ public class Transaccion implements Serializable{
     }
 
     // Constructor sin id ni valorSinDescuento (se calcula automáticamente)
-    public Transaccion(Fecha fecha, Cliente cliente, Tienda local, ArrayList<Producto> productos, int valorFinal) {
+    public Transaccion(Fecha fecha, Cliente cliente, Empleado empleado, Tienda local, ArrayList<Producto> productos, int valorFinal) {
         this.fecha = fecha;
         this.cliente = cliente;
+        this.empleado = empleado;
         this.local = local;
         this.productos = productos;
         this.valorSinDescuento = hallarValorSinDescuento(this.productos);

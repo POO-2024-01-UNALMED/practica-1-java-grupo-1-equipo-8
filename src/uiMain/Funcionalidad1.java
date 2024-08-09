@@ -10,6 +10,7 @@ import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
+import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.*;
 
 public class Funcionalidad1 {
@@ -221,7 +222,6 @@ public class Funcionalidad1 {
                     }
 
                     int valorFinal = calcularDescuentos(carrito, cliente);  // Calcular valor total de la compra con descuentos
-                    Transaccion transaccion = new Transaccion(fecha, cliente, local, carrito, valorFinal);
 
                     int valorIngresado = 0;
                     int cambio = 0;
@@ -259,7 +259,14 @@ public class Funcionalidad1 {
 
                     cambio = valorIngresado - valorFinal;
 
-                    System.out.println("Cambio: $" + cambio);
+                    System.out.println("Cambio: $" + cambio + "\n");
+
+                    // Identificar al empleado que atendió la venta
+                    Empleado empleado = local.identificarEmpleado();
+
+                    // Crear transacción
+                    Transaccion transaccion = new Transaccion(fecha, cliente, empleado, local, carrito, valorFinal);
+
                     System.out.println("\nPresione Enter para confirmar la compra.");
                     sc.nextLine();  // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
@@ -415,6 +422,7 @@ public class Funcionalidad1 {
 
         return cliente;
     }
+
 
     private static Producto seleccionarProducto(ArrayList<Producto> inventario) {
         byte opcion = 0;
