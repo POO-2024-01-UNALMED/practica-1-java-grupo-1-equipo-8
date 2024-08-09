@@ -22,8 +22,29 @@ public class Funcionalidad4 {
         //TODO: VER Y COMPARAR RENDIMIENTO
 
         /* ~~~ Modificar Salarios o días laborales ~~~ */
+        System.out.println("Desea modificar el salario del empleado o modificar días laborales");
+        int modificacion = sc.nextInt();
 
+        switch (modificacion){
+            case 1:
+                ModificarSalario(empleado);
 
+                sc.nextLine();
+                break;
+
+            case 2:
+                ModificarDiasLaborales(empleado);
+
+                sc.nextLine();
+                break;
+
+            default:
+                System.out.println("\n### ERROR ###");
+                System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                sc.nextLine(); // Limpiar el buffer
+                sc.nextLine(); // Esperar a que el usuario presione Enter
+                break;
+        }
     }
     static Fecha fechaHoy = null;
 
@@ -91,7 +112,7 @@ public class Funcionalidad4 {
         return empleado;
     }
 
-    private static Meta gestionarMeta(Empleado empleado){
+    private static void gestionarMeta(Empleado empleado){
         imprimirSeparador();
 
         try{
@@ -165,9 +186,6 @@ public class Funcionalidad4 {
 
         //Revisar si hay metas caducadas
         RevisarMetasCaducadas(empleado);
-
-
-        return meta;
     }
 
     private static void RevisarMetasAlcanzadas(Empleado empleado){
@@ -269,6 +287,13 @@ public class Funcionalidad4 {
     }
 
     private static void ModificarSalario(Empleado empleado){
+        System.out.println("Desea modificar el salario fijo o porcentaje por ventas: ");
+        int salario = sc.nextInt();
+
+        switch (salario) {
+            case 1:
+                System.out.println();
+        }
 
     }
 
