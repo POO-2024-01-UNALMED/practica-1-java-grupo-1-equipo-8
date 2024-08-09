@@ -4,7 +4,10 @@ import gestorAplicacion.manejoLocal.Fecha;
 
 import java.io.Serial;
 import java.io.Serializable;
-public abstract class Producto implements Serializable, Cloneable{
+import java.lang.reflect.Array;
+import java.util.*;
+
+public abstract class Producto implements Serializable, Cloneable,Comparable<Producto> ,Comparator<Producto> {
 	
 	/* ~~~ Atributos ~~~ */
 	@Serial
@@ -68,6 +71,85 @@ public abstract class Producto implements Serializable, Cloneable{
 	/* ~~ Método para retornar un producto ~~ */
 	public void retornar(int cantidad) {
 		this.cantidad += cantidad;
+	}
+
+	/* ~~ Método para ordenar ~~ */
+	@Override
+	public int compareTo(Producto p){
+		if(this.calcularVenta() > p.calcularVenta()){
+			return -1;
+		}
+		if (this.calcularVenta() < p.calcularVenta()){
+			return 1;
+		}
+		return 0;
+	}
+
+	/* ~~ Metodo para calcular las ventas ~~ */
+	public int calcularVenta(){
+		int venta = this.cantidadInicial - this.cantidad;
+		return venta;
+	}
+	public static ArrayList<Producto> Ordenar(ArrayList<Producto> p, String orden){
+		if (orden.equals("ventas")) {
+			Collections.sort(p);
+			return p;
+
+		}
+		else if (orden.equals("precio")) {
+			for (Producto i : p ){
+				while(true){
+					int l= i.getValor() - p.get(p.indexOf(i)-1).getValor();
+					int r =i.getValor() - p.get(p.indexOf(i)+1).getValor();
+					if(p.indexOf(i) != 0 || p.indexOf(i) < p.size()-1){
+						if (l > 0){
+							p.remove(i);
+							p.add(p.indexOf(i)-1,i);
+							continue;
+
+						} else if (r < 0) {
+							p.add(p.indexOf(i)+1,i);
+							p.remove(i);
+							continue;
+						}
+						else{
+							break;
+						}
+					}else if (p.indexOf(i) == 0){
+						if (r < 0) {
+							p.add(p.indexOf(i)+1,i);
+							p.remove(i);
+							continue;
+						}
+						else{
+							break;
+						}
+					} else if (p.indexOf(i) == p.size()-1) {
+						if (l > 0) {
+							p.remove(i);
+							p.add(p.indexOf(i) - 1, i);
+							continue;
+						}
+						else{
+							break;
+						}
+					}
+					else {
+						break;
+					}
+
+				}
+			}
+			return p;
+		}else {
+			Collections.sort(p, new Comparator<Producto>() {
+				@Override
+				public int compare(Producto o1, Producto o2) {
+					return o1.getNombre().compareToIgnoreCase(o2.getNombre());
+				}
+			});
+			return p;
+		}
 	}
 
 
@@ -136,7 +218,6 @@ public abstract class Producto implements Serializable, Cloneable{
 	public void setCondicion(byte condicion) {
 		this.condicion = condicion;
 	}
-
 	public Fecha getFechaLanzamiento() {
 		return fechaLanzamiento;
 	}
@@ -157,4 +238,6 @@ public abstract class Producto implements Serializable, Cloneable{
 	public void setPuntosRequeridos(int puntosRequeridos) {
 		this.puntosRequeridos = puntosRequeridos;
 	}
+
+
 }

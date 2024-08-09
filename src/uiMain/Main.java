@@ -154,6 +154,7 @@ public class Main {
 
                     case 3:
                         // Administrar inventario
+                        Funcionalidad3.revisarInventario(local);
                         sc.nextLine();  // Limpiar el buffer
                         break;
 

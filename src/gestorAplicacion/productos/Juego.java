@@ -36,4 +36,10 @@ public class Juego extends Producto {
 	public void setPlataforma(String plataforma1){
 		this.plataforma = plataforma1;
 	}
+
+	//~~~~~~~~~~~~~~~~~~ Método compare ~~~~~~~~~~~~~~~~~~//
+	@Override
+	public int compare(Producto o1, Producto o2){
+		return 1;
+	}
 }

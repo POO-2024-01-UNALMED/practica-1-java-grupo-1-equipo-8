@@ -1,6 +1,8 @@
 package gestorAplicacion.productos;
 
-public class Consola extends Producto {
+import java.util.Comparator;
+
+public class Consola extends Producto{
 	
 	/*### Atributos ###*/
 	
@@ -16,5 +18,11 @@ public class Consola extends Producto {
 	}
 	public void setMarca(String mark){
 		this.marca = mark;
+	}
+
+	//~~~~~~~~~~~~~~~~~~ Método compare ~~~~~~~~~~~~~~~~~~//
+	@Override
+		public int compare(Producto o1, Producto o2){
+		return 1;
 	}
 }

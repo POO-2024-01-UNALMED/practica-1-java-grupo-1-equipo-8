@@ -1,7 +1,9 @@
 package gestorAplicacion.productos;
 
 
-public class Accesorio extends Producto {
+import java.util.Comparator;
+
+public class Accesorio extends Producto{
 	
 	/*### Atributos ###*/
 	
@@ -15,4 +17,10 @@ public class Accesorio extends Producto {
 		this.marca = marca;
 		this.consola = consola;
 	}
+	/* ~~ Método compare ~~ */
+	@Override
+	public int compare(Producto o1, Producto o2){
+		return 1;
+	}
+
 }
