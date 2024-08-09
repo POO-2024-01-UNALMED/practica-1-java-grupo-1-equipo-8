@@ -1,11 +1,11 @@
 package uiMain;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static uiMain.Main.imprimirSeparador;
 
+import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.personas.Meta;
@@ -16,9 +16,27 @@ public class Funcionalidad4 {
         /* ~~~ Identificación del empleado ~~~ */
         Empleado empleado = identificarEmpleado(local);
 
-        /* ~~~ Calcular meta ~~~ */
-        Meta meta = identificarMeta(empleado);
+        /* ~~~ Gestionar metas ~~~ */
+        Meta meta = gestionarMeta(empleado);
 
+        //TODO: VER Y COMPARAR RENDIMIENTO
+
+        /* ~~~ Modificar Salarios o días laborales ~~~ */
+
+
+    }
+    static Fecha fechaHoy = null;
+
+    static int diaHoy = 0;
+    static int mesHoy = 0;
+    static int yearHoy = 0;
+
+    private static boolean siNo(String pregunta) {
+        System.out.println(pregunta + " (S/n)");
+        char respuesta = sc.next().charAt(0);
+        sc.nextLine();  // Limpiar el buffer
+
+        return !(respuesta == 'n' || respuesta == 'N');
     }
 
     private static Empleado identificarEmpleado(Tienda local){
@@ -73,12 +91,9 @@ public class Funcionalidad4 {
         return empleado;
     }
 
-    private static Meta identificarMeta(Empleado empleado){
+    private static Meta gestionarMeta(Empleado empleado){
         imprimirSeparador();
 
-        int diaHoy = 0;
-        int mesHoy = 0;
-        int yearHoy = 0;
         try{
             System.out.println("Ingrese el día en el que estamos: ");
             diaHoy = sc.nextInt();
@@ -109,14 +124,13 @@ public class Funcionalidad4 {
             sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
         }
 
-
-        int codigo = 0;
+        fechaHoy = new Fecha(diaHoy, mesHoy, yearHoy);
         Meta meta = null;
 
         //Mostrar metas del empleado
         System.out.println("Metas del empleado:");
         for (Meta m : empleado.getMetas()) {
-            System.out.println("* Codigo: " + m.getCodigo() + " - Fecha Límite: " + m.getDiaLimite()+ "/" + m.getMesLimite() + "/" + m.getYearLimite() + " - Valor a alcanzar: " + m.getValorAlcanzar() + " - Acumulado: " + m.getAcumulado() + " - Estado: " + m.getEstado()) ;
+            System.out.println("* Codigo: " + m.getCodigo() + " - Fecha Límite: " + m.getFecha().toString() + " - Valor a alcanzar: " + m.getValorAlcanzar() + " - Acumulado: " + m.getAcumulado() + " - Estado: " + m.getEstado()) ;
         }
 
         System.out.println("Presione enter para calcular el porcentaje de progreso de las metas");
@@ -136,7 +150,7 @@ public class Funcionalidad4 {
                 m.setEstado("Meta cumplida");
             }
 
-            if (yearHoy > m.getYearLimite() || yearHoy == m.getYearLimite() && mesHoy > m.getMesLimite() || yearHoy == m.getYearLimite() && mesHoy == m.getMesLimite() && diaHoy > m.getDiaLimite())  {
+            if (fechaHoy.getTotalDias() > m.getFecha().getTotalDias())  {
                 empleado.ingresarMetasCaducadas(m);
                 m.setEstado("Meta caducada");
             }
@@ -144,7 +158,6 @@ public class Funcionalidad4 {
         }
 
         System.out.println("Presione enter para revisar si hay metas alcanzadas");
-        sc.nextLine();
         sc.nextLine();
 
         //Revisar si hay metas alcanzadas
@@ -162,74 +175,104 @@ public class Funcionalidad4 {
             System.out.println("El empleado " + empleado.getNombre() + " todavía no ha cumplido con ninguna meta. Ánimo.");
             System.out.println("Presione enter para continuar");
             sc.nextLine();
-            sc.nextLine();
         } else {
             System.out.println("Las metas alcanzadas por el empleado: " + empleado.getNombre() + " son: ");
             for (Meta m : empleado.getMetasAlcanzadas()){
-                System.out.println("Código de meta: " + m.getCodigo() + " | Valor a alcanzar: " + m.getValorAlcanzar() + " |  Valor de bonificación: " + m.getValorBonificacion() + " | Fecha límite: " + m.getDiaLimite() + "/" + m.getMesLimite() + "/" +m.getYearLimite() );
+                System.out.println("Código de meta: " + m.getCodigo() + " | Valor a alcanzar: " + m.getValorAlcanzar() + " |  Valor de bonificación: " + m.getValorBonificacion() + " | Fecha límite: " + m.getFecha().toString() );
             }
         }
     }
 
-    private static Meta RevisarMetasCaducadas(Empleado empleado){
+    private static void RevisarMetasCaducadas(Empleado empleado){
         if (empleado.getMetasCaducadas().isEmpty()){
             System.out.println("El empleado " + empleado.getNombre() + " no tiene metas caducadas");
             System.out.println("Presione enter para continuar");
             sc.nextLine();
             sc.nextLine();
-            return null;
+            return;
         } else {
             System.out.println("Las metas caducadas por el empleado: " + empleado.getNombre() + " son: ");
             for (Meta m : empleado.getMetasCaducadas()) {
                 System.out.println("Código de meta: " + m.getCodigo() + " | Valor a alcanzar: " + m.getValorAlcanzar() + " |  Valor de bonificación: " + m.getValorBonificacion() + " | Fecha límite: " + m.getDiaLimite() + "/" + m.getMesLimite() + "/" + m.getYearLimite());
             }
         }
-        System.out.println("¿Desea ampliar el plazo de alguna meta? (Y/n. \n");
-        char decision = 'y';
-        decision = sc.next().charAt(0);
-        if (decision == 'n' || decision == 'N'){
-            return null;
-        }
-        else {
-            int codigo = 0;
-            Meta meta = null;
 
-            System.out.println("Ingrese el código de la meta que desea ampliar el plazo: ");
+        while (!empleado.getMetasCaducadas().isEmpty()){
+            System.out.println("¿Desea ampliar el plazo de alguna meta? (Y/n. \n");
+            char decision = 'y';
+            decision = sc.next().charAt(0);
+            if (decision == 'n' || decision == 'N'){
+                break;
+            }
+            else {
+                int codigo = 0;
 
-            try {
-                codigo = sc.nextInt();
+                try {
+                    System.out.println("Ingrese el código de la meta que desea ampliar el plazo: ");
+                    codigo = sc.nextInt();
 
-                for (Meta m : empleado.getMetasCaducadas()){
-                    if (m.getCodigo() == codigo){
-                        meta = m;
-                        return meta;
+                    for (Meta m : empleado.getMetasCaducadas()){
+                        if (m.getCodigo() == codigo){
+
+                            //Ampliando plazo de la meta
+                            while (true){
+
+                                System.out.println("Ingrese el año en que desea ampliar la meta: ");
+                                int yearAjuste = sc.nextInt();
+                                m.setYearLimite(yearAjuste);
+
+                                System.out.println("Ingrese el mes en que desea ampliar la meta: ");
+                                int mesAjuste = sc.nextInt();
+                                m.setMesLimite(mesAjuste);
+
+                                System.out.println("Ingrese el día que desea ampliar la meta");
+                                int diaAjuste = sc.nextInt();
+                                m.setDiaLimite(diaAjuste);
+
+                                if (m.getFecha().getTotalDias() > fechaHoy.getTotalDias()){
+                                    System.out.println("Fecha no válida, presione enter para volver a intentar");
+                                    sc.nextLine();
+                                    sc.nextLine();
+                                }
+                                else {
+                                    System.out.println("Fecha actualizada. La meta " + m.getCodigo() + " quedó para " + m.getFecha().toString());
+                                    System.out.println("Presione enter para continuar");
+                                    empleado.getMetasCaducadas().remove(m);
+                                    m.setEstado("En proceso");
+                                    sc.nextLine();
+                                    sc.nextLine();
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    else {
-                        codigo = 0;
+
+                } catch (InputMismatchException error) {
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                    sc.nextLine();  // nextLine para limpiar el buffer
+                    sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                }
+
+                if (codigo == 0) {
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Meta no encontrada. ¿Desea intentar de nuevo? (Y/n).\n");
+                    char decision1 = 'y';
+                    decision1 = sc.next().charAt(0);
+                    if (decision1 == 'n' || decision1 == 'N') {
+                        break;
                     }
                 }
-            } catch (InputMismatchException error) {
-                System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                sc.nextLine();  // nextLine para limpiar el buffer
-                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
-            }
 
-            if (codigo == 0) {
-                System.out.println("\n### ERROR ###");
-                System.out.println("Meta no encontrada. ¿Desea intentar de nuevo? (Y/n).\n");
-                char decision1 = 'y';
-                decision1 = sc.next().charAt(0);
-                if (decision1 == 'n' || decision1 == 'N') {
-                    return null;
-                }
             }
-
         }
-        return null;
     }
 
-    private static void eliminarMetaCaducada(Empleado empleado){
+    private static void ModificarSalario(Empleado empleado){
+
+    }
+
+    private static void ModificarDiasLaborales(Empleado empleado){
 
     }
 

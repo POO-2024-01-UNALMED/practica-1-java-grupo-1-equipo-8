@@ -6,6 +6,7 @@ import gestorAplicacion.manejoLocal.Fecha;
 public class Meta implements Serializable{
     /*~~ Atributos ~~*/
     private Empleado empleado;
+    private Fecha fecha;
     private int diaLimite;
     private int mesLimite;
     private int yearLimite;
@@ -22,6 +23,7 @@ public class Meta implements Serializable{
         this.diaLimite = diaLimite;
         this.mesLimite = mesLimite;
         this.yearLimite = yearLimite;
+        this.fecha = new Fecha(diaLimite, mesLimite, yearLimite);
         this.valorAlcanzar = valorAlcanzar;
         this.valorBonificacion = valorBonificacion;
         this.acumulado = acumulado;
@@ -83,5 +85,11 @@ public class Meta implements Serializable{
     }
     public void setYearLimite(int yearLimite) {
         this.yearLimite = yearLimite;
+    }
+    public Fecha getFecha() {
+        return fecha;
+    }
+    public void setFecha(Fecha fecha) {
+        this.fecha = fecha;
     }
 }
