@@ -24,14 +24,14 @@ public class Main {
 
         tienda1.agregarProducto(new Juego("Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, 5, 0, "Deportes", "Polystation 5"));
         tienda1.agregarProducto(new Juego("Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, "FPS", "Xbox 360"));
-        tienda1.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 60, 30, 30, false , (byte) 5, 20, 10, 2024, "FPS", "Xbox 720"));
+        tienda1.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 30, 60, false , (byte) 5, 20, 10, 2024, "FPS", "Xbox 720"));
         tienda1.agregarProducto(new Juego("Super Mario 128", 40, 50, 50, false, (byte) 5, 10, 10, 2021, "Plataformas", "Noentiendo Swap"));
 
         tienda1.agregarProducto(new Accesorio("Control Polystation 5", 50, 60, 60, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony", "Polystation 5"));
         tienda1.agregarProducto(new Accesorio("Control Polystation 4", 40, 50, 50, false, (byte) 5, 12, 12, 2013, 10, 0, "Sony", "Polystation 4"));
         tienda1.agregarProducto(new Accesorio("Control Polystation 3", 30, 40, 40, false, (byte) 5, 13, 11, 2006, 20, 0, "Sony", "Polystation 3"));
-        tienda1.agregarProducto(new Accesorio("Control Xbox 720", 55, 50, 30, false, (byte) 5, 14, 11, 2021, 0, 0, "Microsoft", "Xbox 720"));
-        tienda1.agregarProducto(new Accesorio("Control Xbox 360", 45, 40, 20, false, (byte) 5, 15, 12, 2005, 20, 0, "Microsoft", "Xbox 360"));
+        tienda1.agregarProducto(new Accesorio("Control Xbox 720", 55, 30, 50, false, (byte) 5, 14, 11, 2021, 0, 0, "Microsoft", "Xbox 720"));
+        tienda1.agregarProducto(new Accesorio("Control Xbox 360", 45, 20, 40, false, (byte) 5, 15, 12, 2005, 20, 0, "Microsoft", "Xbox 360"));
         tienda1.agregarProducto(new Accesorio("Control JoyCon Noentiendo Swap", 70, 40, 40, false, (byte) 5, 13, 7, 2018, 10, 0, "Noentiendo", "Noentiendo Swap"));
         tienda1.agregarProducto(new Accesorio("Control Pro Noentiendo Swap", 80, 40, 40, false, (byte) 5, 13, 7, 2018, 10, 0, "Noentiendo", "Noentiendo Swap"));
 

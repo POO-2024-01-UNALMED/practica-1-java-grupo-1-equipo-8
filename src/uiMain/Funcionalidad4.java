@@ -17,7 +17,7 @@ public class Funcionalidad4 {
         Empleado empleado = identificarEmpleado(local);
 
         /* ~~~ Gestionar metas ~~~ */
-        Meta meta = gestionarMeta(empleado);
+        //Meta meta = gestionarMeta(empleado);
 
         //TODO: VER Y COMPARAR RENDIMIENTO
 
