@@ -11,7 +11,7 @@ import gestorAplicacion.productos.*;
 public class Funcionalidad3 {
     static Scanner sc = new Scanner(System.in);
 
-    public static void revisarInventario(Tienda local){
+    public static void revisarInventario(Tienda local, Fecha fechaActual){
 
         /* ~~~ Selección de las opciones ~~~ */
         byte opcion=0;
@@ -227,7 +227,7 @@ public class Funcionalidad3 {
                                 System.out.println("Ingrese el nuevo nombre");
                                 sc.nextLine();
                                 String nuevoNombre = sc.nextLine();
-                                lista.get(index).setNombre(nuevoNombre);
+                                local.getInventario().get(local.getInventario().indexOf(lista.get(index))).setNombre(nuevoNombre);
 
                                 break;
 
@@ -245,8 +245,7 @@ public class Funcionalidad3 {
 
                                     continue;
                                 }
-                                lista.get(index).setValor(nuevoPrecio);
-
+                                local.getInventario().get(local.getInventario().indexOf(lista.get(index))).setValor(nuevoPrecio);
                                 break;
 
                             default:
@@ -259,7 +258,20 @@ public class Funcionalidad3 {
 
                 case 3:
                     //Calcular prioridad de productos
-
+                    for (Producto i: local.getInventario()){
+                        if (i.getPrioridad() == null){
+                            if(i.calcularVenta() > i.getCantidadInicial()*0.8){
+                                i.setPrioridad("Prioridad muy alta");
+                            } else if (i.calcularVenta() >= i.getCantidadInicial()*0.51) {
+                                i.setPrioridad("Prioridad alta");
+                            } else if (i.calcularVenta() >= i.getCantidadInicial()*0.21) {
+                                i.setPrioridad("Prioridad media");
+                            }else{
+                                i.setPrioridad("Prioridad baja");
+                            }
+                        }
+                    }
+                    analizarMercado(fechaActual);
             }
         }while(opcion != 4);
 
@@ -287,8 +299,32 @@ public class Funcionalidad3 {
         return palabra;
     }
 
-    private static void analizarMercao(){
+    private static void analizarMercado(Fecha fechaActual){
+        byte opcion = 0;
+        do{
+            try{
+                imprimirSeparador();
+                System.out.println("Desea \n1.Hacer análisis de mercado \nRevisar prioridad de cada producto \nRegresar");
 
+                sc.nextLine();
+                opcion = sc.nextByte();
+
+            }catch (Exception e){
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("El valor debe ser numerico");
+
+            }
+            switch (opcion){
+                case 1:
+                    //Hacer análisis de mercado
+
+                case 2:
+                    //Revisar prioridad
+                default:
+                    break;
+            }
+        }while(opcion < 3);
     }
     private static void hacerReabastecimiento(){
 

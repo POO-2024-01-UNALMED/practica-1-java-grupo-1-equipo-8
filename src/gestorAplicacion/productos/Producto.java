@@ -22,6 +22,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	protected Fecha fechaLanzamiento;
 	protected int descuento;
 	protected int puntosRequeridos;
+	protected String prioridad;
 
     /* ~~~ Constructores ~~~ */
 	// Constructor vacio
@@ -205,5 +206,11 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		this.puntosRequeridos = puntosRequeridos;
 	}
 
+	public String getPrioridad() {
+		return prioridad;
+	}
 
+	public void setPrioridad(String prioridad) {
+		this.prioridad = prioridad;
+	}
 }
