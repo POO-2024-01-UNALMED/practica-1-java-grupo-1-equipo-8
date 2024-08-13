@@ -36,6 +36,7 @@ public class Transaccion implements Serializable{
         this.productos = productos;
         this.valorSinDescuento = valorSinDescuento;
         this.valorFinal = valorFinal;
+        empleado.ingresarTransaccion(this);
     }
 
     // Constructor sin id ni valorSinDescuento (se calcula automáticamente)
@@ -47,6 +48,7 @@ public class Transaccion implements Serializable{
         this.productos = productos;
         this.valorSinDescuento = hallarValorSinDescuento(this.productos);
         this.valorFinal = valorFinal;
+        empleado.ingresarTransaccion(this);
     }
 
     /* ~~~ Métodos ~~~ */

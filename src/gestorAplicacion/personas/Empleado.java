@@ -1,5 +1,6 @@
 package gestorAplicacion.personas;
 
+import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Tienda;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Empleado extends Persona{
     private ArrayList<Meta> metas = new ArrayList<Meta>();
     private ArrayList<Meta> metasAlcanzadas = new ArrayList<Meta>();
     private ArrayList<Meta> metasCaducadas = new ArrayList<Meta>();
+    private ArrayList<Transaccion> transacciones = new ArrayList<Transaccion>();
     private Tienda tienda;
 
 
@@ -27,6 +29,15 @@ public class Empleado extends Persona{
 
     public void ingresarMeta(Meta meta){
         this.metas.add(meta);
+    }
+    public void ingresarMetasCaducadas(Meta meta) {
+        this.metasCaducadas.add(meta);
+    }
+    public void ingresarMetasAlcanzdas(Meta meta){
+        this.metasAlcanzadas.add(meta);
+    }
+    public void ingresarTransaccion(Transaccion transaccion) {
+        this.transacciones.add(transaccion);
     }
 
     /* ~~~ Metodos get y set ~~~ */
@@ -61,22 +72,22 @@ public class Empleado extends Persona{
     public void setMetasAlcanzadas(ArrayList<Meta> metasAlcanzadas) {
         this.metasAlcanzadas = metasAlcanzadas;
     }
-    public void ingresarMetasAlcanzdas(Meta meta){
-        this.metasAlcanzadas.add(meta);
-    }
     public ArrayList<Meta> getMetasCaducadas() {
         return metasCaducadas;
     }
     public void setMetasCaducadas(ArrayList<Meta> metasCaducadas) {
         this.metasCaducadas = metasCaducadas;
     }
-    public void ingresarMetasCaducadas(Meta meta) {
-        this.metasCaducadas.add(meta);
-    }
     public Tienda getTienda() {
         return tienda;
     }
     public void setTienda(Tienda tienda) {
         this.tienda = tienda;
+    }
+    public ArrayList<Transaccion> getTransacciones() {
+        return transacciones;
+    }
+    public void setTransacciones(ArrayList<Transaccion> transacciones) {
+        this.transacciones = transacciones;
     }
 }
