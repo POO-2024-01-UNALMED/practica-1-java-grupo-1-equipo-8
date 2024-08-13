@@ -176,7 +176,7 @@ public class Funcionalidad3 {
                     }
 
                     int cod;//Codigo a elegir
-                    byte index;//Posición del objeto buscado
+                    int index = 0;//Posición del objeto buscado
 
                     try{
                         imprimirSeparador();
@@ -196,7 +196,7 @@ public class Funcionalidad3 {
 
                     for (Producto i : lista){
                         if (i.getCodigo() == cod){
-                            index = (byte)lista.indexOf(i);
+                            index = lista.indexOf(i);
                             existe = true;
                         }
                     }
@@ -207,10 +207,59 @@ public class Funcionalidad3 {
 
                         continue;
                     }
+                    imprimirSeparador();
+                    System.out.println("Que desea cambiar \n1.Nombre \n2.Precio \n3.Salir");
+                    do{
+                        try{
+                            sc.nextLine();
+                            tipo = sc.nextByte();
 
-                    
+                        }catch (Exception e){
+                            imprimirSeparador();
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("El valor debe ser numerico");
+                            tipo = 0;
+                            sc.nextLine();
+                        }
+                        switch (tipo){
+                            case 1:
+                                imprimirSeparador();
+                                System.out.println("Ingrese el nuevo nombre");
+                                sc.nextLine();
+                                String nuevoNombre = sc.nextLine();
+                                lista.get(index).setNombre(nuevoNombre);
+
+                                break;
+
+                            case 2:
+                                imprimirSeparador();
+                                System.out.println("Ingrese el nuevo precio");
+                                int nuevoPrecio = 0;
+                                try{
+                                    sc.nextLine();
+                                    nuevoPrecio = sc.nextInt();
+                                }catch (Exception e){
+                                    imprimirSeparador();
+                                    System.out.println("\n### ERROR ###");
+                                    System.out.println("El valor debe ser numerico");
+
+                                    continue;
+                                }
+                                lista.get(index).setValor(nuevoPrecio);
+
+                                break;
+
+                            default:
+                                break;
+
+                        }
+                        break;
+
+                    }while(tipo == 0);
+
                 case 3:
                     //Calcular prioridad de productos
+
             }
         }while(opcion != 4);
 
