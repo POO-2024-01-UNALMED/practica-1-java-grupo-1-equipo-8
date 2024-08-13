@@ -1,5 +1,6 @@
 package uiMain;
 
+import baseDatos.Serializador;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
@@ -170,6 +171,10 @@ public class Main {
                         break;
 
                     case 0:
+                        // Salir
+
+                        Serializador.serializar(Tienda.getLocales());
+
                         System.out.println("Saliendo...");
                         break;
 
