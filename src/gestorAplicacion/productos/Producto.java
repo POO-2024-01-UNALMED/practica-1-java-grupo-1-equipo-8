@@ -4,7 +4,6 @@ import gestorAplicacion.manejoLocal.Fecha;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public abstract class Producto implements Serializable, Cloneable,Comparable<Producto> ,Comparator<Producto> {
@@ -23,6 +22,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	protected Fecha fechaLanzamiento;
 	protected int descuento;
 	protected int puntosRequeridos;
+	protected String prioridad;
 
     /* ~~~ Constructores ~~~ */
 	// Constructor vacio
@@ -90,58 +90,25 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		int venta = this.cantidadInicial - this.cantidad;
 		return venta;
 	}
-	public static ArrayList<Producto> Ordenar(ArrayList<Producto> p, String orden){
-		if (orden.equals("ventas")) {
-			Collections.sort(p);
-			return p;
-
-		}
-		else if (orden.equals("precio")) {
-			for (Producto i : p ){
-				while(true){
-					int l= i.getValor() - p.get(p.indexOf(i)-1).getValor();
-					int r =i.getValor() - p.get(p.indexOf(i)+1).getValor();
-					if(p.indexOf(i) != 0 || p.indexOf(i) < p.size()-1){
-						if (l > 0){
-							p.remove(i);
-							p.add(p.indexOf(i)-1,i);
-							continue;
-
-						} else if (r < 0) {
-							p.add(p.indexOf(i)+1,i);
-							p.remove(i);
-							continue;
-						}
-						else{
-							break;
-						}
-					}else if (p.indexOf(i) == 0){
-						if (r < 0) {
-							p.add(p.indexOf(i)+1,i);
-							p.remove(i);
-							continue;
-						}
-						else{
-							break;
-						}
-					} else if (p.indexOf(i) == p.size()-1) {
-						if (l > 0) {
-							p.remove(i);
-							p.add(p.indexOf(i) - 1, i);
-							continue;
-						}
-						else{
-							break;
-						}
-					}
-					else {
-						break;
-					}
-
+	public static ArrayList<Producto> ordenar(ArrayList<Producto> p, String orden){
+		if (orden.equalsIgnoreCase("ventas")) {
+			Collections.sort(p, new Comparator<Producto>() {
+				@Override
+				public int compare(Producto o1, Producto o2) {
+					return Integer.compare(o2.calcularVenta(),o1.calcularVenta());
 				}
-			}
+			});
 			return p;
-		}else {
+		}
+		else if (orden.equalsIgnoreCase("precio")) {
+			Collections.sort(p, new Comparator<Producto>() {
+				@Override
+				public int compare(Producto o1, Producto o2) {
+					return Integer.compare(o2.valor,o1.valor);
+				}
+			});
+			return p;
+		} else {
 			Collections.sort(p, new Comparator<Producto>() {
 				@Override
 				public int compare(Producto o1, Producto o2) {
@@ -239,5 +206,11 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		this.puntosRequeridos = puntosRequeridos;
 	}
 
+	public String getPrioridad() {
+		return prioridad;
+	}
 
+	public void setPrioridad(String prioridad) {
+		this.prioridad = prioridad;
+	}
 }

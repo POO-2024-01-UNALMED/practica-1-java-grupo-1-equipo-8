@@ -3,9 +3,14 @@ package gestorAplicacion.personas;
 import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Tienda;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Empleado extends Persona{
+public class Empleado extends Persona implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /* ~~~ Atributos ~~~ */
     private int salario;
     private int salarioPorcentual;
