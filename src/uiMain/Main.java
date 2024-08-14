@@ -165,7 +165,7 @@ public class Main {
 
                     case 4:
                         // Gestionar empleados
-                        Funcionalidad4.inspeccionEmpleado(local);
+                        Funcionalidad4.inspeccionEmpleado(local, fechaActual);
                         sc.nextLine();  // Limpiar el buffer
                         break;
 

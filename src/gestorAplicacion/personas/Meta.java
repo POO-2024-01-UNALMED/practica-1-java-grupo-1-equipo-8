@@ -69,6 +69,6 @@ public class Meta implements Serializable{
         this.fecha = fecha;
     }
     public String toString(){
-        return ("Código de meta: " + this.getCodigo() + " | Valor a alcanzar: " + this.getValorAlcanzar() + " |  Valor de bonificación: " + this.getValorBonificacion() + " | Fecha límite: " + this.getFecha().toString());
+        return ("* Código de meta: " + this.getCodigo() + " | Valor a alcanzar: " + this.getValorAlcanzar() + " |  Valor de bonificación: " + this.getValorBonificacion() + " | Fecha límite: " + this.getFecha().toString());
     }
 }
