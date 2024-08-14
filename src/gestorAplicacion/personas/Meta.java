@@ -7,9 +7,6 @@ public class Meta implements Serializable{
     /*~~ Atributos ~~*/
     private Empleado empleado;
     private Fecha fecha;
-    private int diaLimite;
-    private int mesLimite;
-    private int yearLimite;
     private int valorAlcanzar;
     private int valorBonificacion;
     private String estado = "En proceso";
@@ -20,9 +17,6 @@ public class Meta implements Serializable{
     public Meta (int codigo, Empleado empleado, int diaLimite, int mesLimite, int yearLimite, int valorAlcanzar, int valorBonificacion, int acumulado){
         this.codigo = codigo;
         this.empleado = empleado;
-        this.diaLimite = diaLimite;
-        this.mesLimite = mesLimite;
-        this.yearLimite = yearLimite;
         this.fecha = new Fecha(diaLimite, mesLimite, yearLimite);
         this.valorAlcanzar = valorAlcanzar;
         this.valorBonificacion = valorBonificacion;
@@ -68,28 +62,13 @@ public class Meta implements Serializable{
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-    public int getDiaLimite() {
-        return diaLimite;
-    }
-    public void setDiaLimite(int diaLimite) {
-        this.diaLimite = diaLimite;
-    }
-    public int getMesLimite() {
-        return mesLimite;
-    }
-    public void setMesLimite(int mesLimite) {
-        this.mesLimite = mesLimite;
-    }
-    public int getYearLimite() {
-        return yearLimite;
-    }
-    public void setYearLimite(int yearLimite) {
-        this.yearLimite = yearLimite;
-    }
     public Fecha getFecha() {
         return fecha;
     }
     public void setFecha(Fecha fecha) {
         this.fecha = fecha;
+    }
+    public String toString(){
+        return ("Código de meta: " + this.getCodigo() + " | Valor a alcanzar: " + this.getValorAlcanzar() + " |  Valor de bonificación: " + this.getValorBonificacion() + " | Fecha límite: " + this.getFecha().toString());
     }
 }

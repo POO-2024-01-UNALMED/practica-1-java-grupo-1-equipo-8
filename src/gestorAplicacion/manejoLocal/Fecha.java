@@ -26,7 +26,7 @@ public class Fecha implements Serializable{
         diasAFecha(dias);
     }
 
-    private int fechaADias(int dia, int mes, int year) {
+    public int fechaADias(int dia, int mes, int year) {
         boolean bisiesto = esBisiesto(year);
 
         // Años
@@ -152,6 +152,19 @@ public class Fecha implements Serializable{
         return totalDias;
     }
 
+    //Setters
+    public void setDia(int dia) {
+        this.dia = dia;
+    }
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+    public void setYear(int year) {
+        this.year = year;
+    }
+    public void setTotalDias(int totalDias) {
+        this.totalDias = totalDias;
+    }
     // TODO: Método para restar fechas y que sea de doble filo (funcione con fecha1 - fecha2 y fecha2 - fecha1)
     // - aunque puede que no sea necesario restar fechas, solo tener en cuenta las ventas (al menos para análisis)
     // hechas en un rango de fechas (en total de dias)

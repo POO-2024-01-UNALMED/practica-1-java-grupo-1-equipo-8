@@ -18,32 +18,42 @@ public class Funcionalidad4 {
         /* ~~~ Identificación del empleado ~~~ */
         Empleado empleado = identificarEmpleado(local);
 
+        if (empleado == null){
+            return;
+        }
+
         /* ~~~ Gestionar metas ~~~ */
         gestionarMeta(empleado);
         System.out.println("Presione enter para revisar si hay metas alcanzadas");
         sc.nextLine();
 
-        //Revisar si hay metas alcanzadas
-        RevisarMetasAlcanzadas(empleado);
+        /* ~~~ Revisar metas alcanzadas ~~~ */
+        revisarMetasAlcanzadas(empleado);
 
-        //Revisar si hay metas caducadas
-        Meta meta = RevisarMetasCaducadas(empleado);
+        /* ~~~ Revisar metas caducadas ~~~ */
+        mostrarMetasCaducadas(empleado);
+        while (true){
+
+        }
+        //TODO: Cambiar a 3 métodos: Imprimir metas - Escoger metas - ampliar metas
+        /*Meta meta = revisarMetasCaducadas(empleado);
         if (meta != null) {
-            AmpliarMeta(empleado, meta);
+            ampliarMeta(empleado, meta);
             while (!empleado.getMetasCaducadas().isEmpty()) {
-                Meta meta1 = null;
+                Meta otraMeta = null;
                 System.out.println("¿Desea ampliar el plazo de alguna meta más? (Y/n. \n");
                 char decision = 'y';
                 decision = sc.next().charAt(0);
                 if (decision == 'n' || decision == 'N') {
                     break;
                 } else {
-                    AmpliarMeta(empleado, meta1);
+                    ampliarMeta(empleado, otraMeta);
                 }
             }
-        }
+        }*/
 
-        //TODO: VER Y COMPARAR RENDIMIENTO
+        verRendimiento(empleado);
+        //TODO: COMPARAR RENDIMIENTO
 
         /* ~~~ Modificar Salarios o días laborales ~~~ */
         while (true) {
@@ -55,13 +65,13 @@ public class Funcionalidad4 {
 
             switch (modificacion) {
                 case 1:
-                    ModificarSalario(empleado);
+                    modificarSalario(empleado);
 
                     sc.nextLine();
                     break;
 
                 case 2:
-                    ModificarDiasLaborales(empleado);
+                    modificarDiasLaborales(empleado);
 
                     sc.nextLine();
                     break;
@@ -183,6 +193,7 @@ public class Funcionalidad4 {
         fechaHoy = new Fecha(diaHoy, mesHoy, yearHoy);
         Meta meta = null;
 
+        //TODO: Quitar esto
         //Mostrar metas del empleado
         System.out.println("Metas del empleado:");
         for (Meta m : empleado.getMetas()) {
@@ -214,7 +225,7 @@ public class Funcionalidad4 {
         }
     }
 
-    private static void RevisarMetasAlcanzadas(Empleado empleado) {
+    private static void revisarMetasAlcanzadas(Empleado empleado) {
         if (empleado.getMetasAlcanzadas().isEmpty()) {
             System.out.println("El empleado " + empleado.getNombre() + " todavía no ha cumplido con ninguna meta. Ánimo.");
             System.out.println("Presione enter para continuar");
@@ -227,20 +238,20 @@ public class Funcionalidad4 {
         }
     }
 
-    private static Meta RevisarMetasCaducadas(Empleado empleado) {
+    private static void mostrarMetasCaducadas(Empleado empleado){
         if (empleado.getMetasCaducadas().isEmpty()) {
             System.out.println("El empleado " + empleado.getNombre() + " no tiene metas caducadas");
             System.out.println("Presione enter para continuar");
             sc.nextLine();
             sc.nextLine();
-            return null;
         } else {
             System.out.println("Las metas caducadas por el empleado " + empleado.getNombre() + " son: ");
             for (Meta m : empleado.getMetasCaducadas()) {
-                System.out.println("Código de meta: " + m.getCodigo() + " | Valor a alcanzar: " + m.getValorAlcanzar() + " |  Valor de bonificación: " + m.getValorBonificacion() + " | Fecha límite: " + m.getDiaLimite() + "/" + m.getMesLimite() + "/" + m.getYearLimite());
+                System.out.println(m.toString());
             }
         }
-
+    }
+    private static Meta revisarMetasCaducadas(Empleado empleado) {
         int codigo = 0;
         while (true){
             boolean decision = siNo("¿Desea ampliar el plazo de alguna de las metas?");
@@ -266,20 +277,23 @@ public class Funcionalidad4 {
         }
     }
 
-    private static void AmpliarMeta(Empleado empleado, Meta meta) {
+    private static void ampliarMeta(Empleado empleado, Meta meta) {
         while (true) {
 
             System.out.println("Ingrese el año en que desea ampliar la meta: ");
             int yearAjuste = sc.nextInt();
-            meta.setYearLimite(yearAjuste);
+            meta.getFecha().setYear(yearAjuste);
 
             System.out.println("Ingrese el mes en que desea ampliar la meta: ");
             int mesAjuste = sc.nextInt();
-            meta.setMesLimite(mesAjuste);
+            meta.getFecha().setMes(mesAjuste);
 
             System.out.println("Ingrese el día que desea ampliar la meta");
             int diaAjuste = sc.nextInt();
-            meta.setDiaLimite(diaAjuste);
+            meta.getFecha().setDia(diaAjuste);
+
+            meta.getFecha().setTotalDias(0);
+            meta.getFecha().setTotalDias(meta.getFecha().fechaADias(diaAjuste, mesAjuste, yearAjuste));
 
             if (meta.getFecha().getTotalDias() > fechaHoy.getTotalDias()) {
                 System.out.println("Fecha no válida, presione enter para volver a intentar");
@@ -329,7 +343,11 @@ public class Funcionalidad4 {
         }
     }
 
-    private static void ModificarSalario(Empleado empleado) {
+    private static void compararRendimiento(Empleado empleado){
+
+    }
+
+    private static void modificarSalario(Empleado empleado) {
         System.out.println("Desea modificar el salario fijo o porcentaje por ventas: ");
         int salario = sc.nextInt();
 
@@ -362,8 +380,10 @@ public class Funcionalidad4 {
 
     }
 
-    private static void ModificarDiasLaborales(Empleado empleado) {
+    private static void modificarDiasLaborales(Empleado empleado) {
 
     }
+
+    //TODO: Cambiar metodos a minuscula
 
 }
