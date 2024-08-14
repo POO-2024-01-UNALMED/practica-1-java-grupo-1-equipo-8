@@ -93,7 +93,7 @@ public class Funcionalidad1 {
         }
 
         /* ~~~ Selección de productos ~~~ */
-        byte opcion;
+        byte opcion = 0;
         ArrayList<Producto> carrito = new ArrayList<Producto>();
 
         do {
@@ -105,7 +105,17 @@ public class Funcionalidad1 {
             System.out.println("4. Confirmar compra");
 
             // Recibir entrada del usuario
-            opcion = sc.nextByte();
+            try {
+                opcion = sc.nextByte();
+            } catch (Exception e) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+                continue;
+            }
+
+
             sc.nextLine();  // Limpiar el buffer
 
             Producto producto;

@@ -1,6 +1,7 @@
 package gestorAplicacion.manejoLocal;
 import java.io.Serializable;
 import java.io.Serial;
+import java.util.Scanner;
 
 public class Fecha implements Serializable{
     @Serial
@@ -155,4 +156,71 @@ public class Fecha implements Serializable{
     // TODO: Método para restar fechas y que sea de doble filo (funcione con fecha1 - fecha2 y fecha2 - fecha1)
     // - aunque puede que no sea necesario restar fechas, solo tener en cuenta las ventas (al menos para análisis)
     // hechas en un rango de fechas (en total de dias)
+
+    // Clase scanner para método que recibe información
+    static Scanner sc = new Scanner(System.in);
+
+    public static Fecha recibirFecha() {
+        int year;
+        int mes;
+        int dia;
+
+
+        // Recibir año
+        while (true) {
+            try {
+                System.out.println("Ingrese año actual: ");
+
+                year = sc.nextInt();
+
+                if (year < 0) { throw new Exception(""); }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+
+        //Recibir mes
+        while (true) {
+            try {
+                System.out.println("Ingrese año actual: ");
+
+                mes = sc.nextInt();
+
+                if (mes < 0 || mes > 12) { throw new Exception(""); }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+
+        // Recibir día
+        while (true) {
+            try {
+                System.out.print("Ingrese día actual: ");
+                dia = sc.nextInt();
+
+                //TODO: Validar que el día sea válido para el mes
+                if (dia == 0 || dia > 31) { throw new Exception("Día inválido"); }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+
+        return new Fecha(dia, mes, year);
+    }
+
 }

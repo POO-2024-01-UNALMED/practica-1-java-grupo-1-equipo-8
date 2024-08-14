@@ -77,11 +77,10 @@ public class Main {
         imprimirLogo();
 
         // TODO: Seleccion de fecha
+        Fecha fechaActual = Fecha.recibirFecha();
+
+
         // TODO: Imprimir local y fecha actuales en el menu principal
-
-        Fecha fechaActual = new Fecha(10000);
-
-
 
         /* ~~ Selección de local ~~ */
         Tienda local = null; // Se adquiere el local con el que se quiere trabajar
@@ -173,7 +172,8 @@ public class Main {
                     case 0:
                         // Salir
 
-                        Serializador.serializar(Tienda.getLocales());
+                        Serializador.serializarTiendas(Tienda.getLocales());
+                        Serializador.serializarClientes(Cliente.getClientes());
 
                         System.out.println("Saliendo...");
                         break;

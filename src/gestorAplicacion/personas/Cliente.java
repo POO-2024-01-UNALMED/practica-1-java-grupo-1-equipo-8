@@ -49,4 +49,12 @@ public class Cliente extends Persona{
     public void setCompras(ArrayList<Transaccion> compras) {
         this.compras = compras;
     }
+
+    public static ArrayList<Cliente> getClientes(){
+        return clientes;
+    }
+    public static void setClientes(ArrayList<Cliente> clientes){
+        Cliente.clientes = clientes;
+    }
+
 }

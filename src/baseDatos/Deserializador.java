@@ -13,7 +13,7 @@ import gestorAplicacion.manejoLocal.Tienda;
 public class Deserializador {
     private static File path = new File("");
 
-    public static void deserealizar() {
+    public static void deserializar() {
         try {
             //ELIMINAR
             System.out.println("Leyendo..........");
