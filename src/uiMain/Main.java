@@ -25,9 +25,9 @@ public class Main {
         tienda1.agregarProducto(new Consola("Polystation 6", 500, 1, 1, false, (byte) 5, 16, 11, 2028, 0, 0, "Sony"));
 
         tienda1.agregarProducto(new Juego("Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, 5, 0, "Deportes", "Polystation 5"));
-        tienda1.agregarProducto(new Juego("Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, "FPS", "Xbox 360"));
+        tienda1.agregarProducto(new Juego("Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, 5, 0, "FPS", "Xbox 360"));
         tienda1.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 30, 60, false , (byte) 5, 20, 10, 2024, "FPS", "Xbox 720"));
-        tienda1.agregarProducto(new Juego("Super Mario 128", 40, 50, 50, false, (byte) 5, 10, 10, 2021, "Plataformas", "Noentiendo Swap"));
+        tienda1.agregarProducto(new Juego("Super Mario 128", 60, 50, 50, false, (byte) 5, 10, 10, 2021, "Plataformas", "Noentiendo Swap"));
 
         tienda1.agregarProducto(new Accesorio("Control Polystation 5", 50, 60, 60, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony", "Polystation 5"));
         tienda1.agregarProducto(new Accesorio("Control Polystation 4", 40, 50, 50, false, (byte) 5, 12, 12, 2013, 10, 0, "Sony", "Polystation 4"));
@@ -37,9 +37,21 @@ public class Main {
         tienda1.agregarProducto(new Accesorio("Control JoyCon Noentiendo Swap", 70, 40, 40, false, (byte) 5, 13, 7, 2018, 10, 0, "Noentiendo", "Noentiendo Swap"));
         tienda1.agregarProducto(new Accesorio("Control Pro Noentiendo Swap", 80, 40, 40, false, (byte) 5, 13, 7, 2018, 10, 0, "Noentiendo", "Noentiendo Swap"));
 
-        // personal
-        Empleado empleado1 = new Empleado(1, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, tienda1);
-        Empleado empleado2 = new Empleado(2, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, tienda1);
+        // productos de prestamo
+        tienda1.agregarProducto(new Consola("Polystation 3", 180, 8, true, (byte) 4, 13, 11, 2006, "Sony"));
+        tienda1.agregarProducto(new Consola("Xbox 360", 200, 10, true, (byte) 4, 15, 12, 2005, "Microsoft"));
+        tienda1.agregarProducto(new Consola("Polystation 4", 280, 5, true, (byte) 4, 12, 12, 2013, "Sony"));
+        tienda1.agregarProducto(new Consola("Xbox 720", 350, 3, true, (byte) 4, 12, 12, 2021, "Microsoft"));
+
+        tienda1.agregarProducto(new Juego("Ronaldinho Soccer", 40, 10, true, (byte) 4, 15, 8, 2020, "Deportes", "Polystation 5"));
+        tienda1.agregarProducto(new Juego("Carlos Duty", 30, 10, true, (byte) 4, 10, 7, 2018, "FPS", "Xbox 360"));
+        tienda1.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 10, true, (byte) 4, 20, 10, 2024, "FPS", "Xbox 720"));
+        tienda1.agregarProducto(new Juego("Super Mario 128", 60, 10, true, (byte) 4, 10, 10, 2021, "Plataformas", "Noentiendo Swap"));
+
+
+        // ~~~~~~~~~~~~~~~ personal ~~~~~~~~~~~~~~~
+        Empleado empleado1 = new Empleado(1004, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, tienda1);
+        Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, tienda1);
 
         //metas
         new Meta(1, empleado1, 15, 6, 2024, 30, 8000, 10 );
@@ -63,8 +75,8 @@ public class Main {
     /* ~~~~~~~~~~~~~~~~~~ */
     /* Clientes */
     static Cliente cliente1 = new Cliente(123, "Juan", "juan@mail.com", 311203);
-    static Cliente cliente2 = new Cliente(125, "Pedro", "pedro@mail.com", 311204);
-    static Cliente cliente3 = new Cliente(126, "Maria", "maria@mail.com@", 311205);
+    static Cliente cliente2 = new Cliente(124, "Pedro", "pedro@mail.com", 311204);
+    static Cliente cliente3 = new Cliente(125, "Maria", "maria@mail.com@", 311205);
 
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -106,14 +118,13 @@ public class Main {
                 for (Tienda i : Tienda.getLocales()){ // Bucle para encontrar el local
                     if (i.getNombre().equals(nombreLocal)) {
                         local = i;
-                        break;
                     }
                     else{
                         System.out.print("\n### ERROR ###\n");
                         System.out.println("Local no encontrado. Presione enter para volver a intentar.");
                         sc.nextLine();
-                        break;
                     }
+                    break;
                 }
             } while (local == null);
 
@@ -154,6 +165,9 @@ public class Main {
 
                     case 2:
                         // Registrar préstamo
+
+                        Funcionalidad2.registrarPrestamo(local, fechaActual);
+
                         sc.nextLine();  // Limpiar el buffer
                         break;
 
@@ -211,5 +225,109 @@ public class Main {
                         ╚██╗ ██╔╝██║██║     ██║     ██╔══██║██   ██║██║   ██║██╔══╝  ██║   ██║██║   ██║╚════██║
                          ╚████╔╝ ██║███████╗███████╗██║  ██║╚█████╔╝╚██████╔╝███████╗╚██████╔╝╚██████╔╝███████║
                           ╚═══╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝ ╚════╝  ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ╚══════""");
+    }
+
+    // Método para identificar a un cliente
+    static Cliente identificarCliente() {
+        imprimirSeparador();
+
+        Cliente cliente = null;
+        int cedula;
+
+        // Elegir si el cliente es nuevo o uno ya existente
+        System.out.println("¿Cliente nuevo o existente?");
+        byte opcion = 0;
+        do {
+            System.out.println("1. Nuevo");
+            System.out.println("2. Existente");
+
+            // Recibir entrada del usuario
+            try {
+                opcion = sc.nextByte();
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+            switch (opcion) {
+                case 1:
+                    // Nuevo cliente
+                    System.out.println("Ingrese cédula del cliente:");
+                    cedula = sc.nextInt();
+                    sc.nextLine();  // Limpiar el buffer
+
+                    System.out.println("Ingrese nombre del cliente:");
+                    String nombre = sc.nextLine();
+
+                    System.out.println("Ingrese correo del cliente:");
+                    String correo = sc.nextLine();
+
+                    System.out.println("Ingrese teléfono del cliente:");
+                    long telefono = sc.nextLong();
+                    sc.nextLine();  // Limpiar el buffer
+
+                    System.out.println("Cliente '" + nombre + "' registrado.\n");
+                    return new Cliente(cedula, nombre, correo, telefono);
+
+                case 2:
+                    // Cliente existente
+
+                    while (cliente == null) {
+                        System.out.println("Ingrese cédula del cliente:");
+
+                        // Buscar al cliente en la lista de clientes por su cédula
+                        try {
+                            cedula = sc.nextInt();
+
+                            for (Cliente c : Cliente.clientes) {
+                                if (c.getCedula() == cedula) {
+                                    cliente = c;
+                                    System.out.println("Cliente '" + cliente.getNombre() + "' encontrado.\n");
+                                    return cliente;
+                                }
+                            }
+                        } catch (Exception e) {
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                            sc.nextLine();  // Limpiar el buffer
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                            continue;
+                        }
+
+                        // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
+                        if (cliente == null) {
+                            System.out.println("\n### ERROR ###");
+                            if (siNo("Cliente no encontrado. ¿Desea intentar de nuevo?")) {
+                                return null;
+                            }
+                        }
+                    }
+
+                    sc.nextLine();  // Limpiar el buffer
+                    break;
+
+                default:
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                    break;
+            }
+        } while (opcion < 1 || opcion > 2);
+
+        return cliente;
+    }
+
+    // Recibe una String que es la pregunta que se hará.
+    // Devuelve true si la respuesta no es No (ni "n" ni "N")
+    public static boolean siNo(String pregunta) {
+        System.out.println(pregunta + " (S/n)");
+        char respuesta = sc.next().charAt(0);
+        sc.nextLine();  // Limpiar el buffer
+
+        return !(respuesta == 'n' || respuesta == 'N');
     }
 }

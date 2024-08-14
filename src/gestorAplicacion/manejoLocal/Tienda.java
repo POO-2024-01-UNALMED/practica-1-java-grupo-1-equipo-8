@@ -17,7 +17,12 @@ public class Tienda implements Serializable {
     private long fondos;
     private ArrayList<Transaccion> caja = new ArrayList<Transaccion>();
     //TODO: Implementar inventario para artículos usados y de préstamo
+
+    // Inventarios
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
+    private ArrayList<Producto> inventarioPrestamo = new ArrayList<Producto>();
+    private ArrayList<Producto> inventarioUsado = new ArrayList<Producto>();
+
     private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
     public ArrayList<Empleado> empleados = new ArrayList<Empleado>();
@@ -32,8 +37,15 @@ public class Tienda implements Serializable {
         Tienda.locales.add(this);
     }
     /*~~~ Métodos ~~~*/
+    // Agregar producto al
     public void agregarProducto(Producto producto){
-        this.inventario.add(producto);
+        if (producto.isPrestable()) {
+            this.inventarioPrestamo.add(producto);
+        } else if (producto.getCondicion() < 5) {
+            this.inventarioUsado.add(producto);
+        } else {
+            this.inventario.add(producto);
+        }
     }
 
     // Metodo que reduce la cantidad de un producto en el inventario segun el entero que se le ingrese
@@ -137,12 +149,28 @@ public class Tienda implements Serializable {
     public void setCaja(ArrayList<Transaccion> caja) {
         this.caja = caja;
     }
+
     public ArrayList<Producto> getInventario() {
         return inventario;
     }
     public void setInventario(ArrayList<Producto> inventario) {
         this.inventario = inventario;
     }
+
+    public ArrayList<Producto> getInventarioPrestamo() {
+        return inventarioPrestamo;
+    }
+    public void setInventarioPrestamo(ArrayList<Producto> inventarioPrestamo) {
+        this.inventarioPrestamo = inventarioPrestamo;
+    }
+
+    public ArrayList<Producto> getInventarioUsado() {
+        return inventarioUsado;
+    }
+    public void setInventarioUsado(ArrayList<Producto> inventarioUsado) {
+        this.inventarioUsado = inventarioUsado;
+    }
+
     public ArrayList<Reabastecimiento> getReabastecimientos() {
         return reabastecimientos;
     }

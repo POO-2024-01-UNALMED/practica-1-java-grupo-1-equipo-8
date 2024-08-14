@@ -2,28 +2,40 @@ package gestorAplicacion.productos;
 
 public class Juego extends Producto {
 	
-	/*atributos*/
+	/* ~~~~~~~~~~~~~~~~~ Atributos ~~~~~~~~~~~~~~~~~ */
 	
 	private String genero;
 	private String plataforma;
 	
-	/* ### Constructores ### */
+	/* ~~~~~~~~~~~~~~~~~z Constructores ~~~~~~~~~~~~~~~~~ */
 	public Juego(){}/*### constructor vacio ###*/
 
+	// Constructor con todos los atributos
 	public Juego(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, int descuento, int puntosRequeridos, String genero, String plataforma) {
 		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diaLanz, mesLanz, yearLanz, descuento, puntosRequeridos);
 		this.genero = genero;
 		this.plataforma = plataforma;
 	}
 
-	public Juego(String nombre, int cantidad, int valor, int cantidadInicial, boolean prestable, byte condicion, int diasLanz, int descuento, int puntosRequeridos, String genero, String plataforma) {
-		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diasLanz, descuento, puntosRequeridos);
+	// Constructor sin descuento
+	public Juego(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
+		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diaLanz, mesLanz, yearLanz);
 		this.genero = genero;
 		this.plataforma = plataforma;
 	}
 
+	// Constructor sin cantidadInicial ni atributos de descuento
+	public Juego(String nombre, int valor, int cantidad, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
+		super(nombre, valor, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz);
+		this.genero = genero;
+		this.plataforma = plataforma;
+	}
 
-							//~~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~~//
+	//~~~~~~~~~~~~~~~~~~ Métodos ~~~~~~~~~~~~~~~~~~//
+
+
+
+	// ~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~ //
 	public String getGenero(){
 		return genero;
 	}
@@ -37,7 +49,7 @@ public class Juego extends Producto {
 		this.plataforma = plataforma1;
 	}
 
-	//~~~~~~~~~~~~~~~~~~ Método compare ~~~~~~~~~~~~~~~~~~//
+	// ~~~~~~~~~~~~~~~~~ Método compare ~~~~~~~~~~~~~~~~~ //
 	@Override
 	public int compare(Producto o1, Producto o2){
 		return 1;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static uiMain.Main.identificarCliente;
 import static uiMain.Main.imprimirSeparador;
 
 import gestorAplicacion.informacionVenta.Transaccion;
@@ -62,7 +63,7 @@ public class Funcionalidad1 {
             // TODO: Recomendar juegos del género más comprado
 
             // Mostrar género favorito
-            if (generosCant.size() > 0) {
+            if (!generosCant.isEmpty()) {
                 System.out.println("Género favorito: " + generoFav);
             }
             else {
@@ -84,7 +85,7 @@ public class Funcionalidad1 {
             }
 
             // Mostrar las plataformas
-            if (plataformas.size() > 0) {
+            if (!plataformas.isEmpty()) {
                 System.out.println("Plataformas en las que ha comprado:");
                 for (String p : plataformas) {
                     System.out.println("* " + p);
@@ -231,7 +232,7 @@ public class Funcionalidad1 {
 
                         if (valorIngresado < valorFinal) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("El valor ingresado es menor al total de la compra. (ノ ゜Д゜)ノ ︵ ┻━┻\n" +
+                            System.out.println("El valor ingresado es menor al total de la compra.\n" +
                                     "Presiona enter para volver a intentar.\n");
                             sc.nextLine();  // Limpiar el buffer
                             sc.nextLine();  // Esperar a que el usuario presione Enter
@@ -313,100 +314,6 @@ public class Funcionalidad1 {
         } while (opcion != 4);
     }
 
-    private static Cliente identificarCliente() {
-        imprimirSeparador();
-
-        Cliente cliente = null;
-        int cedula;
-
-        // Elegir si el cliente es nuevo o uno ya existente
-        System.out.println("¿Cliente nuevo o existente?");
-        byte opcion = 0;
-        do {
-            System.out.println("1. Nuevo");
-            System.out.println("2. Existente");
-
-            // Recibir entrada del usuario
-            try {
-                opcion = sc.nextByte();
-            } catch (InputMismatchException error) {
-                System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                sc.nextLine();  // nextLine para limpiar el buffer
-                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
-                continue;
-            }
-
-            switch (opcion) {
-                case 1:
-                    // Nuevo cliente
-                    System.out.println("Ingrese cédula del cliente:");
-                    cedula = sc.nextInt();
-                    sc.nextLine();  // Limpiar el buffer
-
-                    System.out.println("Ingrese nombre del cliente:");
-                    String nombre = sc.nextLine();
-
-                    System.out.println("Ingrese correo del cliente:");
-                    String correo = sc.nextLine();
-
-                    System.out.println("Ingrese teléfono del cliente:");
-                    long telefono = sc.nextLong();
-                    sc.nextLine();  // Limpiar el buffer
-
-                    System.out.println("Cliente '" + nombre + "' registrado.\n");
-                    return new Cliente(cedula, nombre, correo, telefono);
-
-                case 2:
-                    // Cliente existente
-
-                    while (cliente == null) {
-                        System.out.println("Ingrese cédula del cliente:");
-
-                        // Buscar al cliente en la lista de clientes por su cédula
-                        try {
-                            cedula = sc.nextInt();
-
-                            for (Cliente c : Cliente.clientes) {
-                                if (c.getCedula() == cedula) {
-                                    cliente = c;
-                                    System.out.println("Cliente '" + cliente.getNombre() + "' encontrado.\n");
-                                    return cliente;
-                                }
-                            }
-                        } catch (Exception e) {
-                            System.out.println("\n### ERROR ###");
-                            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                            sc.nextLine();  // Limpiar el buffer
-                            sc.nextLine();  // Esperar a que el usuario presione Enter
-                            continue;
-                        }
-
-                        // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
-                        if (cliente == null) {
-                            System.out.println("\n### ERROR ###");
-                            if (siNo("Cliente no encontrado. ¿Desea intentar de nuevo?")) {
-                                return null;
-                            }
-                        }
-                    }
-
-                    sc.nextLine();  // Limpiar el buffer
-                    break;
-
-                default:
-                    System.out.println("\n### ERROR ###");
-                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
-                    sc.nextLine(); // Limpiar el buffer
-                    sc.nextLine(); // Esperar a que el usuario presione Enter
-                    break;
-            }
-        } while (opcion < 1 || opcion > 2);
-
-        return cliente;
-    }
-
-
     private static Producto seleccionarProducto(ArrayList<Producto> inventario) {
         byte opcion = 0;
 
@@ -467,7 +374,7 @@ public class Funcionalidad1 {
                     // Mostrar juegos disponibles
                     for (Producto p : inventario) {
                         if (p instanceof Juego) {
-                            System.out.println(p);
+                            System.out.println("* " + p);
                         }
                     }
 
@@ -494,7 +401,7 @@ public class Funcionalidad1 {
                     // Accesorio
                     for (Producto p : inventario) {
                         if (p instanceof Accesorio) {
-                            System.out.println(p);
+                            System.out.println("* " + p);
                         }
                     }
 
@@ -568,15 +475,5 @@ public class Funcionalidad1 {
         }
 
         return precioFinal;
-    }
-
-    // Devuelve true si la respuesta no es No (ni "n" ni "N")
-    // TODO: Volver siNO en un método público en main
-    private static boolean siNo(String pregunta) {
-        System.out.println(pregunta + " (S/n)");
-        char respuesta = sc.next().charAt(0);
-        sc.nextLine();  // Limpiar el buffer
-
-        return !(respuesta == 'n' || respuesta == 'N');
     }
 }

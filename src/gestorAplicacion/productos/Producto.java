@@ -20,8 +20,8 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	protected boolean prestable ;
 	protected byte condicion;
 	protected Fecha fechaLanzamiento;
-	protected int descuento;
-	protected int puntosRequeridos;
+	protected int descuento = 0;
+	protected int puntosRequeridos = 0;
 	protected String prioridad;
 
     /* ~~~ Constructores ~~~ */
@@ -60,6 +60,21 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		this.descuento = descuento;
 		this.puntosRequeridos = puntosRequeridos;
 	}
+
+	// Constructor sin cantidadInicial ni atributosr relacionados
+	// a descuentos para productos de prestamo o de subasta
+	public Producto (String nombre, int valor, int cantidad, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz) {
+		this.codigo = ultimoCodigo;
+		ultimoCodigo++;
+		this.nombre = nombre;
+		this.valor = valor;
+		this.cantidad = cantidad;
+		this.cantidadInicial = cantidad;
+		this.prestable = prestable;
+		this.condicion = condicion;
+		this.fechaLanzamiento = new Fecha(diaLanz, mesLanz, yearLanz);
+	}
+
 
 	/* ~~~ Métodos ~~~ */
 
@@ -126,7 +141,8 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		return (Producto) super.clone();
 	}
 
-	/* ~~ Método toString ~~ */
+	/* ~~ Métodos para imprimir información del producto ~~ */
+	/* ~ Método toString ~ */
 	@Override
 	public String toString() {
 		return "COD: " + codigo + " | " +
@@ -135,8 +151,18 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 				"CANT: " + cantidad;
 	}
 
+	/* ~ Imprimir precio de préstamo ~ */
+	public String toStringPrestable() {
+		return "COD: " + codigo + " | " +
+				"NOMBRE: " + nombre + " | " +
+				"$ " + valor + " | " +
+				"CANT PRESTABLE: " + cantidad;
+	}
 
-	/* ### Getters y setters ### */
+
+
+
+	/* ~~~ Getters y setters ~~~ */
 	public int getCodigo() {
 		return codigo;
 	}
