@@ -169,7 +169,7 @@ public class Fecha implements Serializable{
         // Recibir año
         while (true) {
             try {
-                System.out.println("Ingrese año actual: ");
+                System.out.print("Ingrese año actual: ");
 
                 year = sc.nextInt();
 
@@ -187,7 +187,7 @@ public class Fecha implements Serializable{
         //Recibir mes
         while (true) {
             try {
-                System.out.println("Ingrese año actual: ");
+                System.out.print("Ingrese mes actual: ");
 
                 mes = sc.nextInt();
 

@@ -160,33 +160,6 @@ public class Funcionalidad1 {
                     break;
 
                 case 2: // Eliminar producto
-
-                    // Mostrar productos en carrito
-                    /*
-                    System.out.println("CARRITO:");
-                    int i = 1;
-                    for (Producto p : carrito) {
-                        System.out.println(i + ". " + p.getNombre() + " | " + p.getCantidad() + " unidades");
-                        i++;
-                    }
-                    */
-
-                    /*
-                    // Recibir selección del usuario
-                    System.out.println("Ingrese el número del producto que desea eliminar:");
-                    try {
-                        int seleccion = sc.nextInt();
-                        sc.nextLine();  // Limpiar el buffer
-                    }
-                    catch(Exception e) { // En caso de que la selección no sea válida
-                        System.out.println("\n### ERROR ###");
-                        System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
-                        sc.nextLine();  // Limpiar el buffer
-                        sc.nextLine();  // Esperar a que el usuario presione Enter
-                        break;
-                    }
-                    */
-
                     // TODO: Cambiar el formato de los códigos a uno con letra y número
 
                     Producto productoEnCarrito = seleccionarProducto(carrito);

@@ -1,5 +1,6 @@
 package uiMain;
 
+import baseDatos.Deserializador;
 import baseDatos.Serializador;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
@@ -73,6 +74,10 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
+        /* ~~~ Carga de objetos serializados ~~~ */
+        Deserializador.deserializarTiendas();
+        Deserializador.deserializarClientes();
+
         /* ~~~ Menu principal ~~~ */
         imprimirLogo();
 
