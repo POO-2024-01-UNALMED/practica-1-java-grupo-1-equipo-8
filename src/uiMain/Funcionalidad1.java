@@ -102,8 +102,8 @@ public class Funcionalidad1 {
             System.out.println("1. Agregar producto");
             System.out.println("2. Eliminar producto");
             System.out.println("3. Ver productos en el carrito");
-
             System.out.println("4. Confirmar compra");
+            System.out.println("0. Cancelar y salir");
 
             // Recibir entrada del usuario
             try {
@@ -303,6 +303,10 @@ public class Funcionalidad1 {
 
                     // TODO: Método que cambia el emoji aleatoriamente en cada compra
 
+                    break;
+
+                case 0: // Cancelar y salir
+                    System.out.println("Compra cancelada.");
                     break;
 
                 default:

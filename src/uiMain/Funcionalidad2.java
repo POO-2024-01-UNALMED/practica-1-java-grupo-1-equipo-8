@@ -101,6 +101,7 @@ public class Funcionalidad2 {
                 System.out.println("2. Eliminar producto");
                 System.out.println("3. Ver productos en el carrito");
                 System.out.println("4. Confirmar Préstamo");
+                System.out.println("0. Cancelar y salir");
 
                 // Recibir entrada del usuario
                 try {
@@ -126,26 +127,31 @@ public class Funcionalidad2 {
                         } catch (CloneNotSupportedException e) {
                             System.out.println("\n### ERROR ###");
                             System.out.println("Error al clonar el producto. Presione Enter para cancelar la operación.");
-                            sc.nextLine();  // Limpiar el buffer
                             sc.nextLine();  // Esperar a que el usuario presione Enter
 
                             return;
                         }
 
-
                         // Verificar si el producto ya está en el carrito
+                        boolean productoYaEnCarrito = false;
                         for (Producto p : carrito) {
                             if (p.getNombre().equals(producto.getNombre())) {
-                                System.out.println("\n¡Sólo está permitido un ejemplar por préstamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
+                                System.out.println("¡Sólo está permitido un ejemplar por préstamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
                                 System.out.println("\nPresione Enter para continuar.");
                                 sc.nextLine();  // Esperar a que el usuario presione Enter
                                 break;
                             }
                         }
 
-                        carrito.add(producto);
-
-                        System.out.println("Producto agregado al carrito.");
+                        if (productoYaEnCarrito) {
+                            System.out.println("¡Sólo está permitido un ejemplar por préstamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
+                            System.out.println("\nPresione Enter para continuar.");
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                        }
+                        else { // En caso de que no esté, agregarlo al carrito
+                            carrito.add(producto);
+                            System.out.println("Producto agregado al carrito.");
+                        }
 
                         break;
 
@@ -153,11 +159,7 @@ public class Funcionalidad2 {
 
                         Producto productoEnCarrito = seleccionarProducto(carrito);
 
-                        if (productoEnCarrito.getCantidad() > 1) {
-                            productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() - 1);
-                        } else {
-                            carrito.remove(productoEnCarrito);
-                        }
+                        carrito.remove(productoEnCarrito);
 
                         System.out.println("Producto eliminado del carrito.");
 
@@ -187,6 +189,9 @@ public class Funcionalidad2 {
                     case 4: // Confirmar carrito para préstamo
                         break;
 
+                    case 0: // Salir
+                        return;
+
                     default:
                         System.out.println("\n### ERROR ###");
                         System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
@@ -196,7 +201,7 @@ public class Funcionalidad2 {
 
                 // Método para seleccionar un producto del inventario de préstamos
             }
-            while (opcion != 4);
+            while (opcion != 4 );
         }
     }
 
