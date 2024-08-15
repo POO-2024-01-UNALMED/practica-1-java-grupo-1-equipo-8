@@ -161,8 +161,6 @@ public class Funcionalidad1 {
                     break;
 
                 case 2: // Eliminar producto
-                    // TODO: Cambiar el formato de los códigos a uno con letra y número
-
                     Producto productoEnCarrito = seleccionarProducto(carrito);
 
                     if (productoEnCarrito.getCantidad() > 1) {
@@ -198,6 +196,7 @@ public class Funcionalidad1 {
 
                 case 4: // Completar compra
 
+                    // Comprobar que el carrito no esté vacío
                     if (carrito.isEmpty()) {
                         System.out.println("El carrito está vacío.");
                         System.out.println("\nPresione Enter para continuar.");

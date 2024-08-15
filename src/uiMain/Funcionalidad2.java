@@ -187,6 +187,71 @@ public class Funcionalidad2 {
                         break;
 
                     case 4: // Confirmar carrito para préstamo
+
+                        // Comprobar que el carrito no esté vacío
+                        if (carrito.isEmpty()) {
+                            System.out.println("El carrito está vacío.");
+                            System.out.println("\nPresione Enter para continuar.");
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                            continue;
+                        }
+
+                        // Calcular valor temporal
+                        int valor = 0;
+                        for (Producto p : carrito) {
+                            valor = (int) (p.getValor() * 0.02);
+                        }
+
+                        // Elegir plazo
+                            System.out.println("1. 2 semanas (14 días)");
+                            System.out.println("2. 1 mes (30 días)");
+                            System.out.println("3. Mes y medio (45 días)");
+                            System.out.println("4. 2 meses (60 días)");
+
+                            System.out.println("Ingrese el tipo de plazo para el préstamo:");
+
+                        int dias = 0; // Variable para calcular la fecha final según la duración del préstamo
+
+                        while (dias == 0) {
+                            byte opcionPlazo = 0;
+                            try {
+                                opcionPlazo = sc.nextByte();
+                            } catch (InputMismatchException e) {
+                                System.out.println("\n### ERROR ###");
+                                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
+                                sc.nextLine();  // Limpiar el buffer
+                                sc.nextLine();  // Esperar a que el usuario presione Enter
+                                continue;
+                            }
+
+                            switch (opcionPlazo) {
+                                case 1:
+                                    dias = 14;
+                                    valor = (valor * dias);
+                                    break;
+                                case 2:
+                                    dias = 30;
+                                    valor = (valor * dias);
+                                    break;
+                                case 3:
+                                    dias = 45;
+                                    valor = (int) (valor * dias * 0.95);
+                                    break;
+                                case 4:
+                                    dias = 45;
+                                    valor = (int) (valor * dias * 0.95);
+                                    break;
+                                default:
+                                    System.out.println("\n### ERROR ###");
+                                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                                    sc.nextLine();  // Limpiar el buffer
+                                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                                    continue;
+                            }
+                        }
+
+                        Fecha fechaFin = new Fecha(fecha.getTotalDias() + dias);  // Fecha de fin del préstamo
+
                         break;
 
                     case 0: // Salir
