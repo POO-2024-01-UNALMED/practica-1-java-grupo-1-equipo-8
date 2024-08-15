@@ -15,6 +15,7 @@ public class Empleado extends Persona implements Serializable {
     private int salario;
     private int salarioPorcentual;
     private int acumuladoMensual;
+    private byte diasLaborales;
     private ArrayList<Meta> metas = new ArrayList<Meta>();
     private ArrayList<Meta> metasAlcanzadas = new ArrayList<Meta>();
     private ArrayList<Meta> metasCaducadas = new ArrayList<Meta>();
@@ -23,11 +24,12 @@ public class Empleado extends Persona implements Serializable {
 
 
     /* ~~~ Constructores ~~~ */
-    public Empleado(int cedula, String nombre, String correo, long telefono, int salario, int salarioPorcentual, Tienda tienda) {
+    public Empleado(int cedula, String nombre, String correo, long telefono, int salario, int salarioPorcentual, byte diasLaborales, Tienda tienda) {
         super(cedula, nombre, correo, telefono);
         this.salario = salario;
         this.salarioPorcentual = salarioPorcentual;
         this.acumuladoMensual = 0;
+        this.diasLaborales = diasLaborales;
         this.metas = new ArrayList<Meta>();
         tienda.agregarEmpleado(this);
     }
@@ -43,7 +45,7 @@ public class Empleado extends Persona implements Serializable {
     }
     public void ingresarTransaccion(Transaccion transaccion) {
         this.transacciones.add(transaccion);
-        //TODO: Aumentar acumulado cada vez que se llama esta funcióno (quitar atributo acumulado)
+        //TODO: Aumentar acumulado cada vez que se llama esta función o (quitar atributo acumulado)
     }
 
     /* ~~~ Metodos get y set ~~~ */
@@ -65,6 +67,12 @@ public class Empleado extends Persona implements Serializable {
     }
     public void setAcumuladoMensual(int acumuladoMensual) {
         this.acumuladoMensual = acumuladoMensual;
+    }
+    public byte getDiasLaborales() {
+        return diasLaborales;
+    }
+    public void setDiasLaborales(byte diasLaborales) {
+        this.diasLaborales = diasLaborales;
     }
     public ArrayList<Meta> getMetas() {
         return metas;

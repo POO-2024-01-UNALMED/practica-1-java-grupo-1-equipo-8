@@ -50,8 +50,8 @@ public class Main {
 
 
         // ~~~~~~~~~~~~~~~ personal ~~~~~~~~~~~~~~~
-        Empleado empleado1 = new Empleado(1004, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, tienda1);
-        Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, tienda1);
+        Empleado empleado1 = new Empleado(1004, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, (byte) 7, tienda1);
+        Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, (byte) 7, tienda1);
 
         //metas
         new Meta(1, empleado1, 15, 6, 2024, 30, 8000, 10 );
