@@ -206,15 +206,15 @@ public class Funcionalidad1 {
 
                     int valorFinal = calcularDescuentos(carrito, cliente);  // Calcular valor total de la compra con descuentos
 
-                    int valorIngresado = 0;
-                    int cambio = 0;
-
                     System.out.println("Valor total de la compra: $" + valorFinal + "\n");
 
                     // Ingreso de dinero
                     // TODO: Pago fraccionado
 
-                        // Recibir efectivo
+                    int valorIngresado = 0;
+                    int cambio = 0;
+
+                    // Recibir efectivo
                     while (true) {
                         valorIngresado = 0;
                         System.out.print("Ingrese el valor con el que pagará:");
@@ -245,7 +245,7 @@ public class Funcionalidad1 {
                     System.out.println("Cambio: $" + cambio + "\n");
 
                     // Identificar al empleado que atendió la venta
-                    Empleado empleado = local.identificarEmpleado();
+                    Empleado empleado = identificarEmpleado(local);
 
                     // Crear transacción
                     Transaccion transaccion = new Transaccion(fecha, cliente, empleado, local, carrito, valorFinal);
@@ -302,11 +302,12 @@ public class Funcionalidad1 {
 
                     // TODO: Método que cambia el emoji aleatoriamente en cada compra
 
-                    break;
+                    return;
 
                 case 0: // Cancelar y salir
                     System.out.println("Compra cancelada.");
-                    break;
+
+                    return;
 
                 default:
                     System.out.println("\n### ERROR ###");
@@ -478,5 +479,46 @@ public class Funcionalidad1 {
         }
 
         return precioFinal;
+    }
+
+    // Método para encontrar un empleado en la tienda
+    public static Empleado identificarEmpleado(Tienda local) {
+        // En caso de que la tienda no tenga empleados
+        if (local.getEmpleados().size() == 0) {
+            System.out.println("\n### ERROR ###");
+            System.out.println("No hay empleados en esta tienda");
+            return null;
+        }
+
+
+        Empleado empleado = null;
+        java.util.Scanner scEmp = new java.util.Scanner(System.in);
+
+        // Mostrar a todos los empleados del local
+        for (Empleado e: local.getEmpleados()){
+            System.out.println(" * " + e.getNombre() + " - " + e.getCedula());
+        }
+        // Recibir cédula del empleado
+        System.out.println("Ingrese la cedula del empleado encargado de esta transacción");
+
+        while (empleado == null) {
+            try {
+                int cedulaEmpleado = scEmp.nextInt();
+                scEmp.nextLine();  // Limpiar el buffer
+
+                for (Empleado e : local.getEmpleados()) {
+                    if (e.getCedula() == cedulaEmpleado) {
+                        empleado = e;
+                        return empleado;
+                    }
+                }
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                scEmp.nextLine();  // Limpiar el buffer
+                scEmp.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+        return empleado;
     }
 }

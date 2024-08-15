@@ -1,9 +1,11 @@
 package uiMain;
 
 import gestorAplicacion.informacionVenta.Prestamo;
+import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
+import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.Accesorio;
 import gestorAplicacion.productos.Consola;
 import gestorAplicacion.productos.Juego;
@@ -48,6 +50,7 @@ public class Funcionalidad2 {
             }
         }
 
+        //TODO: Generación de multas basadas en la condición en que se entregan los productos
         if (prestamoActivo) {
             if (siNo("¿Desea devolver productos prestados?")) {
                 for (Prestamo p : cliente.getPrestamos()) {
@@ -238,7 +241,7 @@ public class Funcionalidad2 {
                                     valor = (int) (valor * dias * 0.95);
                                     break;
                                 case 4:
-                                    dias = 45;
+                                    dias = 60;
                                     valor = (int) (valor * dias * 0.95);
                                     break;
                                 default:
@@ -251,6 +254,50 @@ public class Funcionalidad2 {
                         }
 
                         Fecha fechaFin = new Fecha(fecha.getTotalDias() + dias);  // Fecha de fin del préstamo
+
+                        // Recepción de pago
+
+                        int valorIngresado = 0;
+                        int cambio = 0;
+
+                        // Recibir efectivo
+                        while (true) {
+                            valorIngresado = 0;
+                            System.out.print("Ingrese el valor con el que pagará:");
+
+                            try {
+                                valorIngresado = sc.nextInt();
+                            } catch (InputMismatchException error) {
+                                System.out.println("\n### ERROR ###");
+                                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                                sc.nextLine();  // Limpiar el buffer
+                                sc.nextLine();  // Esperar a que el usuario presione Enter
+                                continue;
+                            }
+
+                            if (valorIngresado < valor) {
+                                System.out.println("\n### ERROR ###");
+                                System.out.println("El valor ingresado es menor al total de la compra.\n" +
+                                        "Presiona enter para volver a intentar.\n");
+                                sc.nextLine();  // Limpiar el buffer
+                                sc.nextLine();  // Esperar a que el usuario presione Enter
+                            } else {
+                                break;
+                            }
+                        }
+
+                        cambio = valorIngresado - valor;
+
+                        System.out.println("Cambio: $" + cambio + "\n");
+
+                        // Crear prestamo
+                        Prestamo prestamo = new Prestamo(fecha, fechaFin, cliente, carrito, valor, "Activo");
+
+
+                        System.out.println("\nPresione Enter para confirmar la compra.");
+                        sc.nextLine();  // Limpiar el buffer
+                        sc.nextLine(); // Esperar a que el usuario presione Enter
+
 
                         break;
 
@@ -266,7 +313,7 @@ public class Funcionalidad2 {
 
                 // Método para seleccionar un producto del inventario de préstamos
             }
-            while (opcion != 4 );
+            while (opcion != 4 || opcion != 0);
         }
     }
 

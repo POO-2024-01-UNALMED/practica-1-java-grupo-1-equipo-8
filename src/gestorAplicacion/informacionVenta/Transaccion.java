@@ -50,6 +50,8 @@ public class Transaccion implements Serializable{
         this.productos = productos;
         this.valorSinDescuento = hallarValorSinDescuento(this.productos);
         this.valorFinal = valorFinal;
+
+        local.agregarTransaccion(this);
         empleado.ingresarTransaccion(this);
     }
 

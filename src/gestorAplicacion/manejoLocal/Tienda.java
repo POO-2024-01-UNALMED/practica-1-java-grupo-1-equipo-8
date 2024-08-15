@@ -88,46 +88,6 @@ public class Tienda implements Serializable {
         }
     }
 
-    // Método para encontrar un empleado en la tienda
-    public Empleado identificarEmpleado() {
-        // En caso de que la tienda no tenga empleados
-        if (this.getEmpleados().size() == 0) {
-            System.out.println("\n### ERROR ###");
-            System.out.println("No hay empleados en esta tienda");
-            return null;
-        }
-
-
-        Empleado empleado = null;
-        java.util.Scanner sc = new java.util.Scanner(System.in);
-
-        // Mostrar a todos los empleados del local
-        for (Empleado e: this.getEmpleados()){
-            System.out.println(" * " + e.getNombre() + " - " + e.getCedula());
-        }
-        // Recibir cédula del empleado
-        System.out.println("Ingrese la cedula del empleado encargado de esta transacción");
-
-        while (empleado == null) {
-            try {
-                int cedulaEmpleado = sc.nextInt();
-                sc.nextLine();  // Limpiar el buffer
-
-                for (Empleado e : this.getEmpleados()) {
-                    if (e.getCedula() == cedulaEmpleado) {
-                        empleado = e;
-                        return empleado;
-                    }
-                }
-            } catch (InputMismatchException error) {
-                System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                sc.nextLine();  // Limpiar el buffer
-                sc.nextLine();  // Esperar a que el usuario presione Enter
-            }
-        }
-        return empleado;
-    }
 
     /*~~ Getters y setters ~~*/
     public String getNombre() {
