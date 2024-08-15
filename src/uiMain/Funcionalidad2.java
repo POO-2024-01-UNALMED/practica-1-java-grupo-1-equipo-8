@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static uiMain.Main.identificarCliente;
-import static uiMain.Main.imprimirSeparador;
+import static uiMain.Main.*;
 
 public class Funcionalidad2 {
     static Scanner sc = new Scanner(System.in); // variable scanner
@@ -30,121 +29,175 @@ public class Funcionalidad2 {
         // Comprobar si hay préstamos vencidos
         comprobarPrestamos(cliente, fecha);
 
-        if (cliente.getPrestamos().size() >= 3) {
-            System.out.println("El cliente ya tiene 3 préstamos activos.");
-            System.out.println("No se pueden realizar más préstamos.");
-            return;
+        if (tieneVencidos(cliente)) {
+            System.out.println("El cliente tiene los siguientes préstamos vencidos:\n");
+            for (Prestamo p : cliente.getPrestamos()) {
+                if (p.getEstado().equals("Vencido")) {
+                    System.out.println(p);
+                }
+            }
         }
 
-
-
-        /* ~~ Seleccion de productos para el prestamo ~~ */
-        byte opcion = 0;
-        ArrayList<Producto> carrito = new ArrayList<Producto>();
-
-        do {
-            imprimirSeparador();
-            System.out.println("1. Agregar producto");
-            System.out.println("2. Eliminar producto");
-            System.out.println("3. Ver productos en el carrito");
-
-            System.out.println("4. Confirmar compra");
-
-            // Recibir entrada del usuario
-            try {
-                opcion = sc.nextByte();
-            } catch (Exception e) {
-                System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
-                sc.nextLine();  // Limpiar el buffer
-                sc.nextLine();  // Esperar a que el usuario presione Enter
-                continue;
+        /* ~~ Devolución de productos prestados ~~ */
+        // Comprobar que el cliente tenga préstamos activos o vencidos
+        boolean prestamoActivo = false;
+        for (Prestamo p : cliente.getPrestamos()) {
+            if (p.getEstado().equals("Activo") || p.getEstado().equals("Vencido")) {
+                prestamoActivo = true;
+                break;
             }
+        }
 
-            sc.nextLine();  // Limpiar el buffer
+        if (prestamoActivo) {
+            if (siNo("¿Desea devolver productos prestados?")) {
+                for (Prestamo p : cliente.getPrestamos()) {
+                    if (p.getEstado().equals("Vencido")) { // Para los préstamos vencidos
+                        int multa = 0;
+                        int diasVencidos = fecha.getTotalDias() - p.getFechaFin().getTotalDias();
 
-            Producto producto;
+                        for (Producto producto : p.getProductos()) {
+                            multa += (int) (producto.getValor() * 0.1 * diasVencidos);
+                        }
 
-            switch (opcion) {
-                case 1: // Agregar producto
+                        System.out.println("* Préstamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
+                        System.out.println("Este préstamo está vencido. La multa es de: $" + multa);
 
-                    // Clonar el producto seleccionado para evitar modificar el original
-                    try {
-                        producto = (seleccionarProducto(local.getInventarioPrestamo()).clone());
-                    } catch (CloneNotSupportedException e) {
-                        System.out.println("\n### ERROR ###");
-                        System.out.println("Error al clonar el producto. Presione Enter para cancelar la operación.");
-                        sc.nextLine();  // Limpiar el buffer
-                        sc.nextLine();  // Esperar a que el usuario presione Enter
-
-                        return;
+                        if (siNo("¿Desea devolver los productos de este préstamo?")) {
+                            devolverProductosPrestados(p, local);
+                        }
                     }
 
+                    if (p.getEstado().equals("Activo")) {
+                        System.out.println("* Préstamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
 
-                    // Verificar si el producto ya está en el carrito
-                    for (Producto p : carrito) {
-                        if (p.getNombre().equals(producto.getNombre())) {
-                            System.out.println("\n¡Sólo está permitido un ejemplar por préstamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
+                        if (siNo("¿Desea devolver los productos de este préstamo?")) {
+                            devolverProductosPrestados(p, local);
+                        }
+                    }
+                }
+
+                // Volver a comprobar si hay préstamos vencidos
+                comprobarPrestamos(cliente, fecha);
+
+                if (tieneVencidos(cliente)) {
+                    System.out.println("El cliente sigue teniendo préstamos vencidos. No se puede realizar un nuevo préstamo.");
+                    return;
+                }
+            }
+        }
+
+        // Consultar si se desea realizar un préstamo
+        if (!siNo("¿Desea realizar un préstamo?")) {    // En caso que no
+            return;
+        }
+        else {   // En caso que sí
+            /* ~~ Seleccion de productos para el prestamo ~~ */
+            byte opcion = 0;
+            ArrayList<Producto> carrito = new ArrayList<Producto>();
+
+            do {
+                imprimirSeparador();
+                System.out.println("1. Agregar producto");
+                System.out.println("2. Eliminar producto");
+                System.out.println("3. Ver productos en el carrito");
+                System.out.println("4. Confirmar Préstamo");
+
+                // Recibir entrada del usuario
+                try {
+                    opcion = sc.nextByte();
+                } catch (Exception e) {
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
+                    sc.nextLine();  // Limpiar el buffer
+                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    continue;
+                }
+
+                sc.nextLine();  // Limpiar el buffer
+
+                Producto producto;
+
+                switch (opcion) {
+                    case 1: // Agregar producto
+
+                        // Clonar el producto seleccionado para evitar modificar el original
+                        try {
+                            producto = (seleccionarProducto(local.getInventarioPrestamo()).clone());
+                        } catch (CloneNotSupportedException e) {
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("Error al clonar el producto. Presione Enter para cancelar la operación.");
+                            sc.nextLine();  // Limpiar el buffer
+                            sc.nextLine();  // Esperar a que el usuario presione Enter
+
+                            return;
+                        }
+
+
+                        // Verificar si el producto ya está en el carrito
+                        for (Producto p : carrito) {
+                            if (p.getNombre().equals(producto.getNombre())) {
+                                System.out.println("\n¡Sólo está permitido un ejemplar por préstamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
+                                System.out.println("\nPresione Enter para continuar.");
+                                sc.nextLine();  // Esperar a que el usuario presione Enter
+                                break;
+                            }
+                        }
+
+                        carrito.add(producto);
+
+                        System.out.println("Producto agregado al carrito.");
+
+                        break;
+
+                    case 2: // Eliminar producto
+
+                        Producto productoEnCarrito = seleccionarProducto(carrito);
+
+                        if (productoEnCarrito.getCantidad() > 1) {
+                            productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() - 1);
+                        } else {
+                            carrito.remove(productoEnCarrito);
+                        }
+
+                        System.out.println("Producto eliminado del carrito.");
+
+                        break;
+
+                    case 3: // Ver productos en el carrito
+
+                        // Comprobar que el carrito no esté vacío
+                        if (carrito.isEmpty()) {
+                            System.out.println("El carrito está vacío.");
                             System.out.println("\nPresione Enter para continuar.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
                             break;
                         }
-                    }
 
-                    carrito.add(producto);
+                        System.out.println("CARRITO:");
 
-                    System.out.println("Producto agregado al carrito.");
+                        for (Producto p : carrito) {
+                            System.out.println("* " + p.getNombre());
+                        }
 
-                    break;
-
-                case 2: // Eliminar producto
-
-                    Producto productoEnCarrito = seleccionarProducto(carrito);
-
-                    if (productoEnCarrito.getCantidad() > 1) {
-                        productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() - 1);
-                    } else {
-                        carrito.remove(productoEnCarrito);
-                    }
-
-                    System.out.println("Producto eliminado del carrito.");
-
-                    break;
-
-                case 3: // Ver productos en el carrito
-
-                    // Comprobar que el carrito no esté vacío
-                    if (carrito.isEmpty()) {
-                        System.out.println("El carrito está vacío.");
                         System.out.println("\nPresione Enter para continuar.");
                         sc.nextLine();  // Esperar a que el usuario presione Enter
+
                         break;
-                    }
 
-                    System.out.println("CARRITO:");
+                    case 4: // Confirmar carrito para préstamo
+                        break;
 
-                    for (Producto p : carrito) {
-                        System.out.println("* " + p.getNombre());
-                    }
+                    default:
+                        System.out.println("\n### ERROR ###");
+                        System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
+                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        break;
+                }
 
-                    System.out.println("\nPresione Enter para continuar.");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
-
-                    break;
-
-                case 4: // Confirmar carrito para préstamo
-                    break;
-
-                default:
-                    System.out.println("\n### ERROR ###");
-                    System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
-                    break;
+                // Método para seleccionar un producto del inventario de préstamos
             }
-
-            // Método para seleccionar un producto del inventario de préstamos
+            while (opcion != 4);
         }
-        while(opcion != 4);
     }
 
     private static Producto seleccionarProducto (ArrayList < Producto > inventarioPrestamo) {
@@ -334,5 +387,30 @@ public class Funcionalidad2 {
             }
         }
     }
-}
 
+    // Devolver true si el cliente tiene préstamos vencidos
+    private static boolean tieneVencidos(Cliente cliente) {
+        for (Prestamo p : cliente.getPrestamos()) {
+            if (p.getEstado().equals("Vencido")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Método que se encarga únicamente de devolver los productos al stock del local ingresado
+    // y actualizar el estado del préstamo
+    private static void devolverProductosPrestados(Prestamo prestamo, Tienda local) {
+        for (Producto producto : prestamo.getProductos()) {
+            for (Producto p : local.getInventarioPrestamo()) {
+                if (p.getNombre().equals(producto.getNombre())) {
+                    p.setCantidad(p.getCantidad() + 1);
+                } else {
+                    local.getInventarioPrestamo().add(producto);
+                }
+            }
+        }
+
+        prestamo.setEstado("Devuelto");
+    }
+}

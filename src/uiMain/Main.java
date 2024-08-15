@@ -298,7 +298,7 @@ public class Main {
                         // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
                         if (cliente == null) {
                             System.out.println("\n### ERROR ###");
-                            if (siNo("Cliente no encontrado. ¿Desea intentar de nuevo?")) {
+                            if (!siNo("Cliente no encontrado. ¿Desea intentar de nuevo?")) {
                                 return null;
                             }
                         }
@@ -322,11 +322,11 @@ public class Main {
     // Recibe una String que es la pregunta que se hará.
     // Devuelve true si la respuesta no es No (ni "n" ni "N")
     public static boolean siNo(String pregunta) {
+        Scanner scSiNo = new Scanner(System.in);
         System.out.println(pregunta + " (S/n)");
-        char respuesta = sc.next().charAt(0);
-        sc.nextLine();  // Limpiar el buffer
+        char respuesta = scSiNo.next().charAt(0);
 
-        return (respuesta == 'n' || respuesta == 'N');
+        return !(respuesta == 'n' || respuesta == 'N');
     }
 
     public static Fecha recibirFecha() {

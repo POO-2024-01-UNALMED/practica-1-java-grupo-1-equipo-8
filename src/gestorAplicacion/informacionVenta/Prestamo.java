@@ -33,7 +33,19 @@ public class Prestamo implements Serializable{
         this.estado = estado;
     }
 
-    /* ~~~ Metodos get y set ~~~ */
+    /* ~~~ Métodos ~~~ */
+    public String toString() {
+        return "ID: " + this.id +
+                "Fecha de inicio: " + this.fechaInicio +
+                "Fecha de fin: " + this.fechaFin +
+                "Cliente: " + this.cliente +
+                "Productos: " + this.productos +
+                "Valor total: " + this.valorTotal +
+                "Estado: " + this.estado;
+    }
+
+
+    /* ~~ Metodos get y set ~~ */
 
     public int getId() {
         return id;
