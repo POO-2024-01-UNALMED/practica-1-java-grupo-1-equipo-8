@@ -93,9 +93,7 @@ public class Main {
         /* ~~~ Menu principal ~~~ */
         imprimirLogo();
 
-        // TODO: Seleccion de fecha
-        Fecha fechaActual = Fecha.recibirFecha();
-
+        Fecha fechaActual = recibirFecha();
 
         // TODO: Imprimir local y fecha actuales en el menu principal
 
@@ -328,6 +326,70 @@ public class Main {
         char respuesta = sc.next().charAt(0);
         sc.nextLine();  // Limpiar el buffer
 
-        return !(respuesta == 'n' || respuesta == 'N');
+        return (respuesta == 'n' || respuesta == 'N');
+    }
+
+    public static Fecha recibirFecha() {
+        int year;
+        int mes;
+        int dia;
+
+
+        // Recibir año
+        while (true) {
+            try {
+                System.out.print("Ingrese año actual: ");
+
+                year = sc.nextInt();
+
+                if (year < 0) { throw new Exception(""); }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+
+        //Recibir mes
+        while (true) {
+            try {
+                System.out.print("Ingrese mes actual: ");
+
+                mes = sc.nextInt();
+
+                if (mes < 0 || mes > 12) { throw new Exception(""); }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+
+        // Recibir día
+        while (true) {
+            try {
+                System.out.print("Ingrese día actual: ");
+                dia = sc.nextInt();
+
+                //TODO: Validar que el día sea válido para el mes
+                if (dia == 0 || dia > 31) { throw new Exception("Día inválido"); }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+
+        sc.nextLine(); // Limpiar el buffer
+        return new Fecha(dia, mes, year);
     }
 }

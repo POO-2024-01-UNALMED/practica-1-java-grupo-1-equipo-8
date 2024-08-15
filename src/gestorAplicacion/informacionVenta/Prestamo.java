@@ -10,32 +10,36 @@ public class Prestamo implements Serializable{
     @Serial
     private static final long serialVersionUID = 1L;
 
-                    /*~~ Atributos ~~*/
+    /* ~~~ Atributos ~~~ */
+
+    private static int ultimoID = 1;
     private int id;
-    private int cod;
     private Fecha fechaInicio;
     private Fecha fechaFin;
     private Cliente cliente;
     private ArrayList<Producto> productos;
     private float valorTotal;
     private String estado;
-    private int dias;
-    private int exceso_dias;
-    private float multa;
 
-                /*~~ Metodos get y set ~~*/
+    /* ~~~ Constructores ~~~ */
+    public Prestamo(Fecha fechaInicio, Fecha fechaFin, Cliente cliente, ArrayList<Producto> productos, float valorTotal, String estado) {
+        this.id = ultimoID;
+        ultimoID++;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.cliente = cliente;
+        this.productos = productos;
+        this.valorTotal = valorTotal;
+        this.estado = estado;
+    }
+
+    /* ~~~ Metodos get y set ~~~ */
 
     public int getId() {
         return id;
     }
     public void setId(int id) {
         this.id = id;
-    }
-    public int getCod() {
-        return cod;
-    }
-    public void setCod(int cod) {
-        this.cod = cod;
     }
     public Fecha getFechaInicio() {
         return fechaInicio;
@@ -72,23 +76,5 @@ public class Prestamo implements Serializable{
     }
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-    public int getDias() {
-        return dias;
-    }
-    public void setDias(int dias) {
-        this.dias = dias;
-    }
-    public int getExceso_dias() {
-        return exceso_dias;
-    }
-    public void setExceso_dias(int exceso_dias) {
-        this.exceso_dias = exceso_dias;
-    }
-    public float getMulta() {
-        return multa;
-    }
-    public void setMulta(float multa) {
-        this.multa = multa;
     }
 }

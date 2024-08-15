@@ -1,5 +1,6 @@
 package uiMain;
 
+import gestorAplicacion.informacionVenta.Prestamo;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
@@ -18,15 +19,26 @@ import static uiMain.Main.imprimirSeparador;
 public class Funcionalidad2 {
     static Scanner sc = new Scanner(System.in); // variable scanner
 
-
-    /* ~~~ Identificación del cliente ~~~ */
     public static void registrarPrestamo(Tienda local, Fecha fecha) {
+
         Cliente cliente = identificarCliente();
 
         if (cliente == null) {
             return;
         }
 
+        // Comprobar si hay préstamos vencidos
+        comprobarPrestamos(cliente, fecha);
+
+        if (cliente.getPrestamos().size() >= 3) {
+            System.out.println("El cliente ya tiene 3 préstamos activos.");
+            System.out.println("No se pueden realizar más préstamos.");
+            return;
+        }
+
+
+
+        /* ~~ Seleccion de productos para el prestamo ~~ */
         byte opcion = 0;
         ArrayList<Producto> carrito = new ArrayList<Producto>();
 
@@ -48,7 +60,6 @@ public class Funcionalidad2 {
                 sc.nextLine();  // Esperar a que el usuario presione Enter
                 continue;
             }
-
 
             sc.nextLine();  // Limpiar el buffer
 
@@ -311,4 +322,17 @@ public class Funcionalidad2 {
             }
         } while (true);
     }
+
+    // Buscar préstamos vencidos para un cliente dado
+    private static void comprobarPrestamos(Cliente cliente, Fecha fecha) {
+        if (!cliente.getPrestamos().isEmpty()) {
+            for (Prestamo p : cliente.getPrestamos()) {
+                if (p.getFechaFin().getTotalDias() < fecha.getTotalDias()) {
+                    System.out.println("El préstamo con ID " + p.getId() + " ha vencido.");
+                    p.setEstado("Vencido");
+                }
+            }
+        }
+    }
 }
+

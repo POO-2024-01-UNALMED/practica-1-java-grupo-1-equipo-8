@@ -12,13 +12,12 @@ public class Tienda implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /*~~ Atributos ~~*/
+    /* ~~~ Atributos ~~~ */
     private String nombre;
     private long fondos;
     private ArrayList<Transaccion> caja = new ArrayList<Transaccion>();
-    //TODO: Implementar inventario para artículos usados y de préstamo
 
-    // Inventarios
+    /* ~~ Inventarios ~~ */
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
     private ArrayList<Producto> inventarioPrestamo = new ArrayList<Producto>();
     private ArrayList<Producto> inventarioUsado = new ArrayList<Producto>();
@@ -27,7 +26,7 @@ public class Tienda implements Serializable {
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
     public ArrayList<Empleado> empleados = new ArrayList<Empleado>();
 
-    /*~~~ Constructores ~~~*/
+    /* ~~~ Constructores ~~~ */
     public Tienda(){
         super();
     }
@@ -36,8 +35,8 @@ public class Tienda implements Serializable {
         this.fondos = fondos;
         Tienda.locales.add(this);
     }
-    /*~~~ Métodos ~~~*/
-    // Agregar producto al
+    /* ~~~ Métodos ~~~ */
+    // Agregar producto al inventario correspondiente
     public void agregarProducto(Producto producto){
         if (producto.isPrestable()) {
             this.inventarioPrestamo.add(producto);

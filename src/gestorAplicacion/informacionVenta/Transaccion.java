@@ -41,6 +41,8 @@ public class Transaccion implements Serializable{
 
     // Constructor sin id ni valorSinDescuento (se calcula automáticamente)
     public Transaccion(Fecha fecha, Cliente cliente, Empleado empleado, Tienda local, ArrayList<Producto> productos, int valorFinal) {
+        this.id = ultimoID;
+        ultimoID++;
         this.fecha = fecha;
         this.cliente = cliente;
         this.empleado = empleado;
