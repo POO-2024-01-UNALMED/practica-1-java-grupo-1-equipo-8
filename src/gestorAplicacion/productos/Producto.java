@@ -155,7 +155,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	public String toStringPrestable() {
 		return "COD: " + codigo + " | " +
 				"NOMBRE: " + nombre + " | " +
-				"VALOR PRESTAMO: $ " + (int) (valor * 0.10) + " | " +
+				"VALOR POR DIA: $ " + (valor * 0.02) + " | " +
 				"CANT PRESTABLE: " + cantidad;
 	}
 

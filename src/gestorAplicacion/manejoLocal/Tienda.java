@@ -62,6 +62,11 @@ public class Tienda implements Serializable {
 
     public void agregarTransaccion(Transaccion transaccion){
         this.caja.add(transaccion);
+        this.agregarFondos(transaccion.getValorFinal());
+    }
+
+    public void agregarFondos(long fondos){
+        this.fondos += fondos;
     }
 
     public void reabastecerProducto(Producto producto, int cantidad){

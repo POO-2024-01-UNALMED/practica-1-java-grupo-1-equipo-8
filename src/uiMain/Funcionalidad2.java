@@ -66,7 +66,7 @@ public class Funcionalidad2 {
 
                         if (siNo("¿Desea devolver los productos de este préstamo?")) {
                             multa += comprobarDevolucion(p);
-                            cobrarMulta(multa);
+                            cobrarMulta(multa, local);
                             devolverProductosPrestados(p, local);
                         }
                     }
@@ -77,7 +77,7 @@ public class Funcionalidad2 {
 
                         if (siNo("¿Desea devolver los productos de este préstamo?")) {
                             multa = comprobarDevolucion(p);
-                            cobrarMulta(multa);
+                            cobrarMulta(multa, local);
                             devolverProductosPrestados(p, local);
                         }
                     }
@@ -201,7 +201,7 @@ public class Funcionalidad2 {
                         // Calcular valor temporal
                         int valor = 0;
                         for (Producto p : carrito) {
-                            valor = (int) (p.getValor() * 0.02);
+                            valor += (int) (p.getValor() * 0.02);
                         }
 
                         // Elegir plazo
@@ -252,6 +252,8 @@ public class Funcionalidad2 {
                             }
                         }
 
+                        System.out.println("El precio total del préstamo es de $" + valor + " por " + dias + " días.");
+
                         Fecha fechaFin = new Fecha(fecha.getTotalDias() + dias);  // Fecha de fin del préstamo
 
                         // Recepción de pago
@@ -276,7 +278,7 @@ public class Funcionalidad2 {
 
                             if (valorIngresado < valor) {
                                 System.out.println("\n### ERROR ###");
-                                System.out.println("El valor ingresado es menor al total de la compra.\n" +
+                                System.out.println("El valor ingresado es menor al requerido.\n" +
                                         "Presiona enter para volver a intentar.\n");
                                 sc.nextLine();  // Limpiar el buffer
                                 sc.nextLine();  // Esperar a que el usuario presione Enter
@@ -291,9 +293,10 @@ public class Funcionalidad2 {
 
                         // Crear prestamo
                         Prestamo prestamo = new Prestamo(fecha, fechaFin, cliente, carrito, valor, "Activo");
+                        // Añadir fondos al local
+                        local.agregarFondos(valor);
 
-
-                        System.out.println("\nPresione Enter para confirmar la compra.");
+                        System.out.println("\nPresione Enter para confirmar el préstamo.");
                         sc.nextLine();  // Limpiar el buffer
                         sc.nextLine(); // Esperar a que el usuario presione Enter
 
@@ -540,7 +543,7 @@ public class Funcionalidad2 {
             if (siNo("¿El producto '" + producto.getNombre() + "' se encuentra en buen estado?")) {
                 continue;
             } else {
-                multa += (int) (producto.getValor() * 0.3);
+                multa += (int) (producto.getValor() * 0.25);
             }
         }
 
@@ -548,7 +551,7 @@ public class Funcionalidad2 {
     }
 
     // Método que lleva a cabo el cobro de una multa con valor dado
-    public static void cobrarMulta(int valorMulta) {
+    public static void cobrarMulta(int valorMulta, Tienda local) {
         if (valorMulta == 0) {
             return;
         }
@@ -570,7 +573,7 @@ public class Funcionalidad2 {
 
             if (valorIngresado < valorMulta) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("El valor ingresado es menor al total de la compra.\n" +
+                System.out.println("El valor ingresado es menor al requerido.\n" +
                         "Presiona enter para volver a intentar.\n");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
@@ -578,5 +581,7 @@ public class Funcionalidad2 {
                 break;
             }
         }
+
+        local.agregarFondos(valorMulta);
     }
 }
