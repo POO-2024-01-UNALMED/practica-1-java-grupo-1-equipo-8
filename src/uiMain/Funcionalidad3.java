@@ -1,9 +1,12 @@
 package uiMain;
 
+import java.sql.ClientInfoStatus;
 import java.util.*;
 
 import static uiMain.Main.imprimirSeparador;
+import static uiMain.Main.recibirFecha;
 
+import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.*;
 import gestorAplicacion.productos.*;
 
@@ -58,7 +61,7 @@ public class Funcionalidad3 {
 
                             continue;
                         }
-                        ArrayList<Producto> lista = new ArrayList<Producto>();
+                        ArrayList<Producto> lista = new ArrayList<>();
                         switch (opcion2) {
                             case 1:
                                 //Revisar por tipo de producto
@@ -164,12 +167,14 @@ public class Funcionalidad3 {
                                 lista.add(i);
                             }
                         }
-                    }else{
+                    }else if(tipo == 3) {
                         for (Producto i:local.getInventario()){
                             if (i instanceof Juego){
                                 lista.add(i);
                             }
                         }
+                    }else {
+                        break;
                     }
                     for(Producto i:lista){
                         System.out.println(i.getNombre()+"| Código: "+i.getCodigo());
@@ -271,7 +276,7 @@ public class Funcionalidad3 {
                             }
                         }
                     }
-                    analizarMercado(fechaActual);
+                    analizarMercado(local, fechaActual);
             }
         }while(opcion != 4);
 
@@ -299,12 +304,12 @@ public class Funcionalidad3 {
         return palabra;
     }
 
-    private static void analizarMercado(Fecha fechaActual){
+    private static void analizarMercado(Tienda local, Fecha fechaActual){
         byte opcion = 0;
         do{
             try{
                 imprimirSeparador();
-                System.out.println("Desea \n1.Hacer análisis de mercado \nRevisar prioridad de cada producto \nRegresar");
+                System.out.println("Desea \n1.Hacer análisis de mercado \n2.Revisar prioridad de cada producto \n3.Regresar");
 
                 sc.nextLine();
                 opcion = sc.nextByte();
@@ -315,18 +320,219 @@ public class Funcionalidad3 {
                 System.out.println("El valor debe ser numerico");
 
             }
-            switch (opcion){
+            switch (opcion) {
                 case 1:
                     //Hacer análisis de mercado
+                    System.out.println("Ingresa la fecha inicial");
+                    sc.nextLine();//Limpiar buffer
 
+                    Fecha fechaInicial = recibirFecha();//Pedir fecha inicial para el rango de ventas a tener en cuenta
+                    if (fechaInicial.getTotalDias() > fechaActual.getTotalDias()) {
+                        imprimirSeparador();
+                        System.out.println("La fecha inicial no es menor a la actual");
+                        sc.nextLine(); //Limpiar buffer
+                        continue;
+                    }
+                    System.out.println("Ingresa la fecha final");
+
+                    Fecha fechaFinal = recibirFecha();//Pedir fecha final para el rango de ventas a tener en cuenta
+
+                    ArrayList<Transaccion> rangoVentas = new ArrayList<>();
+                    for (Transaccion i : local.getCaja()) {
+                        if (i.getFecha().getTotalDias() > fechaInicial.getTotalDias() && i.getFecha().getTotalDias() < fechaFinal.getTotalDias()) {//Verificar que la fecha de transaccion esté dentro del rango de tiempo
+                            rangoVentas.add(i);
+                        }
+                    }
+
+                    if (fechaFinal.getTotalDias() < fechaInicial.getTotalDias()) {
+                        imprimirSeparador();
+                        System.out.println("La fecha final está antes de la final");
+                        sc.nextLine();
+                        continue;
+                    } else if (rangoVentas.isEmpty()) {
+                        imprimirSeparador();
+                        System.out.println("No hay ventas dentro del rango");
+                        sc.nextLine();
+                    }
+
+                    hacerReabastecimiento(local,fechaActual,rangoVentas);
+                    continue;
                 case 2:
+
                     //Revisar prioridad
-                default:
+                    String orden = "prioridad";
+                    String decision = "";
+                    while(true) {
+                        imprimirSeparador();
+                        System.out.println("Desea ver los productos agrupados por tipo(No ponga tildes) \n•Si \n•No \n• Salir");
+
+                        sc.nextLine();
+                        decision = sc.nextLine();
+                        if(decision.equalsIgnoreCase("si")){
+                            byte tipo;
+                            ArrayList<Producto> lista = new ArrayList<Producto>();
+
+                            try{//impedir un error al elegir el tipo
+                                System.out.println("Ingresa el tipo de producto que modificarás\n1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
+
+                                tipo = sc.nextByte();
+                            }catch (Exception e){//Informar de un error
+                                imprimirSeparador();
+
+                                System.out.println("\n### ERROR ###");
+                                System.out.println("El valor debe ser numerico");
+                                sc.nextLine();
+                                continue;
+                            }
+
+                            if (tipo == 1){
+                                for (Producto i:local.getInventario()){
+                                    if (i instanceof Accesorio){
+                                        lista.add(i);
+                                    }
+                                }
+                            } else if (tipo == 2) {
+                                for (Producto i:local.getInventario()){
+                                    if (i instanceof Consola){
+                                        lista.add(i);
+                                    }
+                                }
+                            }else if(tipo == 3) {
+                                for (Producto i:local.getInventario()){
+                                    if (i instanceof Juego){
+                                        lista.add(i);
+                                    }
+                                }
+                            }else {
+                                break;
+                            }
+                            for(Producto i: lista){
+                                System.out.println("Nombre: "+i.getNombre()+" | Prioridad: "+i.getPrioridad());
+                            }
+                            break;
+
+                        } else if (decision.equalsIgnoreCase("no")) {//No ver por tipo de producto
+                            while (true){
+                                imprimirSeparador();
+                                System.out.println("Desea ver los productos por prioridad:\n•Muy alta \n•Alta \n•Baja \n•Todos");
+                                decision = sc.nextLine();
+
+                                if (decision.equalsIgnoreCase("muy alta")){
+                                    for (Producto i: local.getInventario()){
+                                        if (i.getPrioridad().equalsIgnoreCase("prioridad muy alta")){
+                                            System.out.println("Nombre: "+i.getNombre()+" | Prioridad: "+i.getPrioridad());
+                                        }
+                                    }
+                                    break;
+
+                                } else if (decision.equalsIgnoreCase("alta")) {
+                                    for (Producto i: local.getInventario()){
+                                        if (i.getPrioridad().equalsIgnoreCase("prioridad alta")){
+                                            System.out.println("Nombre: "+i.getNombre()+" | Prioridad: "+i.getPrioridad());
+                                        }
+                                    }
+                                    break;
+
+                                }else if(decision.equalsIgnoreCase("baja")){
+                                    for (Producto i: local.getInventario()){
+                                        if (i.getPrioridad().equalsIgnoreCase("prioridad baja")){
+                                            System.out.println("Nombre: "+i.getNombre()+" | Prioridad: "+i.getPrioridad());
+                                        }
+                                    }
+                                    break;
+
+                                } else if (decision.equalsIgnoreCase("todos")) {
+                                    ArrayList<Producto> lista = new ArrayList<Producto>();
+                                    Collections.copy(lista,local.getInventario());
+                                    Producto.ordenar(lista,orden);
+
+                                    for (Producto i: lista){
+                                        System.out.println("Nombre: "+i.getNombre()+" | Prioridad: "+i.getPrioridad());
+                                    }
+                                    break;
+                                }else{
+                                    System.out.println("La desición ingresada no existe");
+                                    sc.nextLine();
+                                }
+
+                            }
+                        } else if (decision.equalsIgnoreCase("salir")) {
+                            break;
+
+                        }else{
+                            System.out.println("La opcion ingresada no es valida");
+                        }
+                    }
+
+                case 3:
                     break;
             }
         }while(opcion < 3);
     }
-    private static void hacerReabastecimiento(){
+    private static void hacerReabastecimiento(Tienda local,Fecha fechaActual,ArrayList<Transaccion> rangoVentas){
+        byte opcion = 0;
+        do{
+            try{
+                imprimirSeparador();
+                System.out.println("Desea \n1.Ver ventas individuales \n2.Órdenes en este rango \n3.Tendencias en este rango \n4.Proceder al reabastecimiento \n5.Regresar");
+                //TODO:encontrar una manera de regresar al momento de ingresar la fecha
+                sc.nextLine();
+                opcion = sc.nextByte();
 
+            }catch (Exception e){
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("El valor debe ser numerico");
+                sc.nextLine();
+            }
+            switch (opcion){
+                case 1:
+                    //Ver ventas individuales
+
+                case 2:
+                    //Ordenes en el rango
+                case 3:
+                    //Tendencias en el rango
+                    while (true){
+                        try{
+                            imprimirSeparador();
+                            System.out.println("Desea ver \n1.Géneros \n2.Plataformas \n3.Rangos de precio más vendidos \n4.Cambiar fecha \n5.Regresar");
+                            sc.nextLine();
+                            opcion = sc.nextByte();
+
+                        }catch (Exception e){
+                            imprimirSeparador();
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("El valor debe ser numerico");
+                            sc.nextLine();
+                        }
+                        switch (opcion){
+                            case 1:
+                                //Tendencias de generos
+                                int media = 0;
+                                for (Transaccion i : rangoVentas){
+                                    //TODO:Como dar el resultado de cada genero, por separado
+                                }
+                            case 2:
+                                //Tendencias de plataformas
+                                //TODO:Como dar el resultado de cada plataforma, por separado
+
+                            case 3:
+                                //Tendencias de rangos mas vendidos
+
+                            case 4:
+                                //Cambiar fecha?
+
+                            case 5:
+                                //Regresar
+                                opcion =0;
+                                break;
+                        }
+                        System.out.println("El valor ingresado no es valido");
+                    }
+                case 4:
+                    //Proceder con el reabastecimiento
+            }
+        }while (opcion < 5);
     }
 }
