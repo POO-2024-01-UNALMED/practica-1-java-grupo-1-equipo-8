@@ -35,4 +35,9 @@ public class Consola extends Producto{
 		public int compare(Producto o1, Producto o2){
 		return 1;
 	}
+
+	@Override
+	public int compareTo(Producto o) {
+		return 0;
+	}
 }

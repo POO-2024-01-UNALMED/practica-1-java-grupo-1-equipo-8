@@ -11,6 +11,7 @@ import gestorAplicacion.productos.Consola;
 import gestorAplicacion.productos.Juego;
 import gestorAplicacion.productos.Producto;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -68,6 +69,7 @@ public class Funcionalidad2 {
                             multa += comprobarDevolucion(p);
                             cobrarMulta(multa, local);
                             devolverProductosPrestados(p, local);
+                            System.out.println("Productos devueltos.");
                         }
                     }
 
@@ -79,6 +81,7 @@ public class Funcionalidad2 {
                             multa = comprobarDevolucion(p);
                             cobrarMulta(multa, local);
                             devolverProductosPrestados(p, local);
+                            System.out.println("Productos devueltos.");
                         }
                     }
                 }
@@ -199,9 +202,9 @@ public class Funcionalidad2 {
                         }
 
                         // Calcular valor temporal
-                        int valor = 0;
+                        double valor = 0;
                         for (Producto p : carrito) {
-                            valor += (int) (p.getValor() * 0.02);
+                            valor += (p.getValor() * 0.01);
                         }
 
                         // Elegir plazo
@@ -237,11 +240,11 @@ public class Funcionalidad2 {
                                     break;
                                 case 3:
                                     dias = 45;
-                                    valor = (int) (valor * dias * 0.95);
+                                    valor = (int) (valor * dias * 0.90);
                                     break;
                                 case 4:
                                     dias = 60;
-                                    valor = (int) (valor * dias * 0.95);
+                                    valor = (int) (valor * dias * 0.85);
                                     break;
                                 default:
                                     System.out.println("\n### ERROR ###");
@@ -252,7 +255,9 @@ public class Funcionalidad2 {
                             }
                         }
 
-                        System.out.println("El precio total del préstamo es de $" + valor + " por " + dias + " días.");
+                        int valorInt = (int) valor;
+
+                        System.out.println("El precio total del préstamo es de $" + valorInt + " por " + dias + " días.");
 
                         Fecha fechaFin = new Fecha(fecha.getTotalDias() + dias);  // Fecha de fin del préstamo
 
@@ -276,7 +281,7 @@ public class Funcionalidad2 {
                                 continue;
                             }
 
-                            if (valorIngresado < valor) {
+                            if (valorIngresado < valorInt) {
                                 System.out.println("\n### ERROR ###");
                                 System.out.println("El valor ingresado es menor al requerido.\n" +
                                         "Presiona enter para volver a intentar.\n");
@@ -287,14 +292,14 @@ public class Funcionalidad2 {
                             }
                         }
 
-                        cambio = valorIngresado - valor;
+                        cambio = valorIngresado - valorInt;
 
                         System.out.println("Cambio: $" + cambio + "\n");
 
                         // Crear prestamo
-                        Prestamo prestamo = new Prestamo(fecha, fechaFin, cliente, carrito, valor, "Activo");
+                        Prestamo prestamo = new Prestamo(fecha, fechaFin, cliente, carrito, valorInt, "Activo");
                         // Añadir fondos al local
-                        local.agregarFondos(valor);
+                        local.agregarFondos(valorInt);
 
                         System.out.println("\nPresione Enter para confirmar el préstamo.");
                         sc.nextLine();  // Limpiar el buffer
@@ -335,7 +340,7 @@ public class Funcionalidad2 {
                 opcion = sc.nextByte();
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
                 continue;
@@ -520,14 +525,19 @@ public class Funcionalidad2 {
     // Método que se encarga únicamente de devolver los productos al stock del local ingresado
     // y actualizar el estado del préstamo
     private static void devolverProductosPrestados(Prestamo prestamo, Tienda local) {
+        ArrayList<Producto> paraAnadir = new ArrayList<>();
         for (Producto producto : prestamo.getProductos()) {
             for (Producto p : local.getInventarioPrestamo()) {
                 if (p.getNombre().equals(producto.getNombre())) {
                     p.setCantidad(p.getCantidad() + 1);
                 } else {
-                    local.getInventarioPrestamo().add(producto);
+                    paraAnadir.add(producto);
                 }
             }
+        }
+
+        for (Producto producto : paraAnadir) {
+            local.getInventarioPrestamo().add(producto);
         }
 
         prestamo.setEstado("Devuelto");
@@ -540,9 +550,7 @@ public class Funcionalidad2 {
         System.out.println("Por favor, revise el estado de los productos devueltos.");
 
         for (Producto producto : prestamo.getProductos()) {
-            if (siNo("¿El producto '" + producto.getNombre() + "' se encuentra en buen estado?")) {
-                continue;
-            } else {
+            if (!siNo("¿El producto '" + producto.getNombre() + "' se encuentra en buen estado?")) {
                 multa += (int) (producto.getValor() * 0.25);
             }
         }
