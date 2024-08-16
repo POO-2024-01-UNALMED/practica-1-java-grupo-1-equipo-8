@@ -50,7 +50,6 @@ public class Funcionalidad2 {
             }
         }
 
-        //TODO: Generación de multas basadas en la condición en que se entregan los productos
         if (prestamoActivo) {
             if (siNo("¿Desea devolver productos prestados?")) {
                 for (Prestamo p : cliente.getPrestamos()) {
@@ -63,17 +62,22 @@ public class Funcionalidad2 {
                         }
 
                         System.out.println("* Préstamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
-                        System.out.println("Este préstamo está vencido. La multa es de: $" + multa);
+                        System.out.println("Este préstamo está vencido.");
 
                         if (siNo("¿Desea devolver los productos de este préstamo?")) {
+                            multa += comprobarDevolucion(p);
+                            cobrarMulta(multa);
                             devolverProductosPrestados(p, local);
                         }
                     }
 
                     if (p.getEstado().equals("Activo")) {
+                        int multa = 0;
                         System.out.println("* Préstamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
 
                         if (siNo("¿Desea devolver los productos de este préstamo?")) {
+                            multa = comprobarDevolucion(p);
+                            cobrarMulta(multa);
                             devolverProductosPrestados(p, local);
                         }
                     }
@@ -92,8 +96,7 @@ public class Funcionalidad2 {
         // Consultar si se desea realizar un préstamo
         if (!siNo("¿Desea realizar un préstamo?")) {    // En caso que no
             return;
-        }
-        else {   // En caso que sí
+        } else {   // En caso que sí
             /* ~~ Seleccion de productos para el prestamo ~~ */
             byte opcion = 0;
             ArrayList<Producto> carrito = new ArrayList<Producto>();
@@ -139,9 +142,7 @@ public class Funcionalidad2 {
                         boolean productoYaEnCarrito = false;
                         for (Producto p : carrito) {
                             if (p.getNombre().equals(producto.getNombre())) {
-                                System.out.println("¡Sólo está permitido un ejemplar por préstamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
-                                System.out.println("\nPresione Enter para continuar.");
-                                sc.nextLine();  // Esperar a que el usuario presione Enter
+                                productoYaEnCarrito = true;
                                 break;
                             }
                         }
@@ -150,8 +151,7 @@ public class Funcionalidad2 {
                             System.out.println("¡Sólo está permitido un ejemplar por préstamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
                             System.out.println("\nPresione Enter para continuar.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
-                        }
-                        else { // En caso de que no esté, agregarlo al carrito
+                        } else { // En caso de que no esté, agregarlo al carrito
                             carrito.add(producto);
                             System.out.println("Producto agregado al carrito.");
                         }
@@ -190,7 +190,6 @@ public class Funcionalidad2 {
                         break;
 
                     case 4: // Confirmar carrito para préstamo
-
                         // Comprobar que el carrito no esté vacío
                         if (carrito.isEmpty()) {
                             System.out.println("El carrito está vacío.");
@@ -206,12 +205,12 @@ public class Funcionalidad2 {
                         }
 
                         // Elegir plazo
-                            System.out.println("1. 2 semanas (14 días)");
-                            System.out.println("2. 1 mes (30 días)");
-                            System.out.println("3. Mes y medio (45 días)");
-                            System.out.println("4. 2 meses (60 días)");
+                        System.out.println("1. 2 semanas (14 días)");
+                        System.out.println("2. 1 mes (30 días)");
+                        System.out.println("3. Mes y medio (45 días)");
+                        System.out.println("4. 2 meses (60 días)");
 
-                            System.out.println("Ingrese el tipo de plazo para el préstamo:");
+                        System.out.println("Ingrese el tipo de plazo para el préstamo:");
 
                         int dias = 0; // Variable para calcular la fecha final según la duración del préstamo
 
@@ -317,7 +316,7 @@ public class Funcionalidad2 {
         }
     }
 
-    private static Producto seleccionarProducto (ArrayList < Producto > inventarioPrestamo) {
+    private static Producto seleccionarProducto(ArrayList<Producto> inventarioPrestamo) {
         byte opcion = 0;
 
         do {
@@ -529,5 +528,55 @@ public class Funcionalidad2 {
         }
 
         prestamo.setEstado("Devuelto");
+    }
+
+    // Método que lleva a cabo el chequeo individual de cada producto
+    // de una devolución y retorna una multa de ser necesario
+    private static int comprobarDevolucion(Prestamo prestamo) {
+        int multa = 0;
+        System.out.println("Por favor, revise el estado de los productos devueltos.");
+
+        for (Producto producto : prestamo.getProductos()) {
+            if (siNo("¿El producto '" + producto.getNombre() + "' se encuentra en buen estado?")) {
+                continue;
+            } else {
+                multa += (int) (producto.getValor() * 0.3);
+            }
+        }
+
+        return multa;
+    }
+
+    // Método que lleva a cabo el cobro de una multa con valor dado
+    public static void cobrarMulta(int valorMulta) {
+        if (valorMulta == 0) {
+            return;
+        }
+
+        while (true) {
+            int valorIngresado = 0;
+            System.out.println("Valor de multa: " + valorMulta);
+            System.out.print("Ingrese el valor con el que pagará:");
+
+            try {
+                valorIngresado = sc.nextInt();
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+                continue;
+            }
+
+            if (valorIngresado < valorMulta) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("El valor ingresado es menor al total de la compra.\n" +
+                        "Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // Limpiar el buffer
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            } else {
+                break;
+            }
+        }
     }
 }
