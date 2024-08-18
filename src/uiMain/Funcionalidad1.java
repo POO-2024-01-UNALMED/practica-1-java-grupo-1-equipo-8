@@ -484,7 +484,7 @@ public class Funcionalidad1 {
         return precioFinal;
     }
 
-    // Método para encontrar un empleado en la tienda
+    // Méthodo para encontrar un empleado en la tienda
     public static Empleado identificarEmpleado(Tienda local) {
         // En caso de que la tienda no tenga empleados
         if (local.getEmpleados().size() == 0) {

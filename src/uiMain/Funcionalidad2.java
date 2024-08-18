@@ -318,7 +318,7 @@ public class Funcionalidad2 {
                         break;
                 }
 
-                // Método para seleccionar un producto del inventario de préstamos
+                // Méthodo para seleccionar un producto del inventario de préstamos
             }
             while (opcion != 4 || opcion != 0);
         }
@@ -522,7 +522,7 @@ public class Funcionalidad2 {
         return false;
     }
 
-    // Método que se encarga únicamente de devolver los productos al stock del local ingresado
+    // Méthodo que se encarga únicamente de devolver los productos al stock del local ingresado
     // y actualizar el estado del préstamo
     private static void devolverProductosPrestados(Prestamo prestamo, Tienda local) {
         ArrayList<Producto> paraAnadir = new ArrayList<>();
@@ -543,7 +543,7 @@ public class Funcionalidad2 {
         prestamo.setEstado("Devuelto");
     }
 
-    // Método que lleva a cabo el chequeo individual de cada producto
+    // Méthodo que lleva a cabo el chequeo individual de cada producto
     // de una devolución y retorna una multa de ser necesario
     private static int comprobarDevolucion(Prestamo prestamo) {
         int multa = 0;
@@ -558,7 +558,7 @@ public class Funcionalidad2 {
         return multa;
     }
 
-    // Método que lleva a cabo el cobro de una multa con valor dado
+    // Méthodo que lleva a cabo el cobro de una multa con valor dado
     public static void cobrarMulta(int valorMulta, Tienda local) {
         if (valorMulta == 0) {
             return;

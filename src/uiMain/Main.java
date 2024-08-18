@@ -96,58 +96,15 @@ public class Main {
 
         /* ~~~~~~~~~~~~~~~~~~~~~~~ Inicio del programa ~~~~~~~~~~~~~~~~~~~~~~~ */
         /* ~~~ Recibir fecha ~~~ */
-        Fecha fechaActual;
-
-        while (true) { // Recibir fecha actual
-            imprimirSeparador();
-
-            System.out.println("Último acceso: " + ultimaFecha);
-
-            fechaActual = recibirFecha();
-            if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la última fecha registrada
-                ultimaFecha = fechaActual;
-                break;
-            } else {
-                System.out.println("\n### ERROR ###");
-                System.out.println("La fecha ingresada es anterior a la última fecha registrada (" + ultimaFecha + ")" +
-                        "\nPresione Enter para volver a intentar.");
-
-                sc.nextLine();  // Esperar a que el usuario presione Enter
-            }
-        }
+        Fecha fechaActual = recibirFechaActual();
 
         // TODO: Imprimir local y fecha actuales en el menu principal
 
         /* ~~ Selección de local ~~ */
         Tienda local = null; // Se adquiere el local con el que se quiere trabajar
-            do{
-                imprimirSeparador();
+        local = getLocal();
 
-                int j = 1;
-                for (Tienda i : Tienda.getLocales()){ // Bucle para imprimir los locales
-                    System.out.println(j+". "+i.getNombre());
-                    j= j+1;
-                }
-
-                System.out.println("Ingrese el nombre del local");
-
-                String nombreLocal = sc.nextLine(); // Recibir entrada del usuario
-                // sc.nextLine();
-
-                for (Tienda i : Tienda.getLocales()){ // Bucle para encontrar el local
-                    if (i.getNombre().equals(nombreLocal)) {
-                        local = i;
-                    }
-                    else{
-                        System.out.print("\n### ERROR ###\n");
-                        System.out.println("Local no encontrado. Presione enter para volver a intentar.");
-                        sc.nextLine();
-                    }
-                    break;
-                }
-            } while (local == null);
-
-            /* ~~~~ Menú principal ~~~~ */
+        /* ~~~~ Menú principal ~~~~ */
         imprimirSeparador();
         imprimirLogo();
         /* ~~ Selección de funcionalidad ~~ */
@@ -161,6 +118,9 @@ public class Main {
                 System.out.println("4. Gestionar empleados");
                 System.out.println("5. Subastar");
 
+                System.out.println("--------------------------");
+                System.out.println("6. Cambiar de fecha y local");
+
                 System.out.println("0. Guardar y salir");
 
                 System.out.println("Ingrese el número de la opción que desea ejecutar:");
@@ -168,6 +128,7 @@ public class Main {
                 // Recibir entrada del usuario
                 try {
                     opcion = sc.nextByte();
+                    sc.nextLine();  // Limpiar el buffer
                 }
                 catch (InputMismatchException error) {
                     System.out.println("\n### ERROR ###");
@@ -181,33 +142,32 @@ public class Main {
                     case 1:
                         // Registrar compra
                         Funcionalidad1.registrarCompra(local, fechaActual);
-
-                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 2:
                         // Registrar préstamo
 
                         Funcionalidad2.registrarPrestamo(local, fechaActual);
-
-                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 3:
                         // Administrar inventario
                         Funcionalidad3.revisarInventario(local, fechaActual);
-                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 4:
                         // Gestionar empleados
                         Funcionalidad4.inspeccionEmpleado(local, fechaActual);
-                        sc.nextLine();  // Limpiar el buffer
                         break;
 
                     case 5:
                         // ~~Placeholder para quinta funcionalidad~~
-                        sc.nextLine();  // Limpiar el buffer
+                        break;
+
+                    case 6:
+                        // Cambiar de fecha y local
+                        fechaActual = recibirFechaActual();
+                        local = getLocal();
                         break;
 
                     case 0:
@@ -228,6 +188,29 @@ public class Main {
                         break;
                 }
             } while (opcion != 0);
+    }
+
+    private static Fecha recibirFechaActual() {
+        Fecha fechaActual;
+
+        while (true) { // Recibir fecha actual
+            imprimirSeparador();
+
+            System.out.println("Último acceso: " + ultimaFecha);
+
+            fechaActual = recibirFecha();
+            if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la última fecha registrada
+                ultimaFecha = fechaActual;
+                break;
+            } else {
+                System.out.println("\n### ERROR ###");
+                System.out.println("La fecha ingresada es anterior a la última fecha registrada (" + ultimaFecha + ")" +
+                        "\nPresione Enter para volver a intentar.");
+
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+        return fechaActual;
     }
 
     // Separador de la TUI
@@ -357,6 +340,7 @@ public class Main {
         return !(respuesta == 'n' || respuesta == 'N');
     }
 
+    // Identifica una fecha ingresada por el usuario y la devuelve
     public static Fecha recibirFecha() {
         int year;
         int mes;
@@ -419,6 +403,79 @@ public class Main {
 
         sc.nextLine(); // Limpiar el buffer
         return new Fecha(dia, mes, year);
+    }
+
+    // Identificar local
+    private static Tienda getLocal() {
+        Scanner scGetLocal = new Scanner(System.in);
+        Tienda local = null;
+
+        do{
+            imprimirSeparador();
+
+            int j = 1;
+            for (Tienda i : Tienda.getLocales()){ // Bucle para imprimir los locales
+                System.out.println("* "+i.getNombre());
+                j= j+1;
+            }
+
+            System.out.println("Ingrese el nombre del local");
+
+            String nombreLocal = scGetLocal.nextLine(); // Recibir entrada del usuario
+
+            for (Tienda i : Tienda.getLocales()){ // Bucle para encontrar el local
+                if (i.getNombre().equals(nombreLocal)) {
+                    local = i;
+                    break;
+                }
+            }
+
+            if (local == null) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Local no encontrado. Presiona enter para volver a intentar.");
+                scGetLocal.nextLine();  // nextLine para esperar a que el usuario presione Enter
+            }
+
+        } while (local == null);
+        return local;
+    }
+
+    // Menu de opcion multiple. Recibe un titulo y un array de opciones a mostrar.
+    // Devuelve el byte de la opción seleccionada.
+    public static byte menuOpcionMultiple(String titulo, String[] opciones) {
+        Scanner scMenuOpcines = new Scanner(System.in);
+        byte opcion;
+
+        do {
+            imprimirSeparador();
+            if (titulo != null) { // Imprimir el titulo
+                System.out.println(titulo);
+            }
+            for (int i = 0; i < opciones.length; i++) { // Mostrar las opciones
+                System.out.println((i + 1) + ". " + opciones[i]);
+            }
+
+            System.out.println("0. Volver");
+
+            System.out.print("Ingrese el número de la opción que desea ejecutar:");
+
+            // Recibir entrada
+            opcion = 0;
+
+            try {
+                opcion = scMenuOpcines.nextByte();
+                return opcion;
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                scMenuOpcines.nextLine();  // nextLine para limpiar el buffer
+                scMenuOpcines.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+        } while (opcion < 0 || opcion > opciones.length);
+
+        return opcion;
     }
 
     /* ~~~ FUNCIONALIDAD 5 ~~~ */
