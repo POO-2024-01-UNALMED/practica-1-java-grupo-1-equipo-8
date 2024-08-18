@@ -89,16 +89,27 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	}
 
 	/* ~~ Método para ordenar ~~ */
-	@Override
-	public int compareTo(Producto p){
-		if(this.calcularVenta() > p.calcularVenta()){
-			return -1;
+	static Comparator<Producto> comparadorPorPrioridad = new Comparator<Producto>() {
+		@Override
+		public int compare(Producto o1, Producto o2) {
+			return getPrioridadValue(o1.getPrioridad()) - getPrioridadValue(o2.getPrioridad());
 		}
-		if (this.calcularVenta() < p.calcularVenta()){
-			return 1;
+
+		private int getPrioridadValue(String prioridad) {
+			switch (prioridad) {
+				case "Prioridad muy alta":
+					return 1;
+				case "Prioridad alta":
+					return 2;
+				case "Prioridad media":
+					return 3;
+				case "Prioridad baja":
+					return 4;
+				default:
+					return Integer.MAX_VALUE; // en caso de valores desconocidos
+			}
 		}
-		return 0;
-	}
+	};
 
 	/* ~~ Metodo para calcular las ventas ~~ */
 	public int calcularVenta(){
@@ -123,6 +134,10 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 				}
 			});
 			return p;
+		} else if (orden.equalsIgnoreCase("prioridad")) {
+			Collections.sort(p,comparadorPorPrioridad);
+			return p;
+
 		} else {
 			Collections.sort(p, new Comparator<Producto>() {
 				@Override
@@ -141,7 +156,6 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		return (Producto) super.clone();
 	}
 
-	/* ~~ Métodos para imprimir información del producto ~~ */
 	/* ~ Método toString ~ */
 	@Override
 	public String toString() {
@@ -155,7 +169,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	public String toStringPrestable() {
 		return "COD: " + codigo + " | " +
 				"NOMBRE: " + nombre + " | " +
-				"VALOR PRESTAMO: $ " + (int) (valor * 0.10) + " | " +
+				"VALOR POR DIA: $ " + (valor * 0.01) + " | " +
 				"CANT PRESTABLE: " + cantidad;
 	}
 

@@ -31,6 +31,8 @@ public class Prestamo implements Serializable{
         this.productos = productos;
         this.valorTotal = valorTotal;
         this.estado = estado;
+
+        cliente.agregarPrestamo(this);
     }
 
     /* ~~~ Métodos ~~~ */

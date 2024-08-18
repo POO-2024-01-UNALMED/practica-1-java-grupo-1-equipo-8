@@ -43,37 +43,39 @@ public class Funcionalidad4 {
                     break;
                 }
                 ampliarMeta(empleado, meta, fechaActual);
-            }else {
+            } else {
                 break;
             }
 
         }
 
-        int rendimiento = verRendimiento(empleado, fechaActual);
-        compararRendimiento(empleado, fechaActual, rendimiento);
-
-
-        //TODO: COMPARAR RENDIMIENTO
+        /* ~~~ Ver rendimiento ~~~ */
+        while (true){
+            int rendimiento = verRendimiento(empleado, fechaActual);
+            compararRendimiento(empleado, fechaActual, rendimiento);
+            System.out.println("¿Qué desea hacer?");
+            System.out.println("1. Ver rendimiento en otro periodo");
+            System.out.println("2. Asignar sueldo");
+            int decision = sc.nextInt();
+            if (decision ==  2){
+                break;
+            }
+        }
 
         /* ~~~ Modificar Salarios o días laborales ~~~ */
-        while (true) {
-            System.out.println("¿Qué desea modificar?");
-            System.out.println("1. Salario fijo");
-            System.out.println("2. Salario Porcentual");
+        while (true){
+            System.out.println("¿Qué desea hacer?");
+            System.out.println("1. Modificar salarios");
+            System.out.println("2. Modificar días laborales");
+            int decision = sc.nextInt();
 
-            int modificacion = sc.nextInt();
-
-            switch (modificacion) {
+            switch (decision){
                 case 1:
                     modificarSalario(empleado);
-
-                    sc.nextLine();
                     break;
 
                 case 2:
                     modificarDiasLaborales(empleado);
-
-                    sc.nextLine();
                     break;
 
                 default:
@@ -83,14 +85,23 @@ public class Funcionalidad4 {
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                     break;
             }
-
-            boolean decision = siNo("¿Desea modificar algo más?");
-            if (!decision) {
+            boolean pregunta = siNo("¿Desea modificar algo más?");
+            if (!pregunta){
                 break;
             }
-        }
 
+        }
         //TODO: Asignar una meta
+        /* ~~~ Asignar una meta ~~~ */
+
+        System.out.println("¿Qué desea hacer?");
+        System.out.println("1. Asignar una meta");
+        System.out.println("2. Terminar");
+        byte pregunta = sc.nextByte();
+
+        if (pregunta == 1){
+            asignarMeta(empleado);
+        }
 
     }
 
@@ -162,11 +173,13 @@ public class Funcionalidad4 {
             System.out.println("* Código: " + m.getCodigo() + " - Porcentaje de progreso: " + porcentajeProgreso + "%");
 
             if (porcentajeProgreso == 100) {
+                empleado.getMetas().remove(m);
                 empleado.ingresarMetasAlcanzdas(m);
                 m.setEstado("Meta cumplida");
             }
 
             if (fechaActual.getTotalDias() > m.getFecha().getTotalDias()) {
+                empleado.getMetas().remove(m);
                 empleado.ingresarMetasCaducadas(m);
                 m.setEstado("Meta caducada");
             }
@@ -182,7 +195,7 @@ public class Funcionalidad4 {
         } else {
             System.out.println("Las metas alcanzadas por el empleado: " + empleado.getNombre() + " son: ");
             for (Meta m : empleado.getMetasAlcanzadas()) {
-                System.out.println("Código de meta: " + m.getCodigo() + " | Valor a alcanzar: " + m.getValorAlcanzar() + " |  Valor de bonificación: " + m.getValorBonificacion() + " | Fecha límite: " + m.getFecha().toString());
+                System.out.println(m.toString());
             }
         }
     }
@@ -247,6 +260,7 @@ public class Funcionalidad4 {
                 System.out.println("Fecha actualizada. La meta " + meta.getCodigo() + " quedó para " + meta.getFecha().toString());
                 System.out.println("Presione enter para continuar");
                 empleado.getMetasCaducadas().remove(meta);
+                empleado.ingresarMeta(meta);
                 meta.setEstado("En proceso");
                 sc.nextLine();
                 sc.nextLine();
@@ -270,6 +284,7 @@ public class Funcionalidad4 {
                         }
                     }
                     System.out.println("El total de ventas semanales del empleado " + empleado.getNombre() + " son: " + totalVentasSemanaActual);
+                    break;
 
                 case 2:
                     for (Transaccion t : empleado.getTransacciones()) {
@@ -278,6 +293,7 @@ public class Funcionalidad4 {
                         }
                     }
                     System.out.println("El total de ventas mensuales del empleado " + empleado.getNombre() + " son:" + totaVentasMesActual);
+                    break;
 
                 case 3:
                     for (Transaccion t : empleado.getTransacciones()) {
@@ -286,6 +302,7 @@ public class Funcionalidad4 {
                         }
                     }
                     System.out.println("El total de ventas anuales del empleado " + empleado.getNombre() + " son:" + totalVentasYearActual);
+                    break;
 
                 default:
                     System.out.println("\n### ERROR ###");
@@ -309,18 +326,109 @@ public class Funcionalidad4 {
 
         switch (decision) {
             case 1:
-                int total = 0;
+                int totalSemana = 0;
                 for (Transaccion t : empleado.getTransacciones()) {
                     if (fechaActual.getTotalDias() - 14 > t.getFecha().getTotalDias() - 7) {
-                        total++;
-                        System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron:" + total);
+                        totalSemana++;
+                        System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron:" + totalSemana);
+                        System.out.println("Presione Enter para continuar.\n");
+                        sc.nextLine(); // Limpiar el buffer
+                        sc.nextLine(); // Esperar a que el usuario presione Enter
                     }
                 }
 
+                if (totalSemana < totalVentasSemanaActual){
+                    int calculo = ((totalVentasSemanaActual - totalSemana)/totalSemana)*100;
+                    System.out.println("El total de ventas en esta semana incrementó en un " + calculo + "%");
+                    if (calculo > 30 ){
+                        System.out.println("El empleado tuvo un incremento en ventas mayor al 30%. El empleado debería tener una bonificación remunerada.");
+                        System.out.println("Presione Enter para continuar.\n");
+                        sc.nextLine(); // Limpiar el buffer
+                        sc.nextLine(); // Esperar a que el usuario presione Enter
+                    }
+                } else if (totalSemana == totalVentasSemanaActual) {
+                    System.out.println("El total de ventas fue igual al de la semana pasada " + totalSemana + " ventas.");
+                    System.out.println("Presione Enter para continuar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                } else {
+                    int calculo = ((totalSemana - totalVentasSemanaActual)/totalSemana)*100;
+                    System.out.println("El total de ventas en esta semana disminuyó en un " + calculo +"%");
+                    System.out.println("Presione Enter para continuar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                }
+                break;
+
             case 2:
-                System.out.println("El total de ventas el mes anterior fue: ");
+                int totalMes = 0;
+                for (Transaccion t : empleado.getTransacciones()) {
+                    if (fechaActual.getTotalDias() - 62 > t.getFecha().getTotalDias() - 31) {
+                        totalMes++;
+                        System.out.println("El total de ventas en el mes anterior del empleado " + empleado.getNombre() + " fueron:" + totalMes);
+                        System.out.println("Presione Enter para continuar.\n");
+                        sc.nextLine(); // Limpiar el buffer
+                        sc.nextLine(); // Esperar a que el usuario presione Enter
+                    }
+                }
+
+                if (totalMes < totaVentasMesActual){
+                    int calculo = ((totaVentasMesActual - totalMes)/totalMes)*100;
+                    System.out.println("El total de ventas en este mes incrementó en un " + calculo + "%");
+                    if (calculo > 30 ){
+                        System.out.println("El empleado tuvo un incremento en ventas mayor al 30%. El empleado debería tener una bonificación remunerada.");
+                        System.out.println("Presione Enter para continuar.\n");
+                        sc.nextLine(); // Limpiar el buffer
+                        sc.nextLine(); // Esperar a que el usuario presione Enter
+                    }
+                } else if (totalMes == totaVentasMesActual) {
+                    System.out.println("El total de ventas fue igual al del mes pasado: " + totalMes + " ventas.");
+                    System.out.println("Presione Enter para continuar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                } else {
+                    int calculo = ((totalMes - totaVentasMesActual)/totalMes)*100;
+                    System.out.println("El total de ventas en este mes disminuyó en un " + calculo +"%");
+                    System.out.println("Presione Enter para continuar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                }
+                break;
+
             case 3:
-                System.out.println("El total de ventas del año anterior fue: ");
+                int totalYear = 0;
+                for (Transaccion t : empleado.getTransacciones()) {
+                    if (fechaActual.getTotalDias() - 14 > t.getFecha().getTotalDias() - 7) {
+                        totalYear++;
+                        System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron:" + totalYear);
+                        System.out.println("Presione Enter para continuar.\n");
+                        sc.nextLine(); // Limpiar el buffer
+                        sc.nextLine(); // Esperar a que el usuario presione Enter
+                    }
+                }
+
+                if (totalYear < totalVentasYearActual){
+                    int calculo = ((totalVentasYearActual - totalYear)/totalYear)*100;
+                    System.out.println("El total de ventas en esta semana incrementó en un " + calculo + "%");
+                    if (calculo > 30 ){
+                        System.out.println("El empleado tuvo un incremento en ventas mayor al 30%. El empleado debería tener una bonificación remunerada.");
+                        System.out.println("Presione Enter para continuar.\n");
+                        sc.nextLine(); // Limpiar el buffer
+                        sc.nextLine(); // Esperar a que el usuario presione Enter
+                    }
+                } else if (totalYear == totalVentasYearActual) {
+                    System.out.println("El total de ventas fue igual al de la semana pesada " + totalYear + " ventas.");
+                    System.out.println("Presione Enter para continuar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                } else {
+                    int calculo = ((totalYear - totalVentasYearActual)/totalYear)*100;
+                    System.out.println("El total de ventas en esta semana disminuyó en un " + calculo +"%");
+                    System.out.println("Presione Enter para continuar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                }
+                break;
 
             default:
                 System.out.println("\n### ERROR ###");
@@ -367,6 +475,52 @@ public class Funcionalidad4 {
     }
 
     private static void modificarDiasLaborales(Empleado empleado) {
+        while (true){
+            System.out.println("El empleado " + empleado.getNombre() + "trabaja " + empleado.getDiasLaborales() + " a la semana");
+            System.out.println("Ingrese el número de días que " + empleado + " trabaje a la semana");
+            byte nuevoDias = sc.nextByte();
+
+            if (nuevoDias < 6 ){
+                empleado.setDiasLaborales(nuevoDias);
+                System.out.println("Ahora el empleado trabajará " + empleado.getDiasLaborales() + " días a la semana");
+                return;
+            }
+            else {
+                System.out.println("Cantidad inhumana de días. Presione enter para volver a intentarlo");
+            }
+        }
 
     }
+
+    private static void asignarMeta(Empleado empleado) {
+        System.out.println("Las metas del empleado + " + empleado.getNombre() + " son: ");
+        for (Meta m : empleado.getMetas()) {
+            System.out.println(m.toString());
+        }
+        System.out.println("Presione enter para continuar");
+        sc.nextLine();
+        sc.nextLine();
+
+        System.out.println("Ingrese el año límite de la meta: ");
+        int yearLimite = sc.nextInt();
+
+        System.out.println("Ingrese el mes límite de la meta: ");
+        int mesLimite = sc.nextInt();
+
+        System.out.println("Ingrese el día límite de la meta: ");
+        int diaLimite = sc.nextInt();
+
+        System.out.println("Ingrese el valor a alcanzar: ");
+        int valorAlcanzar = sc.nextInt();
+
+        System.out.println("Ingrese el valor de la bonificación : ");
+        int valorBonificacion = sc.nextInt();
+
+    }
+
+    //TODO: Hacer método para consecutivo en clase meta
+
+    //TODO: Hablar con pablito para ver como ingresar bonificación cuando se completa una meta
+
+    //TODO: Corregir los warnings
 }

@@ -25,7 +25,6 @@ public class Meta implements Serializable{
     }
 
                     /*~~ Metodos get y set ~~*/
-
     public Empleado getEmpleado() {
         return empleado;
     }

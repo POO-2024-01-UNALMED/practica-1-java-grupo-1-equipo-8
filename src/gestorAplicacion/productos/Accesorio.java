@@ -47,4 +47,9 @@ public class Accesorio extends Producto{
 	public void setConsola(String consola) {
 		this.consola = consola;
 	}
+
+	@Override
+	public int compareTo(Producto o) {
+		return 0;
+	}
 }

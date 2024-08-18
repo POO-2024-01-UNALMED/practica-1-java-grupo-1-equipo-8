@@ -52,6 +52,11 @@ public class Juego extends Producto {
 	// ~~~~~~~~~~~~~~~~~ Método compare ~~~~~~~~~~~~~~~~~ //
 	@Override
 	public int compare(Producto o1, Producto o2){
-		return 1;
+		return 0;
+	}
+
+	@Override
+	public int compareTo(Producto o) {
+		return 0;
 	}
 }
