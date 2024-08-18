@@ -59,7 +59,7 @@ public class Main {
         new Meta(empleado1, 15, 6, 2024, 30, 8000);
         new Meta(empleado1, 18, 6, 2024, 35, 10000);
 
-        new Transaccion()
+      //  new Transaccion();
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);

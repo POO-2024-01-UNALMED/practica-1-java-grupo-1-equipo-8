@@ -1,5 +1,6 @@
 package uiMain;
 
+import java.security.PrivilegedAction;
 import java.sql.Array;
 import java.sql.ClientInfoStatus;
 import java.util.*;
@@ -44,7 +45,7 @@ public class Funcionalidad3 {
             switch (opcion){
                 case 1:
                     //Revisar productos
-                    do{
+                    while(true){
                         imprimirSeparador();
 
                         System.out.println("1. Revisar por tipo de producto.");
@@ -67,202 +68,215 @@ public class Funcionalidad3 {
                         switch (opcion2) {
                             case 1:
                                 //Revisar por tipo de producto
-                                imprimirSeparador();
-                                byte tipo;// tipo a elegir
-
-                                try{//impedir un error al elegir el tipo
-                                    System.out.println("1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
-
-                                    tipo = sc.nextByte();
-                                }catch (Exception e){
+                                while(true) {
                                     imprimirSeparador();
+                                    byte tipo;// tipo a elegir
 
-                                    System.out.println("\n### ERROR ###");
-                                    System.out.println("El valor debe ser numerico");
-                                    continue;
+                                    try {//impedir un error al elegir el tipo
+                                        System.out.println("1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
+
+                                        tipo = sc.nextByte();
+                                    } catch (Exception e) {
+                                        imprimirSeparador();
+
+                                        System.out.println("\n### ERROR ###");
+                                        System.out.println("El valor debe ser numerico");
+                                        continue;
                                     }
 
-                                sc.nextLine();//Limpiar buffer
-                                String orden = elegirOrden();
+                                    sc.nextLine();//Limpiar buffer
+                                    String orden = elegirOrden();
 
-                                switch (tipo){
-                                    case 1:
+                                    switch (tipo) {
+                                        case 1:
 
-                                        //Se eligio revisar por tipo Accesorio
-                                        for (Producto i : local.getInventario()){
-                                            if (i instanceof Accesorio){
-                                                lista.add(i);
+                                            //Se eligio revisar por tipo Accesorio
+                                            for (Producto i : local.getInventario()) {
+                                                if (i instanceof Accesorio) {
+                                                    lista.add(i);
+                                                }
                                             }
-                                        }
-                                        Producto.ordenar(lista,orden);
-                                        for(Producto i : lista) {
-                                            System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
-                                        }
-                                        break;
-                                    case 2:
-                                        //Se eligio revisar por tipo Consola
-                                        for (Producto i : local.getInventario()){
-                                            if (i instanceof Consola){
-                                                lista.add(i);
+                                            Producto.ordenar(lista, orden);
+                                            for (Producto i : lista) {
+                                                System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                             }
-                                        }
-                                        Producto.ordenar(lista,orden);
-                                        for(Producto i : lista) {
-                                            System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
-                                        }
-                                        break;
+                                            break;
+                                        case 2:
+                                            //Se eligio revisar por tipo Consola
+                                            for (Producto i : local.getInventario()) {
+                                                if (i instanceof Consola) {
+                                                    lista.add(i);
+                                                }
+                                            }
+                                            Producto.ordenar(lista, orden);
+                                            for (Producto i : lista) {
+                                                System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
+                                            }
+                                            break;
 
-                                    case 3:
-                                        //Se eligio revisar por tipo Juego
-                                        for (Producto i : local.getInventario()){
-                                            if (i instanceof Juego){
-                                                lista.add(i);
+                                        case 3:
+                                            //Se eligio revisar por tipo Juego
+                                            for (Producto i : local.getInventario()) {
+                                                if (i instanceof Juego) {
+                                                    lista.add(i);
+                                                }
                                             }
-                                        }
-                                        Producto.ordenar(lista,orden);
-                                        for(Producto i : lista) {
-                                            System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
-                                        }
-                                        break;
-                                    default:
-                                        break;
+                                            Producto.ordenar(lista, orden);
+                                            for (Producto i : lista) {
+                                                System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
+                                            }
+                                            break;
+                                        default:
+                                            break;
                                     }
+
+                                }
                             case 2:
                                 //~~~~~~~~~~  Revisar todos los productos  ~~~~~~~~~~//
                                 //Darle todos los objetos del local a la lista
-                                Collections.addAll(lista,local.getInventario().toArray(new Producto[0]));
+                                while(true) {
+                                    Collections.addAll(lista, local.getInventario().toArray(new Producto[0]));
 
-                                orden = elegirOrden();
-                                sc.nextLine();//Limpiar buffer
+                                    String orden =elegirOrden();
+                                    sc.nextLine();//Limpiar buffer
+                                    Producto.ordenar(lista, orden);
 
-                                for(Producto i : lista) {
-                                    System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
+                                    for (Producto i : lista) {
+                                        System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
+                                    }
+                                    break;
                                 }
                                 break;
+                            case 3:
+                                break;
                         }
-                    }while(opcion2 != 3);
+                    }
                 case 2:
                     //Modificar la información de algún producto
-                    byte tipo;
-                    ArrayList<Producto> lista = new ArrayList<Producto>();
-                    try{//impedir un error al elegir el tipo
-                        System.out.println("Ingresa el tipo de producto que modificarás\n1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
+                    while (true) {
+                        byte tipo;
+                        ArrayList<Producto> lista = new ArrayList<Producto>();
+                        try {//impedir un error al elegir el tipo
+                            System.out.println("Ingresa el tipo de producto que modificarás\n1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
 
-                        tipo = sc.nextByte();
-                    }catch (Exception e){
-                        imprimirSeparador();
-
-                        System.out.println("\n### ERROR ###");
-                        System.out.println("El valor debe ser numerico");
-                        sc.nextLine();
-                        continue;
-                    }
-                    if (tipo == 1){
-                        for (Producto i:local.getInventario()){
-                            if (i instanceof Accesorio){
-                                lista.add(i);
-                            }
-                        }
-                    } else if (tipo == 2) {
-                        for (Producto i:local.getInventario()){
-                            if (i instanceof Consola){
-                                lista.add(i);
-                            }
-                        }
-                    }else if(tipo == 3) {
-                        for (Producto i:local.getInventario()){
-                            if (i instanceof Juego){
-                                lista.add(i);
-                            }
-                        }
-                    }else {
-                        break;
-                    }
-                    for(Producto i:lista){
-                        System.out.println(i.getNombre()+"| Código: "+i.getCodigo());
-                    }
-
-                    int cod;//Codigo a elegir
-                    int index = 0;//Posición del objeto buscado
-
-                    try{
-                        imprimirSeparador();
-                        System.out.println("Ingrese el codigo del objeto a modificar");
-
-                        sc.nextLine();
-                        cod = sc.nextInt();
-
-                    }catch (Exception e){
-                        imprimirSeparador();
-                        System.out.println("\n### ERROR ###");
-                        System.out.println("El valor debe ser numerico");
-
-                        continue;
-                    }
-                    boolean existe = false;
-
-                    for (Producto i : lista){
-                        if (i.getCodigo() == cod){
-                            index = lista.indexOf(i);
-                            existe = true;
-                        }
-                    }
-
-                    if (!existe){
-                        imprimirSeparador();
-                        System.out.println("El código ingresado no existe");
-
-                        continue;
-                    }
-                    imprimirSeparador();
-                    System.out.println("Que desea cambiar \n1.Nombre \n2.Precio \n3.Salir");
-                    do{
-                        try{
-                            sc.nextLine();
                             tipo = sc.nextByte();
-
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             imprimirSeparador();
+
                             System.out.println("\n### ERROR ###");
                             System.out.println("El valor debe ser numerico");
-                            tipo = 0;
                             sc.nextLine();
+                            continue;
                         }
-                        switch (tipo){
-                            case 1:
-                                imprimirSeparador();
-                                System.out.println("Ingrese el nuevo nombre");
-                                sc.nextLine();
-                                String nuevoNombre = sc.nextLine();
-                                local.getInventario().get(local.getInventario().indexOf(lista.get(index))).setNombre(nuevoNombre);
-
-                                break;
-
-                            case 2:
-                                imprimirSeparador();
-                                System.out.println("Ingrese el nuevo precio");
-                                int nuevoPrecio = 0;
-                                try{
-                                    sc.nextLine();
-                                    nuevoPrecio = sc.nextInt();
-                                }catch (Exception e){
-                                    imprimirSeparador();
-                                    System.out.println("\n### ERROR ###");
-                                    System.out.println("El valor debe ser numerico");
-
-                                    continue;
+                        if (tipo == 1) {
+                            for (Producto i : local.getInventario()) {
+                                if (i instanceof Accesorio) {
+                                    lista.add(i);
                                 }
-                                local.getInventario().get(local.getInventario().indexOf(lista.get(index))).setValor(nuevoPrecio);
-                                break;
+                            }
+                        } else if (tipo == 2) {
+                            for (Producto i : local.getInventario()) {
+                                if (i instanceof Consola) {
+                                    lista.add(i);
+                                }
+                            }
+                        } else if (tipo == 3) {
+                            for (Producto i : local.getInventario()) {
+                                if (i instanceof Juego) {
+                                    lista.add(i);
+                                }
+                            }
+                        } else {
+                            break;
+                        }
+                        for (Producto i : lista) {
+                            System.out.println(i.getNombre() + "| Código: " + i.getCodigo());
+                        }
 
-                            default:
+                        int cod;//Codigo a elegir
+                        int index = 0;//Posición del objeto buscado
+                        while (true) {
+                            try {
+                                imprimirSeparador();
+                                System.out.println("Ingrese el codigo del objeto a modificar");
+
+                                sc.nextLine();
+                                cod = sc.nextInt();
                                 break;
+                            } catch (Exception e) {
+                                imprimirSeparador();
+                                System.out.println("\n### ERROR ###");
+                                System.out.println("El valor debe ser numerico");
+
+                                continue;
+                            }
+                        }
+                        boolean existe = false;
+
+                        for (Producto i : lista) {
+                            if (i.getCodigo() == cod) {
+                                index = lista.indexOf(i);
+                                existe = true;
+                            }
+                        }
+
+                        if (!existe) {
+                            imprimirSeparador();
+                            System.out.println("El código ingresado no existe");
+
+                            continue;
+                        }
+                        imprimirSeparador();
+                        System.out.println("Que desea cambiar \n1.Nombre \n2.Precio \n3.Salir");
+                        while (true) {
+                            try {
+                                sc.nextLine();
+                                tipo = sc.nextByte();
+
+                            } catch (Exception e) {
+                                imprimirSeparador();
+                                System.out.println("\n### ERROR ###");
+                                System.out.println("El valor debe ser numerico");
+                                tipo = 0;
+                                sc.nextLine();
+                                continue;
+                            }
+                            switch (tipo) {
+                                case 1:
+                                    imprimirSeparador();
+                                    System.out.println("Ingrese el nuevo nombre");
+                                    sc.nextLine();
+                                    String nuevoNombre = sc.nextLine();
+                                    local.getInventario().get(local.getInventario().indexOf(lista.get(index))).setNombre(nuevoNombre);
+
+                                    break;
+
+                                case 2:
+                                    imprimirSeparador();
+                                    System.out.println("Ingrese el nuevo precio");
+                                    int nuevoPrecio = 0;
+                                    try {
+                                        sc.nextLine();
+                                        nuevoPrecio = sc.nextInt();
+                                    } catch (Exception e) {
+                                        imprimirSeparador();
+                                        System.out.println("\n### ERROR ###");
+                                        System.out.println("El valor debe ser numerico");
+
+                                        continue;
+                                    }
+                                    local.getInventario().get(local.getInventario().indexOf(lista.get(index))).setValor(nuevoPrecio);
+                                    break;
+
+                                case 3:
+                                    break;
+
+                            }
+                            break;
 
                         }
-                        break;
-
-                    }while(tipo == 0);
-
+                        ;
+                    }
                 case 3:
                     //Calcular prioridad de productos
                     for (Producto i: local.getInventario()){
@@ -599,6 +613,8 @@ public class Funcionalidad3 {
                 sc.nextLine();
                 continue;
             }
+            ArrayList<Producto> listaDeObjetos = new ArrayList<>();
+            Tienda localDestino = null;
             switch (opcion){
                 case 1://manualmente
                     while(true){
@@ -628,14 +644,346 @@ public class Funcionalidad3 {
                 case 2://Prioridad
                     while (true){
                         try {
-                            System.out.println("Desea ver \n1.Alta\n2.");
-                        }catch (Exception e){
+                            System.out.println("Desea ver \n1.Alta\n2.Baja\n3.Regresar");
+                            sc.nextLine();
+                            opcion = sc.nextByte();
 
+                        }catch (Exception e){
+                            imprimirSeparador();
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("El valor debe ser numerico");
+                            sc.nextLine();
+                            continue;
+                        }
+                        ArrayList<Producto> lista = new ArrayList<>();
+                        int decision = 0;
+                        switch (opcion) {
+                            case 1://Alta prioridad
+                                while (true) {
+                                    for (Producto i : local.getInventario()) {
+                                        if (i.getPrioridad().equalsIgnoreCase("prioridad alta") || i.getPrioridad().equalsIgnoreCase("prioridad muy alta")) {
+                                            lista.add(i);
+                                        }
+                                    }
+                                    Producto.ordenar(lista, "prioridad");
+                                    if (lista.isEmpty()) {
+                                        imprimirSeparador();
+                                        System.out.println("No hay productos con prioridad alta o muy alta en este local.");
+                                        sc.nextLine();
+                                        continue;
+                                    } else {
+                                        for (Producto j : lista) {
+                                            System.out.println("Nombre: " + j.getNombre() + " | Prioridad: " + j.getPrioridad() + " | ID: " + j.getCodigo());
+                                        }
+                                    }
+                                    try {
+                                        imprimirSeparador();
+                                        System.out.println("Ingresa el ID del producto");
+                                        sc.nextLine();
+                                        decision = sc.nextInt();
+                                    } catch (Exception e) {
+                                        imprimirSeparador();
+                                        System.out.println("\n### ERROR ###");
+                                        System.out.println("El valor debe ser numerico");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+                                    boolean esTrue = false;
+                                    int indice = 0;
+                                    ArrayList<Tienda> localesValidos = new ArrayList<>();
+                                    for (Producto i : lista) {
+                                        if (i.getCodigo() == decision) {
+                                            esTrue = true;
+                                            indice = lista.indexOf(i);
+                                            break;
+                                        }
+                                    }
+                                    if (esTrue) {
+                                        for (Tienda t : Tienda.getLocales()) {//recorrer los locales en busca del producto
+                                            for (Producto p : t.getInventario()) {
+                                                if (lista.get(indice).getNombre().equalsIgnoreCase(p.getNombre()) && t != local) {
+                                                    if (p.getPrioridad().equalsIgnoreCase("prioridad media") || p.getPrioridad().equalsIgnoreCase("prioridad baja")) {
+                                                        localesValidos.add(t);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (localesValidos.isEmpty()) {
+                                            imprimirSeparador();
+                                            System.out.println("No se encontró el producto disponible en ningún local.");
+                                            sc.nextLine();
+                                            continue;
+                                        }
+                                    } else {
+                                        imprimirSeparador();
+                                        System.out.println("El ID ingresado no existe");
+                                        continue;
+                                    }
+
+                                    while (true) {
+                                        String eleccion = "";
+                                        imprimirSeparador();
+                                        System.out.println("Locales con el producto en cuestion");
+                                        for (Tienda t : localesValidos) {//recorrer los locales en busca del producto
+                                            for (Producto p : t.getInventario()) {
+                                                if (lista.get(indice).getNombre().equalsIgnoreCase(p.getNombre())) {
+                                                    if (p.getPrioridad().equalsIgnoreCase("prioridad media") || p.getPrioridad().equalsIgnoreCase("prioridad baja")) {
+                                                        System.out.println("•" + t.getNombre() + "| cantidad: " + p.getCantidad());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        System.out.println("Ingrese el nombre del local");
+                                        eleccion = sc.nextLine();
+                                        sc.nextLine();
+                                        double cantidad = 0;
+                                        for (Tienda i : localesValidos) {
+                                            if (i.getNombre().equalsIgnoreCase(eleccion)) {
+                                                while (true) {
+                                                    try {
+                                                        imprimirSeparador();
+                                                        System.out.println("Ingrese la cantidad");
+                                                        cantidad = sc.nextInt();
+                                                        cantidad = (int) cantidad;
+                                                        localDestino = i;
+                                                    } catch (Exception e) {
+                                                        imprimirSeparador();
+                                                        System.out.println("\n### ERROR ###");
+                                                        System.out.println("El valor debe ser numerico");
+                                                        sc.nextLine();
+                                                        continue;
+                                                    }
+                                                    for (Producto p : i.getInventario()) {
+                                                        if (p.getNombre().equalsIgnoreCase(lista.get(indice).getNombre())) {
+                                                            if (p.getCantidad() - cantidad >= p.getCantidadInicial() * 0.4) {
+                                                                //TODO:Encontrar la manera de clonar el obeto y agregarlo a la lista, ademas restar la cantidad enviada al objeto dentro del local y darle ese valor al objeto dentro de la listaDeObjetos
+                                                                listaDeObjetos.add(p);
+                                                            } else {
+                                                                if (p.getCantidad() - p.getCantidadInicial() * 0.4 >= 0) {
+                                                                    cantidad = p.getCantidad() - p.getCantidadInicial() * 0.4;
+                                                                    cantidad = (int) cantidad;
+                                                                } else if (p.getCantidad() - p.getCantidadInicial() * 0.4 < 0) {
+                                                                    cantidad = 0;
+                                                                }
+                                                                imprimirSeparador();
+                                                                System.out.println("La cantidad es superior a la permitida\nCantidad maxima permitida: " + cantidad);
+                                                                sc.nextLine();
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+                                            } else if (localesValidos.indexOf(i) == (localesValidos.size() - 1)) {
+                                                eleccion = null;
+                                            }
+                                        }
+                                        if (eleccion == null) {
+                                            imprimirSeparador();
+                                            System.out.println("El local ingresado no existe");
+                                            System.out.println("Desea: \n•Salir\n•Continuar");
+                                            eleccion = sc.nextLine();
+                                            if (eleccion.equalsIgnoreCase("salir")) {
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    if (listaDeObjetos.isEmpty()) {
+                                        break;
+                                    } else {
+                                        while (true) {
+                                            try {
+                                                imprimirSeparador();
+                                                System.out.println("Desea \n1.Añadir otro producto \n2.Crear rebastecimiento");
+                                                decision = sc.nextInt();
+                                                sc.nextLine();
+                                                break;
+                                            } catch (Exception e) {
+                                                imprimirSeparador();
+                                                System.out.println("\n### ERROR ###");
+                                                System.out.println("El valor debe ser numerico");
+                                                sc.nextLine();
+                                            }
+                                        }
+                                        if (decision == 1) {
+                                            continue;
+                                        } else if (decision == 2) {
+                                            local.agregarOrden(new Reabastecimiento(localDestino, local, new Fecha(fechaActual.getTotalDias() + 30), listaDeObjetos));
+                                            break;
+                                        }
+
+                                    }
+                                }
+                            case 2://Baja prioridad
+                                while (true) {
+                                    for (Producto i : local.getInventario()) {
+                                        if (i.getPrioridad().equalsIgnoreCase("prioridad baja")) {
+                                            lista.add(i);
+                                        }
+                                    }
+                                    Producto.ordenar(lista, "alfabetico");
+                                    if (lista.isEmpty()) {
+                                        imprimirSeparador();
+                                        System.out.println("No hay productos con prioridad baja en este local.");
+                                        sc.nextLine();
+                                        continue;
+                                    } else {
+                                        for (Producto j : lista) {
+                                            System.out.println("Nombre: " + j.getNombre() + " | Prioridad: " + j.getPrioridad() + " | ID: " + j.getCodigo());
+                                        }
+                                    }
+                                    try {
+                                        imprimirSeparador();
+                                        System.out.println("Ingresa el ID del producto");
+                                        sc.nextLine();
+                                        decision = sc.nextInt();
+                                    } catch (Exception e) {
+                                        imprimirSeparador();
+                                        System.out.println("\n### ERROR ###");
+                                        System.out.println("El valor debe ser numerico");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+                                    boolean esTrue = false;
+                                    int indice = 0;
+                                    ArrayList<Tienda> localesValidos = new ArrayList<>();
+                                    for (Producto i : lista) {
+                                        if (i.getCodigo() == decision) {
+                                            esTrue = true;
+                                            indice = lista.indexOf(i);
+                                            break;
+                                        }
+                                    }
+                                    if (esTrue) {
+                                        for (Tienda t : Tienda.getLocales()) {//recorrer los locales en busca del producto
+                                            for (Producto p : t.getInventario()) {
+                                                if (lista.get(indice).getNombre().equalsIgnoreCase(p.getNombre()) && t != local) {
+                                                    if (p.getPrioridad().equalsIgnoreCase("prioridad alta") || p.getPrioridad().equalsIgnoreCase("prioridad muy alta")) {
+                                                        localesValidos.add(t);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (localesValidos.isEmpty()) {
+                                            imprimirSeparador();
+                                            System.out.println("No se encontró necesidad del producto en ningún local.");
+                                            sc.nextLine();
+                                            continue;
+                                        }
+                                    } else {
+                                        imprimirSeparador();
+                                        System.out.println("El ID ingresado no existe");
+                                        continue;
+                                    }
+
+                                    while (true) {
+                                        String eleccion = "";
+                                        imprimirSeparador();
+                                        System.out.println("Locales con el producto en cuestion");
+                                        for (Tienda t : localesValidos) {//recorrer los locales en busca del producto
+                                            for (Producto p : t.getInventario()) {
+                                                if (lista.get(indice).getNombre().equalsIgnoreCase(p.getNombre())) {
+                                                    if (p.getPrioridad().equalsIgnoreCase("prioridad alta") || p.getPrioridad().equalsIgnoreCase("prioridad muy alta")) {
+                                                        imprimirSeparador();
+                                                        System.out.println("•" + t.getNombre() + "| cantidad: " + p.getCantidad() + " | Prioridad: " + p.getPrioridad());
+                                                        sc.nextLine();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        System.out.println("Ingrese el nombre del local");
+                                        eleccion = sc.nextLine();
+                                        sc.nextLine();
+                                        double cantidad = 0;
+                                        for (Tienda i : localesValidos) {
+                                            if (i.getNombre().equalsIgnoreCase(eleccion)) {
+                                                while (true) {
+                                                    try {
+                                                        imprimirSeparador();
+                                                        System.out.println("Ingrese la cantidad del producto");
+                                                        cantidad = sc.nextInt();
+                                                        cantidad = (int) cantidad;
+                                                        localDestino = i;
+                                                    } catch (Exception e) {
+                                                        imprimirSeparador();
+                                                        System.out.println("\n### ERROR ###");
+                                                        System.out.println("El valor debe ser numerico");
+                                                        sc.nextLine();
+                                                        continue;
+                                                    }
+                                                    for (Producto p : i.getInventario()) {
+                                                        if (p.getNombre().equalsIgnoreCase(lista.get(indice).getNombre())) {
+                                                            if (local.getInventario().get(indice).getCantidad() - cantidad >= local.getInventario().get(indice).getCantidadInicial() * 0.4) {
+                                                                //TODO:Encontrar la manera de clonar el obeto y agregarlo a la lista, ademas restar la cantidad enviada al objeto dentro del local y darle ese valor al objeto dentro de la listaDeObjetos
+                                                                listaDeObjetos.add(lista.get(indice));
+                                                            } else {
+                                                                if (local.getInventario().get(indice).getCantidad() - local.getInventario().get(indice).getCantidadInicial() * 0.4 >= 0) {
+                                                                    cantidad = local.getInventario().get(indice).getCantidad() - local.getInventario().get(indice).getCantidadInicial() * 0.4;
+                                                                    cantidad = (int) cantidad;
+                                                                } else if (local.getInventario().get(indice).getCantidad() - local.getInventario().get(indice).getCantidadInicial() * 0.4 < 0) {
+                                                                    cantidad = 0;
+                                                                }
+                                                                imprimirSeparador();
+                                                                System.out.println("La cantidad es superior a la permitida\nCantidad maxima permitida: " + cantidad);
+                                                                sc.nextLine();
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (cantidad == 0) {
+                                                        continue;
+                                                    } else {
+                                                        break;
+                                                    }
+                                                }
+                                            } else if (localesValidos.indexOf(i) == (localesValidos.size() - 1)) {
+                                                eleccion = null;
+                                            }
+                                        }
+                                        if (eleccion == null) {
+                                            imprimirSeparador();
+                                            System.out.println("El local ingresado no existe");
+                                            System.out.println("Desea: \n•Salir\n•Continuar");
+                                            eleccion = sc.nextLine();
+                                            if (eleccion.equalsIgnoreCase("salir")) {
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    if (listaDeObjetos.isEmpty()) {
+                                        break;
+                                    } else {
+                                        while (true) {
+                                            try {
+                                                imprimirSeparador();
+                                                System.out.println("Desea \n1.Añadir otro producto \n2.Crear rebastecimiento");
+                                                decision = sc.nextInt();
+                                                sc.nextLine();
+                                                break;
+                                            } catch (Exception e) {
+                                                imprimirSeparador();
+                                                System.out.println("\n### ERROR ###");
+                                                System.out.println("El valor debe ser numerico");
+                                                sc.nextLine();
+                                            }
+                                        }
+                                        if (decision == 1) {
+                                            continue;
+                                        } else if (decision == 2) {
+                                            localDestino.agregarOrden(new Reabastecimiento(local, localDestino, new Fecha(fechaActual.getTotalDias() + 30), listaDeObjetos));
+                                            break;
+                                        }
+
+                                    }
+                                }
+                            case 3://salir
+                                opcion = 0;
+                                break;
                         }
                     }
-                case 3://Entre locales
-
-                case 4:
+                case 3:
                     break;
             }
         }
@@ -722,3 +1070,4 @@ public class Funcionalidad3 {
         }
     }
 }
+
