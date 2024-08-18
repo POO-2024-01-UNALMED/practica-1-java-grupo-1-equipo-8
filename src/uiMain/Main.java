@@ -9,6 +9,7 @@ import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
 import gestorAplicacion.personas.*;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -59,7 +60,26 @@ public class Main {
         new Meta(empleado1, 15, 6, 2024, 30, 8000);
         new Meta(empleado1, 18, 6, 2024, 35, 10000);
 
-        new Transaccion()
+        Cliente cliente1 = new Cliente(123, "Juan", "juan@mail.com", 311203);
+        Cliente cliente2 = new Cliente(124, "Pedro", "pedro@mail.com", 311204);
+        Cliente cliente3 = new Cliente(125, "Maria", "maria@mail.com@", 311205);
+
+        Fecha fecha1 = new Fecha(15,8,2024);
+        Fecha fecha2 = new Fecha(22, 7, 2024);
+        Fecha fecha3 = new Fecha(15, 8, 2023);
+
+        Fecha fecha4 = new Fecha(6,8,2024);
+        Fecha fecha5 = new Fecha(22, 6, 2024);
+        Fecha fecha6 = new Fecha(15, 8, 2022);
+
+        Transaccion transaccion1 = new Transaccion(fecha1, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 15000);
+        Transaccion transaccion2 = new Transaccion(fecha2, cliente2, empleado1, tienda1, new ArrayList<Producto>(), 15000);
+        Transaccion transaccion3 = new Transaccion(fecha3, cliente3, empleado1, tienda1, new ArrayList<Producto>(), 15000);
+
+        Transaccion transaccion4 = new Transaccion(fecha4, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 15000);
+        Transaccion transaccion5 = new Transaccion(fecha5, cliente2, empleado1, tienda1, new ArrayList<Producto>(), 15000);
+        Transaccion transaccion6 = new Transaccion(fecha6, cliente3, empleado1, tienda1, new ArrayList<Producto>(), 15000);
+
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);
@@ -78,9 +98,8 @@ public class Main {
 
     /* ~~~~~~~~~~~~~~~~~~ */
     /* Clientes */
-    static Cliente cliente1 = new Cliente(123, "Juan", "juan@mail.com", 311203);
-    static Cliente cliente2 = new Cliente(124, "Pedro", "pedro@mail.com", 311204);
-    static Cliente cliente3 = new Cliente(125, "Maria", "maria@mail.com@", 311205);
+
+
 
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

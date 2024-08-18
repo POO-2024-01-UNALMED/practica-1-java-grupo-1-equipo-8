@@ -45,7 +45,6 @@ public class Empleado extends Persona implements Serializable {
     }
     public void ingresarTransaccion(Transaccion transaccion) {
         this.transacciones.add(transaccion);
-        //TODO: Aumentar acumulado cada vez que se llama esta función o (quitar atributo acumulado)
     }
 
     /* ~~~ Metodos get y set ~~~ */
