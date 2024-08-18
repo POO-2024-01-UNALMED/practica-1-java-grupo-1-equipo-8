@@ -2,6 +2,7 @@ package uiMain;
 
 import baseDatos.Deserializador;
 import baseDatos.Serializador;
+import gestorAplicacion.informacionVenta.Subasta;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
@@ -360,7 +361,7 @@ public class Main {
 
                 mes = sc.nextInt();
 
-                if (mes < 0 || mes > 12) { throw new Exception(""); }
+                if (mes <= 0 || mes > 12) { throw new Exception(""); }
 
                 break;
             } catch (Exception e) {
@@ -378,7 +379,7 @@ public class Main {
                 dia = sc.nextInt();
 
                 //TODO: Validar que el día sea válido para el mes
-                if (dia == 0 || dia > 31) { throw new Exception("Día inválido"); }
+                if (dia <= 0 || dia > 31) { throw new Exception("Día inválido"); }
 
                 break;
             } catch (Exception e) {
@@ -391,5 +392,24 @@ public class Main {
 
         sc.nextLine(); // Limpiar el buffer
         return new Fecha(dia, mes, year);
+    }
+
+    /* ~~~ FUNCIONALIDAD 5 ~~~ */
+    public void subastar(Tienda local, Fecha fecha) {
+
+    }
+
+    public void comprobarSubastas(Tienda local, Fecha fecha) {
+        for (Subasta subasta : local.getSubastas()) {
+            if (subasta.getFechaFin().getTotalDias() > fecha.getTotalDias()) {
+                if (subasta.getOfertas().isEmpty()) {
+                    System.out.println("La subasta N° " + subasta.getId() + " ha finalizado sin ofertas. Se extenderá 7 días más.");
+                    subasta.extenderSubasta();
+                } else {
+                    Cliente ganador = subasta.finalizarSubasta();
+                    System.out.println("La subasta ha finalizado. El ganador es: " + ganador.getNombre());
+                }
+            }
+        }
     }
 }

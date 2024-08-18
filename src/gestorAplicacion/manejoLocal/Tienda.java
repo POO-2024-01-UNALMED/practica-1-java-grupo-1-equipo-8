@@ -1,8 +1,10 @@
 package gestorAplicacion.manejoLocal;
+import gestorAplicacion.informacionVenta.Subasta;
 import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.Producto;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.Serializable;
 import java.io.Serial;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ public class Tienda implements Serializable {
     private String nombre;
     private long fondos;
     private ArrayList<Transaccion> caja = new ArrayList<Transaccion>();
+    private ArrayList<Subasta> subastas = new ArrayList<Subasta>();
 
     /* ~~ Inventarios ~~ */
     private ArrayList<Producto> inventario = new ArrayList<Producto>();
@@ -47,11 +50,11 @@ public class Tienda implements Serializable {
         }
     }
 
-    // Metodo que reduce la cantidad de un producto en el inventario segun el entero que se le ingrese
-    public void venderProducto(Producto producto, int cantidad){
-        for (Producto p : this.inventario) {
-            if (p.equals(producto)) {
-                p.setCantidad(p.getCantidad() - cantidad);
+    // Metodo que reduce la cantidad de un producto en un inventario dado segun codigo
+    public void retirarDeInventario(Producto producto, ArrayList<Producto> inventario){
+        for (Producto p : inventario) {
+            if (p.getCodigo() == producto.getCodigo()) {
+                p.setCantidad(p.getCantidad() - producto.getCantidad());
             }
         }
     }
@@ -62,6 +65,10 @@ public class Tienda implements Serializable {
 
     public void agregarTransaccion(Transaccion transaccion){
         this.caja.add(transaccion);
+    }
+
+    public void agregarSubasta(Subasta subasta){
+        this.subastas.add(subasta);
     }
 
     public void reabastecerProducto(Producto producto, int cantidad){
@@ -187,5 +194,12 @@ public class Tienda implements Serializable {
     }
     public void setEmpleados(ArrayList<Empleado> empleados) {
         this.empleados = empleados;
+    }
+
+    public ArrayList<Subasta> getSubastas() {
+        return subastas;
+    }
+    public void setSubastas(ArrayList<Subasta> subastas) {
+        this.subastas = subastas;
     }
 }
