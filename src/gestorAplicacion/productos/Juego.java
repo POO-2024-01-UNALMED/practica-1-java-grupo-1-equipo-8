@@ -1,5 +1,9 @@
 package gestorAplicacion.productos;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 public class Juego extends Producto {
 	
 	/* ~~~~~~~~~~~~~~~~~ Atributos ~~~~~~~~~~~~~~~~~ */
@@ -32,7 +36,44 @@ public class Juego extends Producto {
 	}
 
 	//~~~~~~~~~~~~~~~~~~ Métodos ~~~~~~~~~~~~~~~~~~//
+	// Método toString
+	@Override
+	public String toString() {
+		return "COD: " + codigo + " | " +
+				"NOMBRE: " + nombre + " | " +
+				"$ " + valor + " | " +
+				"GENERO: " + genero + " | " +
+				"PLATAFORMA: " + plataforma + " | " +
+				"CANT: " + cantidad;
+	}
 
+	public static ArrayList<Juego> organizar(ArrayList<Juego> p, String orden){
+		if (orden.equalsIgnoreCase("genero")) {
+			Collections.sort(p, new Comparator<Juego>() {
+				@Override
+				public int compare(Juego o1, Juego o2) {
+					return o1.getGenero().compareToIgnoreCase(o2.getGenero());
+				}
+			});
+			return p;
+		} else if (orden.equalsIgnoreCase("plataforma")) {
+			Collections.sort(p, new Comparator<Juego>() {
+				@Override
+				public int compare(Juego o1, Juego o2) {
+					return o1.getPlataforma().compareToIgnoreCase(o2.getPlataforma());
+				}
+			});
+			return p;
+		} else {
+			Collections.sort(p, new Comparator<Producto>() {
+				@Override
+				public int compare(Producto o1, Producto o2) {
+					return o1.getNombre().compareToIgnoreCase(o2.getNombre());
+				}
+			});
+			return p;
+		}
+	}
 
 
 	// ~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~ //

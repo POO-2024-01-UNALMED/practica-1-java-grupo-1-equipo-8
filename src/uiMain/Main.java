@@ -9,7 +9,7 @@ import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
 import gestorAplicacion.personas.*;
 
-import java.util.ArrayList;
+import java.io.Serial;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -18,6 +18,7 @@ public class Main {
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     /* ~~~ Objetos para pruebas ~~~ */
 
+    /* Comentado para probar la serialización
     static Tienda tienda1 = new Tienda("Volador",123);
     static {
         tienda1.agregarProducto(new Consola("Polystation 5", 400, 10, 10, false, (byte) 5, 11, 11, 2021, 5, 100, "Sony"));
@@ -59,27 +60,6 @@ public class Main {
         //metas
         new Meta(empleado1, 15, 6, 2024, 30, 8000);
         new Meta(empleado1, 18, 6, 2024, 35, 10000);
-
-        Cliente cliente1 = new Cliente(123, "Juan", "juan@mail.com", 311203);
-        Cliente cliente2 = new Cliente(124, "Pedro", "pedro@mail.com", 311204);
-        Cliente cliente3 = new Cliente(125, "Maria", "maria@mail.com@", 311205);
-
-        Fecha fecha1 = new Fecha(15,8,2024);
-        Fecha fecha2 = new Fecha(22, 7, 2024);
-        Fecha fecha3 = new Fecha(15, 8, 2023);
-
-        Fecha fecha4 = new Fecha(6,8,2024);
-        Fecha fecha5 = new Fecha(22, 6, 2024);
-        Fecha fecha6 = new Fecha(15, 8, 2022);
-
-        Transaccion transaccion1 = new Transaccion(fecha1, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 15000);
-        Transaccion transaccion2 = new Transaccion(fecha2, cliente2, empleado1, tienda1, new ArrayList<Producto>(), 15000);
-        Transaccion transaccion3 = new Transaccion(fecha3, cliente3, empleado1, tienda1, new ArrayList<Producto>(), 15000);
-
-        Transaccion transaccion4 = new Transaccion(fecha4, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 15000);
-        Transaccion transaccion5 = new Transaccion(fecha5, cliente2, empleado1, tienda1, new ArrayList<Producto>(), 15000);
-        Transaccion transaccion6 = new Transaccion(fecha6, cliente3, empleado1, tienda1, new ArrayList<Producto>(), 15000);
-
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);
@@ -96,27 +76,45 @@ public class Main {
         tienda2.agregarProducto(new Accesorio("Control Polystation 3", 30, 50, 50, false, (byte) 5, 13, 11, 2006, 40, 300, "Sony", "Polystation 3"));
     }
 
-    /* ~~~~~~~~~~~~~~~~~~ */
-    /* Clientes */
-
-
+    // Clientes
+    static Cliente cliente1 = new Cliente(123, "Juan", "juan@mail.com", 311203);
+    static Cliente cliente2 = new Cliente(124, "Pedro", "pedro@mail.com", 311204);
+    static Cliente cliente3 = new Cliente(125, "Maria", "maria@mail.com@", 311205);
 
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 
-
     // Variable scanner para entrada de datos
     static Scanner sc = new Scanner(System.in);
+    public static Fecha ultimaFecha;
 
     public static void main(String[] args) {
         /* ~~~ Carga de objetos serializados ~~~ */
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
+        ultimaFecha = Deserializador.deserializarFecha();
 
-        /* ~~~ Menu principal ~~~ */
-        imprimirLogo();
+        /* ~~~~~~~~~~~~~~~~~~~~~~~ Inicio del programa ~~~~~~~~~~~~~~~~~~~~~~~ */
+        /* ~~~ Recibir fecha ~~~ */
+        Fecha fechaActual;
 
-        Fecha fechaActual = recibirFecha();
+        while (true) { // Recibir fecha actual
+            imprimirSeparador();
+
+            System.out.println("Último acceso: " + ultimaFecha);
+
+            fechaActual = recibirFecha();
+            if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la última fecha registrada
+                ultimaFecha = fechaActual;
+                break;
+            } else {
+                System.out.println("\n### ERROR ###");
+                System.out.println("La fecha ingresada es anterior a la última fecha registrada (" + ultimaFecha + ")" +
+                        "\nPresione Enter para volver a intentar.");
+
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
 
         // TODO: Imprimir local y fecha actuales en el menu principal
 
@@ -149,6 +147,9 @@ public class Main {
                 }
             } while (local == null);
 
+            /* ~~~~ Menú principal ~~~~ */
+        imprimirSeparador();
+        imprimirLogo();
         /* ~~ Selección de funcionalidad ~~ */
         byte opcion = 1;
             do {
@@ -160,7 +161,7 @@ public class Main {
                 System.out.println("4. Gestionar empleados");
                 System.out.println("5. Subastar");
 
-                System.out.println("0. Salir");
+                System.out.println("0. Guardar y salir");
 
                 System.out.println("Ingrese el número de la opción que desea ejecutar:");
 
@@ -214,6 +215,7 @@ public class Main {
 
                         Serializador.serializarTiendas(Tienda.getLocales());
                         Serializador.serializarClientes(Cliente.getClientes());
+                        Serializador.serializarUltimaFecha(ultimaFecha);
 
                         System.out.println("Saliendo...");
                         break;
@@ -233,7 +235,10 @@ public class Main {
     static void imprimirSeparador() {
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
         //System.out.println("░░░░░░░░░░░░░░░░░░░░░████████████████████████████████████████████░░░░░░░░░░░░░░░░░░░░░");
-        //System.out.println("▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅");
+    }
+
+    static void imprimirSeparadorPequeno() {
+        System.out.println("▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅");
     }
 
     // Imprimir logo de la tienda en ANSI

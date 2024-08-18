@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 
 import java.util.ArrayList;
 
+import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
 
@@ -56,4 +57,22 @@ public class Deserializador {
         }
     }
 
+    public static Fecha deserializarFecha() {
+        Fecha ultimaFecha = null;
+
+        try {
+            FileInputStream f = new FileInputStream(new File(path.getAbsolutePath() + "\\src\\baseDatos\\temp\\ultimaFecha.txt"));
+            ObjectInputStream o = new ObjectInputStream(f);
+
+            ultimaFecha = (Fecha) o.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado");
+        } catch (IOException e) {
+            System.out.println("Error inicializando flujo de entrada");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Clase no encontrada");
+        }
+
+        return ultimaFecha;
+    }
 }
