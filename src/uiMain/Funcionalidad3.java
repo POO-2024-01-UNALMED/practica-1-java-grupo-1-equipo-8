@@ -355,9 +355,121 @@ public class Funcionalidad3 {
                         System.out.println("No hay ventas dentro del rango");
                         sc.nextLine();
                     }
+                    while(true){
+                        try{
+                            imprimirSeparador();
+                            System.out.println("Desea \n1.Ver ventas individuales \n2.Órdenes en este rango \n3.Tendencias en este rango \n4.Proceder al reabastecimiento \n5.Regresar");
+                            //TODO:encontrar una manera de regresar al momento de ingresar la fecha
+                            sc.nextLine();
+                            opcion = sc.nextByte();
 
-                    hacerReabastecimiento(local,fechaActual,rangoVentas);
-                    continue;
+                        }catch (Exception e){
+                            imprimirSeparador();
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("El valor debe ser numerico");
+                            sc.nextLine();
+                        }
+                        switch (opcion){
+                            case 1:
+                                //Ver ventas individuales
+
+                            case 2:
+                                //Ordenes en el rango
+                            case 3:
+                                //Tendencias en el rango
+                                while (true){
+                                    try{
+                                        imprimirSeparador();
+                                        System.out.println("Desea ver \n1.Géneros \n2.Plataformas \n3.Rangos de precio más vendidos \n4.Cambiar fecha \n5.Regresar");
+                                        sc.nextLine();
+                                        opcion = sc.nextByte();
+
+                                    }catch (Exception e){
+                                        imprimirSeparador();
+                                        System.out.println("\n### ERROR ###");
+                                        System.out.println("El valor debe ser numerico");
+                                        sc.nextLine();
+                                        continue;
+                                    }
+                                    switch (opcion){
+                                        case 1:
+                                            //Tendencias de generos
+                                            int media = 0;
+                                            for (Transaccion i : rangoVentas){
+                                                //TODO:Como dar el resultado de cada genero, por separado
+                                            }
+                                        case 2:
+                                            //Tendencias de plataformas
+                                            //TODO:Como dar el resultado de cada plataforma, por separado
+
+                                        case 3:
+                                            //Tendencias de rangos mas vendidos
+                                            int rango1_20 = 0;
+                                            int rango21_40 = 0;
+                                            int rango41_60 = 0;
+                                            for (Producto i : local.getInventario()){
+                                                if (i.getValor() <= 20 && i.getValor()>=1){
+                                                    rango1_20 += i.calcularVenta();
+                                                } else if (i.getValor() <= 40 && i.getValor()>=21){
+                                                    rango21_40 += i.calcularVenta();
+                                                }else if (i.getValor() <= 60 && i.getValor()>=41) {
+                                                    rango41_60 += i.calcularVenta();
+                                                }
+                                            }
+                                            if (rango1_20 >= rango21_40 && rango1_20 >= rango41_60){
+                                                System.out.println("Rango 1-20 \nVentas: "+rango1_20);
+                                                if (rango21_40 >= rango41_60){
+                                                    System.out.println("Rango 21-40 \nVentas: "+rango21_40);
+                                                    System.out.println("Rango 41-60 \nVentas: "+rango41_60);
+                                                    sc.nextLine();
+                                                }else{
+                                                    System.out.println("Rango 41-60 \nVentas: "+rango41_60);
+                                                    System.out.println("Rango 21-40 \nVentas: "+rango21_40);
+                                                    sc.nextLine();
+                                                }
+                                            } else if (rango21_40 >= rango1_20 && rango21_40 >=rango41_60) {
+                                                System.out.println("Rango 21-40 \nVentas: "+rango21_40);
+                                                if (rango1_20 >=rango41_60 ){
+                                                    System.out.println("Rango 1-20 \nVentas: "+rango1_20);
+                                                    System.out.println("Rango 41-60 \nVentas: "+rango41_60);
+                                                    sc.nextLine();
+                                                }else{
+                                                    System.out.println("Rango 41-60 \nVentas: "+rango41_60);
+                                                    System.out.println("Rango 1-20 \nVentas: "+rango1_20);
+                                                    sc.nextLine();
+                                                }
+                                            } else{
+                                                System.out.println("Rango 41-60 \nVentas: "+rango41_60);
+                                                if (rango1_20 >= rango21_40){
+                                                    System.out.println("Rango 1-20 \nVentas: "+rango1_20);
+                                                    System.out.println("Rango 21-40 \nVentas: "+rango21_40);
+                                                    sc.nextLine();
+                                                }else{
+                                                    System.out.println("Rango 21-40 \nVentas: "+rango21_40);
+                                                    System.out.println("Rango 1-20 \nVentas: "+rango1_20);
+                                                    sc.nextLine();
+                                                }
+                                            }
+                                            //TODO:comparar la tendencia en otros locales, revisar ventas de un rango o salir
+                                        case 4:
+                                            //Cambiar fecha?
+
+                                        case 5:
+                                            //Regresar
+                                            opcion =0;
+                                            break;
+                                    }
+                                    System.out.println("El valor ingresado no es valido");
+                                }
+                            case 4:
+                                //Proceder con el reabastecimiento
+                                    //hacer reabastecimiento
+                            case 5://salir
+                                break;
+                        }
+                        System.out.println("La opción no es válida");
+                    }
+
                 case 2:
 
                     //Revisar prioridad
@@ -470,13 +582,12 @@ public class Funcionalidad3 {
             }
         }while(opcion < 3);
     }
-    private static void hacerReabastecimiento(Tienda local,Fecha fechaActual,ArrayList<Transaccion> rangoVentas){
+    private static void hacerReabastecimiento(Tienda local,Fecha fechaActual){
         byte opcion = 0;
-        do{
+        while (true){
             try{
                 imprimirSeparador();
-                System.out.println("Desea \n1.Ver ventas individuales \n2.Órdenes en este rango \n3.Tendencias en este rango \n4.Proceder al reabastecimiento \n5.Regresar");
-                //TODO:encontrar una manera de regresar al momento de ingresar la fecha
+                System.out.println("Desea \n1.Reabastecer manualmente \n2.En base a la prioridad\n3.Entre locales\n4.Salir");
                 sc.nextLine();
                 opcion = sc.nextByte();
 
@@ -485,55 +596,47 @@ public class Funcionalidad3 {
                 System.out.println("\n### ERROR ###");
                 System.out.println("El valor debe ser numerico");
                 sc.nextLine();
+                continue;
             }
             switch (opcion){
-                case 1:
-                    //Ver ventas individuales
-
-                case 2:
-                    //Ordenes en el rango
-                case 3:
-                    //Tendencias en el rango
-                    while (true){
+                case 1://manualmente
+                    while(true){
                         try{
                             imprimirSeparador();
-                            System.out.println("Desea ver \n1.Géneros \n2.Plataformas \n3.Rangos de precio más vendidos \n4.Cambiar fecha \n5.Regresar");
+                            System.out.println("Desea filtrar \n1.Genero \n2.Plataforma\n3.Rango de precio ");
                             sc.nextLine();
                             opcion = sc.nextByte();
 
-                        }catch (Exception e){
+                        }catch (Exception e) {
                             imprimirSeparador();
                             System.out.println("\n### ERROR ###");
                             System.out.println("El valor debe ser numerico");
                             sc.nextLine();
+                            continue;
                         }
                         switch (opcion){
-                            case 1:
-                                //Tendencias de generos
-                                int media = 0;
-                                for (Transaccion i : rangoVentas){
-                                    //TODO:Como dar el resultado de cada genero, por separado
-                                }
-                            case 2:
-                                //Tendencias de plataformas
-                                //TODO:Como dar el resultado de cada plataforma, por separado
+                            case 1://Genero
+                                //TODO:no entiendo
+                            case 2://Plataforma
 
-                            case 3:
-                                //Tendencias de rangos mas vendidos
+                            case 3://Rango
 
-                            case 4:
-                                //Cambiar fecha?
-
-                            case 5:
-                                //Regresar
-                                opcion =0;
-                                break;
                         }
-                        System.out.println("El valor ingresado no es valido");
+                        System.out.println("La opción no es válida");
                     }
+                case 2://Prioridad
+                    while (true){
+                        try {
+                            System.out.println("Desea ver \n1.Alta\n2.");
+                        }catch (Exception e){
+
+                        }
+                    }
+                case 3://Entre locales
+
                 case 4:
-                    //Proceder con el reabastecimiento
+                    break;
             }
-        }while (opcion < 5);
+        }
     }
 }
