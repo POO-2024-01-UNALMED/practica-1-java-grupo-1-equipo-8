@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import gestorAplicacion.manejoLocal.Fecha;
 public class Meta implements Serializable{
     /*~~ Atributos ~~*/
+    private static int ultimoID = 1;
     private Empleado empleado;
     private Fecha fecha;
     private int valorAlcanzar;
@@ -14,14 +15,14 @@ public class Meta implements Serializable{
     private int codigo;
 
                     /*~~ Constructor ~~*/
-    public Meta (int codigo, Empleado empleado, int diaLimite, int mesLimite, int yearLimite, int valorAlcanzar, int valorBonificacion, int acumulado){
-        this.codigo = codigo;
+    public Meta (Empleado empleado, int diaLimite, int mesLimite, int yearLimite, int valorAlcanzar, int valorBonificacion){
+        this.codigo = ultimoID;
         this.empleado = empleado;
         this.fecha = new Fecha(diaLimite, mesLimite, yearLimite);
         this.valorAlcanzar = valorAlcanzar;
         this.valorBonificacion = valorBonificacion;
-        this.acumulado = acumulado;
         empleado.ingresarMeta(this);
+        ultimoID++;
     }
 
                     /*~~ Metodos get y set ~~*/
@@ -52,7 +53,7 @@ public class Meta implements Serializable{
     public int getAcumulado() {
         return acumulado;
     }
-    public void setAcumulado(int acumulado) {
+    public void setAcumuladoAcumulado(int acumulado) {
         this.acumulado = acumulado;
     }
     public int getCodigo() {

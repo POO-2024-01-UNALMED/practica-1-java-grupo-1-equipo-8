@@ -3,6 +3,7 @@ package uiMain;
 import baseDatos.Deserializador;
 import baseDatos.Serializador;
 import gestorAplicacion.informacionVenta.Subasta;
+import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
@@ -55,8 +56,10 @@ public class Main {
         Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, (byte) 7, tienda1);
 
         //metas
-        new Meta(1, empleado1, 15, 6, 2024, 30, 8000, 10 );
-        new Meta(2, empleado1, 18, 6, 2024, 35, 10000, 10);
+        new Meta(empleado1, 15, 6, 2024, 30, 8000);
+        new Meta(empleado1, 18, 6, 2024, 35, 10000);
+
+        new Transaccion()
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);

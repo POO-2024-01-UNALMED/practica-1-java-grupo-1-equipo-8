@@ -66,7 +66,7 @@ public class Empleado extends Persona implements Serializable {
         return acumuladoMensual;
     }
     public void setAcumuladoMensual(int acumuladoMensual) {
-        this.acumuladoMensual = acumuladoMensual;
+        this.acumuladoMensual = getAcumuladoMensual() + acumuladoMensual;
     }
     public byte getDiasLaborales() {
         return diasLaborales;

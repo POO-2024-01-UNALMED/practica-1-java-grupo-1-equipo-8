@@ -51,25 +51,48 @@ public class Funcionalidad4 {
 
         /* ~~~ Ver rendimiento ~~~ */
         while (true){
+            byte decision;
+
             int rendimiento = verRendimiento(empleado, fechaActual);
             compararRendimiento(empleado, fechaActual, rendimiento);
             System.out.println("¿Qué desea hacer?");
             System.out.println("1. Ver rendimiento en otro periodo");
             System.out.println("2. Asignar sueldo");
-            int decision = sc.nextInt();
+
+            try {
+                decision = sc.nextByte();
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
             if (decision ==  2){
                 break;
             }
         }
 
         /* ~~~ Modificar Salarios o días laborales ~~~ */
-        while (true){
+        while (true) {
+            byte decision;
+
             System.out.println("¿Qué desea hacer?");
             System.out.println("1. Modificar salarios");
             System.out.println("2. Modificar días laborales");
-            int decision = sc.nextInt();
 
-            switch (decision){
+            try {
+                decision = sc.nextByte();
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+
+            switch (decision) {
                 case 1:
                     modificarSalario(empleado);
                     break;
@@ -86,23 +109,41 @@ public class Funcionalidad4 {
                     break;
             }
             boolean pregunta = siNo("¿Desea modificar algo más?");
-            if (!pregunta){
+            if (!pregunta) {
                 break;
             }
 
         }
-        //TODO: Asignar una meta
         /* ~~~ Asignar una meta ~~~ */
 
-        System.out.println("¿Qué desea hacer?");
-        System.out.println("1. Asignar una meta");
-        System.out.println("2. Terminar");
-        byte pregunta = sc.nextByte();
+        while (true){
+            byte pregunta;
 
-        if (pregunta == 1){
-            asignarMeta(empleado);
+            System.out.println("¿Qué desea hacer?");
+            System.out.println("1. Asignar una meta");
+            System.out.println("2. Terminar");
+
+            try {
+                pregunta = sc.nextByte();
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+            if (pregunta == 1){
+                asignarMeta(empleado);
+            } else if (pregunta == 2) {
+                break;
+            } else {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+            }
         }
-
     }
 
 
@@ -115,10 +156,12 @@ public class Funcionalidad4 {
     }
 
     private static Empleado identificarEmpleado(Tienda local) {
+        /* ~~ Elegir con qué empleado se desea usar la funcionalidad ~~ */
+
         imprimirSeparador();
 
-        Empleado empleado = null;
-        int cedula = 0;
+        Empleado empleado;
+        int cedula;
 
         //Mostrar empleados de la tienda
         System.out.println("Empleados de la tienda:");
@@ -143,6 +186,7 @@ public class Funcionalidad4 {
                     }
                 }
             } catch (InputMismatchException error) {
+                imprimirSeparador();
                 System.out.println("\n### ERROR ###");
                 System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
                 sc.nextLine();  // nextLine para limpiar el buffer
@@ -152,6 +196,7 @@ public class Funcionalidad4 {
 
             // En caso de que el empleado no sea encontrado dar la opción de intentar de nuevo
             if (cedula == 0) {
+                imprimirSeparador();
                 System.out.println("\n### ERROR ###");
                 System.out.println("Empleado no encontrado. ¿Desea intentar de nuevo? (Y/n).\n");
                 char decision = 'y';
@@ -164,21 +209,23 @@ public class Funcionalidad4 {
     }
 
     private static void gestionarMeta(Empleado empleado, Fecha fechaActual) {
+        /* ~~ Calcular porcentaje de las metas ~~ */
+
         imprimirSeparador();
 
-        //Calcular porcentaje de las metas
         System.out.println("Porcentaje de progreso de las metas del empleado " + empleado.getNombre());
         for (Meta m : empleado.getMetas()) {
             int porcentajeProgreso = (m.getAcumulado() * 100) / m.getValorAlcanzar();
             System.out.println("* Código: " + m.getCodigo() + " - Porcentaje de progreso: " + porcentajeProgreso + "%");
 
-            if (porcentajeProgreso == 100) {
+            if (porcentajeProgreso == 100) { //Si el porcentaje de la meta se completó:
                 empleado.getMetas().remove(m);
                 empleado.ingresarMetasAlcanzdas(m);
                 m.setEstado("Meta cumplida");
+                empleado.setAcumuladoMensual(m.getValorBonificacion());
             }
 
-            if (fechaActual.getTotalDias() > m.getFecha().getTotalDias()) {
+            if (fechaActual.getTotalDias() > m.getFecha().getTotalDias()) { //Si la fecha de la meta caducó:
                 empleado.getMetas().remove(m);
                 empleado.ingresarMetasCaducadas(m);
                 m.setEstado("Meta caducada");
@@ -188,11 +235,15 @@ public class Funcionalidad4 {
     }
 
     private static void revisarMetasAlcanzadas(Empleado empleado) {
-        if (empleado.getMetasAlcanzadas().isEmpty()) {
+        /* ~~ Revisar si hay metas alcanzadas ~~ */
+
+        if (empleado.getMetasAlcanzadas().isEmpty()) { //No se ha cumplido con ninguna meta aún
+            imprimirSeparador();
             System.out.println("El empleado " + empleado.getNombre() + " todavía no ha cumplido con ninguna meta. Ánimo.");
             System.out.println("Presione enter para continuar");
             sc.nextLine();
-        } else {
+        } else { //Si se han cumplido metas
+            imprimirSeparador();
             System.out.println("Las metas alcanzadas por el empleado: " + empleado.getNombre() + " son: ");
             for (Meta m : empleado.getMetasAlcanzadas()) {
                 System.out.println(m.toString());
@@ -201,12 +252,16 @@ public class Funcionalidad4 {
     }
 
     private static void mostrarMetasCaducadas(Empleado empleado){
-        if (empleado.getMetasCaducadas().isEmpty()) {
+        /* ~~ Imprimir metas caducadas ~~ */
+
+        if (empleado.getMetasCaducadas().isEmpty()) { //Si no hay metas caducadas:
+            imprimirSeparador();
             System.out.println("El empleado " + empleado.getNombre() + " no tiene metas caducadas");
             System.out.println("Presione enter para continuar");
             sc.nextLine();
             sc.nextLine();
-        } else {
+        } else { //Si sí hay metas caducadas:
+            imprimirSeparador();
             System.out.println("Las metas caducadas por el empleado " + empleado.getNombre() + " son: ");
             for (Meta m : empleado.getMetasCaducadas()) {
                 System.out.println(m.toString());
@@ -214,9 +269,23 @@ public class Funcionalidad4 {
         }
     }
     private static Meta revisarMetasCaducadas(Empleado empleado) {
+        /* ~~ Elegir meta que se desea modificar ~~ */
         while (true){
+            int codigo;
+
+            imprimirSeparador();
             System.out.println("Escriba el codigo de la meta que desea modificar");
-            int codigo = sc.nextInt();
+
+            try {
+                codigo = sc.nextByte();
+            } catch (InputMismatchException error) {
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
 
             for (Meta m : empleado.getMetasCaducadas()) {
                 if (m.getCodigo() == codigo) {
@@ -224,6 +293,8 @@ public class Funcionalidad4 {
                 }
             }
 
+            //En caso tal de que se ingrese un código de una meta que no existe
+            imprimirSeparador();
             System.out.println("\n### ERROR ###");
             System.out.println("Meta no encontrada. ¿Desea intentar de nuevo? (Y/n).\n");
             char decision1 = 'y';
@@ -235,28 +306,70 @@ public class Funcionalidad4 {
     }
 
     private static void ampliarMeta(Empleado empleado, Meta meta, Fecha fechaActual) {
-        while (true) {
+        /* ~~ Método para ampliar plazo de meta caducada ~~ */
 
-            System.out.println("Ingrese el año en que desea ampliar la meta: ");
-            int yearAjuste = sc.nextInt();
+        while (true) {
+            int yearAjuste;
+            int mesAjuste;
+            int diaAjuste;
+
+            try { //Ingresar año que se desea modificar
+                imprimirSeparador();
+                System.out.println("Ingrese el año en que desea ampliar la meta: ");
+                yearAjuste = sc.nextInt();
+            } catch (InputMismatchException error) {
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+            //Hacer ajuste de la fecha de la meta
             meta.getFecha().setYear(yearAjuste);
 
-            System.out.println("Ingrese el mes en que desea ampliar la meta: ");
-            int mesAjuste = sc.nextInt();
+            try { //Ingresar el mes que se desea modificar
+                imprimirSeparador();
+                System.out.println("Ingrese el mes en que desea ampliar la meta: ");
+                mesAjuste = sc.nextInt();
+            } catch (InputMismatchException error) {
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+            //Hacer ajuste del mes que se desea modificar
             meta.getFecha().setMes(mesAjuste);
 
-            System.out.println("Ingrese el día que desea ampliar la meta");
-            int diaAjuste = sc.nextInt();
+            try { //Ingresar el día que se desea modificar
+                imprimirSeparador();
+                System.out.println("Ingrese el día que desea ampliar la meta");
+                diaAjuste = sc.nextInt();
+            } catch (InputMismatchException error) {
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+            //Hacer ajuste del día que se desea modificar
             meta.getFecha().setDia(diaAjuste);
 
+            //Cambiar total de días de la meta a 0 para que luego no genere problemas
             meta.getFecha().setTotalDias(0);
+            //Hacer ajuste de total de días de la meta
             meta.getFecha().setTotalDias(meta.getFecha().fechaADias(diaAjuste, mesAjuste, yearAjuste));
 
-            if (meta.getFecha().getTotalDias() < fechaActual.getTotalDias()) {
+            if (meta.getFecha().getTotalDias() < fechaActual.getTotalDias()) { //Si la fecha de la meta es antes de la actual
+                imprimirSeparador();
                 System.out.println("Fecha no válida, presione enter para volver a intentar");
                 sc.nextLine();
                 sc.nextLine();
-            } else {
+            } else { //Si la fecha de la meta es después de la actual
+                imprimirSeparador();
                 System.out.println("Fecha actualizada. La meta " + meta.getCodigo() + " quedó para " + meta.getFecha().toString());
                 System.out.println("Presione enter para continuar");
                 empleado.getMetasCaducadas().remove(meta);
@@ -269,67 +382,110 @@ public class Funcionalidad4 {
         }
     }
     private static int verRendimiento(Empleado empleado, Fecha fechaActual){
+        /* ~~ Ver la cantidad de ventas del empleado ~~ */
         while (true){
-            System.out.println("Desea ver el rendimiento del empleado " + empleado.getNombre() + ":");
-            System.out.println("1. Semanal");
-            System.out.println("2. Mensual");
-            System.out.println("3. Anual");
-            byte opcion = sc.nextByte();
+            byte opcion;
+            byte decision;
+
+            try {
+                imprimirSeparador();
+                System.out.println("Desea ver el rendimiento del empleado " + empleado.getNombre() + ":");
+                System.out.println("1. Semanal");
+                System.out.println("2. Mensual");
+                System.out.println("3. Anual");
+                opcion = sc.nextByte();
+            } catch (InputMismatchException error) {
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
 
             switch (opcion) {
-                case 1:
+                case 1: //Ver la cantidad de ventas del empleado en la semana
                     for (Transaccion t : empleado.getTransacciones()) {
+                        //Sumar 1 al total de ventas de la semana actual si la fecha actual
                         if (fechaActual.getTotalDias() - 7 > t.getFecha().getTotalDias()) {
                             totalVentasSemanaActual++;
                         }
                     }
+                    imprimirSeparador();
                     System.out.println("El total de ventas semanales del empleado " + empleado.getNombre() + " son: " + totalVentasSemanaActual);
                     break;
 
-                case 2:
+                case 2: //Ver la cantidad de ventas del empleado en el mes
                     for (Transaccion t : empleado.getTransacciones()) {
                         if (fechaActual.getTotalDias() - 31 > t.getFecha().getTotalDias()) {
                             totaVentasMesActual++;
                         }
                     }
+                    imprimirSeparador();
                     System.out.println("El total de ventas mensuales del empleado " + empleado.getNombre() + " son:" + totaVentasMesActual);
                     break;
 
-                case 3:
+                case 3: //Ver la cantidad de ventas del empleado en el año
                     for (Transaccion t : empleado.getTransacciones()) {
                         if (fechaActual.getTotalDias() - 365 > t.getFecha().getTotalDias()) {
                             totalVentasYearActual++;
                         }
                     }
+                    imprimirSeparador();
                     System.out.println("El total de ventas anuales del empleado " + empleado.getNombre() + " son:" + totalVentasYearActual);
                     break;
 
-                default:
+                default: //Si se ingresa un número no válido
+                    imprimirSeparador();
                     System.out.println("\n### ERROR ###");
                     System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                     break;
             }
-            System.out.println("¿Qué desea hacer?");
-            System.out.println("1. Ver el rendimiento en otro periodo de tiempo");
-            System.out.println("2. Comparar rendimiento con periodo anterior");
 
-            int decision = sc.nextInt();
-            if (decision == 2){
-                return opcion;
+            while (true){
+                try { //Elegir si se desea ver el rendimiento en otro periodo o pasar a compararlo
+                    imprimirSeparador();
+                    System.out.println("¿Qué desea hacer?");
+                    System.out.println("1. Ver el rendimiento en otro periodo de tiempo");
+                    System.out.println("2. Comparar rendimiento con periodo anterior");
+
+                    decision = sc.nextByte();
+                } catch (InputMismatchException error) {
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                    sc.nextLine();  // nextLine para limpiar el buffer
+                    sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                    continue;
+                }
+                if (decision == 1){
+                    break;
+                } else if (decision == 2) {
+                    return opcion;
+                } else {
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                    sc.nextLine();  // nextLine para limpiar el buffer
+                    sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                }
             }
         }
    }
 
     private static void compararRendimiento(Empleado empleado, Fecha fechaActual, int decision){
+        /* ~~ Comparar cantidad de ventas del empleado ~~ */
 
         switch (decision) {
-            case 1:
+            case 1: //Comparar la cantidad de ventas con la semana pasada
                 int totalSemana = 0;
                 for (Transaccion t : empleado.getTransacciones()) {
-                    if (fechaActual.getTotalDias() - 14 > t.getFecha().getTotalDias() - 7) {
+
+                    if (fechaActual.getTotalDias() - 14 >= t.getFecha().getTotalDias() - 7) {
                         totalSemana++;
+                        imprimirSeparador();
                         System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron:" + totalSemana);
                         System.out.println("Presione Enter para continuar.\n");
                         sc.nextLine(); // Limpiar el buffer
@@ -339,6 +495,7 @@ public class Funcionalidad4 {
 
                 if (totalSemana < totalVentasSemanaActual){
                     int calculo = ((totalVentasSemanaActual - totalSemana)/totalSemana)*100;
+                    imprimirSeparador();
                     System.out.println("El total de ventas en esta semana incrementó en un " + calculo + "%");
                     if (calculo > 30 ){
                         System.out.println("El empleado tuvo un incremento en ventas mayor al 30%. El empleado debería tener una bonificación remunerada.");
@@ -347,12 +504,14 @@ public class Funcionalidad4 {
                         sc.nextLine(); // Esperar a que el usuario presione Enter
                     }
                 } else if (totalSemana == totalVentasSemanaActual) {
+                    imprimirSeparador();
                     System.out.println("El total de ventas fue igual al de la semana pasada " + totalSemana + " ventas.");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                 } else {
                     int calculo = ((totalSemana - totalVentasSemanaActual)/totalSemana)*100;
+                    imprimirSeparador();
                     System.out.println("El total de ventas en esta semana disminuyó en un " + calculo +"%");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
@@ -363,8 +522,9 @@ public class Funcionalidad4 {
             case 2:
                 int totalMes = 0;
                 for (Transaccion t : empleado.getTransacciones()) {
-                    if (fechaActual.getTotalDias() - 62 > t.getFecha().getTotalDias() - 31) {
+                    if (fechaActual.getTotalDias() - 62 >= t.getFecha().getTotalDias() - 31) {
                         totalMes++;
+                        imprimirSeparador();
                         System.out.println("El total de ventas en el mes anterior del empleado " + empleado.getNombre() + " fueron:" + totalMes);
                         System.out.println("Presione Enter para continuar.\n");
                         sc.nextLine(); // Limpiar el buffer
@@ -374,6 +534,7 @@ public class Funcionalidad4 {
 
                 if (totalMes < totaVentasMesActual){
                     int calculo = ((totaVentasMesActual - totalMes)/totalMes)*100;
+                    imprimirSeparador();
                     System.out.println("El total de ventas en este mes incrementó en un " + calculo + "%");
                     if (calculo > 30 ){
                         System.out.println("El empleado tuvo un incremento en ventas mayor al 30%. El empleado debería tener una bonificación remunerada.");
@@ -382,12 +543,14 @@ public class Funcionalidad4 {
                         sc.nextLine(); // Esperar a que el usuario presione Enter
                     }
                 } else if (totalMes == totaVentasMesActual) {
+                    imprimirSeparador();
                     System.out.println("El total de ventas fue igual al del mes pasado: " + totalMes + " ventas.");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                 } else {
                     int calculo = ((totalMes - totaVentasMesActual)/totalMes)*100;
+                    imprimirSeparador();
                     System.out.println("El total de ventas en este mes disminuyó en un " + calculo +"%");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
@@ -398,8 +561,9 @@ public class Funcionalidad4 {
             case 3:
                 int totalYear = 0;
                 for (Transaccion t : empleado.getTransacciones()) {
-                    if (fechaActual.getTotalDias() - 14 > t.getFecha().getTotalDias() - 7) {
+                    if (fechaActual.getTotalDias() - 730 >= t.getFecha().getTotalDias() - 365) {
                         totalYear++;
+                        imprimirSeparador();
                         System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron:" + totalYear);
                         System.out.println("Presione Enter para continuar.\n");
                         sc.nextLine(); // Limpiar el buffer
@@ -409,6 +573,7 @@ public class Funcionalidad4 {
 
                 if (totalYear < totalVentasYearActual){
                     int calculo = ((totalVentasYearActual - totalYear)/totalYear)*100;
+                    imprimirSeparador();
                     System.out.println("El total de ventas en esta semana incrementó en un " + calculo + "%");
                     if (calculo > 30 ){
                         System.out.println("El empleado tuvo un incremento en ventas mayor al 30%. El empleado debería tener una bonificación remunerada.");
@@ -417,12 +582,14 @@ public class Funcionalidad4 {
                         sc.nextLine(); // Esperar a que el usuario presione Enter
                     }
                 } else if (totalYear == totalVentasYearActual) {
+                    imprimirSeparador();
                     System.out.println("El total de ventas fue igual al de la semana pesada " + totalYear + " ventas.");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                 } else {
                     int calculo = ((totalYear - totalVentasYearActual)/totalYear)*100;
+                    imprimirSeparador();
                     System.out.println("El total de ventas en esta semana disminuyó en un " + calculo +"%");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
@@ -431,6 +598,7 @@ public class Funcionalidad4 {
                 break;
 
             default:
+                imprimirSeparador();
                 System.out.println("\n### ERROR ###");
                 System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
                 sc.nextLine(); // Limpiar el buffer
@@ -440,52 +608,108 @@ public class Funcionalidad4 {
     }
 
     private static void modificarSalario(Empleado empleado) {
-        System.out.println("Desea modificar:");
-        System.out.println("1. Salario fijo");
-        System.out.println("2. Porcentaje por ventas");
-        int salario = sc.nextInt();
+        int salario;
+        while (true){
+            try {
+                imprimirSeparador();
+                System.out.println("Desea modificar:");
+                System.out.println("1. Salario fijo");
+                System.out.println("2. Porcentaje por ventas");
 
-        switch (salario) {
-            case 1:
-                System.out.println("El salario fijo del empleado es: " + empleado.getSalario());
-                System.out.println("Ingrese el nuevo salario del empleado");
-
-                int salarioNuevo = sc.nextInt();
-                empleado.setSalario(salarioNuevo);
-
-                System.out.println("El nuevo salario fijo del empleado es: " + empleado.getSalario());
-
-            case 2:
-                System.out.println("El salario porcentual de empleado es: " + empleado.getSalarioPorcentual());
-                System.out.println("Ingrese el nuevo salario porcentual del empleado: ");
-
-                int salarioPorcentualNuevo = sc.nextInt();
-                empleado.setSalarioPorcentual(salarioPorcentualNuevo);
-
-                System.out.println("El nuevo salario porcentual del empleado es: " + empleado.getSalarioPorcentual());
-
-            default:
+                salario = sc.nextInt();
+            } catch (InputMismatchException error) {
+                imprimirSeparador();
                 System.out.println("\n### ERROR ###");
-                System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
-                sc.nextLine(); // Limpiar el buffer
-                sc.nextLine(); // Esperar a que el usuario presione Enter
-                break;
-        }
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
 
+            switch (salario) {
+                case 1:
+                    int salarioNuevo;
+
+                    try {
+                        imprimirSeparador();
+                        System.out.println("El salario fijo del empleado es: " + empleado.getSalario());
+                        System.out.println("Ingrese el nuevo salario del empleado");
+
+                        salarioNuevo = sc.nextInt();
+                    } catch (InputMismatchException error) {
+                        imprimirSeparador();
+                        System.out.println("\n### ERROR ###");
+                        System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                        sc.nextLine();  // nextLine para limpiar el buffer
+                        sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                        continue;
+                    }
+
+                    empleado.setSalario(salarioNuevo);
+                    imprimirSeparador();
+                    System.out.println("El nuevo salario fijo del empleado es: " + empleado.getSalario());
+                    return;
+
+                case 2:
+                    int salarioPorcentualNuevo;
+                    try {
+                        imprimirSeparador();
+                        System.out.println("El salario porcentual de empleado es: " + empleado.getSalarioPorcentual());
+                        System.out.println("Ingrese el nuevo salario porcentual del empleado: ");
+
+                        salarioPorcentualNuevo = sc.nextInt();
+                    } catch (InputMismatchException error) {
+                        imprimirSeparador();
+                        System.out.println("\n### ERROR ###");
+                        System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                        sc.nextLine();  // nextLine para limpiar el buffer
+                        sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                        continue;
+                    }
+
+                    empleado.setSalarioPorcentual(salarioPorcentualNuevo);
+                    imprimirSeparador();
+                    System.out.println("El nuevo salario porcentual del empleado es: " + empleado.getSalarioPorcentual());
+                    return;
+
+                default:
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                    return;
+            }
+        }
     }
 
     private static void modificarDiasLaborales(Empleado empleado) {
         while (true){
-            System.out.println("El empleado " + empleado.getNombre() + "trabaja " + empleado.getDiasLaborales() + " a la semana");
-            System.out.println("Ingrese el número de días que " + empleado + " trabaje a la semana");
-            byte nuevoDias = sc.nextByte();
+            byte nuevoDias;
+
+            try {
+                imprimirSeparador();
+                System.out.println("El empleado " + empleado.getNombre() + "trabaja " + empleado.getDiasLaborales() + " a la semana");
+                System.out.println("Ingrese el número de días que " + empleado + " trabajará a la semana");
+
+                nuevoDias = sc.nextByte();
+            } catch (InputMismatchException error) {
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
 
             if (nuevoDias < 6 ){
                 empleado.setDiasLaborales(nuevoDias);
+                imprimirSeparador();
                 System.out.println("Ahora el empleado trabajará " + empleado.getDiasLaborales() + " días a la semana");
                 return;
             }
             else {
+                imprimirSeparador();
                 System.out.println("Cantidad inhumana de días. Presione enter para volver a intentarlo");
             }
         }
@@ -493,34 +717,84 @@ public class Funcionalidad4 {
     }
 
     private static void asignarMeta(Empleado empleado) {
-        System.out.println("Las metas del empleado + " + empleado.getNombre() + " son: ");
-        for (Meta m : empleado.getMetas()) {
-            System.out.println(m.toString());
+        while (true){
+            int yearLimite;
+            int mesLimite;
+            int diaLimite;
+            int valorAlcanzar;
+            int valorBonificacion;
+
+            System.out.println("Las metas del empleado + " + empleado.getNombre() + " son: ");
+            for (Meta m : empleado.getMetas()) {
+                System.out.println(m.toString());
+            }
+            System.out.println("Presione enter para continuar");
+            sc.nextLine();
+            sc.nextLine();
+
+
+            try {
+                System.out.println("Ingrese el año límite de la meta: ");
+                yearLimite = sc.nextInt();
+
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+            try {
+                System.out.println("Ingrese el mes límite de la meta: ");
+                mesLimite = sc.nextInt();
+
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+            try {
+                System.out.println("Ingrese el día límite de la meta: ");
+                diaLimite = sc.nextInt();
+
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+            try {
+                System.out.println("Ingrese el valor a alcanzar: ");
+                valorAlcanzar = sc.nextInt();
+
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+            try {
+                System.out.println("Ingrese el valor de la bonificación : ");
+                valorBonificacion = sc.nextInt();
+
+            } catch (InputMismatchException error) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
+            }
+
+            new Meta(empleado, diaLimite, mesLimite, yearLimite, valorAlcanzar, valorBonificacion);
+            return;
         }
-        System.out.println("Presione enter para continuar");
-        sc.nextLine();
-        sc.nextLine();
-
-        System.out.println("Ingrese el año límite de la meta: ");
-        int yearLimite = sc.nextInt();
-
-        System.out.println("Ingrese el mes límite de la meta: ");
-        int mesLimite = sc.nextInt();
-
-        System.out.println("Ingrese el día límite de la meta: ");
-        int diaLimite = sc.nextInt();
-
-        System.out.println("Ingrese el valor a alcanzar: ");
-        int valorAlcanzar = sc.nextInt();
-
-        System.out.println("Ingrese el valor de la bonificación : ");
-        int valorBonificacion = sc.nextInt();
-
     }
-
-    //TODO: Hacer método para consecutivo en clase meta
-
-    //TODO: Hablar con pablito para ver como ingresar bonificación cuando se completa una meta
-
-    //TODO: Corregir los warnings
 }
