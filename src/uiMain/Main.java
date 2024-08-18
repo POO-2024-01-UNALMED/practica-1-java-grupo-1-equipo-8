@@ -18,6 +18,7 @@ public class Main {
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     /* ~~~ Objetos para pruebas ~~~ */
 
+    /* Comentado para probar la serialización
     static Tienda tienda1 = new Tienda("Volador",123);
     static {
         tienda1.agregarProducto(new Consola("Polystation 5", 400, 10, 10, false, (byte) 5, 11, 11, 2021, 5, 100, "Sony"));
@@ -75,14 +76,12 @@ public class Main {
         tienda2.agregarProducto(new Accesorio("Control Polystation 3", 30, 50, 50, false, (byte) 5, 13, 11, 2006, 40, 300, "Sony", "Polystation 3"));
     }
 
-    /* ~~~~~~~~~~~~~~~~~~ */
-    /* Clientes */
+    // Clientes
     static Cliente cliente1 = new Cliente(123, "Juan", "juan@mail.com", 311203);
     static Cliente cliente2 = new Cliente(124, "Pedro", "pedro@mail.com", 311204);
     static Cliente cliente3 = new Cliente(125, "Maria", "maria@mail.com@", 311205);
 
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
 
 
     // Variable scanner para entrada de datos

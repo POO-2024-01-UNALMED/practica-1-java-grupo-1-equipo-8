@@ -319,7 +319,7 @@ public class Funcionalidad1 {
     }
 
     private static Producto seleccionarProducto(ArrayList<Producto> inventario) {
-        byte opcion = 0;
+        byte opcion;
 
         do {
             imprimirSeparador();
@@ -330,6 +330,9 @@ public class Funcionalidad1 {
             System.out.println("3. Accesorio");
 
             // Recibir selección del usuario
+
+            opcion = 0;
+
             try {
                 opcion = sc.nextByte();
             }
@@ -490,20 +493,22 @@ public class Funcionalidad1 {
             return null;
         }
 
-
         Empleado empleado = null;
+        int cedulaEmpleado;
         java.util.Scanner scEmp = new java.util.Scanner(System.in);
 
-        // Mostrar a todos los empleados del local
-        for (Empleado e: local.getEmpleados()){
-            System.out.println(" * " + e.getNombre() + " - " + e.getCedula());
-        }
-        // Recibir cédula del empleado
-        System.out.println("Ingrese la cedula del empleado encargado de esta transacción");
-
         while (empleado == null) {
+            // Mostrar a todos los empleados del local
+            for (Empleado e : local.getEmpleados()) {
+                System.out.println(" * " + e.getNombre() + " - " + e.getCedula());
+            }
+            System.out.println("Ingrese la cedula del empleado encargado de esta transacción");
+
+            // Recibir cédula del empleado
+            cedulaEmpleado = 0;
+
             try {
-                int cedulaEmpleado = scEmp.nextInt();
+                cedulaEmpleado = scEmp.nextInt();
                 scEmp.nextLine();  // Limpiar el buffer
 
                 for (Empleado e : local.getEmpleados()) {
