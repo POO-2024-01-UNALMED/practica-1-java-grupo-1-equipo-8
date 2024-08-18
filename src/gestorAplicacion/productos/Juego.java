@@ -32,7 +32,16 @@ public class Juego extends Producto {
 	}
 
 	//~~~~~~~~~~~~~~~~~~ Métodos ~~~~~~~~~~~~~~~~~~//
-
+	// Método toString
+	@Override
+	public String toString() {
+		return "COD: " + codigo + " | " +
+				"NOMBRE: " + nombre + " | " +
+				"$ " + valor + " | " +
+				"GENERO: " + genero + " | " +
+				"PLATAFORMA: " + plataforma + " | " +
+				"CANT: " + cantidad;
+	}
 
 
 	// ~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~ //

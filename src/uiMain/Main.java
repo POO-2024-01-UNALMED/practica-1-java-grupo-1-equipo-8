@@ -9,6 +9,7 @@ import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
 import gestorAplicacion.personas.*;
 
+import java.io.Serial;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -58,8 +59,6 @@ public class Main {
         //metas
         new Meta(empleado1, 15, 6, 2024, 30, 8000);
         new Meta(empleado1, 18, 6, 2024, 35, 10000);
-
-        new Transaccion()
     }
 
     static Tienda tienda2 = new Tienda("Robledo",1420);
@@ -88,16 +87,35 @@ public class Main {
 
     // Variable scanner para entrada de datos
     static Scanner sc = new Scanner(System.in);
+    public static Fecha ultimaFecha;
 
     public static void main(String[] args) {
         /* ~~~ Carga de objetos serializados ~~~ */
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
+        ultimaFecha = Deserializador.deserializarFecha();
 
-        /* ~~~ Menu principal ~~~ */
-        imprimirLogo();
+        /* ~~~~~~~~~~~~~~~~~~~~~~~ Inicio del programa ~~~~~~~~~~~~~~~~~~~~~~~ */
+        /* ~~~ Recibir fecha ~~~ */
+        Fecha fechaActual;
 
-        Fecha fechaActual = recibirFecha();
+        while (true) { // Recibir fecha actual
+            imprimirSeparador();
+
+            System.out.println("Último acceso: " + ultimaFecha);
+
+            fechaActual = recibirFecha();
+            if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la última fecha registrada
+                ultimaFecha = fechaActual;
+                break;
+            } else {
+                System.out.println("\n### ERROR ###");
+                System.out.println("La fecha ingresada es anterior a la última fecha registrada (" + ultimaFecha + ")" +
+                        "\nPresione Enter para volver a intentar.");
+
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
 
         // TODO: Imprimir local y fecha actuales en el menu principal
 
@@ -130,6 +148,9 @@ public class Main {
                 }
             } while (local == null);
 
+            /* ~~~~ Menú principal ~~~~ */
+        imprimirSeparador();
+        imprimirLogo();
         /* ~~ Selección de funcionalidad ~~ */
         byte opcion = 1;
             do {
@@ -141,7 +162,7 @@ public class Main {
                 System.out.println("4. Gestionar empleados");
                 System.out.println("5. Subastar");
 
-                System.out.println("0. Salir");
+                System.out.println("0. Guardar y salir");
 
                 System.out.println("Ingrese el número de la opción que desea ejecutar:");
 
@@ -195,6 +216,7 @@ public class Main {
 
                         Serializador.serializarTiendas(Tienda.getLocales());
                         Serializador.serializarClientes(Cliente.getClientes());
+                        Serializador.serializarUltimaFecha(ultimaFecha);
 
                         System.out.println("Saliendo...");
                         break;
@@ -214,7 +236,10 @@ public class Main {
     static void imprimirSeparador() {
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
         //System.out.println("░░░░░░░░░░░░░░░░░░░░░████████████████████████████████████████████░░░░░░░░░░░░░░░░░░░░░");
-        //System.out.println("▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅");
+    }
+
+    static void imprimirSeparadorPequeno() {
+        System.out.println("▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅");
     }
 
     // Imprimir logo de la tienda en ANSI

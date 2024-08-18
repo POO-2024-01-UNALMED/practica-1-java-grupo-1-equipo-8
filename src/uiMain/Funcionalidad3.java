@@ -4,12 +4,11 @@ import java.sql.Array;
 import java.sql.ClientInfoStatus;
 import java.util.*;
 
-import static uiMain.Main.imprimirSeparador;
-import static uiMain.Main.recibirFecha;
-
 import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.*;
 import gestorAplicacion.productos.*;
+
+import static uiMain.Main.*;
 
 
 public class Funcionalidad3 {
@@ -44,6 +43,9 @@ public class Funcionalidad3 {
             switch (opcion){
                 case 1:
                     //Revisar productos
+                    Scanner scOpcion2 = new Scanner(System.in);
+                    Scanner scTipo = new Scanner(System.in);
+
                     do{
                         imprimirSeparador();
 
@@ -51,10 +53,8 @@ public class Funcionalidad3 {
                         System.out.println("2. Revisar todos los productos en la tienda.");
                         System.out.println("3. Regresar.");
 
-                        try{//Impedir que haya un error si se ingresa un numero no numerico
-                            opcion2 = sc.nextByte();
-                            sc.nextLine(); //Limpiar buffer
-
+                        try{//Impedir que haya un error si se ingresa un valor no numerico
+                            opcion2 = scOpcion2.nextByte();
                         }catch (Exception e){
                             System.out.println("\n### ERROR ###");
                             System.out.println("Se debe ingresar un valor numerico válido.");
@@ -70,72 +70,70 @@ public class Funcionalidad3 {
                                 imprimirSeparador();
                                 byte tipo;// tipo a elegir
 
-                                try{//impedir un error al elegir el tipo
+                                try {//impedir un error al elegir el tipo
                                     System.out.println("1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
-
-                                    tipo = sc.nextByte();
-                                }catch (Exception e){
+                                    tipo = scTipo.nextByte();
+                                } catch (Exception e) {
                                     imprimirSeparador();
 
                                     System.out.println("\n### ERROR ###");
                                     System.out.println("El valor debe ser numerico");
                                     continue;
-                                    }
+                                }
 
-                                sc.nextLine();//Limpiar buffer
                                 String orden = elegirOrden();
 
-                                switch (tipo){
+                                switch (tipo) {
                                     case 1:
 
                                         //Se eligio revisar por tipo Accesorio
-                                        for (Producto i : local.getInventario()){
-                                            if (i instanceof Accesorio){
+                                        for (Producto i : local.getInventario()) {
+                                            if (i instanceof Accesorio) {
                                                 lista.add(i);
                                             }
                                         }
-                                        Producto.ordenar(lista,orden);
-                                        for(Producto i : lista) {
+                                        Producto.ordenar(lista, orden);
+                                        for (Producto i : lista) {
                                             System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                         }
                                         break;
                                     case 2:
                                         //Se eligio revisar por tipo Consola
-                                        for (Producto i : local.getInventario()){
-                                            if (i instanceof Consola){
+                                        for (Producto i : local.getInventario()) {
+                                            if (i instanceof Consola) {
                                                 lista.add(i);
                                             }
                                         }
-                                        Producto.ordenar(lista,orden);
-                                        for(Producto i : lista) {
+                                        Producto.ordenar(lista, orden);
+                                        for (Producto i : lista) {
                                             System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                         }
                                         break;
 
                                     case 3:
                                         //Se eligio revisar por tipo Juego
-                                        for (Producto i : local.getInventario()){
-                                            if (i instanceof Juego){
+                                        for (Producto i : local.getInventario()) {
+                                            if (i instanceof Juego) {
                                                 lista.add(i);
                                             }
                                         }
-                                        Producto.ordenar(lista,orden);
-                                        for(Producto i : lista) {
+                                        Producto.ordenar(lista, orden);
+                                        for (Producto i : lista) {
                                             System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                         }
                                         break;
                                     default:
                                         break;
-                                    }
+                                }
+                                break;
                             case 2:
                                 //~~~~~~~~~~  Revisar todos los productos  ~~~~~~~~~~//
                                 //Darle todos los objetos del local a la lista
-                                Collections.addAll(lista,local.getInventario().toArray(new Producto[0]));
+                                Collections.addAll(lista, local.getInventario().toArray(new Producto[0]));
 
-                                orden = elegirOrden();
-                                sc.nextLine();//Limpiar buffer
+                                //orden = elegirOrden();
 
-                                for(Producto i : lista) {
+                                for (Producto i : lista) {
                                     System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                 }
                                 break;
@@ -285,13 +283,16 @@ public class Funcionalidad3 {
 
     }
     private static String elegirOrden() {
-        imprimirSeparador();
+        imprimirSeparadorPequeno();
+
+        Scanner scOrden = new Scanner(System.in);
+
         String palabra;
         boolean esValido = false;
 
         do {
             System.out.println("Elija el tipo de orden (sin tildes): \n• Alfabetico \n• Ventas\n• Precio");
-            palabra = sc.nextLine();
+            palabra = scOrden.nextLine();
 
             if (palabra.equalsIgnoreCase("Alfabetico") ||
                     palabra.equalsIgnoreCase("Ventas") ||

@@ -24,6 +24,10 @@ public class Cliente extends Persona{
     }
     public void agregarCompra(Transaccion compra){
         this.compras.add(compra);
+
+        // Otorgar puntos de fidelidad
+        int puntos = compra.getValorSinDescuento();
+        this.puntosFidelidad += puntos;
     }
 
     /* ~~~ Metodos get y set ~~~ */
