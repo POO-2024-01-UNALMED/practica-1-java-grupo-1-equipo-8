@@ -14,6 +14,14 @@ public class Reabastecimiento implements Serializable{
     private Tienda localDestino;
     private Fecha fechaEntrega;
     private ArrayList<Producto> productosRecibidos;
+            /*~~ Constructor reabastecimiento ~~*/
+    public Reabastecimiento(Tienda localOrigen,Tienda localDestino,Fecha fechaEntrega,ArrayList<Producto> productosRecibidos){
+        this.localOrigen = localOrigen;
+        this.localDestino = localDestino;
+        this.fechaEntrega = fechaEntrega;
+        this.productosRecibidos = productosRecibidos;
+    }
+            /*~~~~~~~ Metodos ~~~~~~~*/
 
             /*~~ Metodos get y set ~~*/
 

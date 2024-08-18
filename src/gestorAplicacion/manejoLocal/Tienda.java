@@ -99,6 +99,10 @@ public class Tienda implements Serializable {
             }
         }
     }
+    // Metodo para agreagr orden
+    public void agregarOrden(Reabastecimiento orden){
+        this.reabastecimientos.add(orden);
+    }
 
 
     /*~~ Getters y setters ~~*/
