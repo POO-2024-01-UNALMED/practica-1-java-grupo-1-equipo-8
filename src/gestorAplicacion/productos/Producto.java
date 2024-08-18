@@ -116,6 +116,8 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		int venta = this.cantidadInicial - this.cantidad;
 		return venta;
 	}
+
+	/* ~~ Método para ordenar productos ~~ */
 	public static ArrayList<Producto> ordenar(ArrayList<Producto> p, String orden){
 		if (orden.equalsIgnoreCase("ventas")) {
 			Collections.sort(p, new Comparator<Producto>() {
