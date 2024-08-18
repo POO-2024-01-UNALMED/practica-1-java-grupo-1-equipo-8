@@ -1,5 +1,6 @@
 package uiMain;
 
+import java.sql.Array;
 import java.sql.ClientInfoStatus;
 import java.util.*;
 
@@ -637,6 +638,87 @@ public class Funcionalidad3 {
                 case 4:
                     break;
             }
+        }
+    }
+
+    // Método que retorna el género más comprado en un local ingresado
+    // El resultado será null si la tienda no tiene transacciones
+    private static String generoMasComprado(Tienda local) {
+        ArrayList<Integer> generosCant = new ArrayList<Integer>();
+        ArrayList<String> generos = new ArrayList<String>();
+
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
+            for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                if (p instanceof Juego) {
+                    Juego j = (Juego) p;
+                    if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
+                        int indice = generos.indexOf(j.getGenero());
+                        generosCant.set(indice, generosCant.get(indice) + 1);
+                    } else { // Si no está, agregarlo a la lista
+                        generos.add(j.getGenero());
+                        generosCant.add(1);
+                    }
+                }
+            }
+        }
+        // Encontrar el género más vendido
+        int max = 0;
+        String generoFav = "Ninguno. La tienda no ha vendido juegos";
+        // Este es el mensaje por defecto del género favorito que se preservará sólo en caso
+        // que la tienda no tenga transacciones
+
+
+        for (int i = 0; i < generosCant.size(); i++) {
+            if (generosCant.get(i) > max) {
+                max = generosCant.get(i);
+                generoFav = generos.get(i);
+            }
+        }
+
+        return generoFav;
+    }
+
+    // Método que muestra los 5 géneros más comprados y la cantidad de ventas
+    private static void mostrarGeneros(Tienda local) {
+        // Comprobar que la tienda tiene transacciones
+        if (local.getCaja().isEmpty()) {
+            System.out.println("No hay transacciones en la tienda");
+            return;
+        }
+
+        ArrayList<Integer> generosCant = new ArrayList<Integer>();
+        ArrayList<String> generos = new ArrayList<String>();
+
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
+            for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                if (p instanceof Juego) {
+                    Juego j = (Juego) p;
+                    if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
+                        int indice = generos.indexOf(j.getGenero());
+                        generosCant.set(indice, generosCant.get(indice) + 1);
+                    } else { // Si no está, agregarlo a la lista
+                        generos.add(j.getGenero());
+                        generosCant.add(1);
+                    }
+                }
+            }
+        }
+        // Encontrar e imprimir los 5 géneros más vendidos y sus cantidades
+        for (int j = 0 ; j < 5 ; j++) {
+            int max = 0;
+            String generoFav = "";
+
+            for (int i = 0; i < generosCant.size(); i++) {
+                if (generosCant.get(i) > max) {
+                    max = generosCant.get(i);
+                    generoFav = generos.get(i);
+                }
+            }
+
+            System.out.println(j + ". " + generoFav + " -- " + max + " ventas");
+
+            generosCant.remove(generos.indexOf(generoFav));
+            generos.remove(generoFav);
         }
     }
 }
