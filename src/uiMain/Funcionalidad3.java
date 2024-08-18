@@ -21,7 +21,7 @@ public class Funcionalidad3 {
         do{
             imprimirSeparador();
 
-            System.out.println("1. Desea revisar los productos del local");
+            System.out.println("1. Revisar los productos del local");
             System.out.println("2. Modificar la información de algún producto");
             System.out.println("3. Calcular la prioridad de estos");
             System.out.println("4. Salir");
@@ -52,6 +52,7 @@ public class Funcionalidad3 {
 
                         try{//Impedir que haya un error si se ingresa un numero no numerico
                             opcion2 = sc.nextByte();
+                            sc.nextLine(); //Limpiar buffer
 
                         }catch (Exception e){
                             System.out.println("\n### ERROR ###");
@@ -94,7 +95,7 @@ public class Funcionalidad3 {
                                         }
                                         Producto.ordenar(lista,orden);
                                         for(Producto i : lista) {
-                                            System.out.println(i.getNombre()+"| precio:"+i.getValor()+" | ventas: "+i.calcularVenta());
+                                            System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                         }
                                         break;
                                     case 2:
@@ -106,7 +107,7 @@ public class Funcionalidad3 {
                                         }
                                         Producto.ordenar(lista,orden);
                                         for(Producto i : lista) {
-                                            System.out.println(i.getNombre()+"| precio:"+i.getValor()+" | ventas: "+i.calcularVenta());
+                                            System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                         }
                                         break;
 
@@ -119,7 +120,7 @@ public class Funcionalidad3 {
                                         }
                                         Producto.ordenar(lista,orden);
                                         for(Producto i : lista) {
-                                            System.out.println(i.getNombre()+"| precio:"+i.getValor()+" | ventas: "+i.calcularVenta());
+                                            System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                         }
                                         break;
                                     default:
@@ -134,7 +135,7 @@ public class Funcionalidad3 {
                                 sc.nextLine();//Limpiar buffer
 
                                 for(Producto i : lista) {
-                                    System.out.println(i.getNombre()+"| precio:"+i.getValor()+" | ventas: "+i.calcularVenta());
+                                    System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
                                 }
                                 break;
                         }
