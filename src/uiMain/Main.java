@@ -464,6 +464,9 @@ public class Main {
 
             try {
                 opcion = scMenuOpcines.nextByte();
+                if(opcion<0 || opcion>opciones.length) {
+                    throw new InputMismatchException();
+                }
                 return opcion;
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
