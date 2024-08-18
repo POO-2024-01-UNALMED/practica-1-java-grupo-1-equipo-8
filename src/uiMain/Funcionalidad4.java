@@ -306,7 +306,7 @@ public class Funcionalidad4 {
     }
 
     private static void ampliarMeta(Empleado empleado, Meta meta, Fecha fechaActual) {
-        /* ~~ Método para ampliar plazo de meta caducada ~~ */
+        /* ~~ Metodo para ampliar plazo de meta caducada ~~ */
         while (true) {
             int yearAjuste;
             int mesAjuste;

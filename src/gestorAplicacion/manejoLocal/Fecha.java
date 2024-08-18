@@ -27,6 +27,7 @@ public class Fecha implements Serializable{
         diasAFecha(dias);
     }
 
+    // Convierte una fecha en días y la asigna al atributo totalDias
     public int fechaADias(int dia, int mes, int year) {
         boolean bisiesto = esBisiesto(year);
 
@@ -69,7 +70,8 @@ public class Fecha implements Serializable{
         return this.totalDias;
     }
 
-    void diasAFecha(int totalDias) {
+    // Metodo que convierte un total de días en una fecha y la asigna a los atributos del objeto desde el que se llama
+    private void diasAFecha(int totalDias) {
         int year = 0;
         int mes = 1;
         int dia = 0;
@@ -137,13 +139,12 @@ public class Fecha implements Serializable{
         this.year = year;
     }
 
-
-
-    boolean esBisiesto(int year) {
+    // Determina si un año es bisiesto
+    private boolean esBisiesto(int year) {
         return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
     }
 
-    // método tostring
+    // Metodo tostring
     public String toString() {
         return dia + "/" + mes + "/" + year;
     }
@@ -166,10 +167,4 @@ public class Fecha implements Serializable{
     public void setTotalDias(int totalDias) {
         this.totalDias = totalDias;
     }
-    // TODO: Método para restar fechas y que sea de doble filo (funcione con fecha1 - fecha2 y fecha2 - fecha1)
-    // - aunque puede que no sea necesario restar fechas, solo tener en cuenta las ventas (al menos para análisis)
-    // hechas en un rango de fechas (en total de dias)
-
-    // Clase scanner para método que recibe información
-    static Scanner sc = new Scanner(System.in);
 }

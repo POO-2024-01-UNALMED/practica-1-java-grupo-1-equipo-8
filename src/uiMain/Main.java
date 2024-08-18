@@ -236,7 +236,7 @@ public class Main {
                           ╚═══╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝ ╚════╝  ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ╚══════""");
     }
 
-    // Método para identificar a un cliente
+    // Metodo para identificar a un cliente
     static Cliente identificarCliente() {
         imprimirSeparador();
 

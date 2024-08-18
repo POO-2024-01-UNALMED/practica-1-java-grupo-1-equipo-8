@@ -65,15 +65,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	// Constructor sin cantidadInicial ni atributosr relacionados
 	// a descuentos para productos de prestamo o de subasta
 	public Producto (String nombre, int valor, int cantidad, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz) {
-		this.codigo = ultimoCodigo;
-		ultimoCodigo++;
-		this.nombre = nombre;
-		this.valor = valor;
-		this.cantidad = cantidad;
-		this.cantidadInicial = cantidad;
-		this.prestable = prestable;
-		this.condicion = condicion;
-		this.fechaLanzamiento = new Fecha(diaLanz, mesLanz, yearLanz);
+		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0);
 	}
 
 
@@ -120,7 +112,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	}
 
 	/* ~~ Metodo para ordenar por prioridad~~ */
-	public static ArrayList<Producto> ordenarPorPrioridad(ArrayList<Producto> p){
+	private static ArrayList<Producto> ordenarPorPrioridad(ArrayList<Producto> p){
 		ArrayList<Producto> listaOrdenada = new ArrayList<Producto>();
 
 		for (Producto producto : p) { // Añadir primero los productos con prioridad muy alta
