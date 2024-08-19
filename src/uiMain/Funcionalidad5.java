@@ -172,7 +172,7 @@ public class Funcionalidad5 {
                     //Extender la subasta 7 días más
                     System.out.println("La subasta N° " + subasta.getId() +
                             " ha finalizado sin ofertas. Se extenderá 7 días más.");
-                    var res = subasta.extenderSubasta();
+                    String res = subasta.extenderSubasta();
                     if (res != null) {
                         System.out.println(res);
                     }

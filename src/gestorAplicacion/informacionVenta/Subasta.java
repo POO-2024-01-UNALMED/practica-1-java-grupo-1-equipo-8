@@ -39,7 +39,7 @@ public class Subasta implements Serializable {
 
     /* ~~~ Metodos ~~~ */
     // Metodo para sumarle 7 dias a la fecha final de una subasta
-    public void extenderSubasta() {
+    public String extenderSubasta() {
         this.fechaFin = new Fecha(this.fechaFin.getTotalDias() + 7);
         if ((this.tipo.equals("Ascendente") || this.tipo.equals("Descendente") && this.ofertaMayor > 0)) {
             int ofertaMayorAnterior = this.ofertaMayor;
