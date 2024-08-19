@@ -483,17 +483,5 @@ public class Main {
 
     }
 
-    public void comprobarSubastas(Tienda local, Fecha fecha) {
-        for (Subasta subasta : local.getSubastas()) {
-            if (subasta.getFechaFin().getTotalDias() > fecha.getTotalDias()) {
-                if (subasta.getOfertas().isEmpty()) {
-                    System.out.println("La subasta N° " + subasta.getId() + " ha finalizado sin ofertas. Se extenderá 7 días más.");
-                    subasta.extenderSubasta();
-                } else {
-                    Cliente ganador = subasta.finalizarSubasta();
-                    System.out.println("La subasta ha finalizado. El ganador es: " + ganador.getNombre());
-                }
-            }
-        }
-    }
+
 }

@@ -52,7 +52,6 @@ public class Funcionalidad1 {
             String generoFav = "";
 
 
-
             for (int i = 0; i < generosCant.size(); i++) {
                 if (generosCant.get(i) > max) {
                     max = generosCant.get(i);
@@ -65,8 +64,7 @@ public class Funcionalidad1 {
             // Mostrar género favorito
             if (!generosCant.isEmpty()) {
                 System.out.println("Género favorito: " + generoFav);
-            }
-            else {
+            } else {
                 System.out.println("No hay suficientes compras para hacer una recomendación.");
             }
 
@@ -127,8 +125,7 @@ public class Funcionalidad1 {
                     // Clonar el producto seleccionado para evitar modificar el original
                     try {
                         producto = (seleccionarProducto(local.getInventario()).clone());
-                    }
-                    catch (CloneNotSupportedException e) {
+                    } catch (CloneNotSupportedException e) {
                         System.out.println("\n### ERROR ###");
                         System.out.println("Error al clonar el producto. Presione Enter para cancelar la operación.");
                         sc.nextLine();  // Limpiar el buffer
@@ -142,7 +139,9 @@ public class Funcionalidad1 {
                     Producto estaEnCarrito = hallarEnCarrito(producto, carrito);
 
                     if (estaEnCarrito != null) { // Si está, aumentar la cantidad en 1
-                        if (estaEnCarrito.getCantidad() >= producto.getCantidad()) { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
+                        if (estaEnCarrito.getCantidad() >=
+                                producto.getCantidad())
+                        { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
                             System.out.println("No hay más unidades de '" + producto.getNombre() + "' disponibles.");
                             System.out.println("\nPresione Enter para continuar.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
@@ -150,8 +149,7 @@ public class Funcionalidad1 {
                         } else {
                             estaEnCarrito.setCantidad(estaEnCarrito.getCantidad() + 1);
                         }
-                    }
-                    else { // De no estar, agregarlo al carrito con cantidad 1
+                    } else { // De no estar, agregarlo al carrito con cantidad 1
                         producto.setCantidad(1);
                         carrito.add(producto);
                     }
@@ -262,41 +260,40 @@ public class Funcionalidad1 {
                                     p2.setCantidad(p2.getCantidad() - p.getCantidad());
                                 }
                             }
-                        }
-                        else if (p instanceof Juego) {
+                        } else if (p instanceof Juego) {
                             for (Producto p2 : local.getInventario()) {
                                 if (p2 instanceof Juego && p2.getCodigo() == (p.getCodigo())) {
                                     p2.setCantidad(p2.getCantidad() - p.getCantidad());
                                 }
                             }
-                        }
-                        else if (p instanceof Accesorio) {
+                        } else if (p instanceof Accesorio) {
                             for (Producto p2 : local.getInventario()) {
                                 if (p2 instanceof Accesorio && p2.getCodigo() == (p.getCodigo())) {
                                     p2.setCantidad(p2.getCantidad() - p.getCantidad());
                                 }
                             }
+                        } else {
+                            System.out.println("Error al actualizar el inventario.");
+                            return;
                         }
-
-                        else { System.out.println("Error al actualizar el inventario."); return;}
                     }
 
                     // Añadir la transacción a la lista de transacciones de la tienda
                     local.agregarTransaccion(transaccion);
 
                     // Actualizar cliente
-                        // Actualizar puntos de fidelidad
+                    // Actualizar puntos de fidelidad
                     cliente.setPuntosFidelidad(cliente.getPuntosFidelidad() - puntosUsados);
-                        // Agregar compra a la lista de compras del cliente
+                    // Agregar compra a la lista de compras del cliente
                     cliente.agregarCompra(transaccion);
 
                     // Finalización
                     System.out.println("""
-                            ...
-                            
-                            ᕕ( ᐛ )ᕗ
-                            ¡Compra realizada con éxito!
-                            """);
+                                       ...
+                                                                   
+                                       ᕕ( ᐛ )ᕗ
+                                       ¡Compra realizada con éxito!
+                                       """);
 
                     //(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
 
@@ -318,7 +315,8 @@ public class Funcionalidad1 {
         } while (opcion != 4);
     }
 
-    private static Producto seleccionarProducto(ArrayList<Producto> inventario) {
+    // Recibe un ArrayList de productos y devuelve el producto que seleccione
+    public static Producto seleccionarProducto(ArrayList<Producto> inventario) {
         byte opcion;
 
         do {
@@ -335,8 +333,7 @@ public class Funcionalidad1 {
 
             try {
                 opcion = sc.nextByte();
-            }
-            catch (InputMismatchException error) {
+            } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
                 System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
                 sc.nextLine();  // Limpiar el buffer
@@ -365,7 +362,7 @@ public class Funcionalidad1 {
 
                     for (Producto p : inventario) {
                         if (p instanceof Consola && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' seleccionado.");
+                            System.out.println("'" + p.getNombre() + "' seleccionado.");
                             return p;
                         }
                     }
@@ -392,7 +389,7 @@ public class Funcionalidad1 {
 
                     for (Producto p : inventario) {
                         if (p instanceof Juego && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' seleccionado.");
+                            System.out.println("'" + p.getNombre() + "' seleccionado.");
                             return p;
                         }
                     }
@@ -419,7 +416,7 @@ public class Funcionalidad1 {
 
                     for (Producto p : inventario) {
                         if (p instanceof Accesorio && p.getCodigo() == codigo) {
-                            System.out.println( "'" + p.getNombre() + "' seleccionado");
+                            System.out.println("'" + p.getNombre() + "' seleccionado");
                             return p;
                         }
                     }
@@ -442,7 +439,7 @@ public class Funcionalidad1 {
         } while (true);
     }
 
-    private static Producto hallarEnCarrito(Producto producto, ArrayList<Producto> carrito){
+    private static Producto hallarEnCarrito(Producto producto, ArrayList<Producto> carrito) {
         for (Producto p : carrito) {
             if (p.getNombre().equals(producto.getNombre())) {
                 return p;
@@ -461,22 +458,21 @@ public class Funcionalidad1 {
             valorTemp = 0;
 
             if (p.getDescuento() > 0) { // En caso de que el producto tenga descuento
-                if (p.getPuntosRequeridos() == 0){ // En caso de que el producto no requiera mínimo de puntos
+                if (p.getPuntosRequeridos() == 0) { // En caso de que el producto no requiera mínimo de puntos
                     valorTemp = p.getValor() * p.getCantidad();
                     precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
-                }
-                else if (p.getPuntosRequeridos() > 0 && (cliente.getPuntosFidelidad() - puntosUsados) >= p.getPuntosRequeridos()) { // En caso de que el producto tenga un mínimo de puntos requeridos y el cliente tenga saldo suficiente
-                        valorTemp = p.getValor() * p.getCantidad();
-                        precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+                } else if (p.getPuntosRequeridos() > 0 &&
+                        (cliente.getPuntosFidelidad() - puntosUsados) >= p.getPuntosRequeridos())
+                { // En caso de que el producto tenga un mínimo de puntos requeridos y el cliente tenga saldo suficiente
+                    valorTemp = p.getValor() * p.getCantidad();
+                    precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
 
-                        puntosUsados += p.getPuntosRequeridos(); // Actualizar puntos usados
-                }
-                else { // En caso de que el producto tenga mínimo de puntos pero el cliente no tenga saldo suficiente
+                    puntosUsados += p.getPuntosRequeridos(); // Actualizar puntos usados
+                } else { // En caso de que el producto tenga mínimo de puntos pero el cliente no tenga saldo suficiente
                     precioFinal += p.getValor() * p.getCantidad();
                 }
 
-            }
-            else { // En caso de que el producto no tenga descuento
+            } else { // En caso de que el producto no tenga descuento
                 precioFinal += p.getValor() * p.getCantidad();
             }
         }

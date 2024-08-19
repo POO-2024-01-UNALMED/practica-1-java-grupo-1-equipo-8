@@ -1,4 +1,5 @@
 package gestorAplicacion.informacionVenta;
+
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.personas.Cliente;
 import gestorAplicacion.productos.Producto;
@@ -17,9 +18,10 @@ public class Subasta implements Serializable {
     private ArrayList<Cliente> ofertantes;
     private int ofertaMayor;
     private String estado;
+    private final String tipo;
     private final Tienda local;
 
-    public Subasta(Fecha fechaInicio, Fecha fechaFin, ArrayList<Producto> productos, Tienda local) {
+    public Subasta(Fecha fechaInicio, Fecha fechaFin, ArrayList<Producto> productos, int ofertaMayor, Tienda local, String tipo) {
         this.id = ultimoID;
         ultimoID++;
         this.fechaInicio = fechaInicio;
@@ -27,8 +29,9 @@ public class Subasta implements Serializable {
         this.productos = productos;
         this.ofertas = new ArrayList<Integer>();
         this.ofertantes = new ArrayList<Cliente>();
-        this.ofertaMayor = 0;
+        this.ofertaMayor = ofertaMayor;
         this.estado = "Activa";
+        this.tipo = tipo;
         this.local = local;
 
         local.agregarSubasta(this);
@@ -36,8 +39,23 @@ public class Subasta implements Serializable {
 
     /* ~~~ Métodos ~~~ */
     // Método para sumarle 7 dias a la fecha final de una subasta
-    public void extenderSubasta() {
+    public String extenderSubasta() {
         this.fechaFin = new Fecha(this.fechaFin.getTotalDias() + 7);
+        if ((this.tipo.equals("Ascendente") || this.tipo.equals("Descendente") && this.ofertaMayor > 0)) {
+            int ofertaMayorAnterior = this.ofertaMayor;
+            int ofertaMayorNueva = (int) (this.ofertaMayor * 0.8);
+            this.ofertaMayor = ofertaMayorNueva;
+            return "Se hizo un descuento del 20% a la oferta anterior: " + ofertaMayorAnterior + " -> " +
+                    ofertaMayorNueva;
+        }
+        return null;
+    }
+
+    // Método para validar que la fecha de inicio sea menor a la fecha de fin
+    public boolean validarFechas(Fecha fechaInicio, Fecha fechaFin) {
+        int totalDiasInicio = fechaInicio.getTotalDias();
+        int totalDiasFin = fechaFin.getTotalDias();
+        return totalDiasInicio > totalDiasFin;
     }
 
     /* ~~ Agregar ofertas ~~ */
