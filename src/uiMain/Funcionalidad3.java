@@ -287,11 +287,11 @@ public class Funcionalidad3 {
                     //Calcular prioridad de productos
                     for (Producto i : local.getInventario()) {
                             if (i.getPrioridad() == null) {
-                                if (i.calcularVenta() > i.getCantidadInicial() * 0.8) {
+                                if (i.getCantidadInicial()-i.getCantidad() > i.getCantidadInicial() * 0.8) {
                                     i.setPrioridad("Prioridad muy alta");
-                                } else if (i.calcularVenta() >= i.getCantidadInicial() * 0.51) {
+                                } else if (i.getCantidadInicial()-i.getCantidad() >= i.getCantidadInicial() * 0.51) {
                                     i.setPrioridad("Prioridad alta");
-                                } else if (i.calcularVenta() >= i.getCantidadInicial() * 0.21) {
+                                } else if (i.getCantidadInicial()-i.getCantidad() >= i.getCantidadInicial() * 0.21) {
                                     i.setPrioridad("Prioridad media");
                                 } else {
                                     i.setPrioridad("Prioridad baja");
@@ -424,13 +424,58 @@ public class Funcionalidad3 {
                                         switch (opcion) {
                                             case 1:
                                                 //Tendencias de generos
-                                                int media = 0;
-                                                for (Transaccion i : rangoVentas) {
-                                                    generosMasComprados(local,5,fechaInicial,fechaFinal,"m");
-                                                    //TODO:tendencias genero
+                                                generosMasComprados(local,fechaInicial,fechaFinal);
+                                                sc.nextLine();
+                                                imprimirSeparador();
+                                                if (siNo("Desea ver las tendencias en otros locales")){
+                                                    for (Tienda i: Tienda.getLocales()) {
+                                                        if (i != local) {
+                                                            imprimirSeparador();
+                                                            System.out.println("Tendencias del local - " + i.getNombre());
+                                                            generosMasComprados(i,fechaInicial,fechaFinal);
+                                                            sc.nextLine();
+                                                        }
+                                                    }
                                                 }
+
+                                                int indice = darIndiceLocal(local);
+
+                                                        //TODO:tendencias genero
+
                                             case 2:
                                                 //Tendencias de plataformas
+                                                plataformasMasComprados(local,fechaInicial,fechaFinal);
+                                                sc.nextLine();
+                                                imprimirSeparador();
+                                                if (siNo("Desea ver las tendencias en otros locales")){
+                                                    for (Tienda i: Tienda.getLocales()) {
+                                                        if (i != local) {
+                                                            imprimirSeparador();
+                                                            System.out.println("Tendencias del local - " + i.getNombre());
+                                                            plataformasMasComprados(i,fechaInicial,fechaFinal);
+                                                            sc.nextLine();
+                                                        }
+                                                    }
+                                                }
+
+                                                while (true){
+                                                    ArrayList<String> plataformas = new ArrayList<>();
+                                                    for(Producto i: local.getInventario()){
+                                                        if(i instanceof Juego){
+                                                            if(!plataformas.contains(((Juego)i).getPlataforma())){
+                                                                plataformas.add(((Juego) i).getPlataforma());
+                                                            }
+                                                        }
+                                                    }
+                                                    imprimirSeparador();
+                                                    for(String palabra : plataformas){
+                                                        System.out.println("•"+palabra);
+                                                    }
+
+                                                    if (siNo("Desea ver productos populares en otros locales pertenecientes a una plataforma.")){
+
+                                                    }
+                                                }
                                                 //TODO:Como dar el resultado de cada plataforma, por separado
 
                                                 break;
@@ -486,9 +531,6 @@ public class Funcionalidad3 {
                                                 sc.nextLine();
                                                 break;
                                                 //TODO:comparar la tendencia en otros locales, revisar ventas de un rango o salir
-                                            case 4:
-                                                //Cambiar fecha?
-                                                //TODO:terminar
                                         }
                                         break;
                                     }
@@ -1165,8 +1207,8 @@ public class Funcionalidad3 {
             generos.remove(generoFav);
         }
     }
-    //lo de arriba pero con plataforma
-    private static void generosMasComprados(Tienda local, int n, Fecha fechaInicio, Fecha fechaFin, String m) {//TODO:tener en cuenta metodo
+    //Método que muestra las plataformas mas compradas
+    private static void plataformasMasComprados(Tienda local, Fecha fechaInicio, Fecha fechaFin) {
         // Comprobar que la tienda tiene transacciones
         if (local.getCaja().isEmpty()) {
             System.out.println("No hay transacciones en la tienda");
@@ -1177,15 +1219,16 @@ public class Funcionalidad3 {
         ArrayList<String> plataformas = new ArrayList<String>();
 
         for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
+            // Filtrar transacciones que estén dentro del rango de fechas
             if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
                 for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
                     if (p instanceof Juego) {
                         Juego j = (Juego) p;
-                        if (plataformas.contains(j.getPlataforma())) { // Si la plataforma ya está en la lista, aumentar la cantidad
+                        if (plataformas.contains(j.getPlataforma())) { // Si el género ya está en la lista, aumentar la cantidad
                             int indice = plataformas.indexOf(j.getPlataforma());
                             plataformasCant.set(indice, plataformasCant.get(indice) + 1);
                         } else { // Si no está, agregarlo a la lista
-                            plataformas.add(j.getPlataforma());
+                            plataformas.add(j.getGenero());
                             plataformasCant.add(1);
                         }
                     }
@@ -1193,22 +1236,22 @@ public class Funcionalidad3 {
             }
         }
 
-        // Encontrar e imprimir los n géneros más vendidos y sus cantidades
-        for (int j = 0 ; j < plataformasCant.size() && j < n; j++) {
+        // Encontrar e imprimir los géneros más vendidos y sus cantidades
+        for (int j = 0 ; j < plataformasCant.size(); j++) {
             int max = 0;
-            String plataformaFav = "";
+            String generoFav = "";
 
             for (int i = 0; i < plataformasCant.size(); i++) {
                 if (plataformasCant.get(i) >= max) {
                     max = plataformasCant.get(i);
-                    plataformaFav = plataformas.get(i);
+                    generoFav = plataformas.get(i);
                 }
             }
 
-            System.out.println((j + 1) + ". " + plataformaFav + " -- " + max + " ventas");
+            System.out.println((j + 1) + ". " + generoFav + " -- " + max + " ventas");
 
-            plataformasCant.remove(plataformas.indexOf(plataformaFav));
-            plataformasCant.remove(plataformaFav);
+            plataformasCant.remove(plataformas.indexOf(generoFav));
+            plataformas.remove(generoFav);
         }
     }
 
@@ -1224,7 +1267,7 @@ public class Funcionalidad3 {
         ArrayList<Producto> listadeObjetos = new ArrayList<>();
         while (true) {
             Juego.organizar(p,"plataforma");
-
+            
             for (Juego i: p) {//Conseguir todas las plataformas existentes
                 if (plataformas.isEmpty()) {
                     plataformas.add(i.getPlataforma());
@@ -1523,7 +1566,7 @@ public class Funcionalidad3 {
     //sobrecarga para rango
     private static Reabastecimiento reabastecerManual(Tienda local,ArrayList<Producto> p,Fecha fechaActual,String l){
         int rango1;
-        int rango2 = 0;
+        int rango2;
         int opcion;
         int cantidad = 0;
         boolean existe = false;
@@ -1540,7 +1583,7 @@ public class Funcionalidad3 {
                 rango1 = sc.nextInt();
                 sc.nextLine();
                 System.out.println("Valor final: ");
-                rango1 = sc.nextInt();
+                rango2 = sc.nextInt();
                 sc.nextLine();
                 if (rango1 > rango2){
                     System.out.println("El rango de precio es ilogico");
@@ -1658,4 +1701,29 @@ public class Funcionalidad3 {
     }
     return new Reabastecimiento(localDestino,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
     }
+
+    //Método para pedir local
+    private static int darIndiceLocal(Tienda local){
+        while (true){
+                String nombre = "";
+                boolean existe = false;
+                imprimirSeparador();
+                for (Tienda i: Tienda.getLocales()){
+                    if (i != local){
+                        System.out.println("•"+i.getNombre());
+                    }
+                }
+                System.out.println("Ingrese el local deseado: ");
+                nombre = sc.nextLine();
+                sc.nextLine();
+                for (Tienda i:Tienda.getLocales()){
+                    if (i.getNombre().equalsIgnoreCase(nombre)){
+                        return Tienda.getLocales().indexOf(i);
+                    }
+                }
+                System.out.println("El local ingresado no existe");
+                sc.nextLine();
+            }
+        }
+
 }
