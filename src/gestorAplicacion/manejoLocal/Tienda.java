@@ -27,7 +27,7 @@ public class Tienda implements Serializable {
 
     private ArrayList<Reabastecimiento> reabastecimientos = new ArrayList<Reabastecimiento>();
     private static ArrayList<Tienda> locales = new ArrayList<Tienda>();
-    public ArrayList<Empleado> empleados = new ArrayList<Empleado>();
+    private ArrayList<Empleado> empleados = new ArrayList<Empleado>();
 
     /* ~~~ Constructores ~~~ */
     public Tienda(){
@@ -76,6 +76,7 @@ public class Tienda implements Serializable {
         this.subastas.add(subasta);
     }
 
+    // Recibe un producto que busca en el inventario e incrementa su cantidad en la cantidad dada
     public void reabastecerProducto(Producto producto, int cantidad){
         for (Producto p : this.inventario) {
             if (p.equals(producto)) {
@@ -95,11 +96,11 @@ public class Tienda implements Serializable {
         for (Producto p : this.inventario) {
             if (p.equals(producto)) {
                 p.setCantidad(p.getCantidad() - cantidad);
-                p.setCantidadInicial(p.getCantidadInicial() - cantidad);
+                p.  setCantidadInicial(p.getCantidadInicial() - cantidad);
             }
         }
     }
-    // Metodo para agreagr orden
+    // Metodo para agregar orden de reabastecimiento
     public void agregarOrden(Reabastecimiento orden){
         this.reabastecimientos.add(orden);
     }

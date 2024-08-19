@@ -177,7 +177,7 @@ public class Funcionalidad4 {
             try {
                 cedula = sc.nextInt();
 
-                for (Empleado e : local.empleados) {
+                for (Empleado e : local.getEmpleados()) {
                     if (e.getCedula() == cedula) {
                         empleado = e;
                         return empleado;
