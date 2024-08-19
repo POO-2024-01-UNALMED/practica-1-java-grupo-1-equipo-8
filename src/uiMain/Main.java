@@ -74,8 +74,9 @@ public class Main {
         tienda2.agregarProducto(new Accesorio("Control Polystation 5", 50, 70, 70, false, (byte) 5, 11, 11, 2021, 5, 50, "Sony", "Polystation 5"));
         tienda2.agregarProducto(new Accesorio("Control Polystation 4", 40, 60, 60, false, (byte) 5, 12, 12, 2013, 15, 100, "Sony", "Polystation 4"));
         tienda2.agregarProducto(new Accesorio("Control Polystation 3", 30, 50, 50, false, (byte) 5, 13, 11, 2006, 40, 300, "Sony", "Polystation 3"));
-    }
 
+    }
+     */
     // Clientes
     static Cliente cliente1 = new Cliente(123, "Juan", "juan@mail.com", 311203);
     static Cliente cliente2 = new Cliente(124, "Pedro", "pedro@mail.com", 311204);
@@ -197,6 +198,7 @@ public class Main {
             imprimirSeparador();
 
             System.out.println("Último acceso: " + ultimaFecha);
+            System.out.println("Ingrese la fecha actual");
 
             fechaActual = recibirFecha();
             if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la última fecha registrada
@@ -350,7 +352,7 @@ public class Main {
         // Recibir año
         while (true) {
             try {
-                System.out.print("Ingrese año actual: ");
+                System.out.print("Ingrese año: ");
 
                 year = sc.nextInt();
 
@@ -368,7 +370,7 @@ public class Main {
         //Recibir mes
         while (true) {
             try {
-                System.out.print("Ingrese mes actual: ");
+                System.out.print("Ingrese mes: ");
 
                 mes = sc.nextInt();
 
@@ -386,7 +388,7 @@ public class Main {
         // Recibir día
         while (true) {
             try {
-                System.out.print("Ingrese día actual: ");
+                System.out.print("Ingrese día: ");
                 dia = sc.nextInt();
 
                 //TODO: Validar que el día sea válido para el mes
@@ -424,7 +426,7 @@ public class Main {
             String nombreLocal = scGetLocal.nextLine(); // Recibir entrada del usuario
 
             for (Tienda i : Tienda.getLocales()){ // Bucle para encontrar el local
-                if (i.getNombre().equals(nombreLocal)) {
+                if (i.getNombre().equalsIgnoreCase(nombreLocal)) {
                     local = i;
                     break;
                 }
