@@ -1125,7 +1125,7 @@ public class Funcionalidad3 {
     }
 
     // Metodo que muestra los géneros más comprados y la cantidad de ventas
-    private static void generosMasComprados(Tienda local) {
+    private static void generosMasComprados(Tienda local, Fecha fechaInicio, Fecha fechaFin) {
         // Comprobar que la tienda tiene transacciones
         if (local.getCaja().isEmpty()) {
             System.out.println("No hay transacciones en la tienda");
@@ -1136,15 +1136,18 @@ public class Funcionalidad3 {
         ArrayList<String> generos = new ArrayList<String>();
 
         for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
-            for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
-                if (p instanceof Juego) {
-                    Juego j = (Juego) p;
-                    if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
-                        int indice = generos.indexOf(j.getGenero());
-                        generosCant.set(indice, generosCant.get(indice) + 1);
-                    } else { // Si no está, agregarlo a la lista
-                        generos.add(j.getGenero());
-                        generosCant.add(1);
+            // Filtrar transacciones que estén dentro del rango de fechas
+            if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
+                for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                    if (p instanceof Juego) {
+                        Juego j = (Juego) p;
+                        if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
+                            int indice = generos.indexOf(j.getGenero());
+                            generosCant.set(indice, generosCant.get(indice) + 1);
+                        } else { // Si no está, agregarlo a la lista
+                            generos.add(j.getGenero());
+                            generosCant.add(1);
+                        }
                     }
                 }
             }
@@ -1170,7 +1173,7 @@ public class Funcionalidad3 {
     }
 
     // Metodo que muestra los n generos mas comprados y sus ventas
-    private static void generosMasComprados(Tienda local, int n) {
+    private static void generosMasComprados(Tienda local, int n, Fecha fechaInicio, Fecha fechaFin) {
         // Comprobar que la tienda tiene transacciones
         if (local.getCaja().isEmpty()) {
             System.out.println("No hay transacciones en la tienda");
@@ -1181,15 +1184,17 @@ public class Funcionalidad3 {
         ArrayList<String> generos = new ArrayList<String>();
 
         for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
-            for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
-                if (p instanceof Juego) {
-                    Juego j = (Juego) p;
-                    if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
-                        int indice = generos.indexOf(j.getGenero());
-                        generosCant.set(indice, generosCant.get(indice) + 1);
-                    } else { // Si no está, agregarlo a la lista
-                        generos.add(j.getGenero());
-                        generosCant.add(1);
+            if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
+                for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                    if (p instanceof Juego) {
+                        Juego j = (Juego) p;
+                        if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
+                            int indice = generos.indexOf(j.getGenero());
+                            generosCant.set(indice, generosCant.get(indice) + 1);
+                        } else { // Si no está, agregarlo a la lista
+                            generos.add(j.getGenero());
+                            generosCant.add(1);
+                        }
                     }
                 }
             }
