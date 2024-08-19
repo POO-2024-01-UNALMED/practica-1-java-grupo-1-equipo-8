@@ -398,11 +398,31 @@ public class Funcionalidad3 {
                             switch(opcion) {
                                 case 1:
                                     //Ver ventas individuales
-                                    //TODO:continuar con esto
+                                    ArrayList<Producto> listaProductos = new ArrayList<Producto>();
+
+                                    // Identificar productos perteneceintes a las transacciones en el rango de fechas
+                                    for (Transaccion t : rangoVentas) {
+                                        for (Producto p : t.getProductos()) {
+                                            listaProductos.add(p);
+                                        }
+                                    }
+
+                                    // Ordenar los productos e imprimirlos
+                                    Producto.ordenar(listaProductos,"");
+
+                                    for (Producto p : listaProductos) {
+                                        System.out.println("    * ID: " + p.getCodigo() + " | Nombre: " + p.getNombre() + " | Cantidad: " + p.getCantidad() + " | Precio: " + p.getValor() + " | Prioridad: " + p.getPrioridad());
+                                    }
                                     continue;
                                 case 2:
                                     //Ordenes en el rango
-                                    //TODO:continuar con esto
+                                    for (Transaccion t: rangoVentas) {
+                                        System.out.println("    * ID: " + t.getId() + " | Fecha: " + t.getFecha() + " | Valor: " + t.getValorFinal() + " | Cliente: " + t.getCliente().getNombre() + " | Empleado: " + t.getEmpleado().getNombre() + " | Productos: ");
+                                        for (Producto p: t.getProductos()) {
+                                            System.out.println("        * ID: " + p.getCodigo() + " | Nombre: " + p.getNombre() + " | Cantidad: " + p.getCantidad() + " | Precio: " + p.getValor());
+                                        }
+                                    }
+
                                     continue;
                                 case 3:
                                     //Tendencias en el rango
@@ -425,112 +445,45 @@ public class Funcionalidad3 {
                                             case 1:
                                                 //Tendencias de generos
                                                 generosMasComprados(local,fechaInicial,fechaFinal);
-                                                sc.nextLine();
                                                 imprimirSeparador();
                                                 if (siNo("Desea ver las tendencias en otros locales")){
-                                                    for (Tienda i: Tienda.getLocales()) {
-                                                        if (i != local) {
-                                                            imprimirSeparador();
-                                                            System.out.println("Tendencias del local - " + i.getNombre());
-                                                            generosMasComprados(i,fechaInicial,fechaFinal);
-                                                            sc.nextLine();
+                                                    for (Tienda t: Tienda.getLocales()) {
+                                                        if (t != local) { // Si el local no es el actual
+                                                            System.out.println(" Local " + t.getNombre() + "| Género más vendido: " + generoMasComprado(t));
                                                         }
                                                     }
                                                 }
-
-                                                int indice = darIndiceLocal(local);
-
-                                                        //TODO:tendencias genero
+                                                break;
 
                                             case 2:
                                                 //Tendencias de plataformas
                                                 plataformasMasComprados(local,fechaInicial,fechaFinal);
-                                                sc.nextLine();
                                                 imprimirSeparador();
                                                 if (siNo("Desea ver las tendencias en otros locales")){
-                                                    for (Tienda i: Tienda.getLocales()) {
-                                                        if (i != local) {
-                                                            imprimirSeparador();
-                                                            System.out.println("Tendencias del local - " + i.getNombre());
-                                                            plataformasMasComprados(i,fechaInicial,fechaFinal);
-                                                            sc.nextLine();
+                                                    for (Tienda t : Tienda.getLocales()) {
+                                                        if (t != local) { // Si el local no es el actual
+                                                            System.out.println(" Local " + t.getNombre() + "| Plataforma más vendida: " + plataformaMasComprada(t));
                                                         }
                                                     }
                                                 }
-
-                                                while (true){
-                                                    ArrayList<String> plataformas = new ArrayList<>();
-                                                    for(Producto i: local.getInventario()){
-                                                        if(i instanceof Juego){
-                                                            if(!plataformas.contains(((Juego)i).getPlataforma())){
-                                                                plataformas.add(((Juego) i).getPlataforma());
-                                                            }
-                                                        }
-                                                    }
-                                                    imprimirSeparador();
-                                                    for(String palabra : plataformas){
-                                                        System.out.println("•"+palabra);
-                                                    }
-
-                                                    if (siNo("Desea ver productos populares en otros locales pertenecientes a una plataforma.")){
-
-                                                    }
-                                                }
-                                                //TODO:Como dar el resultado de cada plataforma, por separado
-
                                                 break;
+
                                             case 3:
                                                 //Tendencias de rangos mas vendidos
-                                                int rango1_20 = 0;
-                                                int rango21_40 = 0;
-                                                int rango41_60 = 0;
-                                                for(Transaccion z: rangoVentas) {
-                                                    for (Producto i :z.getProductos()) {
-                                                        if (i.getValor() <= 20 && i.getValor() >= 1) {
-                                                            rango1_20 += i.getCantidad();
-                                                        } else if (i.getValor() <= 40 && i.getValor() >= 21) {
-                                                            rango21_40 += i.getCantidad();
-                                                        } else if (i.getValor() <= 60 && i.getValor() >= 41) {
-                                                            rango41_60 += i.getCantidad();
+                                                rangosMasComprados(local,fechaInicial,fechaFinal);
+
+                                                if (siNo("Desea ver las tendencias en otros locales")) {
+                                                    for (Tienda t : Tienda.getLocales()) {
+                                                        if (t != local) { // Si el local no es el actual
+                                                            imprimirSeparadorPequeno();
+                                                            System.out.println(" Local " + t.getNombre() + "| Rangos de precio más vendidos: ");
+                                                            rangosMasComprados(t, fechaInicial, fechaFinal);
                                                         }
                                                     }
                                                 }
-                                                if (rango1_20 >= rango21_40 && rango1_20 >= rango41_60) {
-                                                    System.out.println("Rango 1-20 \nVentas: " + rango1_20);
-                                                    if (rango21_40 >= rango41_60) {
-                                                        System.out.println("Rango 21-40 \nVentas: " + rango21_40);
-                                                        System.out.println("Rango 41-60 \nVentas: " + rango41_60);
-                                                    } else {
-                                                        System.out.println("Rango 41-60 \nVentas: " + rango41_60);
-                                                        System.out.println("Rango 21-40 \nVentas: " + rango21_40);
-                                                    }
-                                                }
-                                                else if (rango21_40 >= rango1_20 && rango21_40 >= rango41_60) {
-                                                    System.out.println("Rango 21-40 \nVentas: " + rango21_40);
-                                                    if (rango1_20 >= rango41_60) {
-                                                        System.out.println("Rango 1-20 \nVentas: " + rango1_20);
-                                                        System.out.println("Rango 41-60 \nVentas: " + rango41_60);
-                                                    }
-                                                    else {
-                                                        System.out.println("Rango 41-60 \nVentas: " + rango41_60);
-                                                        System.out.println("Rango 1-20 \nVentas: " + rango1_20);
-                                                    }
-                                                }
-                                                else {
-                                                    System.out.println("Rango 41-60 \nVentas: " + rango41_60);
-                                                    if (rango1_20 >= rango21_40) {
-                                                        System.out.println("Rango 1-20 \nVentas: " + rango1_20);
-                                                        System.out.println("Rango 21-40 \nVentas: " + rango21_40);
-                                                        sc.nextLine();
-                                                    } else {
-                                                        System.out.println("Rango 21-40 \nVentas: " + rango21_40);
-                                                        System.out.println("Rango 1-20 \nVentas: " + rango1_20);
-                                                    }
-                                                }
-                                                System.out.println("Para continuar presiona Enter: ");
-                                                sc.nextLine();
+
                                                 break;
-                                                //TODO:comparar la tendencia en otros locales, revisar ventas de un rango o salir
+
                                         }
                                         break;
                                     }
@@ -548,6 +501,7 @@ public class Funcionalidad3 {
                         break;
                     }
                     continue;
+
                 case 2:
                     //Revisar prioridad
                     String orden = "prioridad";
@@ -721,7 +675,6 @@ public class Funcionalidad3 {
 
                             case 3://Rango
                                 local.agregarOrden(reabastecerManual(local,local.getInventario(),fechaActual,"rango"));
-                                //TODO:se supone termine
                         }
                         System.out.println("La opción no es válida");
                     }
@@ -1076,7 +1029,7 @@ public class Funcionalidad3 {
         }
     }
 
-    // Método que retorna el género más comprado en un local ingresado
+    // Metodo que retorna el género más comprado en un local ingresado
     // El resultado será null si la tienda no tiene transacciones
     private static String generoMasComprado(Tienda local) {
         ArrayList<Integer> generosCant = new ArrayList<Integer>();
@@ -1207,7 +1160,43 @@ public class Funcionalidad3 {
             generos.remove(generoFav);
         }
     }
-    //Método que muestra las plataformas mas compradas
+
+    // Metodo que retorna la plataforma mas comprada en un local ingresado
+    private static String plataformaMasComprada(Tienda local) {
+        ArrayList<Integer> plataformasCant = new ArrayList<Integer>();
+        ArrayList<String> plataformas = new ArrayList<String>();
+
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
+            for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                if (p instanceof Juego) {
+                    Juego j = (Juego) p;
+                    if (plataformas.contains(j.getPlataforma())) { // Si la plataforma ya está en la lista, aumentar la cantidad
+                        int indice = plataformas.indexOf(j.getPlataforma());
+                        plataformasCant.set(indice, plataformasCant.get(indice) + 1);
+                    } else { // Si no está, agregarlo a la lista
+                        plataformas.add(j.getPlataforma());
+                        plataformasCant.add(1);
+                    }
+                }
+            }
+        }
+        // Encontrar la plataforma más vendida
+        int max = 0;
+        String plataformaFav = "Ninguna. La tienda no ha vendido juegos";
+        // Este es el mensaje por defecto de la plataforma favorita que se preservará sólo en caso
+        // que la tienda no tenga transacciones
+
+        for (int i = 0; i < plataformasCant.size(); i++) {
+            if (plataformasCant.get(i) > max) {
+                max = plataformasCant.get(i);
+                plataformaFav = plataformas.get(i);
+            }
+        }
+
+        return plataformaFav;
+    }
+
+    //Metodo que muestra las plataformas mas compradas
     private static void plataformasMasComprados(Tienda local, Fecha fechaInicio, Fecha fechaFin) {
         // Comprobar que la tienda tiene transacciones
         if (local.getCaja().isEmpty()) {
@@ -1253,6 +1242,43 @@ public class Funcionalidad3 {
             plataformasCant.remove(plataformas.indexOf(generoFav));
             plataformas.remove(generoFav);
         }
+    }
+
+    // Metodo que imprime en orden los rangos de precios de juegos mas vendidos en un local
+    private static void rangosMasComprados(Tienda local, Fecha fechaInicio, Fecha fechaFin) {
+        // Comprobar que la tienda tiene transacciones
+        if (local.getCaja().isEmpty()) {
+            System.out.println("No hay transacciones en la tienda");
+            return;
+        }
+
+        // Variables que representan cada rango y la cantidad de juegos que ha vendido
+        int rango1_20 = 0;
+        int rango21_40 = 0;
+        int rango41_60 = 0;
+
+        for (Transaccion t : local.getCaja()) { // Examinar cada transaccion del local
+            // Filtrar transacciones que estén dentro del rango de fechas
+            if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
+                for (Producto p : t.getProductos()) { // Examinar cada producto de la transacción
+                    if (p instanceof Juego) {
+                        Juego j = (Juego) p;
+                        if (j.getValor() >= 1 && j.getValor() <= 20) {
+                            rango1_20 += j.getCantidad();
+                        } else if (j.getValor() >= 21 && j.getValor() <= 40) {
+                            rango21_40 += j.getCantidad();
+                        } else if (j.getValor() >= 41) {
+                            rango41_60 += j.getCantidad();
+                        }
+                    }
+                }
+            }
+        }
+
+        // Imprimir los rangos de precios y la cantidad de juegos vendidos en cada uno ordenados
+        System.out.println("Rango de precios 1-20: " + rango1_20 + " juegos");
+        System.out.println("Rango de precios 21-40: " + rango21_40 + " juegos");
+        System.out.println("Rango de precios 41-60: " + rango41_60 + " juegos");
     }
 
     //Crea una orden de reabastecimiento a partir de la plataformas
@@ -1701,29 +1727,4 @@ public class Funcionalidad3 {
     }
     return new Reabastecimiento(localDestino,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
     }
-
-    //Método para pedir local
-    private static int darIndiceLocal(Tienda local){
-        while (true){
-                String nombre = "";
-                boolean existe = false;
-                imprimirSeparador();
-                for (Tienda i: Tienda.getLocales()){
-                    if (i != local){
-                        System.out.println("•"+i.getNombre());
-                    }
-                }
-                System.out.println("Ingrese el local deseado: ");
-                nombre = sc.nextLine();
-                sc.nextLine();
-                for (Tienda i:Tienda.getLocales()){
-                    if (i.getNombre().equalsIgnoreCase(nombre)){
-                        return Tienda.getLocales().indexOf(i);
-                    }
-                }
-                System.out.println("El local ingresado no existe");
-                sc.nextLine();
-            }
-        }
-
 }

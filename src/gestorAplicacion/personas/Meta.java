@@ -25,6 +25,16 @@ public class Meta implements Serializable{
         ultimoID++;
     }
 
+                    /*~~ Incrementar acumulado ~~*/
+    // Incrementa el acumulado de cada meta activa del empleado
+    public void incrementarAcumulado(int valor){
+        if (this.estado.equals("En proceso")) {
+            this.acumulado += valor;
+        }
+    }
+
+    // TODO: implementar llamado a este metodo en funcionalidades 1  y 2
+
                     /*~~ Metodos get y set ~~*/
     public Empleado getEmpleado() {
         return empleado;

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static uiMain.Main.identificarCliente;
-import static uiMain.Main.imprimirSeparador;
-
 import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
 import gestorAplicacion.personas.Empleado;
+import gestorAplicacion.personas.Meta;
 import gestorAplicacion.productos.*;
+
+import static uiMain.Main.*;
 
 public class Funcionalidad1 {
     static Scanner scCompra = new Scanner(System.in); // variable scanner
@@ -23,6 +23,7 @@ public class Funcionalidad1 {
         /* ~~~ Identificación del cliente ~~~ */
         Cliente cliente = identificarCliente();
 
+        // Comprobación de que el cliente se seleccionó correctamente
         if (cliente == null) {
             return;
         }
@@ -93,7 +94,8 @@ public class Funcionalidad1 {
 
         /* ~~~ Selección de productos ~~~ */
         byte opcion = 0;
-        ArrayList<Producto> carrito = new ArrayList<Producto>();
+
+        ArrayList<Producto> carrito = new ArrayList<Producto>(); // Creacion de ArrayList carrito
 
         do {
             imprimirSeparador();
@@ -121,7 +123,6 @@ public class Funcionalidad1 {
 
             switch (opcion) {
                 case 1: // Agregar producto
-
                     // Clonar el producto seleccionado para evitar modificar el original
                     try {
                         producto = (seleccionarProducto(local.getInventario()).clone());
@@ -139,8 +140,7 @@ public class Funcionalidad1 {
                     Producto estaEnCarrito = hallarEnCarrito(producto, carrito);
 
                     if (estaEnCarrito != null) { // Si está, aumentar la cantidad en 1
-                        if (estaEnCarrito.getCantidad() >=
-                                producto.getCantidad())
+                        if (estaEnCarrito.getCantidad() >= producto.getCantidad())
                         { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
                             System.out.println("No hay más unidades de '" + producto.getNombre() + "' disponibles.");
                             System.out.println("\nPresione Enter para continuar.");
@@ -161,9 +161,9 @@ public class Funcionalidad1 {
                 case 2: // Eliminar producto
                     Producto productoEnCarrito = seleccionarProducto(carrito);
 
-                    if (productoEnCarrito.getCantidad() > 1) {
+                    if (productoEnCarrito.getCantidad() > 1) { // Si el producto tiene más de una unidad, disminuir la cantidad en 1
                         productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() - 1);
-                    } else {
+                    } else { // Si solo hay una unidad, eliminar el producto del carrito
                         carrito.remove(productoEnCarrito);
                     }
 
@@ -243,7 +243,13 @@ public class Funcionalidad1 {
                     System.out.println("Cambio: $" + cambio + "\n");
 
                     // Identificar al empleado que atendió la venta
+
                     Empleado empleado = identificarEmpleado(local);
+
+                    // Actualizar metas del empleado
+                    for (Meta m : empleado.getMetas()) {
+                        m.incrementarAcumulado(valorFinal);
+                    }
 
                     // Crear transacción
                     Transaccion transaccion = new Transaccion(fecha, cliente, empleado, local, carrito, valorFinal);
@@ -282,9 +288,9 @@ public class Funcionalidad1 {
                     local.agregarTransaccion(transaccion);
 
                     // Actualizar cliente
-                    // Actualizar puntos de fidelidad
+                    // Descontar puntos de fidelidad
                     cliente.setPuntosFidelidad(cliente.getPuntosFidelidad() - puntosUsados);
-                    // Agregar compra a la lista de compras del cliente
+                    // Agregar compra a la lista de compras del cliente. Este metodo también otorga los puntos de fidelidad correspondientes
                     cliente.agregarCompra(transaccion);
 
                     // Finalización
@@ -436,6 +442,7 @@ public class Funcionalidad1 {
         } while (true);
     }
 
+    // Encuentra un producto en el carrito por su nombre
     private static Producto hallarEnCarrito(Producto producto, ArrayList<Producto> carrito) {
         for (Producto p : carrito) {
             if (p.getNombre().equals(producto.getNombre())) {
@@ -492,6 +499,8 @@ public class Funcionalidad1 {
 
     // Méthodo para encontrar un empleado en la tienda
     public static Empleado identificarEmpleado(Tienda local) {
+        imprimirSeparadorPequeno();
+
         // En caso de que la tienda no tenga empleados
         if (local.getEmpleados().size() == 0) {
             System.out.println("\n### ERROR ###");

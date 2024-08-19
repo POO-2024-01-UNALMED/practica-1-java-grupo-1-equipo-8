@@ -68,6 +68,7 @@ public class Tienda implements Serializable {
         }
     }
 
+    // Establece la prioridad de los productos en el inventario
     public void actualizarPrioridad() {
         for (Producto i : this.getInventario()) {
             if (i.getPrioridad() == null) {

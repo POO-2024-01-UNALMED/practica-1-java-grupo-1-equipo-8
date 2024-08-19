@@ -81,6 +81,18 @@ public class Transaccion implements Serializable{
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+    public Tienda getLocal() {
+        return local;
+    }
+    public void setLocal(Tienda local) {
+        this.local = local;
+    }
     public ArrayList<Producto> getProductos() {
         return productos;
     }
