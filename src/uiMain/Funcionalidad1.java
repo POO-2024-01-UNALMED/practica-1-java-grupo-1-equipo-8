@@ -377,7 +377,7 @@ public class Funcionalidad1 {
                     // Juego
                     // Mostrar juegos disponibles
                     for (Producto p : inventario) {
-                        if (p instanceof Juego) {
+                        if (p instanceof Juego && p.getCantidad() > 0) {
                             System.out.println("* " + p);
                         }
                     }
@@ -404,7 +404,7 @@ public class Funcionalidad1 {
                 case 3:
                     // Accesorio
                     for (Producto p : inventario) {
-                        if (p instanceof Accesorio) {
+                        if (p instanceof Accesorio && p.getCantidad() > 0) {
                             System.out.println("* " + p);
                         }
                     }

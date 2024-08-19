@@ -20,7 +20,7 @@ public class Main {
     /* ~~~ Objetos para pruebas ~~~ */
 
     // Comentar para probar la serialización
-    /*
+
     static Tienda tienda1 = new Tienda("Volador",123);
     static {
         tienda1.agregarProducto(new Consola("Polystation 5", 400, 10, 10, false, (byte) 5, 11, 11, 2021, 5, 100, "Sony"));
@@ -28,7 +28,7 @@ public class Main {
         tienda1.agregarProducto(new Consola("Noentiendo Swap", 300, 20, 20, false, (byte) 5, 13, 7, 2018, 5, 0, "Noentiendo"));
         tienda1.agregarProducto(new Consola("Polystation 4", 250, 25, 25, false, (byte) 5, 14, 11, 2013, 15, 200, "Sony"));
         tienda1.agregarProducto(new Consola("Xbox 360", 200, 30, 30, false, (byte) 5, 15, 12, 2005, 10, 0, "Microsoft"));
-        tienda1.agregarProducto(new Consola("Polystation 6", 500, 1, 1, false, (byte) 5, 16, 11, 2028, 0, 0, "Sony"));
+        tienda1.agregarProducto(new Consola("Polystation 6", 600, 1, 1, false, (byte) 5, 16, 11, 2028, 0, 0, "Sony"));
 
         tienda1.agregarProducto(new Juego("Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, 5, 0, "Deportes", "Polystation 5"));
         tienda1.agregarProducto(new Juego("Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, 5, 0, "FPS", "Xbox 360"));
@@ -53,6 +53,32 @@ public class Main {
         tienda1.agregarProducto(new Juego("Carlos Duty", 30, 10, true, (byte) 4, 10, 7, 2018, "FPS", "Xbox 360"));
         tienda1.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 10, true, (byte) 4, 20, 10, 2024, "FPS", "Xbox 720"));
         tienda1.agregarProducto(new Juego("Super Mario 128", 60, 10, true, (byte) 4, 10, 10, 2021, "Plataformas", "Noentiendo Swap"));
+
+        // productos usados
+        tienda1.agregarProducto(new Consola("Polystation 2", 50, 5, false, (byte) 3, 11, 10, 2000, "Sony"));
+        tienda1.agregarProducto(new Consola("Polystation 3", 150, 8, false, (byte) 3, 13, 11, 2006, "Sony"));
+        tienda1.agregarProducto(new Consola("Polystation 4", 200, 3, false, (byte) 3, 12, 12, 2013, "Sony"));
+        tienda1.agregarProducto(new Consola("Xbox 360", 130, 5, false, (byte) 3, 15, 12, 2005, "Microsoft"));
+        tienda1.agregarProducto(new Consola("Noentiendo Wii", 100, 3, false, (byte) 3, 13, 7, 2006, "Noentiendo"));
+        tienda1.agregarProducto(new Consola("Noentiendo Wii", 80, 2, false, (byte) 2, 13, 7, 2006, "Noentiendo"));
+        tienda1.agregarProducto(new Consola("Noentiendo DS", 100, 3, false, (byte) 3, 21, 11, 2004, "Noentiendo"));
+        tienda1.agregarProducto(new Consola("Noentiendo 32", 150, 4, false, (byte) 4,  29, 9, 1996, "Noentiendo"));
+        tienda1.agregarProducto(new Consola("Noentiendo SEN", 200, 1, false, (byte) 3, 18, 10, 1985, "Noentiendo"));
+        tienda1.agregarProducto(new Consola("Arati 2600", 800, 1, false, (byte) 5, 11, 9, 1977, "Arati"));
+        tienda1.agregarProducto(new Consola("Magnavox Odyssey", 800, 1, false, (byte) 4, 27, 8, 1972, "Magnavox"));
+
+        tienda1.agregarProducto(new Juego("Ronaldinho Soccer 2010", 10, 10, false, (byte) 3, 15, 6, 2010, "Deportes", "Polystation 3"));
+        tienda1.agregarProducto(new Juego("Carlos Duty 0.5", 10, 10, false, (byte) 3, 20, 10, 2019, "FPS", "Xbox 360"));
+        tienda1.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 10, false, (byte) 3, 20, 10, 2024, "FPS", "Xbox 720"));
+        tienda1.agregarProducto(new Juego("Super Mario 128", 50, 7, false, (byte) 3, 10, 10, 2021, "Plataformas", "Noentiendo Swap"));
+        tienda1.agregarProducto(new Juego("Super Mario 32", 30, 5, false, (byte) 2, 10, 10, 1996, "Plataformas", "Noentiendo 32"));
+        tienda1.agregarProducto(new Juego("Super Mario 8", 50, 1, false, (byte) 3, 10, 10, 1985, "Plataformas", "Noentiendo SEN"));
+
+        tienda1.agregarProducto(new Accesorio("Control Polystation 3", 20, 10, false, (byte) 3, 13, 11, 2006, "Sony", "Polystation 3"));
+        tienda1.agregarProducto(new Accesorio("Control Xbox 360", 35, 10, false, (byte) 3, 15, 12, 2005, "Microsoft", "Xbox 360"));
+        tienda1.agregarProducto(new Accesorio("Control Polystation 4", 30, 10, false, (byte) 3, 12, 12, 2013, "Sony", "Polystation 4"));
+        tienda1.agregarProducto(new Accesorio("Control Arati 2600", 50, 10, false, (byte) 3, 11, 9, 1977, "Arati", "Arati 2600"));
+        tienda1.agregarProducto(new Accesorio("Control Magnavox Odyssey", 50, 10, false, (byte) 3, 27, 8, 1972, "Magnavox", "Magnavox Odyssey"));
 
 
         // ~~~~~~~~~~~~~~~ personal ~~~~~~~~~~~~~~~
@@ -83,16 +109,18 @@ public class Main {
     static Cliente cliente2 = new Cliente(124, "Pedro", "pedro@mail.com", 311204);
     static Cliente cliente3 = new Cliente(125, "Maria", "maria@mail.com@", 311205);
 
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     DESCOMENTAR LINEA 23 PARA USAR SIN SERIALIZACION */
 
 
     // Variable scanner para entrada de datos
     static Scanner sc = new Scanner(System.in);
-    public static Fecha ultimaFecha;
+    public static Fecha ultimaFecha = new Fecha(1, 1, 2021);
 
     public static void main(String[] args) {
         /* ~~~ Carga de objetos serializados ~~~ */
-        // TODO: DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIÓN
+        // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIÓN
+        /*
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
         ultimaFecha = Deserializador.deserializarFecha();
@@ -165,6 +193,7 @@ public class Main {
 
                     case 5:
                         // ~~Placeholder para quinta funcionalidad~~
+                        Funcionalidad5.subastar(local, fechaActual);
                         break;
 
                     case 6:
@@ -340,6 +369,7 @@ public class Main {
         Scanner scSiNo = new Scanner(System.in);
         System.out.println(pregunta + " (S/n)");
         char respuesta = scSiNo.next().charAt(0);
+        scSiNo.nextLine();  // Limpiar el buffer
 
         return !(respuesta == 'n' || respuesta == 'N');
     }
@@ -461,7 +491,7 @@ public class Main {
 
             System.out.println("0. Volver");
 
-            System.out.print("Ingrese el número de la opción que desea ejecutar:");
+            System.out.print("Ingrese el número de la opción que desea ejecutar: ");
 
             // Recibir entrada
             opcion = 0;

@@ -154,7 +154,19 @@ public class Fecha implements Serializable{
         return totalDias;
     }
 
-    //Setters
+    //Getters y setters
+
+
+    public int getYear() {
+        return year;
+    }
+    public int getMes() {
+        return mes;
+    }
+    public int getDia() {
+        return dia;
+    }
+
     public void setDia(int dia) {
         this.dia = dia;
     }

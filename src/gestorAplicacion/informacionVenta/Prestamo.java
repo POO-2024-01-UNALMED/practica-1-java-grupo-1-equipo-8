@@ -18,11 +18,11 @@ public class Prestamo implements Serializable{
     private Fecha fechaFin;
     private Cliente cliente;
     private ArrayList<Producto> productos;
-    private float valorTotal;
+    private int valorTotal;
     private String estado;
 
     /* ~~~ Constructores ~~~ */
-    public Prestamo(Fecha fechaInicio, Fecha fechaFin, Cliente cliente, ArrayList<Producto> productos, float valorTotal, String estado) {
+    public Prestamo(Fecha fechaInicio, Fecha fechaFin, Cliente cliente, ArrayList<Producto> productos, int valorTotal, String estado) {
         this.id = ultimoID;
         ultimoID++;
         this.fechaInicio = fechaInicio;
@@ -79,10 +79,10 @@ public class Prestamo implements Serializable{
     public void setProductos(ArrayList<Producto> productos) {
         this.productos = productos;
     }
-    public float getValorTotal() {
+    public int getValorTotal() {
         return valorTotal;
     }
-    public void setValorTotal(float valorTotal) {
+    public void setValorTotal(int valorTotal) {
         this.valorTotal = valorTotal;
     }
     public String getEstado() {

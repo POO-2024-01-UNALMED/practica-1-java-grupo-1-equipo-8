@@ -21,6 +21,7 @@ public class Subasta implements Serializable {
     private final String tipo;
     private final Tienda local;
 
+    // Constructor para subastas ascendentes
     public Subasta(Fecha fechaInicio, Fecha fechaFin, ArrayList<Producto> productos, int ofertaMayor, Tienda local, String tipo) {
         this.id = ultimoID;
         ultimoID++;
@@ -39,8 +40,8 @@ public class Subasta implements Serializable {
 
     /* ~~~ Metodos ~~~ */
     // Metodo para sumarle 7 dias a la fecha final de una subasta
-    public String extenderSubasta() {
-        this.fechaFin = new Fecha(this.fechaFin.getTotalDias() + 7);
+    public String extenderSubasta(Fecha fechaActual) {
+        this.fechaFin = new Fecha(fechaActual.getTotalDias() + 7);
         if ((this.tipo.equals("Ascendente") || this.tipo.equals("Descendente") && this.ofertaMayor > 0)) {
             int ofertaMayorAnterior = this.ofertaMayor;
             int ofertaMayorNueva = (int) (this.ofertaMayor * 0.8);
@@ -51,15 +52,8 @@ public class Subasta implements Serializable {
         return null;
     }
 
-    // Método para validar que la fecha de inicio sea menor a la fecha de fin
-    public boolean validarFechas(Fecha fechaInicio, Fecha fechaFin) {
-        int totalDiasInicio = fechaInicio.getTotalDias();
-        int totalDiasFin = fechaFin.getTotalDias();
-        return totalDiasInicio > totalDiasFin;
-    }
-
     /* ~~ Agregar ofertas ~~ */
-    // Metodo para agregar una oferta a una subasta ascendente o descendente
+    // Metodo para agregar una oferta a una subasta ascendente
     public void agregarOferta(int oferta, Cliente cliente) throws Exception {
         if (oferta > this.ofertaMayor) {
             this.ofertas.add(oferta);
@@ -80,6 +74,18 @@ public class Subasta implements Serializable {
         }
     }
 
+    // Registra la oferta que finaliza una subasta descendente. Retorna al ganador
+    public Cliente ofertarYFinalizarDescendente(Cliente cliente) {
+        this.ofertas.add(this.ofertaMayor);
+        this.ofertantes.add(cliente);
+        this.estado = "Finalizada";
+
+        // Actualizar puntos del ganador
+        cliente.setPuntosFidelidad(cliente.getPuntosFidelidad() - this.ofertaMayor);
+
+        return cliente;
+    }
+
     /* ~~ Finalizar subastas ~~ */
     // Metodo para finalizar una subasta ascendente o descendente. Retorna al ganador
     public Cliente finalizarSubasta() {
@@ -87,10 +93,8 @@ public class Subasta implements Serializable {
         // Buscar la ultima oferta y asignarle el producto al ofertante
         Cliente ganador = ofertantes.get(this.ofertantes.size() - 1);
 
-        // Retirar los productos del inventario de la tienda
-        for (Producto producto : this.productos) {
-            local.retirarDeInventario(producto, local.getInventarioUsado());
-        }
+        // Actualizar puntos del ganador
+        ganador.setPuntosFidelidad(ganador.getPuntosFidelidad() - this.getOfertaMayor());
 
         return ganador;
     }
@@ -109,13 +113,95 @@ public class Subasta implements Serializable {
             }
         }
 
-        // Retirar los productos del inventario de la tienda
-        for (Producto producto : this.productos) {
-            local.retirarDeInventario(producto, local.getInventarioUsado());
-        }
-
         return ganador;
     }
+
+    /* ~~ Calcular valoración de objetos de subasta ~~ */
+
+    // Calcular valoración de subasta ascendente del conjunto de productos que recibe
+    public static int calcularValoracionAscendente(ArrayList<Producto> productos, Fecha fechaActual) {
+        int rareza;
+        int valorInicial;
+        int valorTotal = 0;
+
+        for (Producto producto : productos) { // Evaluar la rareza de los productos
+            rareza = 0;
+            valorInicial = 0;
+
+            // Valorar por la diferencia de años entre la fecha de lanzamiento y el año actual
+            int yearsDiferencia = Math.abs(fechaActual.getYear() - producto.getFechaLanzamiento().getYear());
+            rareza += yearsDiferencia / 5;
+
+            // Valorar por condicion
+            rareza += producto.getCondicion() - 1;
+
+            // Añadir el valor de la rareza al valor total
+            valorInicial = (int) (producto.getValor() * (Math.pow(1.2, rareza) - 1));
+
+            valorTotal += valorInicial;
+        }
+
+        return valorTotal;
+    }
+
+    // Calcular valoración de subasta descendente del conjunto de productos que recibe
+    public static int calcularValoracionDescendente(ArrayList<Producto> productos, Fecha fechaActual) {
+        int rareza;
+        int valorInicial;
+        int valorTotal = 0;
+
+        for (Producto producto : productos) { // Evaluar la rareza de los productos
+            rareza = 0;
+            valorInicial = 0;
+
+            // Valorar por edad
+            int yearsDiferencia = Math.abs(fechaActual.getYear() - producto.getFechaLanzamiento().getYear());
+            rareza += yearsDiferencia / 5;
+
+            // TODO: Valorar por cantidad de productos en stock
+
+            // Valorar por condicion
+            rareza += producto.getCondicion() - 1;
+
+            // Añadir el valor de la rareza al valor total
+            valorInicial = (int) (producto.getValor() * (Math.pow(1.4, rareza) + 1));
+
+            valorTotal += valorInicial;
+        }
+
+        return valorTotal;
+    }
+
+
+    // toString
+    @Override
+    public String toString() {
+        return "Subasta" +
+                "ID: " + id + "\n" +
+                "Fecha de fin: " + fechaFin + "\n" +
+                "Tipo: " + tipo + "\n" +
+                "Productos: " + "\n" +imprimirProductos() +
+                "Oferta mayor: " + ofertaMayor + "\n" +
+                "Ofertantes: " + imprimirOfertantes();
+    }
+
+    public String imprimirProductos() {
+        String productos = "";
+        for (Producto producto : this.productos) {
+            productos += "   * " + producto.getNombre() + "\n";
+        }
+        return productos;
+    }
+
+    public String imprimirOfertantes() {
+        String ofertantes = "";
+
+        for (Cliente cliente : this.ofertantes) {
+            ofertantes += "    * " + cliente.getNombre() + "\n";
+        }
+        return ofertantes;
+    }
+
 
     /* ~~~ Getters y setters ~~~ */
 
@@ -181,5 +267,9 @@ public class Subasta implements Serializable {
 
     public Tienda getLocal() {
         return local;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
 }

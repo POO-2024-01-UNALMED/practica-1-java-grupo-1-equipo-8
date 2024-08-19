@@ -59,6 +59,15 @@ public class Tienda implements Serializable {
         }
     }
 
+    // Reduce en uno la cantidad de un producto en un inventario dado segun codigo
+    public void retirarUnoDeInventario(Producto producto, ArrayList<Producto> inventario){
+        for (Producto p : inventario) {
+            if (p.getCodigo() == producto.getCodigo()) {
+                p.setCantidad(p.getCantidad() - 1);
+            }
+        }
+    }
+
     public void agregarEmpleado(Empleado empleado){
         this.empleados.add(empleado);
     }
