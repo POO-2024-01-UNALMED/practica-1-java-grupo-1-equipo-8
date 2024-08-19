@@ -21,15 +21,18 @@ public class Accesorio extends Producto{
 
 	// Constructor sin cantidadInicial ni atributos de descuento
 	public Accesorio(String nombre, int valor, int cantidad, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, String marca, String consola) {
-		super(nombre, valor, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz);
-		this.marca = marca;
-		this.consola = consola;
+		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, marca, consola);
 	}
 
-	/* ~~ Método compare ~~ */
+	/* ~~ Metodo compare ~~ */
 	@Override
 	public int compare(Producto o1, Producto o2){
 		return 1;
+	}
+
+	@Override
+	public int compareTo(Producto o) {
+		return 0;
 	}
 
 	/* ~~~ Getters y setters ~~~ */
@@ -46,10 +49,5 @@ public class Accesorio extends Producto{
 	}
 	public void setConsola(String consola) {
 		this.consola = consola;
-	}
-
-	@Override
-	public int compareTo(Producto o) {
-		return 0;
 	}
 }

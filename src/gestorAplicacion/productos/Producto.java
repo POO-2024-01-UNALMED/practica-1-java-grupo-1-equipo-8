@@ -4,6 +4,7 @@ import gestorAplicacion.manejoLocal.Fecha;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public abstract class Producto implements Serializable, Cloneable,Comparable<Producto> ,Comparator<Producto> {
@@ -64,60 +65,20 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	// Constructor sin cantidadInicial ni atributosr relacionados
 	// a descuentos para productos de prestamo o de subasta
 	public Producto (String nombre, int valor, int cantidad, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz) {
-		this.codigo = ultimoCodigo;
-		ultimoCodigo++;
-		this.nombre = nombre;
-		this.valor = valor;
-		this.cantidad = cantidad;
-		this.cantidadInicial = cantidad;
-		this.prestable = prestable;
-		this.condicion = condicion;
-		this.fechaLanzamiento = new Fecha(diaLanz, mesLanz, yearLanz);
+		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0);
 	}
 
 
 	/* ~~~ Métodos ~~~ */
-
-	/* ~~ Método para vender un producto ~~ */
-	public void vender(int cantidad) {
-		this.cantidad -= cantidad;
-	}
-
-	/* ~~ Método para retornar un producto ~~ */
-	public void retornar(int cantidad) {
-		this.cantidad += cantidad;
-	}
-
-	/* ~~ Método para ordenar ~~ */
-	static Comparator<Producto> comparadorPorPrioridad = new Comparator<Producto>() {
-		@Override
-		public int compare(Producto o1, Producto o2) {
-			return getPrioridadValue(o1.getPrioridad()) - getPrioridadValue(o2.getPrioridad());
-		}
-
-		private int getPrioridadValue(String prioridad) {
-			switch (prioridad) {
-				case "Prioridad muy alta":
-					return 1;
-				case "Prioridad alta":
-					return 2;
-				case "Prioridad media":
-					return 3;
-				case "Prioridad baja":
-					return 4;
-				default:
-					return Integer.MAX_VALUE; // en caso de valores desconocidos
-			}
-		}
-	};
-
 	/* ~~ Metodo para calcular las ventas ~~ */
 	public int calcularVenta(){
 		int venta = this.cantidadInicial - this.cantidad;
 		return venta;
 	}
 
-	/* ~~ Método para ordenar productos ~~ */
+
+	/* ~~~~~~~~~ Ordenamiento ~~~~~~~~~ */
+	/* ~~ Metodo para ordenar productos por un criterio dado ~~ */
 	public static ArrayList<Producto> ordenar(ArrayList<Producto> p, String orden){
 		if (orden.equalsIgnoreCase("ventas")) {
 			Collections.sort(p, new Comparator<Producto>() {
@@ -137,8 +98,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 			});
 			return p;
 		} else if (orden.equalsIgnoreCase("prioridad")) {
-			Collections.sort(p,comparadorPorPrioridad);
-			return p;
+			return ordenarPorPrioridad(p);
 
 		} else {
 			Collections.sort(p, new Comparator<Producto>() {
@@ -151,14 +111,44 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		}
 	}
 
+	/* ~~ Metodo para ordenar por prioridad~~ */
+	private static ArrayList<Producto> ordenarPorPrioridad(ArrayList<Producto> p){
+		ArrayList<Producto> listaOrdenada = new ArrayList<Producto>();
 
-	/* ~~ Método para clonar un producto ~~ */
+		for (Producto producto : p) { // Añadir primero los productos con prioridad muy alta
+			if (producto.prioridad.equalsIgnoreCase("prioridad muy alta")) {
+				listaOrdenada.add(producto);
+			}
+		}
+
+		for (Producto producto : p) { // Añadir los productos con prioridad alta
+			if (producto.prioridad.equalsIgnoreCase("prioridad alta")) {
+				listaOrdenada.add(producto);
+			}
+		}
+
+		for (Producto producto : p) { // Añadir los productos con prioridad media
+			if (producto.prioridad.equalsIgnoreCase("prioridad media")) {
+				listaOrdenada.add(producto);
+			}
+		}
+
+		for (Producto producto : p) { // Añadir los productos con prioridad baja
+			if (producto.prioridad.equalsIgnoreCase("prioridad baja")) {
+				listaOrdenada.add(producto);
+			}
+		}
+
+		return listaOrdenada;
+	}
+
+	/* ~~ Metodo para clonar un producto ~~ */
 	@Override
 	public Producto clone() throws CloneNotSupportedException {
 		return (Producto) super.clone();
 	}
 
-	/* ~ Método toString ~ */
+	/* ~ Metodo toString ~ */
 	@Override
 	public String toString() {
 		return "COD: " + codigo + " | " +

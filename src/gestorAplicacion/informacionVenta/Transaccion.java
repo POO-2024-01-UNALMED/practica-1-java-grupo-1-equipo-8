@@ -36,23 +36,15 @@ public class Transaccion implements Serializable{
         this.productos = productos;
         this.valorSinDescuento = valorSinDescuento;
         this.valorFinal = valorFinal;
+
+        local.agregarTransaccion(this);
         empleado.ingresarTransaccion(this);
     }
 
     // Constructor sin id ni valorSinDescuento (se calcula automáticamente)
     public Transaccion(Fecha fecha, Cliente cliente, Empleado empleado, Tienda local, ArrayList<Producto> productos, int valorFinal) {
-        this.id = ultimoID;
+        this(ultimoID, fecha, cliente, empleado, local, productos, hallarValorSinDescuento(productos), valorFinal);
         ultimoID++;
-        this.fecha = fecha;
-        this.cliente = cliente;
-        this.empleado = empleado;
-        this.local = local;
-        this.productos = productos;
-        this.valorSinDescuento = hallarValorSinDescuento(this.productos);
-        this.valorFinal = valorFinal;
-
-        local.agregarTransaccion(this);
-        empleado.ingresarTransaccion(this);
     }
 
     /* ~~~ Métodos ~~~ */
@@ -60,7 +52,7 @@ public class Transaccion implements Serializable{
         this.local.agregarTransaccion(this);
     }
 
-    public int hallarValorSinDescuento(ArrayList<Producto> productos){
+    public static int hallarValorSinDescuento(ArrayList<Producto> productos){
         int valor = 0;
         for (Producto p : productos) {
             valor += p.getValor();

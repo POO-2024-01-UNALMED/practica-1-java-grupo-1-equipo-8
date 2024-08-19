@@ -11,7 +11,7 @@ public class Juego extends Producto {
 	private String genero;
 	private String plataforma;
 	
-	/* ~~~~~~~~~~~~~~~~~z Constructores ~~~~~~~~~~~~~~~~~ */
+	/* ~~~~~~~~~~~~~~~~~ Constructores ~~~~~~~~~~~~~~~~~ */
 	public Juego(){}/*### constructor vacio ###*/
 
 	// Constructor con todos los atributos
@@ -23,20 +23,16 @@ public class Juego extends Producto {
 
 	// Constructor sin descuento
 	public Juego(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
-		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diaLanz, mesLanz, yearLanz);
-		this.genero = genero;
-		this.plataforma = plataforma;
+		this(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, genero, plataforma);
 	}
 
-	// Constructor sin cantidadInicial ni atributos de descuento
+	// Constructor con cantidadInicial igual a la cantidad actual y sin atributos de descuento
 	public Juego(String nombre, int valor, int cantidad, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
-		super(nombre, valor, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz);
-		this.genero = genero;
-		this.plataforma = plataforma;
+		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, genero, plataforma);
 	}
 
 	//~~~~~~~~~~~~~~~~~~ Métodos ~~~~~~~~~~~~~~~~~~//
-	// Método toString
+	// Metodo toString
 	@Override
 	public String toString() {
 		return "COD: " + codigo + " | " +
@@ -90,7 +86,7 @@ public class Juego extends Producto {
 		this.plataforma = plataforma1;
 	}
 
-	// ~~~~~~~~~~~~~~~~~ Método compare ~~~~~~~~~~~~~~~~~ //
+	// ~~~~~~~~~~~~~~~~~ Metodo compare ~~~~~~~~~~~~~~~~~ //
 	@Override
 	public int compare(Producto o1, Producto o2){
 		return 0;

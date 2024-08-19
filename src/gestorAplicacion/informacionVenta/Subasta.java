@@ -37,9 +37,9 @@ public class Subasta implements Serializable {
         local.agregarSubasta(this);
     }
 
-    /* ~~~ Métodos ~~~ */
-    // Método para sumarle 7 dias a la fecha final de una subasta
-    public String extenderSubasta() {
+    /* ~~~ Metodos ~~~ */
+    // Metodo para sumarle 7 dias a la fecha final de una subasta
+    public void extenderSubasta() {
         this.fechaFin = new Fecha(this.fechaFin.getTotalDias() + 7);
         if ((this.tipo.equals("Ascendente") || this.tipo.equals("Descendente") && this.ofertaMayor > 0)) {
             int ofertaMayorAnterior = this.ofertaMayor;
@@ -59,7 +59,7 @@ public class Subasta implements Serializable {
     }
 
     /* ~~ Agregar ofertas ~~ */
-    // Método para agregar una oferta a una subasta ascendente o descendente
+    // Metodo para agregar una oferta a una subasta ascendente o descendente
     public void agregarOferta(int oferta, Cliente cliente) throws Exception {
         if (oferta > this.ofertaMayor) {
             this.ofertas.add(oferta);
@@ -81,7 +81,7 @@ public class Subasta implements Serializable {
     }
 
     /* ~~ Finalizar subastas ~~ */
-    // Método para finalizar una subasta ascendente o descendente. Retorna al ganador
+    // Metodo para finalizar una subasta ascendente o descendente. Retorna al ganador
     public Cliente finalizarSubasta() {
         this.estado = "Finalizada";
         // Buscar la ultima oferta y asignarle el producto al ofertante
@@ -95,7 +95,7 @@ public class Subasta implements Serializable {
         return ganador;
     }
 
-    // Método para finalizar una subasta anónima. Retorna al ganador
+    // Metodo para finalizar una subasta anónima. Retorna al ganador
     // En caso de empate, el ganador será el primero que ofertó
     public Cliente finalizarSubastaAnonima() {
         this.estado = "Finalizada";
