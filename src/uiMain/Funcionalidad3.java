@@ -7,6 +7,8 @@ import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.*;
 import gestorAplicacion.productos.*;
 
+import javax.crypto.spec.OAEPParameterSpec;
+
 import static uiMain.Main.*;
 
 
@@ -396,13 +398,14 @@ public class Funcionalidad3 {
                             switch(opcion) {
                                 case 1:
                                     //Ver ventas individuales
+                                    //TODO:continuar con esto
                                     continue;
                                 case 2:
                                     //Ordenes en el rango
+                                    //TODO:continuar con esto
                                     continue;
                                 case 3:
                                     //Tendencias en el rango
-                                    //TODO:cambiar logica
                                     while (true) {
                                         opcion = 0;
                                         try {
@@ -423,7 +426,7 @@ public class Funcionalidad3 {
                                                 //Tendencias de generos
                                                 int media = 0;
                                                 for (Transaccion i : rangoVentas) {
-                                                    //generosMasComprados();
+                                                    generosMasComprados(local,5,fechaInicial,fechaFinal,"m");
                                                     //TODO:tendencias genero
                                                 }
                                             case 2:
@@ -659,80 +662,24 @@ public class Funcionalidad3 {
                         int ID = 0; //ID del objeto a buscar
                         switch (opcion){
                             case 1://Genero
-                                while (true) {
-                                    Juego.organizar(lista, "genero");
-                                    imprimirSeparador();
-                                    System.out.println("Los generos existentes en el local son: ");
-                                    for (Juego i : lista) {
-                                        if (valorActual == null) {
-                                            valorActual = i.getGenero();
-                                        } else if (!valorActual.equalsIgnoreCase(i.getGenero())) {
-                                            System.out.println("•"+valorActual);
-                                            valorActual = i.getGenero();
-                                        }
-                                    }
-                                    sc.nextLine();
-                                    imprimirSeparador();
-                                    System.out.println("Ingrese el genero a buscar");
-                                    valorActual = sc.nextLine();
-                                    for (Juego i: lista){
-                                        if (valorActual.equalsIgnoreCase(i.getGenero())){
-                                            existe = true;
-                                        }
-                                    }
-                                    if(!existe){
-                                        imprimirSeparador();
-                                        System.out.println("El genero ingresado no existe");
-                                        sc.nextLine();
-                                        continue;
-                                    }
-                                    imprimirSeparador();
-                                    for(Juego i:lista){
-                                        if(i.getGenero().equalsIgnoreCase(valorActual)){
-                                            System.out.println("•"+i.getNombre()+" | ID: "+i.getCodigo());
-                                        }
-                                    }
-                                    while (true) {
-                                        try {
-                                            imprimirSeparador();
-                                            System.out.println("Ingresa el ID del preoducto");
-                                            ID = sc.nextInt();
-                                            sc.nextLine();
-                                        }
-                                        catch (Exception e) {
-                                            imprimirSeparador();
-                                            System.out.println("\n### ERROR ###");
-                                            System.out.println("El valor debe ser numerico");
-                                            sc.nextLine();
-                                            continue;
-                                        }
-                                        //TODO:trabajando
-                                        //for(Tienda t : Tienda.getLocales()){
-                                          //  for(Producto i: t.getInventario()){
-                                            //    if(){}
-                                            //}
-                                        //}
+                                for(Producto i:local.getInventario()){
+                                    if (i instanceof Juego){
+                                        lista.add((Juego)i);
                                     }
                                 }
+                                local.agregarOrden(reabastecerManual(local,lista,fechaActual,2));
 
                             case 2://Plataforma
-                                while (true) {
-                                    Juego.organizar(lista, "plataforma");
-                                    imprimirSeparador();
-                                    System.out.println("Las plataformas existentes en el local son: ");
-                                    for (Juego i : lista) {
-                                        if (valorActual == null) {
-                                            valorActual = i.getPlataforma();
-                                        } else if (!valorActual.equalsIgnoreCase(i.getPlataforma())) {
-                                            System.out.println("•"+valorActual);
-                                            valorActual = i.getPlataforma();
-                                        }
+                                for(Producto i:local.getInventario()){
+                                    if (i instanceof Juego){
+                                        lista.add((Juego)i);
                                     }
-
                                 }
+                                local.agregarOrden(reabastecerManual(local,lista,fechaActual));
 
                             case 3://Rango
-
+                                local.agregarOrden(reabastecerManual(local,local.getInventario(),fechaActual,"rango"));
+                                //TODO:se supone termine
                         }
                         System.out.println("La opción no es válida");
                     }
@@ -1217,5 +1164,498 @@ public class Funcionalidad3 {
             generosCant.remove(generos.indexOf(generoFav));
             generos.remove(generoFav);
         }
+    }
+    //lo de arriba pero con plataforma
+    private static void generosMasComprados(Tienda local, int n, Fecha fechaInicio, Fecha fechaFin, String m) {//TODO:tener en cuenta metodo
+        // Comprobar que la tienda tiene transacciones
+        if (local.getCaja().isEmpty()) {
+            System.out.println("No hay transacciones en la tienda");
+            return;
+        }
+
+        ArrayList<Integer> plataformasCant = new ArrayList<Integer>();
+        ArrayList<String> plataformas = new ArrayList<String>();
+
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
+            if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
+                for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                    if (p instanceof Juego) {
+                        Juego j = (Juego) p;
+                        if (plataformas.contains(j.getPlataforma())) { // Si la plataforma ya está en la lista, aumentar la cantidad
+                            int indice = plataformas.indexOf(j.getPlataforma());
+                            plataformasCant.set(indice, plataformasCant.get(indice) + 1);
+                        } else { // Si no está, agregarlo a la lista
+                            plataformas.add(j.getPlataforma());
+                            plataformasCant.add(1);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Encontrar e imprimir los n géneros más vendidos y sus cantidades
+        for (int j = 0 ; j < plataformasCant.size() && j < n; j++) {
+            int max = 0;
+            String plataformaFav = "";
+
+            for (int i = 0; i < plataformasCant.size(); i++) {
+                if (plataformasCant.get(i) >= max) {
+                    max = plataformasCant.get(i);
+                    plataformaFav = plataformas.get(i);
+                }
+            }
+
+            System.out.println((j + 1) + ". " + plataformaFav + " -- " + max + " ventas");
+
+            plataformasCant.remove(plataformas.indexOf(plataformaFav));
+            plataformasCant.remove(plataformaFav);
+        }
+    }
+
+    //Crea una orden de reabastecimiento a partir de la plataformas
+    private static Reabastecimiento reabastecerManual(Tienda local,ArrayList<Juego> p,Fecha fechaActual){
+        int opcion;
+        int cantidad = 0;
+        boolean existe = false;
+        String nombre ="";
+        Juego producto = null;
+        Tienda localDestino = null;
+        ArrayList<String> plataformas = new ArrayList<>();
+        ArrayList<Producto> listadeObjetos = new ArrayList<>();
+        while (true) {
+            Juego.organizar(p,"plataforma");
+            
+            for (Juego i: p) {//Conseguir todas las plataformas existentes
+                if (plataformas.isEmpty()) {
+                    plataformas.add(i.getPlataforma());
+                } else if (!plataformas.contains(i.getPlataforma())) {
+                    plataformas.add(i.getPlataforma());
+                }
+            }
+            imprimirSeparador();
+            for (String palabra:plataformas){
+                System.out.println("•"+palabra);
+            }
+            System.out.println("Ingrese la plataforma a elegir: ");
+            nombre = sc.nextLine();
+            sc.nextLine();
+            if (!plataformas.contains(nombre)){
+                System.out.println("La plataforma ingresada no es valida");
+                sc.nextLine();
+                continue;
+            }
+            imprimirSeparador();
+            for (Juego i:p){
+                if(i.getPlataforma().equalsIgnoreCase(nombre)){
+                    System.out.println("•"+i.getNombre()+" | COD: "+i.getCodigo()+" | Plataforma: "+i.getPlataforma());
+                }
+            }
+
+            while (true) {
+                try {
+                    imprimirSeparador();
+                    System.out.println("Ingrese el codigo del producto: ");
+                    opcion= sc.nextInt();
+                    sc.nextLine();
+                    break;
+                }
+                catch (Exception e) {
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("El valor debe ser numerico");
+                    sc.nextLine();
+                }
+            }
+            for (Juego i:p){
+                if(i.getCodigo() == opcion){
+                    producto = i;
+                    break;
+                }
+            }
+            imprimirSeparador();
+            for (Tienda t:Tienda.getLocales()){
+                for(Producto i:t.getInventario()){
+                    if (i.getNombre().equalsIgnoreCase(producto.getNombre())){
+                        existe = true;
+                        double valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+                        if (valor < 0){
+                            valor = 0;
+                        }
+                        System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+(int)valor);
+                    } else if (Tienda.getLocales().indexOf(t)==Tienda.getLocales().size()-1 && t.getInventario().indexOf(i) == t.getInventario().size()-1 && !existe) {
+                        System.out.println("No se han encontrado productos en otros locales");
+                        sc.nextLine();
+                    }
+                }
+            }
+            if(!existe){
+                continue;
+            }
+            while (true){
+                nombre = "";
+                imprimirSeparador();
+                System.out.println("Ingrese el local deseado: ");
+                nombre = sc.nextLine();
+                sc.nextLine();
+                for(Tienda t: Tienda.getLocales()){
+                    if(t.getNombre().equalsIgnoreCase(nombre)){
+                        localDestino = t;
+                    }
+                }
+                if(localDestino == null){
+                    imprimirSeparador();
+                    System.out.println("El local ingresado no existe");
+                    continue;
+                }
+                break;
+            }
+            double valor = 0;
+            for(Producto i: localDestino.getInventario()){
+                if(i.getNombre().equalsIgnoreCase(producto.getNombre())){
+                    valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+                }
+            }
+            if (valor < 0){
+                System.out.println("No es posible reabastecer el producto desde este local.");
+                continue;
+            }
+            while (true) {
+                try {
+                    imprimirSeparador();
+                    System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " + (int) valor);
+                    System.out.println("Ingrese la cantidad a reabastecer: ");
+                    opcion = sc.nextInt();
+                    sc.nextLine();
+                    break;
+                }catch (Exception e){
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("El valor debe ser numerico");
+                    sc.nextLine();
+                }
+            }
+            while (true) {
+                try {
+                    imprimirSeparador();
+                    System.out.println("Desea \n1.Reabastecer otro producto \n2.Crear orden de reabastecimiento \n3.Cancelar todo");
+                    opcion = sc.nextInt();
+                    sc.nextLine();
+                    if(opcion<0|| opcion>3){
+                        imprimirSeparador();
+                        System.out.println("Opcion no válida");
+                        continue;
+                    }
+                    break;
+                }catch (Exception E){
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("El valor debe ser numerico");
+                    sc.nextLine();
+
+                }
+            }
+            if (opcion == 1){
+                //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
+                //listadeObjetos.add();
+                continue;
+            }else if (opcion == 2){
+                break;
+            }else if (opcion == 3){
+                return null;
+            }
+        }
+        return new Reabastecimiento(localDestino,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
+    }
+
+    //sobrecarga del metodo para utilizarlo en dos situaciones, crea una orden de reabastecimiento a partir de la plataforma
+    private static Reabastecimiento reabastecerManual(Tienda local,ArrayList<Juego> p,Fecha fechaActual,int l){
+        int opcion;
+        int cantidad = 0;
+        boolean existe = false;
+        String nombre ="";
+        Juego producto = null;
+        Tienda localDestino = null;
+        ArrayList<String> generos = new ArrayList<>();
+        ArrayList<Producto> listadeObjetos = new ArrayList<>();
+        while (true) {
+            Juego.organizar(p,"genero");
+
+            for (Juego i: p) {//Conseguir todos las generos existentes
+                if (generos.isEmpty()) {
+                    generos.add(i.getPlataforma());
+                } else if (!generos.contains(i.getPlataforma())) {
+                    generos.add(i.getPlataforma());
+                }
+            }
+            imprimirSeparador();
+            for (String palabra:generos){
+                System.out.println("•"+palabra);
+            }
+            System.out.println("Ingrese el genero a elegir: ");
+            nombre = sc.nextLine();
+            sc.nextLine();
+            if (!generos.contains(nombre)){
+                System.out.println("La plataforma ingresada no es valida");
+                sc.nextLine();
+                continue;
+            }
+            imprimirSeparador();
+            for (Juego i:p){
+                if(i.getPlataforma().equalsIgnoreCase(nombre)){
+                    System.out.println("•"+i.getNombre()+" | COD: "+i.getCodigo()+" | Genero: "+i.getGenero());
+                }
+            }
+
+            while (true) {
+                try {
+                    imprimirSeparador();
+                    System.out.println("Ingrese el codigo del producto: ");
+                    opcion= sc.nextInt();
+                    sc.nextLine();
+                    break;
+                }
+                catch (Exception e) {
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("El valor debe ser numerico");
+                    sc.nextLine();
+                }
+            }
+            for (Juego i:p){
+                if(i.getCodigo() == opcion){
+                    producto = i;
+                    break;
+                }
+            }
+            imprimirSeparador();
+            for (Tienda t:Tienda.getLocales()){
+                for(Producto i:t.getInventario()){
+                    if (i.getNombre().equalsIgnoreCase(producto.getNombre())){
+                        existe = true;
+                        double valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+                        if (valor < 0){
+                            valor = 0;
+                        }
+                        System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+(int)valor);
+                    } else if (Tienda.getLocales().indexOf(t)==Tienda.getLocales().size()-1 && t.getInventario().indexOf(i) == t.getInventario().size()-1 && !existe) {
+                        System.out.println("No se han encontrado productos en otros locales");
+                        sc.nextLine();
+                    }
+                }
+            }
+            if(!existe){
+                continue;
+            }
+            while (true){
+                nombre = "";
+                imprimirSeparador();
+                System.out.println("Ingrese el local deseado: ");
+                nombre = sc.nextLine();
+                sc.nextLine();
+                for(Tienda t: Tienda.getLocales()){
+                    if(t.getNombre().equalsIgnoreCase(nombre)){
+                        localDestino = t;
+                    }
+                }
+                if(localDestino == null){
+                    imprimirSeparador();
+                    System.out.println("El local ingresado no existe");
+                    continue;
+                }
+                break;
+            }
+            double valor = 0;
+            for(Producto i: localDestino.getInventario()){
+                if(i.getNombre().equalsIgnoreCase(producto.getNombre())){
+                    valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+                }
+            }
+            if (valor < 0){
+                System.out.println("No es posible reabastecer el producto desde este local.");
+                continue;
+            }
+            while (true) {
+                try {
+                    imprimirSeparador();
+                    System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " + (int) valor);
+                    System.out.println("Ingrese la cantidad a reabastecer: ");
+                    opcion = sc.nextInt();
+                    sc.nextLine();
+                    break;
+                }catch (Exception e){
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("El valor debe ser numerico");
+                    sc.nextLine();
+                }
+            }
+            while (true) {
+                try {
+                    imprimirSeparador();
+                    System.out.println("Desea \n1.Reabastecer otro producto \n2.Crear orden de reabastecimiento \n3.Cancelar todo");
+                    opcion = sc.nextInt();
+                    sc.nextLine();
+                    if(opcion<0|| opcion>3){
+                        imprimirSeparador();
+                        System.out.println("Opcion no válida");
+                        continue;
+                    }
+                    break;
+                }catch (Exception E){
+                    imprimirSeparador();
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("El valor debe ser numerico");
+                    sc.nextLine();
+                }
+            }
+            if (opcion == 1){
+                //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
+                //listadeObjetos.add();
+                continue;
+            }else if (opcion == 2){
+                break;
+            }else if (opcion == 3){
+                return null;
+            }
+        }
+        return new Reabastecimiento(localDestino,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
+    }
+    //sobrecarga para rango
+    private static Reabastecimiento reabastecerManual(Tienda local,ArrayList<Producto> p,Fecha fechaActual,String l){
+        int rango1;
+        int rango2-,
+        int opcion;
+        int cantidad = 0;
+        boolean existe = false;
+        String nombre ="";
+        Producto producto = null;
+        Tienda localDestino = null;
+        ArrayList<Producto> listadeObjetos = new ArrayList<>();
+        ArrayList<Producto> lista = new ArrayList<>();
+        while (true){
+            try {
+                imprimirSeparador();
+                System.out.println("Ingrese el rango del precio de busqueda");
+                System.out.println("Valor inicial: ");
+                rango1 = sc.nextInt();
+                sc.nextLine();
+                System.out.println("Valor final: ");
+                rango1 = sc.nextInt();
+                sc.nextLine();
+                if (rango1 > rango2){
+                    System.out.println("El rango de precio es ilogico");
+                    sc.nextLine();
+                    continue;
+                }
+                break;
+            }catch (Exception e){
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("El valor debe ser numerico");
+                sc.nextLine();
+            }
+        }
+        for(Producto i:p){
+            if(i.getValor() >= rango1 || i.getValor() <= rango2){
+                lista.add(i);
+            }
+        }
+        producto = Funcionalidad1.seleccionarProducto(lista);
+        while (true){
+        imprimirSeparador();
+        for (Tienda t:Tienda.getLocales()){
+            for(Producto i:t.getInventario()){
+                if (i.getNombre().equalsIgnoreCase(producto.getNombre())){
+                    existe = true;
+                    double valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+                    if (valor < 0){
+                        valor = 0;
+                    }
+                    System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+(int)valor);
+                } else if (Tienda.getLocales().indexOf(t)==Tienda.getLocales().size()-1 && t.getInventario().indexOf(i) == t.getInventario().size()-1 && !existe) {
+                    System.out.println("No se han encontrado productos en otros locales");
+                    sc.nextLine();
+                }
+            }
+        }
+        if(!existe){
+            continue;
+        }
+        while (true){
+            if(localDestino != null && !listadeObjetos.isEmpty()){
+                break;
+            }
+            nombre = "";
+            imprimirSeparador();
+            System.out.println("Ingrese el local deseado: ");
+            nombre = sc.nextLine();
+            sc.nextLine();
+            for(Tienda t: Tienda.getLocales()){
+                if(t.getNombre().equalsIgnoreCase(nombre)){
+                    localDestino = t;
+                }
+            }
+            if(localDestino == null){
+                imprimirSeparador();
+                System.out.println("El local ingresado no existe");
+                continue;
+            }
+            break;
+        }
+        double valor = 0;
+        for(Producto i: localDestino.getInventario()){
+            if(i.getNombre().equalsIgnoreCase(producto.getNombre())){
+                valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+            }
+        }
+        if (valor < 0){
+            System.out.println("No es posible reabastecer el producto desde este local.");
+            continue;
+        }
+        while (true) {
+            try {
+                imprimirSeparador();
+                System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " + (int) valor);
+                System.out.println("Ingrese la cantidad a reabastecer: ");
+                opcion = sc.nextInt();
+                sc.nextLine();
+                break;
+            }catch (Exception e){
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("El valor debe ser numerico");
+                sc.nextLine();
+            }
+        }
+        while (true) {
+            try {
+                imprimirSeparador();
+                System.out.println("Desea \n1.Reabastecer otro producto \n2.Crear orden de reabastecimiento \n3.Cancelar todo");
+                opcion = sc.nextInt();
+                sc.nextLine();
+                if(opcion<0|| opcion>3){
+                    imprimirSeparador();
+                    System.out.println("Opcion no válida");
+                    continue;
+                }
+                break;
+            }catch (Exception E){
+                imprimirSeparador();
+                System.out.println("\n### ERROR ###");
+                System.out.println("El valor debe ser numerico");
+                sc.nextLine();
+            }
+        }
+        if (opcion == 1){
+            //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
+            //listadeObjetos.add();
+            continue;
+        }else if (opcion == 2){
+            break;
+        }else if (opcion == 3){
+            return null;
+        }
+    }
+    return new Reabastecimiento(localDestino,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
     }
 }
