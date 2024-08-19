@@ -31,6 +31,7 @@ public class Funcionalidad5 {
                     "Crear Subasta",
                     "Registrar Oferta",
                     "Ver subastas activas",
+                    "Actualizar subasta descendente"
             };
             opcionMenu = menuOpcionMultiple("Seleccione una opción:", opcionesMenu);
 
@@ -82,46 +83,139 @@ public class Funcionalidad5 {
 
                 case 2: // Registrar oferta
                     // Seleccionar subasta
-                    //for ()
+                    Subasta subastaSelec = seleccionarSubasta(local);
 
+                    // En caso de que no haya subastas activas
+                    if (subastaSelec == null) {
+                        break;
+                    }
 
+                    // Identificar cliente
+                    Cliente cliente = identificarCliente();
+
+                    if (cliente.getPuntosFidelidad() == 0) { // Verificar que el cliente tenga puntos de fidelidad
+                        System.out.println("El cliente " + cliente.getNombre() + " no tiene puntos de fidelidad para ofertar.");
+                    }
+                    else {
+                        // Aplicar oferta según tipo de subasta
+                        switch (subastaSelec.getTipo()) {
+                            case "Ascendente":
+                                // Recibir oferta
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingrese el valor de su oferta: (Última oferta: " + subastaSelec.getOfertaMayor() + ")");
+                                        int oferta = scSub.nextInt();
+                                        scSub.nextLine();  // Limpiar el buffer
+
+                                        // Comprobar que el cliente tiene suficientes puntos de fidelidad
+                                        if (oferta > cliente.getPuntosFidelidad()) {
+                                            System.out.println("El cliente " + cliente.getNombre() + " no tiene suficientes puntos de fidelidad para ofertar.");
+                                            System.out.println("Puntos de " + cliente.getNombre() + ": " + cliente.getPuntosFidelidad());
+                                        } else {
+                                            subastaSelec.agregarOferta(oferta, cliente);
+                                            System.out.println("Oferta registrada con éxito.");
+                                        }
+                                        break;
+                                    } catch (Exception e) {
+                                        System.out.println("\n### ERROR ###");
+                                        System.out.println("Ingrese un valor válido e inferior a la oferta anterior. Presione Enter para volver a intentar.\n");
+                                        scSub.nextLine();  // Limpiar el buffer
+                                        scSub.nextLine();  // Esperar a que el usuario presione Enter
+                                    }
+                                }
+                                break;
+
+                            case "Descendente":
+                                System.out.println("El valor actualmente asignado a esta subasta es: " + subastaSelec.getOfertaMayor());
+                                if (cliente.getPuntosFidelidad() >= subastaSelec.getOfertaMayor()) {
+
+                                    if (siNo("¿Desea ofertar con este valor a nombre de " + cliente.getNombre() + "?")) {
+                                        subastaSelec.ofertarYFinalizarDescendente(cliente);
+                                        System.out.println("Oferta ganadora registrada con éxito.");
+                                        System.out.println("Productos subastados:");
+                                        for (Producto producto : subastaSelec.getProductos()) {
+                                            System.out.println("    * " + producto.getNombre());
+                                        }
+                                    }
+                                }
+                                else {
+                                    System.out.println("El cliente " + cliente.getNombre() + " no tiene suficientes puntos de fidelidad para tomar esta subasta.");
+                                    System.out.println("Puntos de " + cliente.getNombre() + ": " + cliente.getPuntosFidelidad());
+                                }
+                                break;
+
+                            case "Anonima":
+                                // Recibir oferta
+                                while (true) {
+                                    try {
+                                        System.out.print("Ingrese el valor de su oferta: ");
+                                        int oferta = scSub.nextInt();
+                                        scSub.nextLine();  // Limpiar el buffer
+
+                                        // Comprobar que el cliente tiene suficientes puntos de fidelidad
+                                        if (oferta > cliente.getPuntosFidelidad()) {
+                                            System.out.println("El cliente " + cliente.getNombre() + " no tiene suficientes puntos de fidelidad para ofertar.");
+                                            System.out.println("Puntos de " + cliente.getNombre() + ": " + cliente.getPuntosFidelidad());
+                                        } else {
+                                            subastaSelec.agregarOfertaAnonima(oferta, cliente);
+                                            System.out.println("Oferta registrada con éxito.");
+                                        }
+                                        break;
+                                    } catch (Exception e) {
+                                        System.out.println("\n### ERROR ###");
+                                        System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                                        scSub.nextLine();  // Limpiar el buffer
+                                        scSub.nextLine();  // Esperar a que el usuario presione Enter
+                                    }
+                                }
+                            break;
+                        }
+                    }
                     break;
 
                 case 3: // Ver subastas activas
-                    if (local.getSubastas().isEmpty()) {
-                        System.out.println("No hay subastas activas.");
+                    mostrarSubastas(local);
+                    break;
+
+                case 4: // Actualizar subasta descendente
+                    // Seleccionar subasta
+                    Subasta subasta = seleccionarSubastaDescendente(local);
+
+                    // En caso de que no haya subastas descendentes activas
+                    if (subasta == null) {
                         break;
                     }
-                    else {
-                        System.out.println("Subastas activas:");
-                        for (Subasta subasta : local.getSubastas()) {
-                            imprimirSeparadorPequeno();
 
-                            if (subasta.getEstado().equalsIgnoreCase("Activa")) {
-                                System.out.println(subasta);
+                    // Actualizar subasta
 
-/*                                System.out.println("Subasta N° " + subasta.getId());
-                                System.out.println("Fecha de fin: " + subasta.getFechaFin());
-                                System.out.println("Tipo: " + subasta.getTipo());
-                                System.out.println("Productos:");
-                                for (Producto producto : subasta.getProductos()) {
-                                    System.out.println("    * " + producto.getNombre());
-                                }
-                                System.out.println("Oferta mayor: " + subasta.getOfertaMayor());
-                                System.out.println("Ofertantes:");
-                                for (Cliente cliente : subasta.getOfertantes()) {
-                                    System.out.println("    * " + cliente.getNombre());
-                                }
-                                System.out.println();*/
+                    int disminucion;
+                    while (true) {
+                        System.out.println("La subasta actualmente tiene un valor de: " + subasta.getOfertaMayor());
+                        System.out.println("En cuánto desea disminuir el valor?");
+                        disminucion = 0;
+
+                        try {
+                            disminucion = scSub.nextInt();
+                            scSub.nextLine();  // Limpiar el buffer
+
+                            if (disminucion < 0) {
+                                throw new Exception("El valor de disminución debe ser mayor o igual a 0.");
+                            } else {
+                                break;
                             }
+                        } catch (Exception e) {
+                            System.out.println("\n### ERROR ###");
+                            System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                            scSub.nextLine();  // Limpiar el buffer
+                            scSub.nextLine();  // Esperar a que el usuario presione Enter
                         }
                     }
 
-                break;
+                    // Disminuir el valor de la subasta
+                    subasta.setOfertaMayor(subasta.getOfertaMayor() - disminucion);
+                    break;
 
                 case 0: // Cancelar y salir
-                    System.out.println("Registro de subasta cancelado.");
-
                     return;
 
                 default:
@@ -271,14 +365,14 @@ public class Funcionalidad5 {
                     }
                 } else {
                     Cliente ganador = subasta.finalizarSubasta();
-                    System.out.println("La subasta ha finalizado. Los artículos subastados son:");
+                    System.out.println("La subasta con ID " + subasta.getId() + " ha finalizado. Los artículos subastados son:");
                     for (Producto articulo : subasta.getProductos()) {
                         if (articulo instanceof Consola) {
-                            System.out.println("Consola: " + articulo.getNombre() + " | Marca: " + ((Consola) articulo).getMarca());
+                            System.out.println("    * Consola: " + articulo.getNombre() + " | Marca: " + ((Consola) articulo).getMarca());
                         } else if (articulo instanceof Juego) {
-                            System.out.println("Juego: " + articulo.getNombre() + " | Género: " + ((Juego) articulo).getGenero() + " | Plataforma: " + ((Juego) articulo).getPlataforma());
+                            System.out.println("    * Juego: " + articulo.getNombre() + " | Género: " + ((Juego) articulo).getGenero() + " | Plataforma: " + ((Juego) articulo).getPlataforma());
                         } else if (articulo instanceof Accesorio) {
-                            System.out.println("Accesorio: " + articulo.getNombre() + " | Marca: " + ((Accesorio) articulo).getMarca() + " | Consola: " + ((Accesorio) articulo).getConsola());
+                            System.out.println("    * Accesorio: " + articulo.getNombre() + " | Marca: " + ((Accesorio) articulo).getMarca() + " | Consola: " + ((Accesorio) articulo).getConsola());
                         }
                     }
 
@@ -289,5 +383,132 @@ public class Funcionalidad5 {
                 }
             }
         }
+    }
+
+    // Metodo para mostrar subastas activas
+    public static void mostrarSubastas(Tienda local) {
+        if (local.getSubastas().isEmpty()) {
+            imprimirSeparadorPequeno();
+            System.out.println("No hay subastas activas.");
+        }
+        else {
+            System.out.println("Subastas activas:");
+            for (Subasta subasta : local.getSubastas()) {
+                imprimirSeparadorPequeno();
+
+                if (subasta.getEstado().equalsIgnoreCase("Activa")) {
+                    System.out.println(subasta);
+                                /* reemplazado por el toString de Subasta
+                                System.out.println("Subasta N° " + subasta.getId());
+                                System.out.println("Fecha de fin: " + subasta.getFechaFin());
+                                System.out.println("Tipo: " + subasta.getTipo());
+                                System.out.println("Productos:");
+                                for (Producto producto : subasta.getProductos()) {
+                                    System.out.println("    * " + producto.getNombre());
+                                }
+                                System.out.println("Oferta mayor: " + subasta.getOfertaMayor());
+                                System.out.println("Ofertantes:");
+                                for (Cliente cliente : subasta.getOfertantes()) {
+                                    System.out.println("    * " + cliente.getNombre());F
+                                }
+                                System.out.println();
+                                */
+                }
+            }
+        }
+    }
+
+    public static Subasta seleccionarSubasta(Tienda local){
+        if (local.getSubastas().isEmpty()) {
+            imprimirSeparadorPequeno();
+            System.out.println("No hay subastas activas.");
+            return null;
+        }
+        else {
+            Subasta subastaSelec = null;
+            Scanner scSelecSubasta = new Scanner(System.in);
+
+            while (subastaSelec == null) {
+                // Imprimir unicamente el id, el tipo y la fecha de fin de las subastas activas
+                for (Subasta subasta : local.getSubastas()) {
+                    if (subasta.getEstado().equalsIgnoreCase("Activa")) {
+                        System.out.println("*  Subasta ID: " + subasta.getId() + "| Tipo: " + subasta.getTipo() + " | Fecha de fin: " + subasta.getFechaFin());
+                    }
+                }
+
+                System.out.println("Ingrese el ID de la subasta a la que desea ofertar:");
+
+                // Recibir entrada
+                int idSubasta = 0;
+                try {
+                    idSubasta = scSelecSubasta.nextInt();
+                    for (Subasta subasta : local.getSubastas()) {
+                        if (subasta.getId() == idSubasta) {
+                            subastaSelec = subasta;
+                            return subastaSelec;
+                        }
+                    }
+
+                    System.out.println("No se encontró ninguna subasta con ese ID.");
+                    continue;
+                } catch (Exception e) {
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                    scSelecSubasta.nextLine();  // Limpiar el buffer
+                    scSelecSubasta.nextLine();  // Esperar a que el usuario presione Enter
+                }
+
+            }
+
+            return subastaSelec;
+        }
+    }
+
+    public static Subasta seleccionarSubastaDescendente(Tienda local){
+        Subasta subastaSelec = null;
+        Scanner scSelecSubasta = new Scanner(System.in);
+
+        // lista para comprobar que haya subastas descendentes activas
+        ArrayList<Subasta> listaSubastas = new ArrayList<Subasta>();
+
+        while (subastaSelec == null) {
+            // Imprimir unicamente el id y la fecha de fin de las subastas activas
+            for (Subasta subasta : local.getSubastas()) {
+                if (subasta.getEstado().equalsIgnoreCase("Activa") && subasta.getTipo().equalsIgnoreCase("Descendente")) {
+                    System.out.println("*  Subasta ID: " + subasta.getId() + " | Fecha de fin: " + subasta.getFechaFin());
+                    listaSubastas.add(subasta);
+                }
+            }
+
+            if (listaSubastas.isEmpty()) {
+                imprimirSeparadorPequeno();
+                System.out.println("No hay subastas descendentes activas.");
+                return null;
+            }
+
+            System.out.println("Ingrese el ID de la subasta a la que desea ofertar:");
+
+            // Recibir entrada
+            int idSubasta = 0;
+            try {
+                idSubasta = scSelecSubasta.nextInt();
+                for (Subasta subasta : local.getSubastas()) {
+                    if (subasta.getId() == idSubasta) {
+                        subastaSelec = subasta;
+                        return subastaSelec;
+                    }
+                }
+
+                System.out.println("No se encontró ninguna subasta con ese ID.");
+                continue;
+            } catch (Exception e) {
+                System.out.println("\n### ERROR ###");
+                System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                scSelecSubasta.nextLine();  // Limpiar el buffer
+                scSelecSubasta.nextLine();  // Esperar a que el usuario presione Enter
+            }
+
+        }
+        return subastaSelec;
     }
 }
