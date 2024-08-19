@@ -148,7 +148,7 @@ public class Main {
     public static void main(String[] args) {
         /* ~~~ Carga de objetos serializados ~~~ */
         // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIÓN
-        /*
+
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
         ultimaFecha = Deserializador.deserializarFecha();

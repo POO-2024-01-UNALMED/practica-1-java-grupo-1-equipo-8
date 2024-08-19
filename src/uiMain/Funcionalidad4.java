@@ -53,6 +53,7 @@ public class Funcionalidad4 {
         while (true){
             byte decision;
 
+
             int rendimiento = verRendimiento(empleado, fechaActual);
             compararRendimiento(empleado, fechaActual, rendimiento);
             System.out.println("¿Qué desea hacer?");
@@ -80,6 +81,7 @@ public class Funcionalidad4 {
             System.out.println("¿Qué desea hacer?");
             System.out.println("1. Modificar salarios");
             System.out.println("2. Modificar días laborales");
+            System.out.println("3. Continuar a asignar meta");
 
             try {
                 decision = sc.nextByte();
@@ -91,7 +93,6 @@ public class Funcionalidad4 {
                 continue;
             }
 
-
             switch (decision) {
                 case 1:
                     modificarSalario(empleado);
@@ -99,6 +100,9 @@ public class Funcionalidad4 {
 
                 case 2:
                     modificarDiasLaborales(empleado);
+                    break;
+
+                case 3:
                     break;
 
                 default:
@@ -197,11 +201,7 @@ public class Funcionalidad4 {
             // En caso de que el empleado no sea encontrado dar la opción de intentar de nuevo
             if (cedula == 0) {
                 imprimirSeparador();
-                System.out.println("\n### ERROR ###");
-                System.out.println("Empleado no encontrado. ¿Desea intentar de nuevo? (Y/n).\n");
-                char decision = 'y';
-                decision = sc.next().charAt(0);
-                if (decision == 'n' || decision == 'N') {
+                if (!siNo("Empleado no encontrado. ¿Desea intentar de nuevo? (Y/n).\n")){
                     return null;
                 }
             }
@@ -296,17 +296,14 @@ public class Funcionalidad4 {
             //En caso tal de que se ingrese un código de una meta que no existe
             imprimirSeparador();
             System.out.println("\n### ERROR ###");
-            System.out.println("Meta no encontrada. ¿Desea intentar de nuevo? (Y/n).\n");
-            char decision1 = 'y';
-            decision1 = sc.next().charAt(0);
-            if (decision1 == 'n' || decision1 == 'N') {
+            if (!siNo("Meta no encontrada. ¿Desea intentar de nuevo? (Y/n).\n")){
                 return null;
             }
         }
     }
 
     private static void ampliarMeta(Empleado empleado, Meta meta, Fecha fechaActual) {
-        /* ~~ Metodo para ampliar plazo de meta caducada ~~ */
+        /* ~~ Método para ampliar plazo de meta caducada ~~ */
         while (true) {
             int yearAjuste;
             int mesAjuste;
