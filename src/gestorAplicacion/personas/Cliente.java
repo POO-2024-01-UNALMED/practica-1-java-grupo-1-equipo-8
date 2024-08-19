@@ -18,6 +18,12 @@ public class Cliente extends Persona{
         clientes.add(this);
     }
 
+    // Constructor con puntos de fidelidad
+    public Cliente(int cedula, String nombre, String email, long telefono, int puntosFidelidad) {
+        this(cedula, nombre, email, telefono);
+        this.puntosFidelidad = puntosFidelidad;
+    }
+
     /* ~~~ Métodos ~~~ */
     public void agregarPrestamo(Prestamo prestamo){
         this.prestamos.add(prestamo);

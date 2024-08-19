@@ -15,7 +15,7 @@ import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.*;
 
 public class Funcionalidad1 {
-    static Scanner sc = new Scanner(System.in); // variable scanner
+    static Scanner scCompra = new Scanner(System.in); // variable scanner
     static int puntosUsados = 0; // Cantidad de puntos que se usan en la transacción. Siempre será menor a la cantidad de puntos del cliente
 
 
@@ -105,17 +105,17 @@ public class Funcionalidad1 {
 
             // Recibir entrada del usuario
             try {
-                opcion = sc.nextByte();
+                opcion = scCompra.nextByte();
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
                 System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
-                sc.nextLine();  // Limpiar el buffer
-                sc.nextLine();  // Esperar a que el usuario presione Enter
+                scCompra.nextLine();  // Limpiar el buffer
+                scCompra.nextLine();  // Esperar a que el usuario presione Enter
                 continue;
             }
 
 
-            sc.nextLine();  // Limpiar el buffer
+            scCompra.nextLine();  // Limpiar el buffer
 
             Producto producto;
 
@@ -128,8 +128,8 @@ public class Funcionalidad1 {
                     } catch (CloneNotSupportedException e) {
                         System.out.println("\n### ERROR ###");
                         System.out.println("Error al clonar el producto. Presione Enter para cancelar la operación.");
-                        sc.nextLine();  // Limpiar el buffer
-                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        scCompra.nextLine();  // Limpiar el buffer
+                        scCompra.nextLine();  // Esperar a que el usuario presione Enter
 
                         return;
                     }
@@ -144,7 +144,7 @@ public class Funcionalidad1 {
                         { // Pero si no hay la cantidad suficiente, mostrar mensaje de error
                             System.out.println("No hay más unidades de '" + producto.getNombre() + "' disponibles.");
                             System.out.println("\nPresione Enter para continuar.");
-                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                            scCompra.nextLine();  // Esperar a que el usuario presione Enter
                             break;
                         } else {
                             estaEnCarrito.setCantidad(estaEnCarrito.getCantidad() + 1);
@@ -177,7 +177,7 @@ public class Funcionalidad1 {
                     if (carrito.isEmpty()) {
                         System.out.println("El carrito está vacío.");
                         System.out.println("\nPresione Enter para continuar.");
-                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        scCompra.nextLine();  // Esperar a que el usuario presione Enter
                         break;
                     }
 
@@ -188,7 +188,7 @@ public class Funcionalidad1 {
                     }
 
                     System.out.println("\nPresione Enter para continuar.");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    scCompra.nextLine();  // Esperar a que el usuario presione Enter
 
                     break;
 
@@ -198,7 +198,7 @@ public class Funcionalidad1 {
                     if (carrito.isEmpty()) {
                         System.out.println("El carrito está vacío.");
                         System.out.println("\nPresione Enter para continuar.");
-                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        scCompra.nextLine();  // Esperar a que el usuario presione Enter
                         continue;
                     }
 
@@ -218,12 +218,12 @@ public class Funcionalidad1 {
                         System.out.print("Ingrese el valor con el que pagará:");
 
                         try {
-                            valorIngresado = sc.nextInt();
+                            valorIngresado = scCompra.nextInt();
                         } catch (InputMismatchException error) {
                             System.out.println("\n### ERROR ###");
                             System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                            sc.nextLine();  // Limpiar el buffer
-                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                            scCompra.nextLine();  // Limpiar el buffer
+                            scCompra.nextLine();  // Esperar a que el usuario presione Enter
                             continue;
                         }
 
@@ -231,8 +231,8 @@ public class Funcionalidad1 {
                             System.out.println("\n### ERROR ###");
                             System.out.println("El valor ingresado es menor al total de la compra.\n" +
                                     "Presiona enter para volver a intentar.\n");
-                            sc.nextLine();  // Limpiar el buffer
-                            sc.nextLine();  // Esperar a que el usuario presione Enter
+                            scCompra.nextLine();  // Limpiar el buffer
+                            scCompra.nextLine();  // Esperar a que el usuario presione Enter
                         } else {
                             break;
                         }
@@ -249,8 +249,8 @@ public class Funcionalidad1 {
                     Transaccion transaccion = new Transaccion(fecha, cliente, empleado, local, carrito, valorFinal);
 
                     System.out.println("\nPresione Enter para confirmar la compra.");
-                    sc.nextLine();  // Limpiar el buffer
-                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                    scCompra.nextLine();  // Limpiar el buffer
+                    scCompra.nextLine(); // Esperar a que el usuario presione Enter
 
                     // Actualizar inventario
                     for (Producto p : carrito) {
@@ -296,9 +296,6 @@ public class Funcionalidad1 {
                                        """);
 
                     //(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
-
-                    // TODO: Método que cambia el emoji aleatoriamente en cada compra
-
                     return;
 
                 case 0: // Cancelar y salir
@@ -309,7 +306,7 @@ public class Funcionalidad1 {
                 default:
                     System.out.println("\n### ERROR ###");
                     System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    scCompra.nextLine();  // Esperar a que el usuario presione Enter
                     break;
             }
         } while (opcion != 4);
@@ -332,12 +329,12 @@ public class Funcionalidad1 {
             opcion = 0;
 
             try {
-                opcion = sc.nextByte();
+                opcion = scCompra.nextByte();
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
                 System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                sc.nextLine();  // Limpiar el buffer
-                sc.nextLine();  // Esperar a que el usuario presione Enter
+                scCompra.nextLine();  // Limpiar el buffer
+                scCompra.nextLine();  // Esperar a que el usuario presione Enter
                 continue;
             }
 
@@ -357,8 +354,8 @@ public class Funcionalidad1 {
 
                     // Recibir selección del usuario
                     System.out.print("Ingrese el código de la consola que desea seleccionar: ");
-                    codigo = sc.nextInt();
-                    sc.nextLine();  // Limpiar el buffer
+                    codigo = scCompra.nextInt();
+                    scCompra.nextLine();  // Limpiar el buffer
 
                     for (Producto p : inventario) {
                         if (p instanceof Consola && p.getCodigo() == codigo) {
@@ -370,7 +367,7 @@ public class Funcionalidad1 {
                     // Esta parte sólo se ejecutará si no se encontró el código dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Consola no encontrada. Presione Enter para volver a intentar.\n");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    scCompra.nextLine();  // Esperar a que el usuario presione Enter
                     break;
 
                 case 2:
@@ -384,8 +381,8 @@ public class Funcionalidad1 {
 
                     // Recibir selección del usuario
                     System.out.print("Ingrese el código del juego que desea agregar: ");
-                    codigo = sc.nextInt();
-                    sc.nextLine();  // Limpiar el buffer
+                    codigo = scCompra.nextInt();
+                    scCompra.nextLine();  // Limpiar el buffer
 
                     for (Producto p : inventario) {
                         if (p instanceof Juego && p.getCodigo() == codigo) {
@@ -397,7 +394,7 @@ public class Funcionalidad1 {
                     // Esta parte sólo se ejecutará si no se encontró el código dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Juego no encontrado. Presione Enter para volver a intentar.\n");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    scCompra.nextLine();  // Esperar a que el usuario presione Enter
                     break;
 
 
@@ -411,8 +408,8 @@ public class Funcionalidad1 {
 
                     // Recibir selección del usuario
                     System.out.print("Ingrese el código del accesorio que desea agregar: ");
-                    codigo = sc.nextInt();
-                    sc.nextLine();  // Limpiar el buffer
+                    codigo = scCompra.nextInt();
+                    scCompra.nextLine();  // Limpiar el buffer
 
                     for (Producto p : inventario) {
                         if (p instanceof Accesorio && p.getCodigo() == codigo) {
@@ -424,15 +421,15 @@ public class Funcionalidad1 {
                     // Esta parte sólo se ejecutará si no se encontró el código dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Accesorio no encontrado. Presione Enter para volver a intentar.\n");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    scCompra.nextLine();  // Esperar a que el usuario presione Enter
                     break;
 
 
                 default:
                     System.out.println("\n### ERROR ###");
                     System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
-                    sc.nextLine(); // Limpiar el buffer
-                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                    scCompra.nextLine(); // Limpiar el buffer
+                    scCompra.nextLine(); // Esperar a que el usuario presione Enter
                     break;
             }
 
@@ -451,23 +448,32 @@ public class Funcionalidad1 {
 
     private static int calcularDescuentos(ArrayList<Producto> carrito, Cliente cliente) {
         int precioFinal = 0; // Precio final de la transacción con descuentos aplicados
+        int precioFinalIndividual; // Precio final de un producto con descuento aplicado
         int puntosUsados = 0;
         int valorTemp; // Variable usada para el calculo de descuentos
 
         for (Producto p : carrito) {
             valorTemp = 0;
+            precioFinalIndividual = 0;
 
             if (p.getDescuento() > 0) { // En caso de que el producto tenga descuento
                 if (p.getPuntosRequeridos() == 0) { // En caso de que el producto no requiera mínimo de puntos
                     valorTemp = p.getValor() * p.getCantidad();
-                    precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+                    precioFinalIndividual = valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+                    precioFinal += precioFinalIndividual; // sumar descuento
+
+                    System.out.println("    * Descuento aplicado a '" + p.getNombre() + "' : $" + (valorTemp) + " ---> $" + precioFinalIndividual);
                 } else if (p.getPuntosRequeridos() > 0 &&
                         (cliente.getPuntosFidelidad() - puntosUsados) >= p.getPuntosRequeridos())
                 { // En caso de que el producto tenga un mínimo de puntos requeridos y el cliente tenga saldo suficiente
                     valorTemp = p.getValor() * p.getCantidad();
-                    precioFinal += valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+                    precioFinalIndividual = valorTemp - (valorTemp * p.getDescuento() / 100); // Calcular descuento
+                    precioFinal += precioFinalIndividual;  // Sumar descuento
 
                     puntosUsados += p.getPuntosRequeridos(); // Actualizar puntos usados
+
+                    System.out.println("    * Descuento aplicado a '" + p.getNombre() + "' : $" + (valorTemp) + " ---> $" + precioFinalIndividual + " | Puntos usados: " + p.getPuntosRequeridos());
+
                 } else { // En caso de que el producto tenga mínimo de puntos pero el cliente no tenga saldo suficiente
                     precioFinal += p.getValor() * p.getCantidad();
                 }
@@ -475,6 +481,10 @@ public class Funcionalidad1 {
             } else { // En caso de que el producto no tenga descuento
                 precioFinal += p.getValor() * p.getCantidad();
             }
+        }
+
+        if (puntosUsados > 0) {
+            System.out.println("Puntos usados: " + puntosUsados);
         }
 
         return precioFinal;

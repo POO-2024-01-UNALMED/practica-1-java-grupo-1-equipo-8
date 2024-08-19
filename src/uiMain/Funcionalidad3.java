@@ -1224,7 +1224,7 @@ public class Funcionalidad3 {
         ArrayList<Producto> listadeObjetos = new ArrayList<>();
         while (true) {
             Juego.organizar(p,"plataforma");
-            
+
             for (Juego i: p) {//Conseguir todas las plataformas existentes
                 if (plataformas.isEmpty()) {
                     plataformas.add(i.getPlataforma());
@@ -1523,7 +1523,7 @@ public class Funcionalidad3 {
     //sobrecarga para rango
     private static Reabastecimiento reabastecerManual(Tienda local,ArrayList<Producto> p,Fecha fechaActual,String l){
         int rango1;
-        int rango2-,
+        int rango2 = 0;
         int opcion;
         int cantidad = 0;
         boolean existe = false;
