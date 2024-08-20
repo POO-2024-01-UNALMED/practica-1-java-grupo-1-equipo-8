@@ -52,6 +52,11 @@ public class Funcionalidad4 {
         while (true){
             byte decision;
 
+            boolean pregunta = siNo("¿Desea ver el rendimiento del empleado?");
+            if (!pregunta){
+                break;
+            }
+
             int rendimiento = verRendimiento(empleado, fechaActual);
             compararRendimiento(empleado, fechaActual, rendimiento);
             System.out.println("¿Qué desea hacer?");
@@ -91,6 +96,9 @@ public class Funcionalidad4 {
                 continue;
             }
 
+            if (decision == 3){
+                break;
+            }
 
             switch (decision) {
                 case 1:
@@ -99,9 +107,6 @@ public class Funcionalidad4 {
 
                 case 2:
                     modificarDiasLaborales(empleado);
-                    break;
-
-                case 3:
                     break;
 
                 default:
