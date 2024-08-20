@@ -16,14 +16,14 @@ import static uiMain.Main.*;
 
 public class Funcionalidad5 {
     static Scanner scSub = new Scanner(System.in); // variable scanner
-    static int puntosUsados = 0; // Cantidad de puntos que se usan en la transacción. Siempre será menor a la cantidad de puntos del cliente
+    static int puntosUsados = 0; // Cantidad de puntos que se usan en la transaccion. Siempre sera menor a la cantidad de puntos del cliente
 
     public static void subastar(Tienda local, Fecha fecha) {
 
         // Comprobar subastas vencida
         comprobarSubastas(local, fecha);
 
-        //Menú
+        //Menu
         byte opcionMenu;
         do {
             // Recibir entrada del usuario
@@ -33,7 +33,7 @@ public class Funcionalidad5 {
                     "Ver subastas activas",
                     "Actualizar subasta descendente"
             };
-            opcionMenu = menuOpcionMultiple("Seleccione una opción:", opcionesMenu);
+            opcionMenu = menuOpcionMultiple("Seleccione una opcion:", opcionesMenu);
 
             switch (opcionMenu) {
                 case 1: // Crear Subasta
@@ -53,7 +53,7 @@ public class Funcionalidad5 {
                     String[] opcionesSubMenu1 = {
                             "Subasta Ascendente",
                             "Subasta Descendente",
-                            "Subasta Anónima",
+                            "Subasta Anonima",
                     };
                     byte opcionSubMenu1 = menuOpcionMultiple("Indique el tipo de subasta que desea crear:", opcionesSubMenu1);
 
@@ -64,17 +64,17 @@ public class Funcionalidad5 {
                         case 2: // Subasta Descendente
                             registrarSubastaDescendente(local, listaProductoSubasta, fecha);
                             break;
-                        case 3: // Subasta Anónima
+                        case 3: // Subasta Anonima
                             registrarSubastaAnonima(local, listaProductoSubasta, fecha);
                             break;
 
                         case 0: // Cancelar y salir
-                            System.out.println("Creación de subasta cancelada.");
+                            System.out.println("Creacion de subasta cancelada.");
                             break;
 
                         default:
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
+                            System.out.println("Opcion fuera del rango. Presione Enter para intentar de nuevo.");
                             scSub.nextLine();  // Esperar a que el usuario presione Enter
                             break;
                     }
@@ -97,13 +97,13 @@ public class Funcionalidad5 {
                         System.out.println("El cliente " + cliente.getNombre() + " no tiene puntos de fidelidad para ofertar.");
                     }
                     else {
-                        // Aplicar oferta según tipo de subasta
+                        // Aplicar oferta segun tipo de subasta
                         switch (subastaSelec.getTipo()) {
                             case "Ascendente":
                                 // Recibir oferta
                                 while (true) {
                                     try {
-                                        System.out.println("Ingrese el valor de su oferta: (Última oferta: " + subastaSelec.getOfertaMayor() + ")");
+                                        System.out.println("Ingrese el valor de su oferta: (ultima oferta: " + subastaSelec.getOfertaMayor() + ")");
                                         int oferta = scSub.nextInt();
                                         scSub.nextLine();  // Limpiar el buffer
 
@@ -113,12 +113,12 @@ public class Funcionalidad5 {
                                             System.out.println("Puntos de " + cliente.getNombre() + ": " + cliente.getPuntosFidelidad());
                                         } else {
                                             subastaSelec.agregarOferta(oferta, cliente);
-                                            System.out.println("Oferta registrada con éxito.");
+                                            System.out.println("Oferta registrada con exito.");
                                         }
                                         break;
                                     } catch (Exception e) {
                                         System.out.println("\n### ERROR ###");
-                                        System.out.println("Ingrese un valor válido e inferior a la oferta anterior. Presione Enter para volver a intentar.\n");
+                                        System.out.println("Ingrese un valor valido e inferior a la oferta anterior. Presione Enter para volver a intentar.\n");
                                         scSub.nextLine();  // Limpiar el buffer
                                         scSub.nextLine();  // Esperar a que el usuario presione Enter
                                     }
@@ -131,7 +131,7 @@ public class Funcionalidad5 {
 
                                     if (siNo("¿Desea ofertar con este valor a nombre de " + cliente.getNombre() + "?")) {
                                         subastaSelec.ofertarYFinalizarDescendente(cliente);
-                                        System.out.println("Oferta ganadora registrada con éxito.");
+                                        System.out.println("Oferta ganadora registrada con exito.");
                                         System.out.println("Productos subastados:");
                                         for (Producto producto : subastaSelec.getProductos()) {
                                             System.out.println("    * " + producto.getNombre());
@@ -158,12 +158,12 @@ public class Funcionalidad5 {
                                             System.out.println("Puntos de " + cliente.getNombre() + ": " + cliente.getPuntosFidelidad());
                                         } else {
                                             subastaSelec.agregarOfertaAnonima(oferta, cliente);
-                                            System.out.println("Oferta registrada con éxito.");
+                                            System.out.println("Oferta registrada con exito.");
                                         }
                                         break;
                                     } catch (Exception e) {
                                         System.out.println("\n### ERROR ###");
-                                        System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                                        System.out.println("Ingrese un valor valido. Presione Enter para volver a intentar.\n");
                                         scSub.nextLine();  // Limpiar el buffer
                                         scSub.nextLine();  // Esperar a que el usuario presione Enter
                                     }
@@ -191,7 +191,7 @@ public class Funcionalidad5 {
                     int disminucion;
                     while (true) {
                         System.out.println("La subasta actualmente tiene un valor de: " + subasta.getOfertaMayor());
-                        System.out.println("En cuánto desea disminuir el valor?");
+                        System.out.println("En cuanto desea disminuir el valor?");
                         disminucion = 0;
 
                         try {
@@ -199,13 +199,13 @@ public class Funcionalidad5 {
                             scSub.nextLine();  // Limpiar el buffer
 
                             if (disminucion < 0) {
-                                throw new Exception("El valor de disminución debe ser mayor o igual a 0.");
+                                throw new Exception("El valor de disminucion debe ser mayor o igual a 0.");
                             } else {
                                 break;
                             }
                         } catch (Exception e) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                            System.out.println("Ingrese un valor valido. Presione Enter para volver a intentar.\n");
                             scSub.nextLine();  // Limpiar el buffer
                             scSub.nextLine();  // Esperar a que el usuario presione Enter
                         }
@@ -220,7 +220,7 @@ public class Funcionalidad5 {
 
                 default:
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
+                    System.out.println("Opcion fuera del rango. Presione Enter para intentar de nuevo.");
                     scSub.nextLine();  // Esperar a que el usuario presione Enter
                     break;
             }
@@ -264,19 +264,19 @@ public class Funcionalidad5 {
                     break;
                 } catch (Exception e) {
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                    System.out.println("Ingrese un valor valido. Presione Enter para volver a intentar.\n");
                     scSub.nextLine();  // Limpiar el buffer
                     scSub.nextLine();  // Esperar a que el usuario presione Enter
                 }
             }
         } else {
             ofertaInicial = Subasta.calcularValoracionAscendente(listaProductoSubasta, fechaActual);
-            System.out.println("La oferta inicial se ha establecido automáticamente en: " + ofertaInicial);
+            System.out.println("La oferta inicial se ha establecido automaticamente en: " + ofertaInicial);
         }
 
         // Crear subasta
         new Subasta(fechaActual, fechaFin, listaProductoSubasta, ofertaInicial, local, "Ascendente");
-        System.out.println("Subasta creada con éxito.");
+        System.out.println("Subasta creada con exito.");
     }
 
     private static void registrarSubastaDescendente(Tienda local, ArrayList<Producto> listaProductoSubasta, Fecha fechaActual) {
@@ -312,14 +312,14 @@ public class Funcionalidad5 {
                     break;
                 } catch (Exception e) {
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                    System.out.println("Ingrese un valor valido. Presione Enter para volver a intentar.\n");
                     scSub.nextLine();  // Limpiar el buffer
                     scSub.nextLine();  // Esperar a que el usuario presione Enter
                 }
             }
         } else {
             valorInicial = Subasta.calcularValoracionDescendente(listaProductoSubasta, fechaActual);
-            System.out.println("La oferta inicial se ha establecido automáticamente en: " + valorInicial);
+            System.out.println("La oferta inicial se ha establecido automaticamente en: " + valorInicial);
         }
 
         // Crear subasta
@@ -357,20 +357,20 @@ public class Funcionalidad5 {
 
                 // Seleccionar subasta vencida
                 if (subasta.getOfertas().isEmpty()) {
-                    //Extender la subasta 7 días más a partir de la fecha actual
-                    System.out.println("La subasta N° " + subasta.getId() + " ha finalizado sin ofertas. Se extenderá 7 días más.");
+                    //Extender la subasta 7 dias mas a partir de la fecha actual
+                    System.out.println("La subasta N° " + subasta.getId() + " ha finalizado sin ofertas. Se extendera 7 dias mas.");
                     String res = subasta.extenderSubasta(fecha);
                     if (res != null) {
                         System.out.println(res);
                     }
                 } else {
                     Cliente ganador = subasta.finalizarSubasta();
-                    System.out.println("La subasta con ID " + subasta.getId() + " ha finalizado. Los artículos subastados son:");
+                    System.out.println("La subasta con ID " + subasta.getId() + " ha finalizado. Los articulos subastados son:");
                     for (Producto articulo : subasta.getProductos()) {
                         if (articulo instanceof Consola) {
                             System.out.println("    * Consola: " + articulo.getNombre() + " | Marca: " + ((Consola) articulo).getMarca());
                         } else if (articulo instanceof Juego) {
-                            System.out.println("    * Juego: " + articulo.getNombre() + " | Género: " + ((Juego) articulo).getGenero() + " | Plataforma: " + ((Juego) articulo).getPlataforma());
+                            System.out.println("    * Juego: " + articulo.getNombre() + " | Genero: " + ((Juego) articulo).getGenero() + " | Plataforma: " + ((Juego) articulo).getPlataforma());
                         } else if (articulo instanceof Accesorio) {
                             System.out.println("    * Accesorio: " + articulo.getNombre() + " | Marca: " + ((Accesorio) articulo).getMarca() + " | Consola: " + ((Accesorio) articulo).getConsola());
                         }
@@ -449,11 +449,11 @@ public class Funcionalidad5 {
                         }
                     }
 
-                    System.out.println("No se encontró ninguna subasta con ese ID.");
+                    System.out.println("No se encontro ninguna subasta con ese ID.");
                     continue;
                 } catch (Exception e) {
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                    System.out.println("Ingrese un valor valido. Presione Enter para volver a intentar.\n");
                     scSelecSubasta.nextLine();  // Limpiar el buffer
                     scSelecSubasta.nextLine();  // Esperar a que el usuario presione Enter
                 }
@@ -499,11 +499,11 @@ public class Funcionalidad5 {
                     }
                 }
 
-                System.out.println("No se encontró ninguna subasta con ese ID.");
+                System.out.println("No se encontro ninguna subasta con ese ID.");
                 continue;
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un valor válido. Presione Enter para volver a intentar.\n");
+                System.out.println("Ingrese un valor valido. Presione Enter para volver a intentar.\n");
                 scSelecSubasta.nextLine();  // Limpiar el buffer
                 scSelecSubasta.nextLine();  // Esperar a que el usuario presione Enter
             }

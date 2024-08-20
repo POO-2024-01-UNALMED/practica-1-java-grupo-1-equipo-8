@@ -1,4 +1,5 @@
 package gestorAplicacion.productos;
+import gestorAplicacion.manejoLocal.Fecha;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,14 +14,18 @@ public class Juego extends Producto {
 	
 	/* ~~~~~~~~~~~~~~~~~ Constructores ~~~~~~~~~~~~~~~~~ */
 	public Juego(){}/*### constructor vacio ###*/
-
 	// Constructor con todos los atributos
 	public Juego(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, int descuento, int puntosRequeridos, String genero, String plataforma) {
 		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diaLanz, mesLanz, yearLanz, descuento, puntosRequeridos);
 		this.genero = genero;
 		this.plataforma = plataforma;
 	}
-
+	// Constructor con fecha
+	public Juego(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, Fecha fecha, int descuento, int puntosRequeridos, String genero, String plataforma) {
+		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, fecha, descuento, puntosRequeridos);
+		this.genero = genero;
+		this.plataforma = plataforma;
+	}
 	// Constructor sin descuento
 	public Juego(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, String genero, String plataforma) {
 		this(nombre, valor, cantidad, cantidadInicial, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, genero, plataforma);
@@ -31,7 +36,7 @@ public class Juego extends Producto {
 		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, genero, plataforma);
 	}
 
-	//~~~~~~~~~~~~~~~~~~ Métodos ~~~~~~~~~~~~~~~~~~//
+	//~~~~~~~~~~~~~~~~~~ Metodos ~~~~~~~~~~~~~~~~~~//
 	// Metodo toString
 	@Override
 	public String toString() {
@@ -72,7 +77,7 @@ public class Juego extends Producto {
 	}
 
 
-	// ~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~ //
+	// ~~~~~~~~~~~~~~~~~ Metodos get y set ~~~~~~~~~~~~~~~~~ //
 	public String getGenero(){
 		return genero;
 	}

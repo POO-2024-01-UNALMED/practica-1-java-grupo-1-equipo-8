@@ -5,6 +5,7 @@ import baseDatos.Serializador;
 import gestorAplicacion.informacionVenta.Subasta;
 import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Fecha;
+import gestorAplicacion.manejoLocal.Reabastecimiento;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
 import gestorAplicacion.personas.*;
@@ -19,9 +20,10 @@ public class Main {
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     /* ~~~ Objetos para pruebas ~~~ */
 
-    // Comentar para probar la serialización
+    // Comentar para probar la serializacion
 
-    static Tienda tienda1 = new Tienda("Volador",123);
+    static Tienda tienda1 = new Tienda("Volador", 123);
+
     static {
         tienda1.agregarProducto(new Consola("Polystation 5", 400, 10, 10, false, (byte) 5, 11, 11, 2021, 5, 100, "Sony"));
         tienda1.agregarProducto(new Consola("Xbox 1080", 450, 10, 15, false, (byte) 5, 9, 11, 2021, 5, 0, "Microsoft"));
@@ -33,7 +35,7 @@ public class Main {
         tienda1.agregarProducto(new Consola("Arati 7800", 2000, 1, 1, false, (byte) 5, 17, 11, 1986, 0, 0, "Arati"));
 
         tienda1.agregarProducto(new Juego("Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, 5, 0, "FPS", "Xbox 360"));
-        tienda1.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 30, 60, false , (byte) 5, 20, 10, 2024, "FPS", "Xbox 720"));
+        tienda1.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 30, 60, false, (byte) 5, 20, 10, 2024, "FPS", "Xbox 720"));
         tienda1.agregarProducto(new Juego("Cyberpunk 2078", 55, 10, 15, false, (byte) 5, 15, 12, 2023, "RPG", "Xbox 1080"));
         tienda1.agregarProducto(new Juego("Arch", 45, 8, 10, false, (byte) 5, 20, 11, 2023, "Aventura", "Xbox 1080"));
         tienda1.agregarProducto(new Juego("Alive Space", 50, 12, 15, false, (byte) 5, 18, 10, 2023, "Horror", "Xbox 1080"));
@@ -44,7 +46,7 @@ public class Main {
         tienda1.agregarProducto(new Juego("Super Mario 256", 60, 50, 50, false, (byte) 5, 10, 10, 2022, "Plataformas", "Noentiendo Swap"));
         tienda1.agregarProducto(new Juego("Arch", 65, 55, 70, false, (byte) 5, 20, 11, 2023, 10, 50, "Aventura", "Polystation 5"));
         tienda1.agregarProducto(new Juego("Alive Space", 50, 45, 50, false, (byte) 5, 18, 10, 2023, "Horror", "Polystation 5"));
-        tienda1.agregarProducto(new Juego("Full Life", 30, 40, 40, false, (byte) 5, 25, 9, 2023, 10, 0,  "FPS", "Polystation 5"));
+        tienda1.agregarProducto(new Juego("Full Life", 30, 40, 40, false, (byte) 5, 25, 9, 2023, 10, 0, "FPS", "Polystation 5"));
         tienda1.agregarProducto(new Juego("Meinkraft", 20, 50, 100, false, (byte) 5, 30, 8, 2023, 30, 100, "Sandbox", "Polystation 5"));
         tienda1.agregarProducto(new Juego("Super Mario 128", 60, 50, 50, false, (byte) 5, 10, 10, 2021, "Plataformas", "Noentiendo Swap"));
 
@@ -76,7 +78,7 @@ public class Main {
         tienda1.agregarProducto(new Consola("Noentiendo Wii", 100, 3, false, (byte) 3, 13, 7, 2006, "Noentiendo"));
         tienda1.agregarProducto(new Consola("Noentiendo Wii", 80, 2, false, (byte) 2, 13, 7, 2006, "Noentiendo"));
         tienda1.agregarProducto(new Consola("Noentiendo DS", 100, 3, false, (byte) 3, 21, 11, 2004, "Noentiendo"));
-        tienda1.agregarProducto(new Consola("Noentiendo 32", 150, 4, false, (byte) 4,  29, 9, 1996, "Noentiendo"));
+        tienda1.agregarProducto(new Consola("Noentiendo 32", 150, 4, false, (byte) 4, 29, 9, 1996, "Noentiendo"));
         tienda1.agregarProducto(new Consola("Noentiendo SEN", 200, 1, false, (byte) 3, 18, 10, 1985, "Noentiendo"));
         tienda1.agregarProducto(new Consola("Arati 2600", 800, 1, false, (byte) 4, 11, 9, 1977, "Arati"));
         tienda1.agregarProducto(new Consola("Magnavox Odyssey", 900, 1, false, (byte) 4, 27, 8, 1972, "Magnavox"));
@@ -96,15 +98,16 @@ public class Main {
 
 
         // ~~~~~~~~~~~~~~~ personal ~~~~~~~~~~~~~~~
-        Empleado empleado1 = new Empleado(1004, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, (byte) 7, tienda1);
-        Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, (byte) 7, tienda1);
+        Empleado empleado1 = new Empleado(1004, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, (byte) 5, tienda1);
+        Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, (byte) 5, tienda1);
 
         //metas
         new Meta(empleado1, 15, 6, 2024, 30, 8000);
         new Meta(empleado1, 18, 6, 2024, 35, 10000);
     }
 
-    static Tienda tienda2 = new Tienda("Robledo",1420);
+    static Tienda tienda2 = new Tienda("Robledo", 1420);
+
     static {
         tienda2.agregarProducto(new Consola("Polystation 5", 450, 10, 10, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony"));
         tienda2.agregarProducto(new Consola("Polystation 4", 280, 15, 15, false, (byte) 5, 12, 12, 2013, 10, 0, "Sony"));
@@ -118,13 +121,54 @@ public class Main {
         tienda2.agregarProducto(new Accesorio("Control Polystation 3", 30, 50, 50, false, (byte) 5, 13, 11, 2006, 40, 300, "Sony", "Polystation 3"));
 
     }
+
+    static Tienda tienda3 = new Tienda("Laureles", 1421);
+    static Tienda tienda4 = new Tienda("Buenos Aires", 1422);
+
+    static {
+        // Adding products to "Laureles"
+        tienda3.agregarProducto(new Consola("Polystation 5", 400, 10, 10, false, (byte) 5, 11, 11, 2021, 5, 100, "Sony"));
+        tienda3.agregarProducto(new Consola("Xbox 1080", 450, 10, 15, false, (byte) 5, 9, 11, 2021, 5, 0, "Microsoft"));
+        tienda3.agregarProducto(new Consola("Noentiendo Swap", 300, 20, 20, false, (byte) 5, 13, 7, 2018, 5, 0, "Noentiendo"));
+        tienda3.agregarProducto(new Consola("Polystation 4", 250, 25, 25, false, (byte) 5, 14, 11, 2013, 15, 200, "Sony"));
+        tienda3.agregarProducto(new Consola("Xbox 360", 150, 15, 30, false, (byte) 5, 15, 12, 2005, 10, 0, "Microsoft"));
+        tienda3.agregarProducto(new Juego("Cyberpunk 2078", 55, 10, 15, false, (byte) 5, 15, 12, 2023, "RPG", "Xbox 1080"));
+        tienda3.agregarProducto(new Juego("Arch", 45, 8, 14, false, (byte) 5, 20, 11, 2023, "Aventura", "Xbox 1080"));
+        tienda3.agregarProducto(new Juego("Alive Space", 50, 12, 25, false, (byte) 5, 18, 10, 2023, "Horror", "Xbox 1080"));
+        tienda3.agregarProducto(new Juego("Full Life", 60, 5, 20, false, (byte) 5, 25, 9, 2023, "FPS", "Xbox 1080"));
+        tienda3.agregarProducto(new Juego("Meinkraft", 50, 7, 30, false, (byte) 5, 30, 8, 2023, "Sandbox", "Xbox 1080"));
+        tienda3.agregarProducto(new Accesorio("Control Polystation 5", 50, 60, 60, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony", "Polystation 5"));
+        tienda3.agregarProducto(new Accesorio("Control Xbox 720", 55, 30, 50, false, (byte) 5, 14, 11, 2021, 0, 0, "Microsoft", "Xbox 720"));
+
+        Empleado empleado3_1 = new Empleado(3001, "Jhorman", "jhorman@example.com", 3444406, 1200, 8, (byte) 6, tienda3);
+        Empleado empleado3_2 = new Empleado(3002, "Sebastian", "sebastian@example.com", 3444407, 1300, 9, (byte) 6, tienda3);
+
+        Empleado empleado4_1 = new Empleado(4001, "Pablo", "pablo@example.com", 3444408, 1400, 10, (byte) 6, tienda4);
+        Empleado empleado4_2 = new Empleado(4002, "Miguel", "miguel@example.com", 3444409, 1500, 11, (byte) 6, tienda4);
+
+        tienda4.agregarProducto(new Consola("Polystation 5", 450, 10, 10, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony"));
+        tienda4.agregarProducto(new Consola("Polystation 4", 280, 15, 15, false, (byte) 5, 12, 12, 2013, 10, 0, "Sony"));
+        tienda4.agregarProducto(new Consola("Polystation 3", 180, 20, 20, false, (byte) 5, 13, 11, 2006, 20, 0, "Sony"));
+        tienda4.agregarProducto(new Juego("Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, 15, 0, "Deportes", "Polystation 5"));
+        tienda4.agregarProducto(new Juego("Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, 30, 0, "FPS", "Polystation 4"));
+        tienda4.agregarProducto(new Juego("Cyberpunk 2078", 55, 10, 15, false, (byte) 5, 15, 12, 2023, "RPG", "Xbox 1080"));
+        tienda4.agregarProducto(new Juego("Arch", 45, 8, 10, false, (byte) 5, 20, 11, 2023, "Aventura", "Xbox 1080"));
+        tienda4.agregarProducto(new Juego("Alive Space", 50, 12, 15, false, (byte) 5, 18, 10, 2023, "Horror", "Xbox 1080"));
+        tienda4.agregarProducto(new Juego("Full Life", 60, 5, 10, false, (byte) 5, 25, 9, 2023, "FPS", "Xbox 1080"));
+        tienda4.agregarProducto(new Juego("Meinkraft", 50, 7, 10, false, (byte) 5, 30, 8, 2023, "Sandbox", "Xbox 1080"));
+        tienda4.agregarProducto(new Accesorio("Control Polystation 5", 50, 60, 60, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony", "Polystation 5"));
+        tienda4.agregarProducto(new Accesorio("Control Xbox 720", 55, 30, 50, false, (byte) 5, 14, 11, 2021, 0, 0, "Microsoft", "Xbox 720"));
+        tienda4.agregarProducto(new Accesorio("Control Polystation 4", 40, 50, 50, false, (byte) 5, 12, 12, 2013, 10, 0, "Sony", "Polystation 4"));
+        tienda4.agregarProducto(new Accesorio("Control Polystation 3", 30, 40, 40, false, (byte) 5, 13, 11, 2006, 20, 0, "Sony", "Polystation 3"));
+    }
+
     // Clientes
     static Cliente cliente1 = new Cliente(120, "Juan", "juan@mail.com", 311203, 1000);
     static Cliente cliente2 = new Cliente(121, "Pedro", "pedro@mail.com", 311204, 300);
     static Cliente cliente3 = new Cliente(122, "Maria", "maria@mail.com", 311205, 400);
     static Cliente cliente4 = new Cliente(123, "Ana", "ana@mail.com", 311206, 1000);
     static Cliente cliente5 = new Cliente(124, "Luis", "luis@mail.com", 311207, 1500);
-    static Cliente cliente6 = new Cliente(125, "Carlos", "carlos@mail.com", 311208, 1300);
+    static Cliente cliente6 = new Cliente(125, "Carlos", "carlos@mail.com", 311208, 0);
     static Cliente cliente7 = new Cliente(126, "Sofia", "sofia@mail.com", 311209, 2000);
     static Cliente cliente8 = new Cliente(127, "Laura", "laura@mail.com", 311210, 500);
     static Cliente cliente9 = new Cliente(128, "Miguel", "miguel@mail.com", 311211, 700);
@@ -147,139 +191,122 @@ public class Main {
 
     public static void main(String[] args) {
         /* ~~~ Carga de objetos serializados ~~~ */
-        // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIÓN
-
+        // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIoN
+/*
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
         ultimaFecha = Deserializador.deserializarFecha();
 
         /* ~~~~~~~~~~~~~~~~~~~~~~~ Inicio del programa ~~~~~~~~~~~~~~~~~~~~~~~ */
         /* ~~~ Recibir fecha ~~~ */
-        int ultimoMes = ultimaFecha.getMes();
-        // Se guarda el mes de la última fecha registrada con el fin de actualizar ciertos atributos como
+        // Se guarda el mes de la ultima fecha registrada con el fin de actualizar ciertos atributos como
         // la cantidad inicial de cada producto.
+        int ultimoMes = ultimaFecha.getMes();
 
+        // Recibir fecha actual
         Fecha fechaActual = recibirFechaActual();
 
+        // Comprobar si se cambio de mes
         cambioDeMes(ultimoMes, fechaActual.getMes());
 
-        /* ~~ Selección de local ~~ */
+        /* ~~~ Seleccion de local ~~~ */
         Tienda local = null; // Se adquiere el local con el que se quiere trabajar
         local = getLocal();
 
-        /* ~~~~ Menú principal ~~~~ */
+        /* ~~ Aplicar reabastecimientos ~~ */
+        comprobarReabastecimientos(local, fechaActual);
+
+        /* ~~~~~~ Menu principal ~~~~~~ */
         imprimirSeparador();
         imprimirLogo();
-        /* ~~ Selección de funcionalidad ~~ */
+        /* ~~ Seleccion de funcionalidad ~~ */
         byte opcion = 1;
-            do {
-                System.out.flush();
-                imprimirSeparador();
-                System.out.println("MENU PRINCIPAL");
-                System.out.println("1. Registrar compra");
-                System.out.println("2. Registrar préstamo");
-                System.out.println("3. Administrar inventario");
-                System.out.println("4. Gestionar empleados");
-                System.out.println("5. Subastar");
-
-                System.out.println("--------------------------");
-                System.out.println("6. Cambiar de fecha y local");
-
-                System.out.println("0. Guardar y salir");
-
-                System.out.println("Ingrese el número de la opción que desea ejecutar:");
-
-                // Recibir entrada del usuario
-                try {
-                    opcion = sc.nextByte();
-                    sc.nextLine();  // Limpiar el buffer
-                }
-                catch (InputMismatchException error) {
-                    System.out.println("\n### ERROR ###");
-                    System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
-                    sc.nextLine();  // nextLine para limpiar el buffer
-                    sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
-                    continue;
-                }
-
-                switch (opcion) {
-                    case 1:
-                        // Registrar compra
-                        Funcionalidad1.registrarCompra(local, fechaActual);
-                        break;
-
-                    case 2:
-                        // Registrar préstamo
-
-                        Funcionalidad2.registrarPrestamo(local, fechaActual);
-                        break;
-
-                    case 3:
-                        // Administrar inventario
-                        Funcionalidad3.revisarInventario(local, fechaActual);
-                        break;
-
-                    case 4:
-                        // Gestionar empleados
-                        Funcionalidad4.inspeccionEmpleado(local, fechaActual);
-                        break;
-
-                    case 5:
-                        // ~~Placeholder para quinta funcionalidad~~
-                        Funcionalidad5.subastar(local, fechaActual);
-                        break;
-
-                    case 6:
-                        // Cambiar de fecha y local
-                        fechaActual = recibirFechaActual();
-                        local = getLocal();
-                        break;
-
-                    case 0:
-                        // Salir
-
-                        Serializador.serializarTiendas(Tienda.getLocales());
-                        Serializador.serializarClientes(Cliente.getClientes());
-                        Serializador.serializarUltimaFecha(ultimaFecha);
-
-                        System.out.println("Saliendo...");
-                        break;
-
-                    default:
-                        System.out.println("\n### ERROR ###");
-                        System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
-                        sc.nextLine(); // Limpiar el buffer
-                        sc.nextLine(); // Esperar a que el usuario presione Enter
-                        break;
-                }
-            } while (opcion != 0);
-    }
-
-    private static Fecha recibirFechaActual() {
-        Fecha fechaActual;
-
-        while (true) { // Recibir fecha actual
+        do {
+            System.out.flush();
             imprimirSeparador();
+            System.out.println("MENU PRINCIPAL");
+            System.out.println("1. Registrar compra");
+            System.out.println("2. Registrar prestamo");
+            System.out.println("3. Administrar inventario");
+            System.out.println("4. Gestionar empleados");
+            System.out.println("5. Subastar");
 
-            System.out.println("Último acceso: " + ultimaFecha);
-            System.out.println("Ingrese la fecha actual");
+            System.out.println("--------------------------");
+            System.out.println("6. Cambiar de fecha y local");
 
-            fechaActual = recibirFecha();
-            if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la última fecha registrada
-                ultimaFecha = fechaActual;
-                break;
-            } else {
+            System.out.println("0. Guardar y salir");
+
+            System.out.println("Ingrese el numero de la opcion que desea ejecutar:");
+
+            // Recibir entrada del usuario
+            try {
+                opcion = sc.nextByte();
+                sc.nextLine();  // Limpiar el buffer
+            } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("La fecha ingresada es anterior a la última fecha registrada (" + ultimaFecha + ")" +
-                        "\nPresione Enter para volver a intentar.");
-
-                sc.nextLine();  // Esperar a que el usuario presione Enter
+                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
+                sc.nextLine();  // nextLine para limpiar el buffer
+                sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
+                continue;
             }
-        }
-        return fechaActual;
+
+            switch (opcion) {
+                case 1:
+                    // Registrar compra
+                    Funcionalidad1.registrarCompra(local, fechaActual);
+                    break;
+
+                case 2:
+                    // Registrar prestamo
+
+                    Funcionalidad2.registrarPrestamo(local, fechaActual);
+                    break;
+
+                case 3:
+                    // Administrar inventario
+                    Funcionalidad3.revisarInventario(local, fechaActual);
+                    break;
+
+                case 4:
+                    // Gestionar empleados
+                    Funcionalidad4.inspeccionEmpleado(local, fechaActual);
+                    break;
+
+                case 5:
+                    // ~~Placeholder para quinta funcionalidad~~
+                    Funcionalidad5.subastar(local, fechaActual);
+                    break;
+
+                case 6:
+                    // Cambiar de fecha y local
+                    fechaActual = recibirFechaActual();
+                    local = getLocal();
+                    break;
+
+                case 0:
+                    // Salir
+
+                    Serializador.serializarTiendas(Tienda.getLocales());
+                    Serializador.serializarClientes(Cliente.getClientes());
+                    Serializador.serializarUltimaFecha(ultimaFecha);
+
+                    System.out.println("Saliendo...");
+                    break;
+
+                default:
+                    System.out.println("\n### ERROR ###");
+                    System.out.println("Opcion fuera del rango. Presione Enter para volver a intentar.\n");
+                    sc.nextLine(); // Limpiar el buffer
+                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                    break;
+            }
+        } while (opcion != 0);
     }
 
-    // Separador de la TUI
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METODOS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    // Separadores de la TUI
     //▅ ▒
     static void imprimirSeparador() {
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
@@ -291,6 +318,7 @@ public class Main {
     }
 
     // Imprimir logo de la tienda en ANSI
+
     static void imprimirLogo() {
         System.out.println(
                 """
@@ -301,8 +329,33 @@ public class Main {
                          ╚████╔╝ ██║███████╗███████╗██║  ██║╚█████╔╝╚██████╔╝███████╗╚██████╔╝╚██████╔╝███████║
                           ╚═══╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝ ╚════╝  ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ╚══════""");
     }
-
     // Metodo para identificar a un cliente
+
+    // Recibe una fecha y se asegura de que sea igual o superior a la ultima fecha registrada
+    private static Fecha recibirFechaActual() {
+        Fecha fechaActual;
+
+        while (true) { // Recibir fecha actual
+            imprimirSeparador();
+
+            System.out.println("ultimo acceso: " + ultimaFecha);
+            System.out.println("Ingrese la fecha actual");
+
+            fechaActual = recibirFecha();
+            if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la ultima fecha registrada
+                ultimaFecha = fechaActual;
+                break;
+            } else {
+                System.out.println("\n### ERROR ###");
+                System.out.println("La fecha ingresada es anterior a la ultima fecha registrada (" + ultimaFecha + ")" +
+                        "\nPresione Enter para volver a intentar.");
+
+                sc.nextLine();  // Esperar a que el usuario presione Enter
+            }
+        }
+        return fechaActual;
+    }
+
     static Cliente identificarCliente() {
         imprimirSeparador();
 
@@ -321,7 +374,7 @@ public class Main {
                 opcion = sc.nextByte();
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                 sc.nextLine();  // nextLine para limpiar el buffer
                 sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
                 continue;
@@ -330,7 +383,7 @@ public class Main {
             switch (opcion) {
                 case 1:
                     // Nuevo cliente
-                    System.out.println("Ingrese cédula del cliente:");
+                    System.out.println("Ingrese cedula del cliente:");
                     cedula = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
@@ -340,7 +393,7 @@ public class Main {
                     System.out.println("Ingrese correo del cliente:");
                     String correo = sc.nextLine();
 
-                    System.out.println("Ingrese teléfono del cliente:");
+                    System.out.println("Ingrese telefono del cliente:");
                     long telefono = sc.nextLong();
                     sc.nextLine();  // Limpiar el buffer
 
@@ -351,9 +404,9 @@ public class Main {
                     // Cliente existente
 
                     while (cliente == null) {
-                        System.out.println("Ingrese cédula del cliente:");
+                        System.out.println("Ingrese cedula del cliente:");
 
-                        // Buscar al cliente en la lista de clientes por su cédula
+                        // Buscar al cliente en la lista de clientes por su cedula
                         try {
                             cedula = sc.nextInt();
 
@@ -366,13 +419,13 @@ public class Main {
                             }
                         } catch (Exception e) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                            System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                             sc.nextLine();  // Limpiar el buffer
                             sc.nextLine();  // Esperar a que el usuario presione Enter
                             continue;
                         }
 
-                        // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
+                        // En caso de que el cliente no sea encontrado dar la opcion de intentar de nuevo
                         if (cliente == null) {
                             System.out.println("\n### ERROR ###");
                             if (!siNo("Cliente no encontrado. ¿Desea intentar de nuevo?")) {
@@ -386,7 +439,7 @@ public class Main {
 
                 default:
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                    System.out.println("Opcion fuera del rango. Presione Enter para volver a intentar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                     break;
@@ -396,7 +449,7 @@ public class Main {
         return cliente;
     }
 
-    // Recibe una String que es la pregunta que se hará.
+    // Recibe una String que es la pregunta que se hara.
     // Devuelve true si la respuesta no es No (ni "n" ni "N")
     public static boolean siNo(String pregunta) {
         Scanner scSiNo = new Scanner(System.in);
@@ -421,12 +474,14 @@ public class Main {
 
                 year = sc.nextInt();
 
-                if (year < 0) { throw new Exception(""); }
+                if (year < 0) {
+                    throw new Exception("");
+                }
 
                 break;
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                System.out.println("Ingrese un numero valido. Presione Enter para volver a intentar.");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
             }
@@ -439,30 +494,33 @@ public class Main {
 
                 mes = sc.nextInt();
 
-                if (mes <= 0 || mes > 12) { throw new Exception(""); }
+                if (mes <= 0 || mes > 12) {
+                    throw new Exception("");
+                }
 
                 break;
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                System.out.println("Ingrese un numero valido. Presione Enter para volver a intentar.");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
             }
         }
 
-        // Recibir día
+        // Recibir dia
         while (true) {
             try {
-                System.out.print("Ingrese día: ");
+                System.out.print("Ingrese dia: ");
                 dia = sc.nextInt();
 
-                //TODO: Validar que el día sea válido para el mes
-                if (dia <= 0 || dia > 31) { throw new Exception("Día inválido"); }
+                if (dia <= 0 || dia > 31) {
+                    throw new Exception("Dia invalido");
+                }
 
                 break;
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                System.out.println("Ingrese un numero valido. Presione Enter para volver a intentar.");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
             }
@@ -472,6 +530,7 @@ public class Main {
         return new Fecha(dia, mes, year);
     }
 
+    // Evalua si el mes ha cambiado y actualiza los atributos necesarios
     public static void cambioDeMes(int ultimoMes, int mesActual) {
         if (ultimoMes != mesActual) {
             // Reiniciar cantidad inicial
@@ -488,25 +547,25 @@ public class Main {
         }
     }
 
-    // Identificar local
+    // Identifica el local con el que se quiere trabajar
     private static Tienda getLocal() {
         Scanner scGetLocal = new Scanner(System.in);
         Tienda local = null;
 
-        do{
+        do {
             imprimirSeparador();
 
             int j = 1;
-            for (Tienda i : Tienda.getLocales()){ // Bucle para imprimir los locales
-                System.out.println("* "+i.getNombre());
-                j= j+1;
+            for (Tienda i : Tienda.getLocales()) { // Bucle para imprimir los locales
+                System.out.println("* " + i.getNombre());
+                j = j + 1;
             }
 
             System.out.println("Ingrese el nombre del local");
 
             String nombreLocal = scGetLocal.nextLine(); // Recibir entrada del usuario
 
-            for (Tienda i : Tienda.getLocales()){ // Bucle para encontrar el local
+            for (Tienda i : Tienda.getLocales()) { // Bucle para encontrar el local
                 if (i.getNombre().equalsIgnoreCase(nombreLocal)) {
                     local = i;
                     break;
@@ -524,7 +583,7 @@ public class Main {
     }
 
     // Menu de opcion multiple. Recibe un titulo y un array de opciones a mostrar.
-    // Devuelve el byte de la opción seleccionada.
+    // Devuelve el byte de la opcion seleccionada.
     public static byte menuOpcionMultiple(String titulo, String[] opciones) {
         Scanner scMenuOpcines = new Scanner(System.in);
         byte opcion;
@@ -540,20 +599,20 @@ public class Main {
 
             System.out.println("0. Volver");
 
-            System.out.print("Ingrese el número de la opción que desea ejecutar: ");
+            System.out.print("Ingrese el numero de la opcion que desea ejecutar: ");
 
             // Recibir entrada
             opcion = 0;
 
             try {
                 opcion = scMenuOpcines.nextByte();
-                if(opcion<0 || opcion>opciones.length) {
+                if (opcion < 0 || opcion > opciones.length) {
                     throw new InputMismatchException();
                 }
                 return opcion;
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                 scMenuOpcines.nextLine();  // nextLine para limpiar el buffer
                 scMenuOpcines.nextLine();  // nextLine para esperar a que el usuario presione Enter
                 continue;
@@ -564,10 +623,47 @@ public class Main {
         return opcion;
     }
 
-    /* ~~~ FUNCIONALIDAD 5 ~~~ */
-    public void subastar(Tienda local, Fecha fecha) {
-
+    // Comprueba todos los reabastecimiento de un local cuya fecha
+    // de entrega prevista sea anterior a la actual y los aplica
+    public static void comprobarReabastecimientos(Tienda local, Fecha fechaActual) {
+        for (Reabastecimiento reabastecimiento : local.getReabastecimientos()) {
+            if (reabastecimiento.getFechaEntrega().getTotalDias() <= fechaActual.getTotalDias()) {
+                System.out.println("Aplicando reabastecimiento proveniente de " + reabastecimiento.getLocalOrigen() + " con fecha de entrega prevista para " + reabastecimiento.getFechaEntrega());
+                reabastecimiento.aplicarReabastecimiento();
+            }
+        }
     }
 
 
+
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCIONALIDAD 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCIONALIDAD 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCIONALIDAD 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCIONALIDAD 4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNCIONALIDAD 5 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+    /*public void subastar(Tienda local, Fecha fecha) {
+
+    }*/
+
+
+    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 }

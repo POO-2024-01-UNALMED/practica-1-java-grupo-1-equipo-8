@@ -23,6 +23,14 @@ public class Reabastecimiento implements Serializable{
     }
             /*~~~~~~~ Metodos ~~~~~~~*/
 
+    // Metodo que aplica reabastecimiento a todos los productos del inventario
+    // de este (el reabastecimiento) al inventario de la tienda destino
+    public void aplicarReabastecimiento(){
+        for (Producto producto : productosRecibidos) {
+            localDestino.reabastecerProducto(producto);
+        }
+    }
+
             /*~~ Metodos get y set ~~*/
 
     public Tienda getLocalOrigen() {

@@ -6,13 +6,13 @@ import gestorAplicacion.manejoLocal.Fecha;
 public class Meta implements Serializable{
     /*~~ Atributos ~~*/
     private static int ultimoID = 1;
+    private int codigo;
     private Empleado empleado;
     private Fecha fecha;
     private int valorAlcanzar;
     private int valorBonificacion;
     private String estado = "En proceso";
     private int acumulado;
-    private int codigo;
 
                     /*~~ Constructor ~~*/
     public Meta (Empleado empleado, int diaLimite, int mesLimite, int yearLimite, int valorAlcanzar, int valorBonificacion){
@@ -32,8 +32,6 @@ public class Meta implements Serializable{
             this.acumulado += valor;
         }
     }
-
-    // TODO: implementar llamado a este metodo en funcionalidades 1  y 2
 
                     /*~~ Metodos get y set ~~*/
     public Empleado getEmpleado() {
@@ -79,6 +77,6 @@ public class Meta implements Serializable{
         this.fecha = fecha;
     }
     public String toString(){
-        return ("* Código de meta: " + this.getCodigo() + " | Valor a alcanzar: " + this.getValorAlcanzar() + " |  Valor de bonificación: " + this.getValorBonificacion() + " | Fecha límite: " + this.getFecha().toString());
+        return ("* Codigo de meta: " + this.getCodigo() + " | Valor a alcanzar: " + this.getValorAlcanzar() + " |  Valor de bonificacion: " + this.getValorBonificacion() + " | Fecha limite: " + this.getFecha().toString());
     }
 }

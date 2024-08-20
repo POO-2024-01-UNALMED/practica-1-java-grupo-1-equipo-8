@@ -41,13 +41,13 @@ public class Transaccion implements Serializable{
         empleado.ingresarTransaccion(this);
     }
 
-    // Constructor sin id ni valorSinDescuento (se calcula automáticamente)
+    // Constructor sin id ni valorSinDescuento (se calcula automaticamente)
     public Transaccion(Fecha fecha, Cliente cliente, Empleado empleado, Tienda local, ArrayList<Producto> productos, int valorFinal) {
         this(ultimoID, fecha, cliente, empleado, local, productos, hallarValorSinDescuento(productos), valorFinal);
         ultimoID++;
     }
 
-    /* ~~~ Métodos ~~~ */
+    /* ~~~ Metodos ~~~ */
     public void agregarALocal(Tienda local){
         this.local.agregarTransaccion(this);
     }

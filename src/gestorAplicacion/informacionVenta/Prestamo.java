@@ -35,7 +35,7 @@ public class Prestamo implements Serializable{
         cliente.agregarPrestamo(this);
     }
 
-    /* ~~~ Métodos ~~~ */
+    /* ~~~ Metodos ~~~ */
     public String toString() {
         return "ID: " + this.id +
                 "Fecha de inicio: " + this.fechaInicio +

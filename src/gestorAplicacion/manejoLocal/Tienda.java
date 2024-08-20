@@ -2,6 +2,7 @@ package gestorAplicacion.manejoLocal;
 import gestorAplicacion.informacionVenta.Subasta;
 import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.personas.Empleado;
+import gestorAplicacion.productos.Juego;
 import gestorAplicacion.productos.Producto;
 
 import java.awt.image.AreaAveragingScaleFilter;
@@ -38,7 +39,7 @@ public class Tienda implements Serializable {
         this.fondos = fondos;
         Tienda.locales.add(this);
     }
-    /* ~~~ Métodos ~~~ */
+    /* ~~~ Metodos ~~~ */
     // Agregar producto al inventario correspondiente
     public void agregarProducto(Producto producto){
         if (producto.isPrestable()) {
@@ -50,17 +51,8 @@ public class Tienda implements Serializable {
         }
     }
 
-    // Metodo que reduce la cantidad de un producto en un inventario dado segun codigo
-    public void retirarDeInventario(Producto producto, ArrayList<Producto> inventario){
-        for (Producto p : inventario) {
-            if (p.getCodigo() == producto.getCodigo()) {
-                p.setCantidad(p.getCantidad() - producto.getCantidad());
-            }
-        }
-    }
-
     // Reduce en uno la cantidad de un producto en un inventario dado segun codigo
-    public void retirarUnoDeInventario(Producto producto, ArrayList<Producto> inventario){
+    public static void retirarUnoDeInventario(Producto producto, ArrayList<Producto> inventario){
         for (Producto p : inventario) {
             if (p.getCodigo() == producto.getCodigo()) {
                 p.setCantidad(p.getCantidad() - 1);
@@ -102,19 +94,35 @@ public class Tienda implements Serializable {
         this.subastas.add(subasta);
     }
 
-    // Recibe un producto que busca en el inventario e incrementa su cantidad en la cantidad dada
-    public void reabastecerProducto(Producto producto, int cantidad){
-        for (Producto p : this.inventario) {
-            if (p.equals(producto)) {
-                p.setCantidad(p.getCantidad() + cantidad);
-                p.setCantidadInicial(p.getCantidadInicial() + cantidad);
+    // Recibe un producto que busca en el inventario e incrementa su cantidad en base a la cantidad del producto recibido
+    // De no encontrar el producto, lo agrega al inventario
+    public void reabastecerProducto(Producto productoRecibido){
+        for (Producto productoLocal : this.inventario) {
+            if (productoLocal.getNombre().equalsIgnoreCase(productoRecibido.getNombre())) {
+                // Para juegos, comparar tambien por consola
+                if (productoLocal instanceof Juego && productoRecibido instanceof Juego) {
+                    Juego juegoLocal = (Juego) productoLocal;
+                    Juego juegoRecibido = (Juego) productoRecibido;
 
-                break;
+                    // Si ambos tienen la misma plataforma, aumentar la cantidad del producto local
+                    if (juegoLocal.getPlataforma().equalsIgnoreCase(juegoRecibido.getPlataforma())) {
+                        productoLocal.setCantidad(productoLocal.getCantidad() + productoRecibido.getCantidad());
+                    }
+                    else {  // si no, agregar el producto recibido al inventario
+                        this.inventario.add(productoRecibido);
+                    }
+
+                    return;
+                }
+                else {  // Para otro tipo de productos solo valerse de la comparacion por nombre
+                    productoLocal.setCantidad(productoLocal.getCantidad() + productoRecibido.getCantidad()); // Aumentar la cantidad del producto local
+                    return;
+                }
             }
         }
 
-        // En caso de que el producto no se encuentre
-        this.inventario.add(producto);
+        // En caso de que el producto no se encuentre, agregarlo al inventario
+        this.inventario.add(productoRecibido);
     }
 
     // Metodo para retirar producto reabastecido en otro local
