@@ -27,7 +27,7 @@ public class Reabastecimiento implements Serializable{
     // de este (el reabastecimiento) al inventario de la tienda destino
     public void aplicarReabastecimiento(){
         for (Producto producto : productosRecibidos) {
-            localDestino.agregarProducto(producto);
+            localDestino.reabastecerProducto(producto);
         }
     }
 
