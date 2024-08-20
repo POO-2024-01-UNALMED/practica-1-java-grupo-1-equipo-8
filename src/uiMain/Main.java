@@ -153,16 +153,35 @@ public class Main {
     static Tienda tienda2 = new Tienda("Robledo", 1420);
 
     static {
-        tienda2.agregarProducto(new Consola("Polystation 5", 450, 10, 10, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony"));
+        tienda2.agregarProducto(new Consola("Polystation 5", 450, 40, 50, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony"));
         tienda2.agregarProducto(new Consola("Polystation 4", 280, 15, 15, false, (byte) 5, 12, 12, 2013, 10, 0, "Sony"));
         tienda2.agregarProducto(new Consola("Polystation 3", 180, 20, 20, false, (byte) 5, 13, 11, 2006, 20, 0, "Sony"));
+        tienda2.agregarProducto(new Consola("Polystation 2", 100, 25, 25, false, (byte) 5, 14, 11, 2000, 20, 0, "Sony"));
 
-        tienda2.agregarProducto(new Juego("Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, 15, 0, "Deportes", "Polystation 5"));
+        tienda2.agregarProducto(new Juego("Ronaldinho Soccer", 40, 40, 50, false, (byte) 5, 15, 8, 2020, 15, 30, "Deportes", "Polystation 5"));
         tienda2.agregarProducto(new Juego("Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, 30, 0, "FPS", "Polystation 4"));
+        tienda2.agregarProducto(new Juego("Full Life", 25, 40, 40, false, (byte) 5, 25, 9, 2010, 15, 10, "FPS", "Polystation 3"));
+        tienda2.agregarProducto(new Juego("Meinkraft", 20, 40, 40, false, (byte) 5, 30, 8, 2013, 15, 10, "Sandbox", "Polystation 4"));
 
         tienda2.agregarProducto(new Accesorio("Control Polystation 5", 50, 70, 70, false, (byte) 5, 11, 11, 2021, 5, 50, "Sony", "Polystation 5"));
         tienda2.agregarProducto(new Accesorio("Control Polystation 4", 40, 60, 60, false, (byte) 5, 12, 12, 2013, 15, 100, "Sony", "Polystation 4"));
         tienda2.agregarProducto(new Accesorio("Control Polystation 3", 30, 50, 50, false, (byte) 5, 13, 11, 2006, 40, 300, "Sony", "Polystation 3"));
+        tienda2.agregarProducto(new Accesorio("Control Polystation 2", 20, 40, 40, false, (byte) 5, 14, 11, 2000, 50, 500, "Sony", "Polystation 2"));
+
+        // productos prestamo
+        tienda2.agregarProducto(new Consola("Polystation 3", 180, 8, true, (byte) 4, 13, 11, 2006, "Sony"));
+        tienda2.agregarProducto(new Consola("Xbox 360", 200, 10, true, (byte) 4, 15, 12, 2005, "Microsoft"));
+        tienda2.agregarProducto(new Consola("Polystation 4", 280, 5, true, (byte) 4, 12, 12, 2013, "Sony"));
+        tienda2.agregarProducto(new Consola("Xbox 720", 350, 3, true, (byte) 4, 12, 12, 2013, "Microsoft"));
+
+        tienda2.agregarProducto(new Juego("Ronaldinho Soccer", 40, 10, true, (byte) 4, 15, 8, 2020, "Deportes", "Polystation 5"));
+        tienda2.agregarProducto(new Juego("Carlos Duty", 30, 10, true, (byte) 4, 10, 7, 2018, "FPS", "Polystation 4"));
+        tienda2.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 10, true, (byte) 4, 20, 10, 2024, "FPS", "Polystation 5"))
+
+        tienda2.agregarProducto(new Accesorio("Control Polystation 5", 50, 10, true, (byte) 4, 13, 11, 2006, "Sony", "Polystation 5"));
+        tienda2.agregarProducto(new Accesorio("Control Polystation 4", 35, 10, true, (byte) 3, 13, 11, 2006, "Sony", "Polystation 4"));
+        tienda2.agregarProducto(new Accesorio("Control Polystation 3", 20, 10, true, (byte) 4, 13, 11, 2006, "Sony", "Polystation 3"));
+
 
     }
 
