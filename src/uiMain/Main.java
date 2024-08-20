@@ -18,6 +18,11 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Main {
+    // INTEGRANTES
+    // Andres Santiago Garces Barrero
+    // Sebastian Cepeda Jaimes
+    // David Villa Alzate
+
 
     // Variable scanner para entrada de datos
     static Scanner sc = new Scanner(System.in);
