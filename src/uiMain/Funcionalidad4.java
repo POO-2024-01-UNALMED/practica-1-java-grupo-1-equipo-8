@@ -1,5 +1,7 @@
 package uiMain;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -217,23 +219,32 @@ public class Funcionalidad4 {
 
         imprimirSeparador();
 
+        // Se crea una arraylist para guardar las metas que se van a remover
+        // para evitar problemas con el for
+        ArrayList<Meta> metasARemover = new ArrayList<>();
+
         System.out.println("Porcentaje de progreso de las metas del empleado " + empleado.getNombre());
         for (Meta m : empleado.getMetas()) {
             int porcentajeProgreso = (m.getAcumulado() * 100) / m.getValorAlcanzar();
             System.out.println("* Codigo: " + m.getCodigo() + " - Porcentaje de progreso: " + porcentajeProgreso + "%");
 
             if (porcentajeProgreso >= 100 && fechaActual.getTotalDias() <= m.getFecha().getTotalDias()) { //Si el porcentaje de la meta se completo:
-                empleado.getMetas().remove(m);
+                metasARemover.add(m);
                 empleado.ingresarMetasAlcanzdas(m);
                 m.setEstado("Meta cumplida");
                 empleado.setAcumuladoMensual(m.getValorBonificacion());
             }
 
             if (fechaActual.getTotalDias() > m.getFecha().getTotalDias()) { //Si la fecha de la meta caduco:
-                empleado.getMetas().remove(m);
+                metasARemover.add(m);
                 empleado.ingresarMetasCaducadas(m);
                 m.setEstado("Meta caducada");
             }
+        }
+
+        //Remover las metas que se completaron o caducaron
+        for (Meta m : metasARemover) {
+            empleado.getMetas().remove(m);
         }
     }
 
