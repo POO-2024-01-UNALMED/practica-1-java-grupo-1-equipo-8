@@ -799,7 +799,7 @@ public class Main {
                         System.out.println("Consolas disponibles:");
                         for (Producto p : inventario) {
                             if (p instanceof Consola && p.getCantidad() > 0) {
-                                System.out.println("* " + p);
+                                System.out.println("* " + p); // Ligadura dinamica
                             }
                         }
 
@@ -826,7 +826,7 @@ public class Main {
                         // Mostrar juegos disponibles
                         for (Producto p : inventario) {
                             if (p instanceof Juego && p.getCantidad() > 0) {
-                                System.out.println("* " + p);
+                                System.out.println("* " + p); // Ligadura dinamica
                             }
                         }
 
@@ -853,7 +853,7 @@ public class Main {
                         // Accesorio
                         for (Producto p : inventario) {
                             if (p instanceof Accesorio && p.getCantidad() > 0) {
-                                System.out.println("* " + p);
+                                System.out.println("* " + p); // Ligadura dinamica
                             }
                         }
 
