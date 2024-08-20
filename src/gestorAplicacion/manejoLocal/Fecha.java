@@ -27,7 +27,7 @@ public class Fecha implements Serializable{
         diasAFecha(dias);
     }
 
-    // Convierte una fecha en días y la asigna al atributo totalDias
+    // Convierte una fecha en dias y la asigna al atributo totalDias
     public int fechaADias(int dia, int mes, int year) {
         boolean bisiesto = esBisiesto(year);
 
@@ -39,13 +39,13 @@ public class Fecha implements Serializable{
         // Añadir +1 por el año 0 (que es bisiesto)
         if (year != 0) { this.totalDias++; }
 
-        // Si el año actual es bisiesto, se resta un día
+        // Si el año actual es bisiesto, se resta un dia
         if (bisiesto && this.year != 0) {
             this.totalDias--;
         }
 
         // Meses
-        // Sumar la cantidad de días que corresponde por cada mes
+        // Sumar la cantidad de dias que corresponde por cada mes
         for (int mesTemp = 1; mesTemp < mes; mesTemp++) {
             switch (mesTemp) {
                 case 1, 3, 5, 7, 8, 10, 12:
@@ -70,13 +70,13 @@ public class Fecha implements Serializable{
         return this.totalDias;
     }
 
-    // Metodo que convierte un total de días en una fecha y la asigna a los atributos del objeto desde el que se llama
+    // Metodo que convierte un total de dias en una fecha y la asigna a los atributos del objeto desde el que se llama
     private void diasAFecha(int totalDias) {
         int year = 0;
         int mes = 1;
         int dia = 0;
 
-        // Sumar años restando 365 o 366 días hasta que el total de días sea menor a 365
+        // Sumar años restando 365 o 366 dias hasta que el total de dias sea menor a 365
         while (true) {
             if (esBisiesto(year)) {
                 if (totalDias - 366 <= 0) { break; }
@@ -89,8 +89,8 @@ public class Fecha implements Serializable{
             year++;
         }
 
-        // Restar la cantidad de días que corresponde a cada mes hasta que
-        // el total de días sea menor a la cantidad de días que tiene el mes
+        // Restar la cantidad de dias que corresponde a cada mes hasta que
+        // el total de dias sea menor a la cantidad de dias que tiene el mes
         while (totalDias > 0) {
             switch (mes) {
                 case 1, 3, 5, 7, 8, 10, 12:

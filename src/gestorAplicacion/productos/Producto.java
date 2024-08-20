@@ -82,7 +82,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 
 
 
-	/* ~~~ Métodos ~~~ */
+	/* ~~~ Metodos ~~~ */
 	/* ~~ Metodo para calcular las ventas ~~ */
 	public int calcularVenta(){
 		int venta = this.cantidadInicial - this.cantidad;
@@ -170,7 +170,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 				"CANT: " + cantidad;
 	}
 
-	/* ~ Imprimir precio de préstamo ~ */
+	/* ~ Imprimir precio de prestamo ~ */
 	public String toStringPrestable() {
 		return "COD: " + codigo + " | " +
 				"NOMBRE: " + nombre + " | " +

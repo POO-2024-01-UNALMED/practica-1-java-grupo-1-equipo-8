@@ -15,13 +15,13 @@ public class Funcionalidad3 {
 
     public static void revisarInventario(Tienda local, Fecha fechaActual) {
 
-        /* ~~~ Selección de las opciones ~~~ */
+        /* ~~~ Seleccion de las opciones ~~~ */
         byte opcion;
         ArrayList<Producto> lista;
 
         while (true) {
             imprimirSeparador();
-            System.out.println("Desea\n1. Revisar los productos del local \n2. Modificar la información de algún producto\n3. Calcular la prioridad de estos\n4. Crear objeto\n5. Salir ");
+            System.out.println("Desea\n1. Revisar los productos del local \n2. Modificar la informacion de algun producto\n3. Calcular la prioridad de estos\n4. Crear objeto\n5. Salir ");
 
             //Evitar un error al ingresar un dato no numerico
 
@@ -33,7 +33,7 @@ public class Funcionalidad3 {
 
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Se debe ingresar un valor numerico válido.");
+                System.out.println("Se debe ingresar un valor numerico valido.");
                 System.out.println("Presione Enter para continuar");
                 sc.nextLine(); //Limpiar el buffer
                 sc.nextLine();//Esperar que el usuario presione Enter
@@ -60,7 +60,7 @@ public class Funcionalidad3 {
 
                         } catch (Exception e) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Se debe ingresar un valor numerico válido.");
+                            System.out.println("Se debe ingresar un valor numerico valido.");
                             System.out.println("Presione Enter para continuar");
                             scOpcion2.nextLine();//Limpiar buffer
                             scOpcion2.nextLine();//Esperar que el usuario presione Enter
@@ -158,12 +158,12 @@ public class Funcionalidad3 {
                     continue;
                 case 2:
                     while (true) {
-                        //Modificar la información de algún producto
+                        //Modificar la informacion de algun producto
                         byte tipo;
                         lista = new ArrayList<Producto>();
                         try {//impedir un error al elegir el tipo
                             imprimirSeparador();
-                            System.out.println("Ingresa el tipo de producto que modificarás\n1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
+                            System.out.println("Ingresa el tipo de producto que modificaras\n1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
 
                             tipo = sc.nextByte();
                         } catch (Exception e) {
@@ -196,11 +196,11 @@ public class Funcionalidad3 {
                             break;
                         }
                         for (Producto i : lista) {
-                            System.out.println(i.getNombre() + "| Código: " + i.getCodigo() + " | Precio: $" + i.getValor());
+                            System.out.println(i.getNombre() + "| Codigo: " + i.getCodigo() + " | Precio: $" + i.getValor());
                         }
 
                         int cod;//Codigo a elegir
-                        int index = 0;//Posición del objeto buscado
+                        int index = 0;//Posicion del objeto buscado
 
                         try {
                             imprimirSeparador();
@@ -229,7 +229,7 @@ public class Funcionalidad3 {
 
                         if (!existe) {
                             imprimirSeparador();
-                            System.out.println("El código ingresado no existe");
+                            System.out.println("El codigo ingresado no existe");
 
                             continue;
                         }
@@ -301,7 +301,7 @@ public class Funcionalidad3 {
                                     byte condicion;
                                     while (true) {
                                         imprimirSeparador();
-                                        System.out.println("Ingrese la condición(1-4:usado 5:nuevo)");
+                                        System.out.println("Ingrese la condicion(1-4:usado 5:nuevo)");
                                         try {
                                             condicion = sc.nextByte();
                                             producto.setCondicion(condicion);
@@ -451,7 +451,7 @@ public class Funcionalidad3 {
             } else {
                 imprimirSeparador();
                 System.out.println("\n### ERROR ###");
-                System.out.println("Valor no válido. Debe ingresar una de las opciones: Alfabetico, Ventas o Precio.");
+                System.out.println("Valor no valido. Debe ingresar una de las opciones: Alfabetico, Ventas o Precio.");
             }
         } while (!esValido);
 
@@ -463,7 +463,7 @@ public class Funcionalidad3 {
         while (true) {
             try {
                 imprimirSeparador();
-                System.out.println("Desea \n1.Hacer análisis de mercado \n2.Revisar prioridad de cada producto \n3.Regresar");
+                System.out.println("Desea \n1.Hacer analisis de mercado \n2.Revisar prioridad de cada producto \n3.Regresar");
                 opcion = sc.nextByte();
                 sc.nextLine();
             } catch (Exception e) {
@@ -476,7 +476,7 @@ public class Funcionalidad3 {
             switch (opcion) {
                 case 1:
                     while (true) {
-                        //Hacer análisis de mercado
+                        //Hacer analisis de mercado
                         imprimirSeparador();
                         System.out.println("Ingresa la fecha inicial");
                         Fecha fechaInicial = recibirFecha();//Pedir fecha inicial para el rango de ventas a tener en cuenta
@@ -492,14 +492,14 @@ public class Funcionalidad3 {
 
                         ArrayList<Transaccion> rangoVentas = new ArrayList<>();
                         for (Transaccion i : local.getCaja()) {
-                            if (i.getFecha().getTotalDias() >= fechaInicial.getTotalDias() && i.getFecha().getTotalDias() <= fechaFinal.getTotalDias()) {//Verificar que la fecha de transaccion esté dentro del rango de tiempo
+                            if (i.getFecha().getTotalDias() >= fechaInicial.getTotalDias() && i.getFecha().getTotalDias() <= fechaFinal.getTotalDias()) {//Verificar que la fecha de transaccion este dentro del rango de tiempo
                                 rangoVentas.add(i);
                             }
                         }
 
                         if (fechaFinal.getTotalDias() < fechaInicial.getTotalDias()) {
                             imprimirSeparador();
-                            System.out.println("La fecha final está antes de la final");
+                            System.out.println("La fecha final esta antes de la final");
                             sc.nextLine();
                             break;
                         } else if (rangoVentas.isEmpty()) {
@@ -511,7 +511,7 @@ public class Funcionalidad3 {
                         while (true) {
                             try {
                                 imprimirSeparador();
-                                System.out.println("Desea \n1.Ver ventas individuales \n2.Órdenes en este rango \n3.Tendencias en este rango \n4.Proceder al reabastecimiento \n5.Regresar");
+                                System.out.println("Desea \n1.Ver ventas individuales \n2.ordenes en este rango \n3.Tendencias en este rango \n4.Proceder al reabastecimiento \n5.Regresar");
                                 opcion = sc.nextByte();
                                 sc.nextLine();
                             } catch (Exception e) {
@@ -556,7 +556,7 @@ public class Funcionalidad3 {
                                         opcion = 0;
                                         try {
                                             imprimirSeparador();
-                                            System.out.println("Desea ver \n1.Géneros \n2.Plataformas \n3.Rangos de precio más vendidos \n4.Cambiar fecha \n5.Regresar");
+                                            System.out.println("Desea ver \n1.Generos \n2.Plataformas \n3.Rangos de precio mas vendidos \n4.Cambiar fecha \n5.Regresar");
                                             opcion = sc.nextByte();
                                             sc.nextLine();
                                         } catch (Exception e) {
@@ -574,7 +574,7 @@ public class Funcionalidad3 {
                                                 if (siNo("Desea ver las tendencias en otros locales")) {
                                                     for (Tienda t : Tienda.getLocales()) {
                                                         if (t != local) { // Si el local no es el actual
-                                                            System.out.println(" Local " + t.getNombre() + "| Género más vendido: " + generoMasComprado(t));
+                                                            System.out.println(" Local " + t.getNombre() + "| Genero mas vendido: " + generoMasComprado(t));
                                                         }
                                                     }
                                                 }
@@ -587,7 +587,7 @@ public class Funcionalidad3 {
                                                 if (siNo("Desea ver las tendencias en otros locales")) {
                                                     for (Tienda t : Tienda.getLocales()) {
                                                         if (t != local) { // Si el local no es el actual
-                                                            System.out.println(" Local " + t.getNombre() + "| Plataforma más vendida: " + plataformaMasComprada(t));
+                                                            System.out.println(" Local " + t.getNombre() + "| Plataforma mas vendida: " + plataformaMasComprada(t));
                                                         }
                                                     }
                                                 }
@@ -601,7 +601,7 @@ public class Funcionalidad3 {
                                                     for (Tienda t : Tienda.getLocales()) {
                                                         if (t != local) { // Si el local no es el actual
                                                             imprimirSeparadorPequeno();
-                                                            System.out.println(" Local " + t.getNombre() + "| Rangos de precio más vendidos: ");
+                                                            System.out.println(" Local " + t.getNombre() + "| Rangos de precio mas vendidos: ");
                                                             rangosMasComprados(t, fechaInicial, fechaFinal);
                                                         }
                                                     }
@@ -723,7 +723,7 @@ public class Funcionalidad3 {
                                     }
                                     break;
                                 } else {
-                                    System.out.println("La desición ingresada no existe");
+                                    System.out.println("La desicion ingresada no existe");
                                     sc.nextLine();
                                 }
 
@@ -811,7 +811,7 @@ public class Funcionalidad3 {
                         if (opcion == 4) {
                             break;
                         }
-                        System.out.println("La opción no es válida");
+                        System.out.println("La opcion no es valida");
                     }
                 case 2://Prioridad
                     while (true) {
@@ -881,7 +881,7 @@ public class Funcionalidad3 {
                                         }
                                         if (localesValidos.isEmpty()) {
                                             imprimirSeparador();
-                                            System.out.println("No se encontró el producto disponible en ningún local.");
+                                            System.out.println("No se encontro el producto disponible en ningun local.");
                                             sc.nextLine();
                                             break;
                                         }
@@ -1047,7 +1047,7 @@ public class Funcionalidad3 {
                                         }
                                         if (localesValidos.isEmpty()) {
                                             imprimirSeparador();
-                                            System.out.println("No se encontró necesidad del producto en ningún local.");
+                                            System.out.println("No se encontro necesidad del producto en ningun local.");
                                             sc.nextLine();
                                             continue;
                                         }
@@ -1181,30 +1181,30 @@ public class Funcionalidad3 {
         }
     }
 
-    // Metodo que retorna el género más comprado en un local ingresado
-    // El resultado será null si la tienda no tiene transacciones
+    // Metodo que retorna el genero mas comprado en un local ingresado
+    // El resultado sera null si la tienda no tiene transacciones
     private static String generoMasComprado(Tienda local) {
         ArrayList<Integer> generosCant = new ArrayList<Integer>();
         ArrayList<String> generos = new ArrayList<String>();
 
-        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
-            for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transaccion de la tienda
+            for (Producto p : t.getProductos()) { // Buscar cada producto de la transaccion
                 if (p instanceof Juego) {
                     Juego j = (Juego) p;
-                    if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
+                    if (generos.contains(j.getGenero())) { // Si el genero ya esta en la lista, aumentar la cantidad
                         int indice = generos.indexOf(j.getGenero());
                         generosCant.set(indice, generosCant.get(indice) + 1);
-                    } else { // Si no está, agregarlo a la lista
+                    } else { // Si no esta, agregarlo a la lista
                         generos.add(j.getGenero());
                         generosCant.add(1);
                     }
                 }
             }
         }
-        // Encontrar el género más vendido
+        // Encontrar el genero mas vendido
         int max = 0;
         String generoFav = "Ninguno. La tienda no ha vendido juegos";
-        // Este es el mensaje por defecto del género favorito que se preservará sólo en caso
+        // Este es el mensaje por defecto del genero favorito que se preservara solo en caso
         // que la tienda no tenga transacciones
 
 
@@ -1218,7 +1218,7 @@ public class Funcionalidad3 {
         return generoFav;
     }
 
-    // Metodo que muestra los géneros más comprados y la cantidad de ventas
+    // Metodo que muestra los generos mas comprados y la cantidad de ventas
     private static void generosMasComprados(Tienda local, Fecha fechaInicio, Fecha fechaFin) {
         // Comprobar que la tienda tiene transacciones
         if (local.getCaja().isEmpty()) {
@@ -1229,16 +1229,16 @@ public class Funcionalidad3 {
         ArrayList<Integer> generosCant = new ArrayList<Integer>();
         ArrayList<String> generos = new ArrayList<String>();
 
-        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
-            // Filtrar transacciones que estén dentro del rango de fechas
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transaccion de la tienda
+            // Filtrar transacciones que esten dentro del rango de fechas
             if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
-                for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                for (Producto p : t.getProductos()) { // Buscar cada producto de la transaccion
                     if (p instanceof Juego) {
                         Juego j = (Juego) p;
-                        if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
+                        if (generos.contains(j.getGenero())) { // Si el genero ya esta en la lista, aumentar la cantidad
                             int indice = generos.indexOf(j.getGenero());
                             generosCant.set(indice, generosCant.get(indice) + 1);
-                        } else { // Si no está, agregarlo a la lista
+                        } else { // Si no esta, agregarlo a la lista
                             generos.add(j.getGenero());
                             generosCant.add(1);
                         }
@@ -1247,7 +1247,7 @@ public class Funcionalidad3 {
             }
         }
 
-        // Encontrar e imprimir los géneros más vendidos y sus cantidades
+        // Encontrar e imprimir los generos mas vendidos y sus cantidades
         for (int j = 0; j < generosCant.size(); j++) {
             int max = 0;
             String generoFav = "";
@@ -1277,15 +1277,15 @@ public class Funcionalidad3 {
         ArrayList<Integer> generosCant = new ArrayList<Integer>();
         ArrayList<String> generos = new ArrayList<String>();
 
-        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transaccion de la tienda
             if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
-                for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                for (Producto p : t.getProductos()) { // Buscar cada producto de la transaccion
                     if (p instanceof Juego) {
                         Juego j = (Juego) p;
-                        if (generos.contains(j.getGenero())) { // Si el género ya está en la lista, aumentar la cantidad
+                        if (generos.contains(j.getGenero())) { // Si el genero ya esta en la lista, aumentar la cantidad
                             int indice = generos.indexOf(j.getGenero());
                             generosCant.set(indice, generosCant.get(indice) + 1);
-                        } else { // Si no está, agregarlo a la lista
+                        } else { // Si no esta, agregarlo a la lista
                             generos.add(j.getGenero());
                             generosCant.add(1);
                         }
@@ -1294,7 +1294,7 @@ public class Funcionalidad3 {
             }
         }
 
-        // Encontrar e imprimir los n géneros más vendidos y sus cantidades
+        // Encontrar e imprimir los n generos mas vendidos y sus cantidades
         for (int j = 0; j < generosCant.size() && j < n; j++) {
             int max = 0;
             String generoFav = "";
@@ -1318,24 +1318,24 @@ public class Funcionalidad3 {
         ArrayList<Integer> plataformasCant = new ArrayList<Integer>();
         ArrayList<String> plataformas = new ArrayList<String>();
 
-        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
-            for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transaccion de la tienda
+            for (Producto p : t.getProductos()) { // Buscar cada producto de la transaccion
                 if (p instanceof Juego) {
                     Juego j = (Juego) p;
-                    if (plataformas.contains(j.getPlataforma())) { // Si la plataforma ya está en la lista, aumentar la cantidad
+                    if (plataformas.contains(j.getPlataforma())) { // Si la plataforma ya esta en la lista, aumentar la cantidad
                         int indice = plataformas.indexOf(j.getPlataforma());
                         plataformasCant.set(indice, plataformasCant.get(indice) + 1);
-                    } else { // Si no está, agregarlo a la lista
+                    } else { // Si no esta, agregarlo a la lista
                         plataformas.add(j.getPlataforma());
                         plataformasCant.add(1);
                     }
                 }
             }
         }
-        // Encontrar la plataforma más vendida
+        // Encontrar la plataforma mas vendida
         int max = 0;
         String plataformaFav = "Ninguna. La tienda no ha vendido juegos";
-        // Este es el mensaje por defecto de la plataforma favorita que se preservará sólo en caso
+        // Este es el mensaje por defecto de la plataforma favorita que se preservara solo en caso
         // que la tienda no tenga transacciones
 
         for (int i = 0; i < plataformasCant.size(); i++) {
@@ -1359,16 +1359,16 @@ public class Funcionalidad3 {
         ArrayList<Integer> plataformasCant = new ArrayList<Integer>();
         ArrayList<String> plataformas = new ArrayList<String>();
 
-        for (Transaccion t : local.getCaja()) { // Buscar en cada transacción de la tienda
-            // Filtrar transacciones que estén dentro del rango de fechas
+        for (Transaccion t : local.getCaja()) { // Buscar en cada transaccion de la tienda
+            // Filtrar transacciones que esten dentro del rango de fechas
             if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
-                for (Producto p : t.getProductos()) { // Buscar cada producto de la transacción
+                for (Producto p : t.getProductos()) { // Buscar cada producto de la transaccion
                     if (p instanceof Juego) {
                         Juego j = (Juego) p;
-                        if (plataformas.contains(j.getPlataforma())) { // Si el género ya está en la lista, aumentar la cantidad
+                        if (plataformas.contains(j.getPlataforma())) { // Si el genero ya esta en la lista, aumentar la cantidad
                             int indice = plataformas.indexOf(j.getPlataforma());
                             plataformasCant.set(indice, plataformasCant.get(indice) + 1);
-                        } else { // Si no está, agregarlo a la lista
+                        } else { // Si no esta, agregarlo a la lista
                             plataformas.add(j.getGenero());
                             plataformasCant.add(1);
                         }
@@ -1377,7 +1377,7 @@ public class Funcionalidad3 {
             }
         }
 
-        // Encontrar e imprimir los géneros más vendidos y sus cantidades
+        // Encontrar e imprimir los generos mas vendidos y sus cantidades
         for (int j = 0; j < plataformasCant.size(); j++) {
             int max = 0;
             String generoFav = "";
@@ -1410,9 +1410,9 @@ public class Funcionalidad3 {
         int rango41_60 = 0;
 
         for (Transaccion t : local.getCaja()) { // Examinar cada transaccion del local
-            // Filtrar transacciones que estén dentro del rango de fechas
+            // Filtrar transacciones que esten dentro del rango de fechas
             if (t.getFecha().getTotalDias() >= fechaInicio.getTotalDias() && t.getFecha().getTotalDias() <= fechaFin.getTotalDias()) {
-                for (Producto p : t.getProductos()) { // Examinar cada producto de la transacción
+                for (Producto p : t.getProductos()) { // Examinar cada producto de la transaccion
                     if (p instanceof Juego) {
                         Juego j = (Juego) p;
                         if (j.getValor() >= 1 && j.getValor() <= 20) {
@@ -1574,7 +1574,7 @@ public class Funcionalidad3 {
                     sc.nextLine();
                     if (opcion < 0 || opcion > 3) {
                         imprimirSeparador();
-                        System.out.println("Opcion no válida");
+                        System.out.println("Opcion no valida");
                         continue;
                     }
                     break;
@@ -1736,7 +1736,7 @@ public class Funcionalidad3 {
                     sc.nextLine();
                     if (opcion < 0 || opcion > 3) {
                         imprimirSeparador();
-                        System.out.println("Opcion no válida");
+                        System.out.println("Opcion no valida");
                         continue;
                     }
                     break;
@@ -1883,7 +1883,7 @@ public class Funcionalidad3 {
                     sc.nextLine();
                     if (opcion < 0 || opcion > 3) {
                         imprimirSeparador();
-                        System.out.println("Opcion no válida");
+                        System.out.println("Opcion no valida");
                         continue;
                     }
                     break;
@@ -1935,7 +1935,7 @@ public class Funcionalidad3 {
                     return;
                 } else {
                     imprimirSeparador();
-                    System.out.println("Opcion no válida");
+                    System.out.println("Opcion no valida");
                     sc.nextLine();
                 }
             }
@@ -1968,7 +1968,7 @@ public class Funcionalidad3 {
                     sc.nextLine();
                 }
             }
-            int cantidadInicial;//será la cantidadInicial y cantidad
+            int cantidadInicial;//sera la cantidadInicial y cantidad
             while (true) {
                 try {
                     imprimirSeparador();
@@ -1999,7 +1999,7 @@ public class Funcionalidad3 {
                     break;
                 } else {
                     imprimirSeparador();
-                    System.out.println("Opcion no válida");
+                    System.out.println("Opcion no valida");
                     sc.nextLine();
                 }
             }
@@ -2013,7 +2013,7 @@ public class Funcionalidad3 {
                     break;
                 } else {
                     imprimirSeparador();
-                    System.out.println("Opcion no válida");
+                    System.out.println("Opcion no valida");
                     sc.nextLine();
                 }
             }

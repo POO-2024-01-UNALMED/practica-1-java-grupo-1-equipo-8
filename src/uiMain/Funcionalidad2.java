@@ -29,11 +29,11 @@ public class Funcionalidad2 {
             return;
         }
 
-        // Comprobar si hay préstamos vencidos
+        // Comprobar si hay prestamos vencidos
         comprobarPrestamos(cliente, fecha);
 
         if (tieneVencidos(cliente)) {
-            System.out.println("El cliente tiene los siguientes préstamos vencidos:\n");
+            System.out.println("El cliente tiene los siguientes prestamos vencidos:\n");
             for (Prestamo p : cliente.getPrestamos()) {
                 if (p.getEstado().equals("Vencido")) {
                     System.out.println(p);
@@ -41,8 +41,8 @@ public class Funcionalidad2 {
             }
         }
 
-        /* ~~ Devolución de productos prestados ~~ */
-        // Comprobar que el cliente tenga préstamos activos o vencidos
+        /* ~~ Devolucion de productos prestados ~~ */
+        // Comprobar que el cliente tenga prestamos activos o vencidos
         boolean prestamoActivo = false;
         for (Prestamo p : cliente.getPrestamos()) {
             if (p.getEstado().equals("Activo") || p.getEstado().equals("Vencido")) {
@@ -54,7 +54,7 @@ public class Funcionalidad2 {
         if (prestamoActivo) {
             if (siNo("¿Desea devolver productos prestados?")) {
                 for (Prestamo p : cliente.getPrestamos()) {
-                    if (p.getEstado().equals("Vencido")) { // Para los préstamos vencidos
+                    if (p.getEstado().equals("Vencido")) { // Para los prestamos vencidos
                         int multa = 0;
                         int diasVencidos = fecha.getTotalDias() - p.getFechaFin().getTotalDias();
 
@@ -62,10 +62,10 @@ public class Funcionalidad2 {
                             multa += (int) (producto.getValor() * 0.1 * diasVencidos);
                         }
 
-                        System.out.println("* Préstamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
-                        System.out.println("Este préstamo está vencido.");
+                        System.out.println("* Prestamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
+                        System.out.println("Este prestamo esta vencido.");
 
-                        if (siNo("¿Desea devolver los productos de este préstamo?")) {
+                        if (siNo("¿Desea devolver los productos de este prestamo?")) {
                             multa += comprobarDevolucion(p);
                             cobrarMulta(multa, local);
                             devolverProductosPrestados(p, local);
@@ -75,9 +75,9 @@ public class Funcionalidad2 {
 
                     if (p.getEstado().equals("Activo")) {
                         int multa = 0;
-                        System.out.println("* Préstamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
+                        System.out.println("* Prestamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
 
-                        if (siNo("¿Desea devolver los productos de este préstamo?")) {
+                        if (siNo("¿Desea devolver los productos de este prestamo?")) {
                             multa = comprobarDevolucion(p);
                             cobrarMulta(multa, local);
                             devolverProductosPrestados(p, local);
@@ -86,20 +86,20 @@ public class Funcionalidad2 {
                     }
                 }
 
-                // Volver a comprobar si hay préstamos vencidos
+                // Volver a comprobar si hay prestamos vencidos
                 comprobarPrestamos(cliente, fecha);
 
                 if (tieneVencidos(cliente)) {
-                    System.out.println("El cliente sigue teniendo préstamos vencidos. No se puede realizar un nuevo préstamo.");
+                    System.out.println("El cliente sigue teniendo prestamos vencidos. No se puede realizar un nuevo prestamo.");
                     return;
                 }
             }
         }
 
-        // Consultar si se desea realizar un préstamo
-        if (!siNo("¿Desea realizar un préstamo?")) {    // En caso que no
+        // Consultar si se desea realizar un prestamo
+        if (!siNo("¿Desea realizar un prestamo?")) {    // En caso que no
             return;
-        } else {   // En caso que sí
+        } else {   // En caso que si
             /* ~~ Seleccion de productos para el prestamo ~~ */
             byte opcion = 0;
             ArrayList<Producto> carrito = new ArrayList<Producto>();
@@ -109,7 +109,7 @@ public class Funcionalidad2 {
                 System.out.println("1. Agregar producto");
                 System.out.println("2. Eliminar producto");
                 System.out.println("3. Ver productos en el carrito");
-                System.out.println("4. Confirmar Préstamo");
+                System.out.println("4. Confirmar Prestamo");
                 System.out.println("0. Cancelar y salir");
 
                 // Recibir entrada del usuario
@@ -117,7 +117,7 @@ public class Funcionalidad2 {
                     opcion = sc.nextByte();
                 } catch (Exception e) {
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
+                    System.out.println("Ingrese un numero valido. Presione Enter para volver a intentar.\n");
                     sc.nextLine();  // Limpiar el buffer
                     sc.nextLine();  // Esperar a que el usuario presione Enter
                     continue;
@@ -135,13 +135,13 @@ public class Funcionalidad2 {
                             producto = (seleccionarProducto(local.getInventarioPrestamo()).clone());
                         } catch (CloneNotSupportedException e) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Error al clonar el producto. Presione Enter para cancelar la operación.");
+                            System.out.println("Error al clonar el producto. Presione Enter para cancelar la operacion.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
 
                             return;
                         }
 
-                        // Verificar si el producto ya está en el carrito
+                        // Verificar si el producto ya esta en el carrito
                         boolean productoYaEnCarrito = false;
                         for (Producto p : carrito) {
                             if (p.getNombre().equals(producto.getNombre())) {
@@ -151,10 +151,10 @@ public class Funcionalidad2 {
                         }
 
                         if (productoYaEnCarrito) {
-                            System.out.println("¡Sólo está permitido un ejemplar por préstamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
+                            System.out.println("¡Solo esta permitido un ejemplar por prestamo! (ノ ゜Д゜)ノ ︵ ┻━┻");
                             System.out.println("\nPresione Enter para continuar.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
-                        } else { // En caso de que no esté, agregarlo al carrito
+                        } else { // En caso de que no este, agregarlo al carrito
                             carrito.add(producto);
                             System.out.println("Producto agregado al carrito.");
                         }
@@ -173,9 +173,9 @@ public class Funcionalidad2 {
 
                     case 3: // Ver productos en el carrito
 
-                        // Comprobar que el carrito no esté vacío
+                        // Comprobar que el carrito no este vacio
                         if (carrito.isEmpty()) {
-                            System.out.println("El carrito está vacío.");
+                            System.out.println("El carrito esta vacio.");
                             System.out.println("\nPresione Enter para continuar.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
                             break;
@@ -192,10 +192,10 @@ public class Funcionalidad2 {
 
                         break;
 
-                    case 4: // Confirmar carrito para préstamo
-                        // Comprobar que el carrito no esté vacío
+                    case 4: // Confirmar carrito para prestamo
+                        // Comprobar que el carrito no este vacio
                         if (carrito.isEmpty()) {
-                            System.out.println("El carrito está vacío.");
+                            System.out.println("El carrito esta vacio.");
                             System.out.println("\nPresione Enter para continuar.");
                             sc.nextLine();  // Esperar a que el usuario presione Enter
                             continue;
@@ -208,14 +208,14 @@ public class Funcionalidad2 {
                         }
 
                         // Elegir plazo
-                        System.out.println("1. 2 semanas (14 días)");
-                        System.out.println("2. 1 mes (30 días)");
-                        System.out.println("3. Mes y medio (45 días)");
-                        System.out.println("4. 2 meses (60 días)");
+                        System.out.println("1. 2 semanas (14 dias)");
+                        System.out.println("2. 1 mes (30 dias)");
+                        System.out.println("3. Mes y medio (45 dias)");
+                        System.out.println("4. 2 meses (60 dias)");
 
-                        System.out.println("Ingrese el tipo de plazo para el préstamo:");
+                        System.out.println("Ingrese el tipo de plazo para el prestamo:");
 
-                        int dias = 0; // Variable para calcular la fecha final según la duración del préstamo
+                        int dias = 0; // Variable para calcular la fecha final segun la duracion del prestamo
 
                         while (dias == 0) {
                             byte opcionPlazo = 0;
@@ -224,7 +224,7 @@ public class Funcionalidad2 {
                                 sc.nextLine();  // Limpiar el buffer
                             } catch (InputMismatchException e) {
                                 System.out.println("\n### ERROR ###");
-                                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
+                                System.out.println("Ingrese un numero valido. Presione Enter para volver a intentar.\n");
                                 sc.nextLine();  // Limpiar el buffer
                                 sc.nextLine();  // Esperar a que el usuario presione Enter
                                 continue;
@@ -249,7 +249,7 @@ public class Funcionalidad2 {
                                     break;
                                 default:
                                     System.out.println("\n### ERROR ###");
-                                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                                    System.out.println("Opcion fuera del rango. Presione Enter para volver a intentar.\n");
                                     sc.nextLine();  // Limpiar el buffer
                                     sc.nextLine();  // Esperar a que el usuario presione Enter
                                     continue;
@@ -258,11 +258,11 @@ public class Funcionalidad2 {
 
                         int valorInt = (int) valor;
 
-                        System.out.println("El precio total del préstamo es de $" + valorInt + " por " + dias + " días.");
+                        System.out.println("El precio total del prestamo es de $" + valorInt + " por " + dias + " dias.");
 
-                        Fecha fechaFin = new Fecha(fecha.getTotalDias() + dias);  // Fecha de fin del préstamo
+                        Fecha fechaFin = new Fecha(fecha.getTotalDias() + dias);  // Fecha de fin del prestamo
 
-                        // Recepción de pago
+                        // Recepcion de pago
 
                         int valorIngresado = 0;
                         int cambio = 0;
@@ -270,13 +270,13 @@ public class Funcionalidad2 {
                         // Recibir efectivo
                         while (true) {
                             valorIngresado = 0;
-                            System.out.print("Ingrese el valor con el que pagará:");
+                            System.out.print("Ingrese el valor con el que pagara:");
 
                             try {
                                 valorIngresado = sc.nextInt();
                             } catch (InputMismatchException error) {
                                 System.out.println("\n### ERROR ###");
-                                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                                 sc.nextLine();  // Limpiar el buffer
                                 sc.nextLine();  // Esperar a que el usuario presione Enter
                                 continue;
@@ -307,7 +307,7 @@ public class Funcionalidad2 {
                         // Añadir fondos al local
                         local.agregarFondos(valorInt);
 
-                        System.out.println("\nPresione Enter para confirmar el préstamo.");
+                        System.out.println("\nPresione Enter para confirmar el prestamo.");
                         sc.nextLine();  // Limpiar el buffer
                         sc.nextLine(); // Esperar a que el usuario presione Enter
 
@@ -319,7 +319,7 @@ public class Funcionalidad2 {
 
                     default:
                         System.out.println("\n### ERROR ###");
-                        System.out.println("Opción fuera del rango. Presione Enter para intentar de nuevo.");
+                        System.out.println("Opcion fuera del rango. Presione Enter para intentar de nuevo.");
                         sc.nextLine();  // Esperar a que el usuario presione Enter
                         break;
                 }
@@ -328,7 +328,7 @@ public class Funcionalidad2 {
         }
     }
 
-    // Metodo para seleccionar un producto del inventario de préstamos
+    // Metodo para seleccionar un producto del inventario de prestamos
     private static Producto seleccionarProducto(ArrayList<Producto> inventarioPrestamo) {
         byte opcion = 0;
         Scanner scSelProPres = new Scanner(System.in);
@@ -341,19 +341,19 @@ public class Funcionalidad2 {
             System.out.println("2. Juego");
             System.out.println("3. Accesorio");
 
-            // Recibir selección del usuario
+            // Recibir seleccion del usuario
             try {
                 opcion = scSelProPres.nextByte();
                 scSelProPres.nextLine();  // Limpiar el buffer
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.");
+                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.");
                 scSelProPres.nextLine();  // Limpiar el buffer
                 scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                 continue;
             }
 
-            // Selección de producto
+            // Seleccion de producto
             int codigo = 0;
 
             switch (opcion) {
@@ -371,8 +371,8 @@ public class Funcionalidad2 {
 
                     if (!hayConsolas) {
                         System.out.println("\n### ERROR ###");
-                        System.out.println("No hay consolas disponibles para préstamo.");
-                        System.out.println("Presione Enter para volver al menú principal.\n");
+                        System.out.println("No hay consolas disponibles para prestamo.");
+                        System.out.println("Presione Enter para volver al menu principal.\n");
                         scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                         continue;
                     }
@@ -385,8 +385,8 @@ public class Funcionalidad2 {
                         }
                     }
 
-                    // Recibir selección del usuario
-                    System.out.print("Ingrese el código de la consola que desea seleccionar: ");
+                    // Recibir seleccion del usuario
+                    System.out.print("Ingrese el codigo de la consola que desea seleccionar: ");
                     codigo = scSelProPres.nextInt();
                     scSelProPres.nextLine();  // Limpiar el buffer
 
@@ -397,7 +397,7 @@ public class Funcionalidad2 {
                         }
                     }
 
-                    // Esta parte sólo se ejecutará si no se encontró el código dado
+                    // Esta parte solo se ejecutara si no se encontro el codigo dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Consola no encontrada. Presione Enter para volver a intentar.\n");
                     scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
@@ -417,8 +417,8 @@ public class Funcionalidad2 {
 
                     if (!hayJuegos) {
                         System.out.println("\n### ERROR ###");
-                        System.out.println("No hay juegos disponibles para préstamo.");
-                        System.out.println("Presione Enter para volver al menú principal.\n");
+                        System.out.println("No hay juegos disponibles para prestamo.");
+                        System.out.println("Presione Enter para volver al menu principal.\n");
                         scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                         continue;
                     }
@@ -430,8 +430,8 @@ public class Funcionalidad2 {
                         }
                     }
 
-                    // Recibir selección del usuario
-                    System.out.print("Ingrese el código del juego que desea agregar: ");
+                    // Recibir seleccion del usuario
+                    System.out.print("Ingrese el codigo del juego que desea agregar: ");
                     codigo = scSelProPres.nextInt();
                     scSelProPres.nextLine();  // Limpiar el buffer
 
@@ -442,7 +442,7 @@ public class Funcionalidad2 {
                         }
                     }
 
-                    // Esta parte sólo se ejecutará si no se encontró el código dado
+                    // Esta parte solo se ejecutara si no se encontro el codigo dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Juego no encontrado. Presione Enter para volver a intentar.\n");
                     scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
@@ -464,8 +464,8 @@ public class Funcionalidad2 {
 
                     if (!hayAccesorios) {
                         System.out.println("\n### ERROR ###");
-                        System.out.println("No hay accesorios disponibles para préstamo.");
-                        System.out.println("Presione Enter para volver al menú principal.\n");
+                        System.out.println("No hay accesorios disponibles para prestamo.");
+                        System.out.println("Presione Enter para volver al menu principal.\n");
                         scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                         continue;
                     }
@@ -478,8 +478,8 @@ public class Funcionalidad2 {
                         }
                     }
 
-                    // Recibir selección del usuario
-                    System.out.print("Ingrese el código del accesorio que desea agregar: ");
+                    // Recibir seleccion del usuario
+                    System.out.print("Ingrese el codigo del accesorio que desea agregar: ");
                     codigo = scSelProPres.nextInt();
                     scSelProPres.nextLine();  // Limpiar el buffer
 
@@ -490,7 +490,7 @@ public class Funcionalidad2 {
                         }
                     }
 
-                    // Esta parte sólo se ejecutará si no se encontró el código dado
+                    // Esta parte solo se ejecutara si no se encontro el codigo dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Accesorio no encontrado. Presione Enter para volver a intentar.\n");
                     scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
@@ -499,7 +499,7 @@ public class Funcionalidad2 {
 
                 default:
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                    System.out.println("Opcion fuera del rango. Presione Enter para volver a intentar.\n");
                     scSelProPres.nextLine(); // Limpiar el buffer
                     scSelProPres.nextLine(); // Esperar a que el usuario presione Enter
                     break;
@@ -507,19 +507,19 @@ public class Funcionalidad2 {
         } while (true);
     }
 
-    // Buscar préstamos vencidos para un cliente dado
+    // Buscar prestamos vencidos para un cliente dado
     private static void comprobarPrestamos(Cliente cliente, Fecha fecha) {
         if (!cliente.getPrestamos().isEmpty()) {
             for (Prestamo p : cliente.getPrestamos()) {
                 if (p.getFechaFin().getTotalDias() < fecha.getTotalDias()) {
-                    System.out.println("El préstamo con ID " + p.getId() + " ha vencido.");
+                    System.out.println("El prestamo con ID " + p.getId() + " ha vencido.");
                     p.setEstado("Vencido");
                 }
             }
         }
     }
 
-    // Devolver true si el cliente tiene préstamos vencidos
+    // Devolver true si el cliente tiene prestamos vencidos
     private static boolean tieneVencidos(Cliente cliente) {
         for (Prestamo p : cliente.getPrestamos()) {
             if (p.getEstado().equals("Vencido")) {
@@ -529,8 +529,8 @@ public class Funcionalidad2 {
         return false;
     }
 
-    // Metodo que se encarga únicamente de devolver los productos al stock del local ingresado
-    // y actualizar el estado del préstamo
+    // Metodo que se encarga unicamente de devolver los productos al stock del local ingresado
+    // y actualizar el estado del prestamo
     private static void devolverProductosPrestados(Prestamo prestamo, Tienda local) {
         ArrayList<Producto> paraAnadir = new ArrayList<>();
         for (Producto producto : prestamo.getProductos()) {
@@ -551,7 +551,7 @@ public class Funcionalidad2 {
     }
 
     // Metodo que lleva a cabo el chequeo individual de cada producto
-    // de una devolución y retorna una multa de ser necesario
+    // de una devolucion y retorna una multa de ser necesario
     private static int comprobarDevolucion(Prestamo prestamo) {
         int multa = 0;
         System.out.println("Por favor, revise el estado de los productos devueltos.");
@@ -574,13 +574,13 @@ public class Funcionalidad2 {
         while (true) {
             int valorIngresado = 0;
             System.out.println("Valor de multa: " + valorMulta);
-            System.out.print("Ingrese el valor con el que pagará:");
+            System.out.print("Ingrese el valor con el que pagara:");
 
             try {
                 valorIngresado = sc.nextInt();
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
                 continue;

@@ -20,7 +20,7 @@ public class Main {
     /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     /* ~~~ Objetos para pruebas ~~~ */
 
-    // Comentar para probar la serialización
+    // Comentar para probar la serializacion
 
     static Tienda tienda1 = new Tienda("Volador", 123);
 
@@ -191,7 +191,7 @@ public class Main {
 
     public static void main(String[] args) {
         /* ~~~ Carga de objetos serializados ~~~ */
-        // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIÓN
+        // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIoN
 /*
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
@@ -199,34 +199,34 @@ public class Main {
 
         /* ~~~~~~~~~~~~~~~~~~~~~~~ Inicio del programa ~~~~~~~~~~~~~~~~~~~~~~~ */
         /* ~~~ Recibir fecha ~~~ */
-        // Se guarda el mes de la última fecha registrada con el fin de actualizar ciertos atributos como
+        // Se guarda el mes de la ultima fecha registrada con el fin de actualizar ciertos atributos como
         // la cantidad inicial de cada producto.
         int ultimoMes = ultimaFecha.getMes();
 
         // Recibir fecha actual
         Fecha fechaActual = recibirFechaActual();
 
-        // Comprobar si se cambió de mes
+        // Comprobar si se cambio de mes
         cambioDeMes(ultimoMes, fechaActual.getMes());
 
-        /* ~~~ Selección de local ~~~ */
+        /* ~~~ Seleccion de local ~~~ */
         Tienda local = null; // Se adquiere el local con el que se quiere trabajar
         local = getLocal();
 
         /* ~~ Aplicar reabastecimientos ~~ */
         comprobarReabastecimientos(local, fechaActual);
 
-        /* ~~~~~~ Menú principal ~~~~~~ */
+        /* ~~~~~~ Menu principal ~~~~~~ */
         imprimirSeparador();
         imprimirLogo();
-        /* ~~ Selección de funcionalidad ~~ */
+        /* ~~ Seleccion de funcionalidad ~~ */
         byte opcion = 1;
         do {
             System.out.flush();
             imprimirSeparador();
             System.out.println("MENU PRINCIPAL");
             System.out.println("1. Registrar compra");
-            System.out.println("2. Registrar préstamo");
+            System.out.println("2. Registrar prestamo");
             System.out.println("3. Administrar inventario");
             System.out.println("4. Gestionar empleados");
             System.out.println("5. Subastar");
@@ -236,7 +236,7 @@ public class Main {
 
             System.out.println("0. Guardar y salir");
 
-            System.out.println("Ingrese el número de la opción que desea ejecutar:");
+            System.out.println("Ingrese el numero de la opcion que desea ejecutar:");
 
             // Recibir entrada del usuario
             try {
@@ -244,7 +244,7 @@ public class Main {
                 sc.nextLine();  // Limpiar el buffer
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                 sc.nextLine();  // nextLine para limpiar el buffer
                 sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
                 continue;
@@ -257,7 +257,7 @@ public class Main {
                     break;
 
                 case 2:
-                    // Registrar préstamo
+                    // Registrar prestamo
 
                     Funcionalidad2.registrarPrestamo(local, fechaActual);
                     break;
@@ -295,7 +295,7 @@ public class Main {
 
                 default:
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                    System.out.println("Opcion fuera del rango. Presione Enter para volver a intentar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                     break;
@@ -331,23 +331,23 @@ public class Main {
     }
     // Metodo para identificar a un cliente
 
-    // Recibe una fecha y se asegura de que sea igual o superior a la última fecha registrada
+    // Recibe una fecha y se asegura de que sea igual o superior a la ultima fecha registrada
     private static Fecha recibirFechaActual() {
         Fecha fechaActual;
 
         while (true) { // Recibir fecha actual
             imprimirSeparador();
 
-            System.out.println("Último acceso: " + ultimaFecha);
+            System.out.println("ultimo acceso: " + ultimaFecha);
             System.out.println("Ingrese la fecha actual");
 
             fechaActual = recibirFecha();
-            if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la última fecha registrada
+            if (fechaActual.getTotalDias() >= ultimaFecha.getTotalDias()) { // Si la fecha ingresada es igual o superior a la ultima fecha registrada
                 ultimaFecha = fechaActual;
                 break;
             } else {
                 System.out.println("\n### ERROR ###");
-                System.out.println("La fecha ingresada es anterior a la última fecha registrada (" + ultimaFecha + ")" +
+                System.out.println("La fecha ingresada es anterior a la ultima fecha registrada (" + ultimaFecha + ")" +
                         "\nPresione Enter para volver a intentar.");
 
                 sc.nextLine();  // Esperar a que el usuario presione Enter
@@ -374,7 +374,7 @@ public class Main {
                 opcion = sc.nextByte();
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                 sc.nextLine();  // nextLine para limpiar el buffer
                 sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
                 continue;
@@ -383,7 +383,7 @@ public class Main {
             switch (opcion) {
                 case 1:
                     // Nuevo cliente
-                    System.out.println("Ingrese cédula del cliente:");
+                    System.out.println("Ingrese cedula del cliente:");
                     cedula = sc.nextInt();
                     sc.nextLine();  // Limpiar el buffer
 
@@ -393,7 +393,7 @@ public class Main {
                     System.out.println("Ingrese correo del cliente:");
                     String correo = sc.nextLine();
 
-                    System.out.println("Ingrese teléfono del cliente:");
+                    System.out.println("Ingrese telefono del cliente:");
                     long telefono = sc.nextLong();
                     sc.nextLine();  // Limpiar el buffer
 
@@ -404,9 +404,9 @@ public class Main {
                     // Cliente existente
 
                     while (cliente == null) {
-                        System.out.println("Ingrese cédula del cliente:");
+                        System.out.println("Ingrese cedula del cliente:");
 
-                        // Buscar al cliente en la lista de clientes por su cédula
+                        // Buscar al cliente en la lista de clientes por su cedula
                         try {
                             cedula = sc.nextInt();
 
@@ -419,13 +419,13 @@ public class Main {
                             }
                         } catch (Exception e) {
                             System.out.println("\n### ERROR ###");
-                            System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                            System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                             sc.nextLine();  // Limpiar el buffer
                             sc.nextLine();  // Esperar a que el usuario presione Enter
                             continue;
                         }
 
-                        // En caso de que el cliente no sea encontrado dar la opción de intentar de nuevo
+                        // En caso de que el cliente no sea encontrado dar la opcion de intentar de nuevo
                         if (cliente == null) {
                             System.out.println("\n### ERROR ###");
                             if (!siNo("Cliente no encontrado. ¿Desea intentar de nuevo?")) {
@@ -439,7 +439,7 @@ public class Main {
 
                 default:
                     System.out.println("\n### ERROR ###");
-                    System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
+                    System.out.println("Opcion fuera del rango. Presione Enter para volver a intentar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                     break;
@@ -449,7 +449,7 @@ public class Main {
         return cliente;
     }
 
-    // Recibe una String que es la pregunta que se hará.
+    // Recibe una String que es la pregunta que se hara.
     // Devuelve true si la respuesta no es No (ni "n" ni "N")
     public static boolean siNo(String pregunta) {
         Scanner scSiNo = new Scanner(System.in);
@@ -481,7 +481,7 @@ public class Main {
                 break;
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                System.out.println("Ingrese un numero valido. Presione Enter para volver a intentar.");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
             }
@@ -501,26 +501,26 @@ public class Main {
                 break;
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                System.out.println("Ingrese un numero valido. Presione Enter para volver a intentar.");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
             }
         }
 
-        // Recibir día
+        // Recibir dia
         while (true) {
             try {
-                System.out.print("Ingrese día: ");
+                System.out.print("Ingrese dia: ");
                 dia = sc.nextInt();
 
                 if (dia <= 0 || dia > 31) {
-                    throw new Exception("Día inválido");
+                    throw new Exception("Dia invalido");
                 }
 
                 break;
             } catch (Exception e) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.");
+                System.out.println("Ingrese un numero valido. Presione Enter para volver a intentar.");
                 sc.nextLine();  // Limpiar el buffer
                 sc.nextLine();  // Esperar a que el usuario presione Enter
             }
@@ -583,7 +583,7 @@ public class Main {
     }
 
     // Menu de opcion multiple. Recibe un titulo y un array de opciones a mostrar.
-    // Devuelve el byte de la opción seleccionada.
+    // Devuelve el byte de la opcion seleccionada.
     public static byte menuOpcionMultiple(String titulo, String[] opciones) {
         Scanner scMenuOpcines = new Scanner(System.in);
         byte opcion;
@@ -599,7 +599,7 @@ public class Main {
 
             System.out.println("0. Volver");
 
-            System.out.print("Ingrese el número de la opción que desea ejecutar: ");
+            System.out.print("Ingrese el numero de la opcion que desea ejecutar: ");
 
             // Recibir entrada
             opcion = 0;
@@ -612,7 +612,7 @@ public class Main {
                 return opcion;
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
-                System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.\n");
+                System.out.println("Ingrese un numero valido. Presiona enter para volver a intentar.\n");
                 scMenuOpcines.nextLine();  // nextLine para limpiar el buffer
                 scMenuOpcines.nextLine();  // nextLine para esperar a que el usuario presione Enter
                 continue;

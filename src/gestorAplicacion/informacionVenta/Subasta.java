@@ -60,7 +60,7 @@ public class Subasta implements Serializable {
             this.ofertantes.add(cliente);
             this.ofertaMayor = oferta;
         } else {
-            throw new Exception("La oferta debe ser mayor a la última oferta: " + this.ofertaMayor);
+            throw new Exception("La oferta debe ser mayor a la ultima oferta: " + this.ofertaMayor);
         }
     }
 
@@ -99,8 +99,8 @@ public class Subasta implements Serializable {
         return ganador;
     }
 
-    // Metodo para finalizar una subasta anónima. Retorna al ganador
-    // En caso de empate, el ganador será el primero que ofertó
+    // Metodo para finalizar una subasta anonima. Retorna al ganador
+    // En caso de empate, el ganador sera el primero que oferto
     public Cliente finalizarSubastaAnonima() {
         this.estado = "Finalizada";
         Cliente ganador = null;
@@ -116,9 +116,9 @@ public class Subasta implements Serializable {
         return ganador;
     }
 
-    /* ~~ Calcular valoración de objetos de subasta ~~ */
+    /* ~~ Calcular valoracion de objetos de subasta ~~ */
 
-    // Calcular valoración de subasta ascendente del conjunto de productos que recibe
+    // Calcular valoracion de subasta ascendente del conjunto de productos que recibe
     public static int calcularValoracionAscendente(ArrayList<Producto> productos, Fecha fechaActual) {
         int rareza;
         int valorInicial;
@@ -144,7 +144,7 @@ public class Subasta implements Serializable {
         return valorTotal;
     }
 
-    // Calcular valoración de subasta descendente del conjunto de productos que recibe
+    // Calcular valoracion de subasta descendente del conjunto de productos que recibe
     public static int calcularValoracionDescendente(ArrayList<Producto> productos, Fecha fechaActual) {
         int rareza;
         int valorInicial;

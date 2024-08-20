@@ -9,7 +9,7 @@ public class Consola extends Producto{
 	private String marca;
 
 	/* ~~~ Constructores ~~~ */
-	public Consola(){}	// constructor vacío //
+	public Consola(){}	// constructor vacio //
 	//Constructor con fecha
 	public Consola(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, Fecha fecha, int descuento, int puntosRequeridos, String marca) {
 		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, fecha, descuento, puntosRequeridos);
@@ -27,7 +27,7 @@ public class Consola extends Producto{
 		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, marca);
 	}
 
-										//~~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~~//
+										//~~~~~~~~~~~~~~~~~~ Metodos get y set ~~~~~~~~~~~~~~~~~~//
 	public String getMarca(){
 		return marca;
 	}

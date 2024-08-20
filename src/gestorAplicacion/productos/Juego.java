@@ -36,7 +36,7 @@ public class Juego extends Producto {
 		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, genero, plataforma);
 	}
 
-	//~~~~~~~~~~~~~~~~~~ Métodos ~~~~~~~~~~~~~~~~~~//
+	//~~~~~~~~~~~~~~~~~~ Metodos ~~~~~~~~~~~~~~~~~~//
 	// Metodo toString
 	@Override
 	public String toString() {
@@ -77,7 +77,7 @@ public class Juego extends Producto {
 	}
 
 
-	// ~~~~~~~~~~~~~~~~~ Métodos get y set ~~~~~~~~~~~~~~~~~ //
+	// ~~~~~~~~~~~~~~~~~ Metodos get y set ~~~~~~~~~~~~~~~~~ //
 	public String getGenero(){
 		return genero;
 	}

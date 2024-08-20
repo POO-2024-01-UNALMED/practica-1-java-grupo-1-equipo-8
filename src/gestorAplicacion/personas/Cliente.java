@@ -24,7 +24,7 @@ public class Cliente extends Persona{
         this.puntosFidelidad = puntosFidelidad;
     }
 
-    /* ~~~ Métodos ~~~ */
+    /* ~~~ Metodos ~~~ */
     public void agregarPrestamo(Prestamo prestamo){
         this.prestamos.add(prestamo);
     }

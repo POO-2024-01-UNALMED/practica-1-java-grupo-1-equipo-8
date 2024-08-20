@@ -39,7 +39,7 @@ public class Tienda implements Serializable {
         this.fondos = fondos;
         Tienda.locales.add(this);
     }
-    /* ~~~ Métodos ~~~ */
+    /* ~~~ Metodos ~~~ */
     // Agregar producto al inventario correspondiente
     public void agregarProducto(Producto producto){
         if (producto.isPrestable()) {
