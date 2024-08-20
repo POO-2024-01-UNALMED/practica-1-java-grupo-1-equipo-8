@@ -221,6 +221,7 @@ public class Funcionalidad2 {
                             byte opcionPlazo = 0;
                             try {
                                 opcionPlazo = sc.nextByte();
+                                sc.nextLine();  // Limpiar el buffer
                             } catch (InputMismatchException e) {
                                 System.out.println("\n### ERROR ###");
                                 System.out.println("Ingrese un número válido. Presione Enter para volver a intentar.\n");
@@ -294,7 +295,12 @@ public class Funcionalidad2 {
 
                         cambio = valorIngresado - valorInt;
 
-                        System.out.println("Cambio: $" + cambio + "\n");
+                        System.out.println("Cambio: $" + cambio);
+
+                        // Remover productos del inventario
+                        for (Producto p : carrito) {
+                            Tienda.retirarUnoDeInventario(p, local.getInventarioPrestamo());
+                        }
 
                         // Crear prestamo
                         Prestamo prestamo = new Prestamo(fecha, fechaFin, cliente, carrito, valorInt, "Activo");
@@ -318,14 +324,14 @@ public class Funcionalidad2 {
                         break;
                 }
 
-                // Méthodo para seleccionar un producto del inventario de préstamos
-            }
-            while (opcion != 4 || opcion != 0);
+            } while (opcion != 4 && opcion != 0);
         }
     }
 
+    // Méthodo para seleccionar un producto del inventario de préstamos
     private static Producto seleccionarProducto(ArrayList<Producto> inventarioPrestamo) {
         byte opcion = 0;
+        Scanner scSelProPres = new Scanner(System.in);
 
         do {
             imprimirSeparador();
@@ -337,12 +343,13 @@ public class Funcionalidad2 {
 
             // Recibir selección del usuario
             try {
-                opcion = sc.nextByte();
+                opcion = scSelProPres.nextByte();
+                scSelProPres.nextLine();  // Limpiar el buffer
             } catch (InputMismatchException error) {
                 System.out.println("\n### ERROR ###");
                 System.out.println("Ingrese un número válido. Presiona enter para volver a intentar.");
-                sc.nextLine();  // Limpiar el buffer
-                sc.nextLine();  // Esperar a que el usuario presione Enter
+                scSelProPres.nextLine();  // Limpiar el buffer
+                scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                 continue;
             }
 
@@ -366,7 +373,7 @@ public class Funcionalidad2 {
                         System.out.println("\n### ERROR ###");
                         System.out.println("No hay consolas disponibles para préstamo.");
                         System.out.println("Presione Enter para volver al menú principal.\n");
-                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                         continue;
                     }
 
@@ -380,8 +387,8 @@ public class Funcionalidad2 {
 
                     // Recibir selección del usuario
                     System.out.print("Ingrese el código de la consola que desea seleccionar: ");
-                    codigo = sc.nextInt();
-                    sc.nextLine();  // Limpiar el buffer
+                    codigo = scSelProPres.nextInt();
+                    scSelProPres.nextLine();  // Limpiar el buffer
 
                     for (Producto p : inventarioPrestamo) {
                         if (p instanceof Consola && p.getCodigo() == codigo) {
@@ -393,7 +400,7 @@ public class Funcionalidad2 {
                     // Esta parte sólo se ejecutará si no se encontró el código dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Consola no encontrada. Presione Enter para volver a intentar.\n");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                     break;
 
                 case 2:
@@ -412,7 +419,7 @@ public class Funcionalidad2 {
                         System.out.println("\n### ERROR ###");
                         System.out.println("No hay juegos disponibles para préstamo.");
                         System.out.println("Presione Enter para volver al menú principal.\n");
-                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                         continue;
                     }
 
@@ -425,8 +432,8 @@ public class Funcionalidad2 {
 
                     // Recibir selección del usuario
                     System.out.print("Ingrese el código del juego que desea agregar: ");
-                    codigo = sc.nextInt();
-                    sc.nextLine();  // Limpiar el buffer
+                    codigo = scSelProPres.nextInt();
+                    scSelProPres.nextLine();  // Limpiar el buffer
 
                     for (Producto p : inventarioPrestamo) {
                         if (p instanceof Juego && p.getCodigo() == codigo) {
@@ -438,7 +445,7 @@ public class Funcionalidad2 {
                     // Esta parte sólo se ejecutará si no se encontró el código dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Juego no encontrado. Presione Enter para volver a intentar.\n");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                     break;
 
 
@@ -459,7 +466,7 @@ public class Funcionalidad2 {
                         System.out.println("\n### ERROR ###");
                         System.out.println("No hay accesorios disponibles para préstamo.");
                         System.out.println("Presione Enter para volver al menú principal.\n");
-                        sc.nextLine();  // Esperar a que el usuario presione Enter
+                        scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                         continue;
                     }
 
@@ -473,8 +480,8 @@ public class Funcionalidad2 {
 
                     // Recibir selección del usuario
                     System.out.print("Ingrese el código del accesorio que desea agregar: ");
-                    codigo = sc.nextInt();
-                    sc.nextLine();  // Limpiar el buffer
+                    codigo = scSelProPres.nextInt();
+                    scSelProPres.nextLine();  // Limpiar el buffer
 
                     for (Producto p : inventarioPrestamo) {
                         if (p instanceof Accesorio && p.getCodigo() == codigo) {
@@ -486,15 +493,15 @@ public class Funcionalidad2 {
                     // Esta parte sólo se ejecutará si no se encontró el código dado
                     System.out.println("\n### ERROR ###");
                     System.out.println("Accesorio no encontrado. Presione Enter para volver a intentar.\n");
-                    sc.nextLine();  // Esperar a que el usuario presione Enter
+                    scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
                     break;
 
 
                 default:
                     System.out.println("\n### ERROR ###");
                     System.out.println("Opción fuera del rango. Presione Enter para volver a intentar.\n");
-                    sc.nextLine(); // Limpiar el buffer
-                    sc.nextLine(); // Esperar a que el usuario presione Enter
+                    scSelProPres.nextLine(); // Limpiar el buffer
+                    scSelProPres.nextLine(); // Esperar a que el usuario presione Enter
                     break;
             }
         } while (true);
