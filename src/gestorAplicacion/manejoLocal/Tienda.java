@@ -122,13 +122,15 @@ public class Tienda implements Serializable {
         for (Producto p : this.inventario) {
             if (p.equals(producto)) {
                 p.setCantidad(p.getCantidad() - cantidad);
-                p.  setCantidadInicial(p.getCantidadInicial() - cantidad);
+                p.setCantidadInicial(p.getCantidadInicial() - cantidad);
             }
         }
     }
     // Metodo para agregar orden de reabastecimiento
     public void agregarOrden(Reabastecimiento orden){
-        this.reabastecimientos.add(orden);
+        if(orden != null){
+            this.reabastecimientos.add(orden);
+        }
     }
 
 
