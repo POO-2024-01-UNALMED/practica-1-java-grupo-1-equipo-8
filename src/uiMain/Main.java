@@ -167,7 +167,6 @@ public class Main {
     static Tienda tienda4 = new Tienda("Buenos Aires", 1422);
 
     static {
-        // Adding products to "Laureles"
         tienda3.agregarProducto(new Consola("Polystation 5", 400, 10, 10, false, (byte) 5, 11, 11, 2021, 5, 100, "Sony"));
         tienda3.agregarProducto(new Consola("Xbox 1080", 450, 10, 15, false, (byte) 5, 9, 11, 2021, 5, 0, "Microsoft"));
         tienda3.agregarProducto(new Consola("Noentiendo Swap", 300, 20, 20, false, (byte) 5, 13, 7, 2018, 5, 0, "Noentiendo"));
