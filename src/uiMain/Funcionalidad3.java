@@ -306,6 +306,7 @@ public class Funcionalidad3 {
                 case 4:
                     //Crear producto
                     crearProducto(local);
+                    continue;
 
                 case 5:
                     break;
