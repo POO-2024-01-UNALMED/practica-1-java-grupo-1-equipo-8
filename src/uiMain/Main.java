@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -134,19 +135,19 @@ public class Main {
         Fecha fecha12 = new Fecha(7,6,2024);
 
 
-        new Transaccion(fecha1, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha2, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha3, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha4, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha5, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha6, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha7, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha1, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha2, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha3, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha4, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha5, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha6, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha7, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
 
-        new Transaccion(fecha8, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha9, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha10, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha11, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
-        new Transaccion(fecha12, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha8, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha9, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha10, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha11, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
+        new Transaccion(fecha12, cliente1, empleado1, tienda1, new ArrayList<>(), 10000);
     }
 
     static Tienda tienda2 = new Tienda("Robledo", 1420);
@@ -940,9 +941,6 @@ public class Main {
                                 return;
                             }
                         }
-
-                        // Añadir la transaccion a la lista de transacciones de la tienda
-                        local.agregarTransaccion(transaccion);
 
                         // Actualizar cliente
                         // Descontar puntos de fidelidad
@@ -1791,7 +1789,6 @@ public class Main {
             while (true) {
                 imprimirSeparador();
                 System.out.println("Desea\n1. Revisar los productos del local \n2. Modificar la informacion de algun producto\n3. Calcular la prioridad de estos\n4. Crear objeto\n5. Salir ");
-
                 //Evitar un error al ingresar un dato no numerico
 
                 opcion = 0;
@@ -2277,6 +2274,7 @@ public class Main {
                                 scInvent.nextLine();
                                 break;
                             }
+
                             while (true) {
                                 try {
                                     imprimirSeparador();
@@ -2306,7 +2304,7 @@ public class Main {
                                         Producto.ordenar(listaProductos, "");
 
                                         for (Producto p : listaProductos) {
-                                            System.out.println("    * ID: " + p.getCodigo() + " | Nombre: " + p.getNombre() + " | Cantidad: " + p.getCantidad() + " | Precio: " + p.getValor() + " | Prioridad: " + p.getPrioridad());
+                                            System.out.println("    * ID: " + p.getCodigo() + " | Nombre: " + p.getNombre() + " | Cantidad: " + p.getCantidad() + " | Precio: " + p.getValor());
                                         }
                                         continue;
                                     case 2:
@@ -2483,8 +2481,7 @@ public class Main {
                                         break;
 
                                     } else if (decision.equalsIgnoreCase("todos")) {
-                                        ArrayList<Producto> lista = new ArrayList<Producto>();
-                                        Collections.copy(lista, local.getInventario());
+                                        ArrayList<Producto> lista = new ArrayList<Producto>(local.getInventario());
                                         Producto.ordenar(lista, orden);
 
                                         for (Producto i : lista) {
@@ -3269,7 +3266,7 @@ public class Main {
                 imprimirSeparador();
                 for (Tienda t : Tienda.getLocales()) {
                     for (Producto i : t.getInventario()) {
-                        if (i.getNombre().equalsIgnoreCase(producto.getNombre())) {
+                        if (i.getNombre().equalsIgnoreCase(producto.getNombre())&& t != local) {
                             existe = true;
                             cantidad = i.getCantidad() - (int) (i.getCantidadInicial() * 0.4);
                             if (cantidad < 0) {
@@ -3392,9 +3389,9 @@ public class Main {
 
                 for (Juego i : p) {//Conseguir todos las generos existentes
                     if (generos.isEmpty()) {
-                        generos.add(i.getPlataforma());
-                    } else if (!generos.contains(i.getPlataforma())) {
-                        generos.add(i.getPlataforma());
+                        generos.add(i.getGenero());
+                    } else if (!generos.contains(i.getGenero())) {
+                        generos.add(i.getGenero());
                     }
                 }
                 imprimirSeparador();
@@ -3405,14 +3402,14 @@ public class Main {
                 nombre = scInvent.nextLine();
                 scInvent.nextLine();
                 if (!generos.contains(nombre)) {
-                    System.out.println("La plataforma ingresada no es valida");
+                    System.out.println("El genero ingresado no es valido");
                     scInvent.nextLine();
                     continue;
                 }
                 imprimirSeparador();
                 for (Juego i : p) {
-                    if (i.getPlataforma().equalsIgnoreCase(nombre)) {
-                        System.out.println("•" + i.getNombre() + " | COD: " + i.getCodigo() + " | Genero: " + i.getGenero());
+                    if (i.getGenero().equalsIgnoreCase(nombre)) {
+                        System.out.println("•" + i.getNombre() + " | COD: " + i.getCodigo() + " | Genero: " + i.getGenero()+" | Plataforma: "+i.getPlataforma());
                     }
                 }
 
@@ -3436,10 +3433,13 @@ public class Main {
                         break;
                     }
                 }
+                if (producto == null){
+                    continue;
+                }
                 imprimirSeparador();
                 for (Tienda t : Tienda.getLocales()) {
                     for (Producto i : t.getInventario()) {
-                        if (i.getNombre().equalsIgnoreCase(producto.getNombre())) {
+                        if (i.getNombre().equalsIgnoreCase(producto.getNombre()) && t != local) {
                             existe = true;
                             cantidad = i.getCantidad() - (int) (i.getCantidadInicial() * 0.4);
                             if (cantidad < 0) {
@@ -3583,7 +3583,7 @@ public class Main {
                 imprimirSeparador();
                 for (Tienda t : Tienda.getLocales()) {
                     for (Producto i : t.getInventario()) {
-                        if (i.getNombre().equalsIgnoreCase(producto.getNombre())) {
+                        if (i.getNombre().equalsIgnoreCase(producto.getNombre()) && t != local) {
                             existe = true;
                             cantidad = i.getCantidad() - (int) (i.getCantidadInicial() * 0.4);
                             if (cantidad < 0) {
