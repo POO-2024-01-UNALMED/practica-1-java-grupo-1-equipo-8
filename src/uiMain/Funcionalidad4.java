@@ -30,8 +30,8 @@ public class Funcionalidad4 {
         sc.nextLine();
         sc.nextLine();
 
-        /* ~~~ Revisar metas alcanzadas ~~~ */
-        revisarMetasAlcanzadas(empleado);
+        /* ~~~ Mostrar metas alcanzadas ~~~ */
+        mostrarMetasAlcanzadas(empleado);
 
         /* ~~~ Revisar metas caducadas ~~~ */
         while (!empleado.getMetasCaducadas().isEmpty()){
@@ -46,13 +46,11 @@ public class Funcionalidad4 {
             } else {
                 break;
             }
-
         }
 
         /* ~~~ Ver rendimiento ~~~ */
         while (true){
             byte decision;
-
 
             int rendimiento = verRendimiento(empleado, fechaActual);
             compararRendimiento(empleado, fechaActual, rendimiento);
@@ -92,6 +90,7 @@ public class Funcionalidad4 {
                 sc.nextLine();  // nextLine para esperar a que el usuario presione Enter
                 continue;
             }
+
 
             switch (decision) {
                 case 1:
@@ -208,8 +207,8 @@ public class Funcionalidad4 {
         }
     }
 
+    /* ~~ Calcular porcentaje de las metas. Recibe empleado y fecha ~~ */
     private static void gestionarMeta(Empleado empleado, Fecha fechaActual) {
-        /* ~~ Calcular porcentaje de las metas ~~ */
 
         imprimirSeparador();
 
@@ -218,7 +217,7 @@ public class Funcionalidad4 {
             int porcentajeProgreso = (m.getAcumulado() * 100) / m.getValorAlcanzar();
             System.out.println("* Código: " + m.getCodigo() + " - Porcentaje de progreso: " + porcentajeProgreso + "%");
 
-            if (porcentajeProgreso == 100) { //Si el porcentaje de la meta se completó:
+            if (porcentajeProgreso >= 100 && fechaActual.getTotalDias() <= m.getFecha().getTotalDias()) { //Si el porcentaje de la meta se completó:
                 empleado.getMetas().remove(m);
                 empleado.ingresarMetasAlcanzdas(m);
                 m.setEstado("Meta cumplida");
@@ -230,12 +229,11 @@ public class Funcionalidad4 {
                 empleado.ingresarMetasCaducadas(m);
                 m.setEstado("Meta caducada");
             }
-
         }
     }
 
-    private static void revisarMetasAlcanzadas(Empleado empleado) {
-        /* ~~ Revisar si hay metas alcanzadas ~~ */
+    /* ~~ Imprimir si hay metas alcanzadas ~~ */
+    private static void mostrarMetasAlcanzadas(Empleado empleado) {
 
         if (empleado.getMetasAlcanzadas().isEmpty()) { //No se ha cumplido con ninguna meta aún
             imprimirSeparador();
@@ -251,8 +249,8 @@ public class Funcionalidad4 {
         }
     }
 
+    /* ~~ Imprimir metas caducadas. Recibe empleado ~~ */
     private static void mostrarMetasCaducadas(Empleado empleado){
-        /* ~~ Imprimir metas caducadas ~~ */
 
         if (empleado.getMetasCaducadas().isEmpty()) { //Si no hay metas caducadas:
             imprimirSeparador();
@@ -268,8 +266,9 @@ public class Funcionalidad4 {
             }
         }
     }
+
+    /* ~~ Elegir meta que se desea modificar. Recibe empleado ~~ */
     private static Meta revisarMetasCaducadas(Empleado empleado) {
-        /* ~~ Elegir meta que se desea modificar ~~ */
         while (true){
             int codigo;
 
@@ -302,8 +301,8 @@ public class Funcionalidad4 {
         }
     }
 
+    /* ~~ Metodo para ampliar plazo de meta caducada ~~ */
     private static void ampliarMeta(Empleado empleado, Meta meta, Fecha fechaActual) {
-        /* ~~ Método para ampliar plazo de meta caducada ~~ */
         while (true) {
             int yearAjuste;
             int mesAjuste;
@@ -377,6 +376,7 @@ public class Funcionalidad4 {
             }
         }
     }
+
     private static int verRendimiento(Empleado empleado, Fecha fechaActual){
         /* ~~ Ver la cantidad de ventas del empleado ~~ */
         while (true){

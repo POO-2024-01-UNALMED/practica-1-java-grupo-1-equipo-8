@@ -68,6 +68,23 @@ public class Tienda implements Serializable {
         }
     }
 
+    // Establece la prioridad de los productos en el inventario
+    public void actualizarPrioridad() {
+        for (Producto i : this.getInventario()) {
+            if (i.getPrioridad() == null) {
+                if (i.getCantidadInicial()-i.getCantidad() > i.getCantidadInicial() * 0.8) {
+                    i.setPrioridad("Prioridad muy alta");
+                } else if (i.getCantidadInicial()-i.getCantidad() >= i.getCantidadInicial() * 0.51) {
+                    i.setPrioridad("Prioridad alta");
+                } else if (i.getCantidadInicial()-i.getCantidad() >= i.getCantidadInicial() * 0.21) {
+                    i.setPrioridad("Prioridad media");
+                } else {
+                    i.setPrioridad("Prioridad baja");
+                }
+            }
+        }
+    }
+
     public void agregarEmpleado(Empleado empleado){
         this.empleados.add(empleado);
     }

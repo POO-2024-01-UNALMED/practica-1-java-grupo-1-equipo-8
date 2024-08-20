@@ -155,9 +155,13 @@ public class Main {
 
         /* ~~~~~~~~~~~~~~~~~~~~~~~ Inicio del programa ~~~~~~~~~~~~~~~~~~~~~~~ */
         /* ~~~ Recibir fecha ~~~ */
+        int ultimoMes = ultimaFecha.getMes();
+        // Se guarda el mes de la última fecha registrada con el fin de actualizar ciertos atributos como
+        // la cantidad inicial de cada producto.
+
         Fecha fechaActual = recibirFechaActual();
 
-        // TODO: Imprimir local y fecha actuales en el menu principal
+        cambioDeMes(ultimoMes, fechaActual.getMes());
 
         /* ~~ Selección de local ~~ */
         Tienda local = null; // Se adquiere el local con el que se quiere trabajar
@@ -169,6 +173,7 @@ public class Main {
         /* ~~ Selección de funcionalidad ~~ */
         byte opcion = 1;
             do {
+                System.out.flush();
                 imprimirSeparador();
                 System.out.println("MENU PRINCIPAL");
                 System.out.println("1. Registrar compra");
@@ -465,6 +470,22 @@ public class Main {
 
         sc.nextLine(); // Limpiar el buffer
         return new Fecha(dia, mes, year);
+    }
+
+    public static void cambioDeMes(int ultimoMes, int mesActual) {
+        if (ultimoMes != mesActual) {
+            // Reiniciar cantidad inicial
+            for (Tienda tienda : Tienda.getLocales()) {
+                for (Producto producto : tienda.getInventario()) {
+                    producto.setCantidadInicial(producto.getCantidad());
+                }
+            }
+
+            // Actualizar prioridades de los productos
+            for (Tienda tienda : Tienda.getLocales()) {
+                tienda.actualizarPrioridad();
+            }
+        }
     }
 
     // Identificar local
