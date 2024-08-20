@@ -102,8 +102,19 @@ public class Main {
         Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, (byte) 5, tienda1);
 
         //metas
-        new Meta(empleado1, 15, 6, 2024, 30, 8000);
-        new Meta(empleado1, 18, 6, 2024, 35, 10000);
+        Meta meta1 = new Meta(empleado1, 15, 6, 2024, 30, 8000);
+        Meta meta2 = new Meta(empleado1, 22, 6, 2024, 26, 8000);
+        Meta meta3 = new Meta(empleado1, 21, 6, 2024, 24, 8000);
+        Meta meta4 = new Meta(empleado1, 18, 6, 2024, 35, 10000);
+        Meta meta5 = new Meta(empleado1, 19, 6, 2024, 28, 10000);
+        Meta meta6 = new Meta(empleado1, 31, 6, 2024, 30, 10000);
+
+        meta1.setAcumulado(29);
+        meta2.setAcumulado(29);
+        meta3.setAcumulado(29);
+        meta4.setAcumulado(29);
+        meta5.setAcumulado(29);
+        meta6.setAcumulado(29);
     }
 
     static Tienda tienda2 = new Tienda("Robledo", 1420);
