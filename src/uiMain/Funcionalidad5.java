@@ -352,7 +352,7 @@ public class Funcionalidad5 {
     public static void comprobarSubastas(Tienda local, Fecha fecha) {
         for (Subasta subasta : local.getSubastas()) {
             // Hay subastas con fecha anterior a la actual
-            if (subasta.getFechaFin().getTotalDias() < fecha.getTotalDias()) {
+            if (subasta.getFechaFin().getTotalDias() < fecha.getTotalDias() && subasta.getEstado().equalsIgnoreCase("Activa")) {
                 imprimirSeparadorPequeno();
 
                 // Seleccionar subasta vencida
