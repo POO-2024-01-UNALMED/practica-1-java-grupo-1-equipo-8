@@ -10,6 +10,7 @@ import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
 import gestorAplicacion.personas.*;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

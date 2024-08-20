@@ -53,6 +53,7 @@ public class Funcionalidad4 {
         while (true){
             byte decision;
 
+            imprimirSeparador();
             boolean pregunta = siNo("¿Desea ver el rendimiento del empleado?");
             if (!pregunta){
                 break;
@@ -60,9 +61,10 @@ public class Funcionalidad4 {
 
             int rendimiento = verRendimiento(empleado, fechaActual);
             compararRendimiento(empleado, fechaActual, rendimiento);
+            imprimirSeparador();
             System.out.println("¿Que desea hacer?");
             System.out.println("1. Ver rendimiento en otro periodo");
-            System.out.println("2. Asignar sueldo");
+            System.out.println("2. Continuar");
 
             try {
                 decision = sc.nextByte();
@@ -82,6 +84,7 @@ public class Funcionalidad4 {
         while (true) {
             byte decision;
 
+            imprimirSeparador();
             System.out.println("¿Que desea hacer?");
             System.out.println("1. Modificar salarios");
             System.out.println("2. Modificar dias laborales");
@@ -117,6 +120,7 @@ public class Funcionalidad4 {
                     sc.nextLine(); // Esperar a que el usuario presione Enter
                     break;
             }
+            imprimirSeparador();
             boolean pregunta = siNo("¿Desea modificar algo mas?");
             if (!pregunta) {
                 break;
@@ -128,6 +132,7 @@ public class Funcionalidad4 {
         while (true){
             byte pregunta;
 
+            imprimirSeparador();
             System.out.println("¿Que desea hacer?");
             System.out.println("1. Asignar una meta");
             System.out.println("2. Terminar");
@@ -723,8 +728,8 @@ public class Funcionalidad4 {
 
             try { //Mostrar numero de dias ue trabaja actualmente en la tienda e ingresar el nuevo numero de dias que trabajara
                 imprimirSeparador();
-                System.out.println("El empleado " + empleado.getNombre() + "trabaja " + empleado.getDiasLaborales() + " a la semana");
-                System.out.println("Ingrese el numero de dias que " + empleado + " trabajara a la semana");
+                System.out.println("El empleado " + empleado.getNombre() + " trabaja " + empleado.getDiasLaborales() + " a la semana");
+                System.out.println("Ingrese el numero de dias que " + empleado.getNombre() + " trabajara a la semana");
 
                 nuevoDias = sc.nextByte();
             } catch (InputMismatchException error) {
