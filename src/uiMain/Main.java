@@ -98,8 +98,8 @@ public class Main {
 
 
         // ~~~~~~~~~~~~~~~ personal ~~~~~~~~~~~~~~~
-        Empleado empleado1 = new Empleado(1004, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, (byte) 7, tienda1);
-        Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, (byte) 7, tienda1);
+        Empleado empleado1 = new Empleado(1004, "Emanuel", "ehoyosi@hotmail.com", 3444404, 1000, 10, (byte) 5, tienda1);
+        Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, (byte) 5, tienda1);
 
         //metas
         new Meta(empleado1, 15, 6, 2024, 30, 8000);
@@ -122,13 +122,53 @@ public class Main {
 
     }
 
+    static Tienda tienda3 = new Tienda("Laureles", 1421);
+    static Tienda tienda4 = new Tienda("Buenos Aires", 1422);
+
+    static {
+        // Adding products to "Laureles"
+        tienda3.agregarProducto(new Consola("Polystation 5", 400, 10, 10, false, (byte) 5, 11, 11, 2021, 5, 100, "Sony"));
+        tienda3.agregarProducto(new Consola("Xbox 1080", 450, 10, 15, false, (byte) 5, 9, 11, 2021, 5, 0, "Microsoft"));
+        tienda3.agregarProducto(new Consola("Noentiendo Swap", 300, 20, 20, false, (byte) 5, 13, 7, 2018, 5, 0, "Noentiendo"));
+        tienda3.agregarProducto(new Consola("Polystation 4", 250, 25, 25, false, (byte) 5, 14, 11, 2013, 15, 200, "Sony"));
+        tienda3.agregarProducto(new Consola("Xbox 360", 150, 15, 30, false, (byte) 5, 15, 12, 2005, 10, 0, "Microsoft"));
+        tienda3.agregarProducto(new Juego("Cyberpunk 2078", 55, 10, 15, false, (byte) 5, 15, 12, 2023, "RPG", "Xbox 1080"));
+        tienda3.agregarProducto(new Juego("Arch", 45, 8, 14, false, (byte) 5, 20, 11, 2023, "Aventura", "Xbox 1080"));
+        tienda3.agregarProducto(new Juego("Alive Space", 50, 12, 25, false, (byte) 5, 18, 10, 2023, "Horror", "Xbox 1080"));
+        tienda3.agregarProducto(new Juego("Full Life", 60, 5, 20, false, (byte) 5, 25, 9, 2023, "FPS", "Xbox 1080"));
+        tienda3.agregarProducto(new Juego("Meinkraft", 50, 7, 30, false, (byte) 5, 30, 8, 2023, "Sandbox", "Xbox 1080"));
+        tienda3.agregarProducto(new Accesorio("Control Polystation 5", 50, 60, 60, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony", "Polystation 5"));
+        tienda3.agregarProducto(new Accesorio("Control Xbox 720", 55, 30, 50, false, (byte) 5, 14, 11, 2021, 0, 0, "Microsoft", "Xbox 720"));
+
+        Empleado empleado3_1 = new Empleado(3001, "Jhorman", "jhorman@example.com", 3444406, 1200, 8, (byte) 6, tienda3);
+        Empleado empleado3_2 = new Empleado(3002, "Sebastian", "sebastian@example.com", 3444407, 1300, 9, (byte) 6, tienda3);
+
+        Empleado empleado4_1 = new Empleado(4001, "Pablo", "pablo@example.com", 3444408, 1400, 10, (byte) 6, tienda4);
+        Empleado empleado4_2 = new Empleado(4002, "Miguel", "miguel@example.com", 3444409, 1500, 11, (byte) 6, tienda4);
+
+        tienda4.agregarProducto(new Consola("Polystation 5", 450, 10, 10, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony"));
+        tienda4.agregarProducto(new Consola("Polystation 4", 280, 15, 15, false, (byte) 5, 12, 12, 2013, 10, 0, "Sony"));
+        tienda4.agregarProducto(new Consola("Polystation 3", 180, 20, 20, false, (byte) 5, 13, 11, 2006, 20, 0, "Sony"));
+        tienda4.agregarProducto(new Juego("Ronaldinho Soccer", 40, 40, 40, false, (byte) 5, 15, 8, 2020, 15, 0, "Deportes", "Polystation 5"));
+        tienda4.agregarProducto(new Juego("Carlos Duty", 30, 40, 40, false, (byte) 5, 10, 7, 2018, 30, 0, "FPS", "Polystation 4"));
+        tienda4.agregarProducto(new Juego("Cyberpunk 2078", 55, 10, 15, false, (byte) 5, 15, 12, 2023, "RPG", "Xbox 1080"));
+        tienda4.agregarProducto(new Juego("Arch", 45, 8, 10, false, (byte) 5, 20, 11, 2023, "Aventura", "Xbox 1080"));
+        tienda4.agregarProducto(new Juego("Alive Space", 50, 12, 15, false, (byte) 5, 18, 10, 2023, "Horror", "Xbox 1080"));
+        tienda4.agregarProducto(new Juego("Full Life", 60, 5, 10, false, (byte) 5, 25, 9, 2023, "FPS", "Xbox 1080"));
+        tienda4.agregarProducto(new Juego("Meinkraft", 50, 7, 10, false, (byte) 5, 30, 8, 2023, "Sandbox", "Xbox 1080"));
+        tienda4.agregarProducto(new Accesorio("Control Polystation 5", 50, 60, 60, false, (byte) 5, 11, 11, 2021, 0, 0, "Sony", "Polystation 5"));
+        tienda4.agregarProducto(new Accesorio("Control Xbox 720", 55, 30, 50, false, (byte) 5, 14, 11, 2021, 0, 0, "Microsoft", "Xbox 720"));
+        tienda4.agregarProducto(new Accesorio("Control Polystation 4", 40, 50, 50, false, (byte) 5, 12, 12, 2013, 10, 0, "Sony", "Polystation 4"));
+        tienda4.agregarProducto(new Accesorio("Control Polystation 3", 30, 40, 40, false, (byte) 5, 13, 11, 2006, 20, 0, "Sony", "Polystation 3"));
+    }
+
     // Clientes
     static Cliente cliente1 = new Cliente(120, "Juan", "juan@mail.com", 311203, 1000);
     static Cliente cliente2 = new Cliente(121, "Pedro", "pedro@mail.com", 311204, 300);
     static Cliente cliente3 = new Cliente(122, "Maria", "maria@mail.com", 311205, 400);
     static Cliente cliente4 = new Cliente(123, "Ana", "ana@mail.com", 311206, 1000);
     static Cliente cliente5 = new Cliente(124, "Luis", "luis@mail.com", 311207, 1500);
-    static Cliente cliente6 = new Cliente(125, "Carlos", "carlos@mail.com", 311208, 1300);
+    static Cliente cliente6 = new Cliente(125, "Carlos", "carlos@mail.com", 311208, 0);
     static Cliente cliente7 = new Cliente(126, "Sofia", "sofia@mail.com", 311209, 2000);
     static Cliente cliente8 = new Cliente(127, "Laura", "laura@mail.com", 311210, 500);
     static Cliente cliente9 = new Cliente(128, "Miguel", "miguel@mail.com", 311211, 700);
