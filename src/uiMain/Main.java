@@ -233,7 +233,6 @@ public class Main {
         /* ~~ Seleccion de funcionalidad ~~ */
         byte opcion = 1;
         do {
-            System.out.flush();
             imprimirSeparador();
             System.out.println("MENU PRINCIPAL");
             System.out.println("1. Registrar compra");

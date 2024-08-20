@@ -202,7 +202,7 @@ public class Funcionalidad1 {
 
                     int valorFinal = calcularDescuentos(carrito, cliente);  // Calcular valor total de la compra con descuentos
 
-                    System.out.println("Valor total de la compra: $" + valorFinal + "\n");
+                    System.out.println("Valor total de la compra: $" + valorFinal);
 
                     // Ingreso de dinero
                     int valorIngresado = 0;
@@ -211,7 +211,7 @@ public class Funcionalidad1 {
                     // Recibir efectivo
                     while (true) {
                         valorIngresado = 0;
-                        System.out.print("Ingrese el valor con el que pagara:");
+                        System.out.print("Ingrese el valor con el que pagara: ");
 
                         try {
                             valorIngresado = scCompra.nextInt();
@@ -236,7 +236,7 @@ public class Funcionalidad1 {
 
                     cambio = valorIngresado - valorFinal;
 
-                    System.out.println("Cambio: $" + cambio + "\n");
+                    System.out.println("Cambio: $" + cambio);
 
                     // Identificar al empleado que atendio la venta
 
