@@ -236,9 +236,23 @@ public class Funcionalidad3 {
 
                         while (true) {
                             imprimirSeparador();
-                            System.out.println("Que desea cambiar \n1.Nombre \n2.Precio \n3.Salir");
+                            if (producto instanceof Juego){
+                                System.out.println("Que desea cambiar \n1.Nombre \n2.Precio \n3.Prestable \n4.Condicion \n5.Descuento \n6.Puntos Requeridos \n7.Genero \n8.Plataforma \n9.Salir");
+                            }
+                            else if (producto instanceof Consola){
+                                System.out.println("Que desea cambiar \n1.Nombre \n2.Precio \n3.Prestable \n4.Condicion \n5.Descuento \n6.Puntos Requeridos \n7.Marca \n8.Salir");
+                            }
+                            else if (producto instanceof Accesorio){
+                                System.out.println("Que desea cambiar \n1.Nombre \n2.Precio \n3.Prestable \n4.Condicion \n5.Descuento \n6.Puntos Requeridos \n7.Marca \n8.Consola \n9.Salir");
+                            }
                             try {
                                 tipo = sc.nextByte();
+                                if (tipo < 1 || tipo > 9) {
+                                    imprimirSeparador();
+                                    System.out.println("\n### ERROR ###");
+                                    System.out.println("El valor debe ser entre 1 y 9");
+                                    continue;
+                                }
                             } catch (Exception e) {
                                 imprimirSeparador();
                                 System.out.println("\n### ERROR ###");
@@ -259,26 +273,128 @@ public class Funcionalidad3 {
                                     break;
 
                                 case 2:
-                                    imprimirSeparador();
-                                    System.out.println("Ingrese el nuevo precio");
-                                    int nuevoPrecio = 0;
-                                    try {
-                                        nuevoPrecio = sc.nextInt();
-                                        sc.nextLine();
-                                    } catch (Exception e) {
+                                    int nuevoPrecio;
+                                    while (true) {
                                         imprimirSeparador();
-                                        System.out.println("\n### ERROR ###");
-                                        System.out.println("El valor debe ser numerico");
+                                        System.out.println("Ingrese el nuevo precio");
 
-                                        continue;
+                                        try {
+                                            nuevoPrecio = sc.nextInt();
+                                            sc.nextLine();
+                                            break;
+                                        } catch (Exception e) {
+                                            imprimirSeparador();
+                                            System.out.println("\n### ERROR ###");
+                                            System.out.println("El valor debe ser numerico");
+                                            sc.nextLine();
+                                        }
                                     }
                                     producto.setValor(nuevoPrecio);
                                     sc.nextLine();
                                     break;
-
-                                default:
+                                case 3:
+                                    imprimirSeparador();
+                                    boolean prestable = siNo("Es prestable?");
+                                    producto.setPrestable(prestable);
                                     break;
-
+                                case 4:
+                                    byte condicion;
+                                    while (true) {
+                                        imprimirSeparador();
+                                        System.out.println("Ingrese la condición(1-4:usado 5:nuevo)");
+                                        try {
+                                            condicion = sc.nextByte();
+                                            producto.setCondicion(condicion);
+                                            break;
+                                        } catch (Exception e) {
+                                            imprimirSeparador();
+                                            System.out.println("\n### ERROR ###");
+                                            System.out.println("El valor debe ser numerico");
+                                            sc.nextLine();
+                                        }
+                                    }
+                                    producto.setCondicion(condicion);
+                                    break;
+                                case 5:
+                                    int descuento;
+                                    while (true) {
+                                        imprimirSeparador();
+                                        System.out.println("Ingrese el descuento");
+                                        try {
+                                            descuento = sc.nextInt();
+                                            producto.setDescuento(descuento);
+                                            break;
+                                        } catch (Exception e) {
+                                            imprimirSeparador();
+                                            System.out.println("\n### ERROR ###");
+                                            System.out.println("El valor debe ser numerico");
+                                            sc.nextLine();
+                                        }
+                                    }
+                                    break;
+                                case 6:
+                                    int puntosRequeridos;
+                                    while (true) {
+                                        imprimirSeparador();
+                                        System.out.println("Ingrese los puntos requeridos");
+                                        try {
+                                            puntosRequeridos = sc.nextInt();
+                                            producto.setPuntosRequeridos(puntosRequeridos);
+                                            break;
+                                        } catch (Exception e) {
+                                            imprimirSeparador();
+                                            System.out.println("\n### ERROR ###");
+                                            System.out.println("El valor debe ser numerico");
+                                            sc.nextLine();
+                                        }
+                                    }
+                                    break;
+                                case 7:
+                                    if (producto instanceof Juego){
+                                        String genero;
+                                        imprimirSeparador();
+                                        System.out.println("Ingrese el nuevo genero: ");
+                                        sc.nextLine();
+                                        genero = sc.nextLine();
+                                        ((Juego) producto).setGenero(genero);
+                                    }
+                                    else if (producto instanceof Consola){
+                                        String marca;
+                                        imprimirSeparador();
+                                        System.out.println("Ingrese la nueva marca: ");
+                                        sc.nextLine();
+                                        marca = sc.nextLine();
+                                        ((Consola) producto).setMarca(marca);
+                                    }
+                                    else if (producto instanceof Accesorio){
+                                        String marca;
+                                        imprimirSeparador();
+                                        System.out.println("Ingrese la nueva marca: ");
+                                        sc.nextLine();
+                                        marca = sc.nextLine();
+                                        ((Accesorio) producto).setMarca(marca);
+                                    }
+                                    break;
+                                case 8:
+                                    if (producto instanceof Juego){
+                                        String plataforma;
+                                        imprimirSeparador();
+                                        System.out.println("Ingrese la nueva plataforma: ");
+                                        sc.nextLine();
+                                        plataforma = sc.nextLine();
+                                        ((Juego) producto).setPlataforma(plataforma);
+                                    }
+                                    else if (producto instanceof Accesorio){
+                                        String consola;
+                                        imprimirSeparador();
+                                        System.out.println("Ingrese la nueva consola: ");
+                                        sc.nextLine();
+                                        consola = sc.nextLine();
+                                        ((Accesorio) producto).setConsola(consola);
+                                    }
+                                    break;
+                                case 9:
+                                    break;
                             }
                             break;
 
