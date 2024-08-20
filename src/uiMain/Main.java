@@ -176,7 +176,7 @@ public class Main {
 
         tienda2.agregarProducto(new Juego("Ronaldinho Soccer", 40, 10, true, (byte) 4, 15, 8, 2020, "Deportes", "Polystation 5"));
         tienda2.agregarProducto(new Juego("Carlos Duty", 30, 10, true, (byte) 4, 10, 7, 2018, "FPS", "Polystation 4"));
-        tienda2.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 10, true, (byte) 4, 20, 10, 2024, "FPS", "Polystation 5"))
+        tienda2.agregarProducto(new Juego("Carlos Duty 2, Ahora es personal", 30, 10, true, (byte) 4, 20, 10, 2024, "FPS", "Polystation 5"));
 
         tienda2.agregarProducto(new Accesorio("Control Polystation 5", 50, 10, true, (byte) 4, 13, 11, 2006, "Sony", "Polystation 5"));
         tienda2.agregarProducto(new Accesorio("Control Polystation 4", 35, 10, true, (byte) 3, 13, 11, 2006, "Sony", "Polystation 4"));
@@ -255,6 +255,7 @@ public class Main {
         /* ~~~ Carga de objetos serializados ~~~ */
         // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIoN
 
+        /*
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
         ultimaFecha = Deserializador.deserializarFecha();
@@ -1327,7 +1328,11 @@ public class Main {
 
                             // Clonar el producto seleccionado para evitar modificar el original
                             try {
-                                producto = (seleccionarProducto(local.getInventarioPrestamo()).clone());
+                                Producto seleccion = (seleccionarProducto(local.getInventarioPrestamo()));
+                                if (seleccion == null) {
+                                    throw new CloneNotSupportedException();
+                                }
+                                producto = seleccion.clone();
                             } catch (CloneNotSupportedException e) {
                                 System.out.println("\n### ERROR ###");
                                 System.out.println("Error al clonar el producto. Presione Enter para cancelar la operacion.");
@@ -1569,7 +1574,7 @@ public class Main {
                             System.out.println("No hay consolas disponibles para prestamo.");
                             System.out.println("Presione Enter para volver al menu principal.\n");
                             scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
-                            continue;
+                            return null;
                         }
 
                         // Mostrar consolas disponibles
@@ -1615,7 +1620,7 @@ public class Main {
                             System.out.println("No hay juegos disponibles para prestamo.");
                             System.out.println("Presione Enter para volver al menu principal.\n");
                             scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
-                            continue;
+                            return null;
                         }
 
                         // Mostrar juegos disponibles
@@ -1662,7 +1667,7 @@ public class Main {
                             System.out.println("No hay accesorios disponibles para prestamo.");
                             System.out.println("Presione Enter para volver al menu principal.\n");
                             scSelProPres.nextLine();  // Esperar a que el usuario presione Enter
-                            continue;
+                            return null;
                         }
 
 
