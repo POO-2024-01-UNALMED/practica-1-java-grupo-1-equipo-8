@@ -1,17 +1,14 @@
 package uiMain;
 
 import gestorAplicacion.informacionVenta.Prestamo;
-import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
-import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.Accesorio;
 import gestorAplicacion.productos.Consola;
 import gestorAplicacion.productos.Juego;
 import gestorAplicacion.productos.Producto;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;

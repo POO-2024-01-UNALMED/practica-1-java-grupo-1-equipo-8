@@ -16,7 +16,6 @@ import static uiMain.Main.*;
 
 public class Funcionalidad5 {
     static Scanner scSub = new Scanner(System.in); // variable scanner
-    static int puntosUsados = 0; // Cantidad de puntos que se usan en la transaccion. Siempre sera menor a la cantidad de puntos del cliente
 
     public static void subastar(Tienda local, Fecha fecha) {
 

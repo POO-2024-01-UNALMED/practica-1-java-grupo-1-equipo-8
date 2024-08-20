@@ -10,8 +10,6 @@ import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.productos.*;
 import gestorAplicacion.personas.*;
 
-import javax.swing.plaf.multi.MultiMenuBarUI;
-import java.io.Serial;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
