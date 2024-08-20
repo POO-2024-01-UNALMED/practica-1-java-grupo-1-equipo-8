@@ -21,10 +21,8 @@ public class Funcionalidad3 {
 
         while (true){
             imprimirSeparador();
-            System.out.println("1. Revisar los productos del local");
-            System.out.println("2. Modificar la información de algún producto");
-            System.out.println("3. Calcular la prioridad de estos");
-            System.out.println("4. Salir");
+            System.out.println("Desea\n1. Revisar los productos del local \n2. Modificar la información de algún producto\n3. Calcular la prioridad de estos\n4. Salir ");
+
             //Evitar un error al ingresar un dato no numerico
 
             opcion = 0;
@@ -76,7 +74,6 @@ public class Funcionalidad3 {
                     switch (opcion2) {
                     case 1:
                         //Revisar por tipo de producto
-                        imprimirSeparador();
                         byte tipo;// tipo a elegir
 
                         while (true) {
@@ -96,7 +93,9 @@ public class Funcionalidad3 {
                                 scTipo.nextLine(); //Esperar que el usuario presione Enter
                             }
                         }
-
+                        if (tipo == 4) {
+                            continue;
+                        }
                         String orden = elegirOrden();
 
                         switch (tipo) {
@@ -135,7 +134,7 @@ public class Funcionalidad3 {
                                 }
                                 Producto.ordenar(lista, orden);
                                 for (Producto i : lista) {
-                                    System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
+                                    System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta()+" | PLATAFORMA: "+((Juego)i).getPlataforma());
                                 }
                                 break;
                             default:
@@ -151,7 +150,11 @@ public class Funcionalidad3 {
                         Producto.ordenar(lista, orden2);
 
                         for (Producto i : lista) {
-                            System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
+                            if (i instanceof Juego) {
+                                System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta()+" | PLATAFORMA: "+((Juego)i).getPlataforma());
+                            } else {
+                                System.out.println("* ID: " + i.getCodigo() + " | NOMBRE: " + i.getNombre() + " | PRECIO: $" + i.getValor() + " | CANTIDAD: " + i.getCantidad() + " | VENTAS: " + i.calcularVenta());
+                            }
                         }
                         break;
                     }
@@ -162,6 +165,7 @@ public class Funcionalidad3 {
                         byte tipo;
                         lista = new ArrayList<Producto>();
                         try {//impedir un error al elegir el tipo
+                                imprimirSeparador();
                                 System.out.println("Ingresa el tipo de producto que modificarás\n1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
 
                                 tipo = sc.nextByte();
@@ -191,11 +195,11 @@ public class Funcionalidad3 {
                                         lista.add(i);
                                     }
                                 }
-                            } else {
+                            } else if(tipo == 4) {
                                 break;
                             }
                         for (Producto i : lista) {
-                                System.out.println(i.getNombre() + "| Código: " + i.getCodigo());
+                                System.out.println(i.getNombre() + "| Código: " + i.getCodigo() +" | Precio: $" + i.getValor());
                             }
 
                         int cod;//Codigo a elegir
@@ -203,10 +207,9 @@ public class Funcionalidad3 {
 
                         try {
                                 imprimirSeparador();
-                                System.out.println("Ingrese el codigo del objeto a modificar");
+                                System.out.println("Ingrese el codigo del objeto a modificar o 0 para regresar");
 
                                 cod = sc.nextInt();
-                                sc.nextLine();
                             } catch (Exception e) {
                                 imprimirSeparador();
                                 System.out.println("\n### ERROR ###");
@@ -214,11 +217,15 @@ public class Funcionalidad3 {
 
                                 continue;
                             }
+                        if (cod == 0) {
+                                continue;
+                            }
                         boolean existe = false;
-
+                        Producto producto = null;
                         for (Producto i : lista) {
                                 if (i.getCodigo() == cod) {
                                     index = lista.indexOf(i);
+                                    producto = i;
                                     existe = true;
                                 }
                             }
@@ -235,7 +242,6 @@ public class Funcionalidad3 {
                                 System.out.println("Que desea cambiar \n1.Nombre \n2.Precio \n3.Salir");
                                 try {
                                     tipo = sc.nextByte();
-                                    sc.nextLine();
                                 } catch (Exception e) {
                                     imprimirSeparador();
                                     System.out.println("\n### ERROR ###");
@@ -246,11 +252,12 @@ public class Funcionalidad3 {
                                 }
                                 switch (tipo) {
                                     case 1:
+                                        String nuevoNombre;
                                         imprimirSeparador();
-                                        System.out.println("Ingrese el nuevo nombre");
-                                        String nuevoNombre = sc.nextLine();
+                                        System.out.println("Ingrese el nuevo nombre: ");
                                         sc.nextLine();
-                                        local.getInventario().get(local.getInventario().indexOf(lista.get(index))).setNombre(nuevoNombre);
+                                        nuevoNombre = sc.nextLine();
+                                        producto.setNombre(nuevoNombre);
 
                                         break;
 
@@ -268,7 +275,8 @@ public class Funcionalidad3 {
 
                                             continue;
                                         }
-                                        local.getInventario().get(local.getInventario().indexOf(lista.get(index))).setValor(nuevoPrecio);
+                                        producto.setValor(nuevoPrecio);
+                                        sc.nextLine();
                                         break;
 
                                     default:
@@ -321,6 +329,7 @@ public class Funcionalidad3 {
                     palabra.equalsIgnoreCase("Precio")) {
                 esValido = true;
             } else {
+                imprimirSeparador();
                 System.out.println("\n### ERROR ###");
                 System.out.println("Valor no válido. Debe ingresar una de las opciones: Alfabetico, Ventas o Precio.");
             }
@@ -372,12 +381,13 @@ public class Funcionalidad3 {
                             imprimirSeparador();
                             System.out.println("La fecha final está antes de la final");
                             sc.nextLine();
-                            continue;
+                            break;
                         }
                         else if (rangoVentas.isEmpty()) {
                             imprimirSeparador();
                             System.out.println("No hay ventas dentro del rango");
                             sc.nextLine();
+                            break;
                         }
                         while (true) {
                             try {
@@ -506,18 +516,21 @@ public class Funcionalidad3 {
                     String decision = "";
                     while(true) {
                         imprimirSeparador();
-                        System.out.println("Desea ver los productos agrupados por tipo(No ponga tildes) \n•Si \n•No \n• Salir");
+                        System.out.println("Desea ver los productos agrupados por tipo(No ponga tildes) \n•Si \n•No \n•Salir");
 
                         decision = sc.nextLine();
+                        System.out.println("Presione Enter para continuar");
                         sc.nextLine();
                         if(decision.equalsIgnoreCase("si")){
                             byte tipo;
                             ArrayList<Producto> lista = new ArrayList<Producto>();
 
                             try{//impedir un error al elegir el tipo
-                                System.out.println("Ingresa el tipo de producto que modificarás\n1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
+                                imprimirSeparador();
+                                System.out.println("Ingresa el tipo del producto\n1. Accesorio \n2. Consola \n3. Juego \n4. Regresar");//Se muestran las opciones
 
                                 tipo = sc.nextByte();
+                                sc.nextLine();
                             }catch (Exception e){//Informar de un error
                                 imprimirSeparador();
 
@@ -1461,7 +1474,6 @@ public class Funcionalidad3 {
                 }
             }
             if (opcion == 1){
-                //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
                 Producto pclonado;
                 try {
                     pclonado = producto.clone();
@@ -1624,7 +1636,6 @@ public class Funcionalidad3 {
                 }
             }
             if (opcion == 1){
-                //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
                 Producto pclonado;
                 try {
                     pclonado = producto.clone();
@@ -1771,7 +1782,6 @@ public class Funcionalidad3 {
             }
         }
         if (opcion == 1){
-            //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
             Producto pclonado;
             try {
                 pclonado = producto.clone();
