@@ -3692,6 +3692,7 @@ public class Main {
 
         private static void crearProducto(Tienda local) {
             Scanner scDio = new Scanner(System.in);
+            Scanner scPoo = new Scanner(System.in);
             while (true) {
                 boolean existe = false;
                 byte tipo;
@@ -3703,7 +3704,7 @@ public class Main {
                     System.out.println("3.Accesorio");
                     System.out.println("4.salir");
                     tipo = scDio.nextByte();
-                    scInvent.nextLine();
+                    scPoo.nextLine();
                     if (tipo == 1 || tipo == 2 || tipo == 3) {
                         break;
                     } else if (tipo == 4) {
@@ -3711,51 +3712,52 @@ public class Main {
                     } else {
                         imprimirSeparador();
                         System.out.println("Opcion no valida");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
+                    }
+                }
+                int valor;
+                while (true) {
+                    imprimirSeparador();
+                    System.out.println("Ingrese el valor del producto: ");
+                    try {
+                        valor = scDio.nextInt();
+                        break;
+                    } catch (Exception e) {
+                        imprimirSeparador();
+                        System.out.println("\n### ERROR ###");
+                        System.out.println("El valor debe ser numerico");
+                        scPoo.nextLine();
+
                     }
                 }
                 String nombre;
+
                 while (true) {
                     imprimirSeparador();
                     System.out.println("Ingrese el nombre del producto: ");
-                    nombre = scDio.nextLine();
-                    scInvent.nextLine();
+                    nombre = scPoo.nextLine();
+                    scDio.nextLine();
                     if (nombre.isEmpty()) {
                         imprimirSeparador();
                         System.out.println("El nombre no puede estar vacio");
-                        scInvent.nextLine();
+                        sc.nextLine();
                         continue;
                     }
                     break;
                 }
-                int valor;
-                while (true) {
-                    try {
-                        imprimirSeparador();
-                        System.out.println("Ingrese el valor del producto: ");
-                        valor = scDio.nextInt();
-                        scInvent.nextLine();
-                        break;
-                    } catch (Exception e) {
-                        imprimirSeparador();
-                        System.out.println("\n### ERROR ###");
-                        System.out.println("El valor debe ser numerico");
-                        scInvent.nextLine();
-                    }
-                }
                 int cantidadInicial;//sera la cantidadInicial y cantidad
                 while (true) {
+                    imprimirSeparador();
+                    System.out.println("Ingrese la cantidad del producto: ");
                     try {
-                        imprimirSeparador();
-                        System.out.println("Ingrese la cantidad del producto: ");
                         cantidadInicial = scDio.nextInt();
-                        scInvent.nextLine();
                         break;
                     } catch (Exception e) {
                         imprimirSeparador();
                         System.out.println("\n### ERROR ###");
                         System.out.println("El valor debe ser numerico");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
+                        continue;
                     }
                 }
                 boolean prestable;
@@ -3764,8 +3766,16 @@ public class Main {
                     System.out.println("Es prestable?");
                     System.out.println("1.Si");
                     System.out.println("2.No");
-                    int opcion = scDio.nextInt();
-                    scInvent.nextLine();
+                    int opcion = 0;
+                    try {
+                        opcion = scDio.nextInt();
+                        scPoo.nextLine();
+                    }catch (Exception e){
+                        System.out.println("\n### ERROR ###");
+                        System.out.println("El valor debe ser numerico");
+                        scPoo.nextLine();
+                    }
+
                     if (opcion == 1) {
                         prestable = true;
                         break;
@@ -3775,21 +3785,21 @@ public class Main {
                     } else {
                         imprimirSeparador();
                         System.out.println("Opcion no valida");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                     }
                 }
                 byte condicion;
                 while (true) {
                     imprimirSeparador();
-                    System.out.println("Ingrese la condicion del producto(1-4: usados  5:nuevo)");
+                    System.out.println("Ingrese la condicion del producto que es un numero(1-4: usados  5:nuevo)");
                     condicion = scDio.nextByte();
-                    scInvent.nextLine();
+                    scPoo.nextLine();
                     if (condicion == 1 || condicion == 2 || condicion == 3 || condicion == 4 || condicion == 5) {
                         break;
                     } else {
                         imprimirSeparador();
                         System.out.println("Opcion no valida");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                     }
                 }
                 Fecha fechaLanzamiento;
@@ -3805,13 +3815,13 @@ public class Main {
                         imprimirSeparador();
                         System.out.println("Ingrese el descuento del producto: ");
                         descuento = scDio.nextInt();
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                         break;
                     } catch (Exception e) {
                         imprimirSeparador();
                         System.out.println("\n### ERROR ###");
                         System.out.println("El valor debe ser numerico");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                     }
                 }
                 int puntosRequeridos;
@@ -3820,13 +3830,13 @@ public class Main {
                         imprimirSeparador();
                         System.out.println("Ingrese los puntos requeridos para adquirir el producto: ");
                         puntosRequeridos = scDio.nextInt();
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                         break;
                     } catch (Exception e) {
                         imprimirSeparador();
                         System.out.println("\n### ERROR ###");
                         System.out.println("El valor debe ser numerico");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                     }
                 }
                 if (tipo == 1) {
@@ -3834,12 +3844,12 @@ public class Main {
                     while (true) {
                         imprimirSeparador();
                         System.out.println("Ingrese el genero del juego: ");
-                        genero = scDio.nextLine();
-                        scInvent.nextLine();
+                        genero = scPoo.nextLine();
+                        scDio.nextLine();
                         if (genero.isEmpty()) {
                             imprimirSeparador();
                             System.out.println("El genero no puede estar vacio");
-                            scInvent.nextLine();
+                            scPoo.nextLine();
                             continue;
                         }
                         break;
@@ -3848,12 +3858,12 @@ public class Main {
                     while (true) {
                         imprimirSeparador();
                         System.out.println("Ingrese la plataforma del juego: ");
-                        plataforma = scDio.nextLine();
-                        scInvent.nextLine();
+                        plataforma = scPoo.nextLine();
+                        scDio.nextLine();
                         if (plataforma.isEmpty()) {
                             imprimirSeparador();
                             System.out.println("La plataforma no puede estar vacia");
-                            scInvent.nextLine();
+                            scPoo.nextLine();
                             continue;
                         }
                         break;
@@ -3870,7 +3880,7 @@ public class Main {
                     if (existe) {
                         imprimirSeparador();
                         System.out.println("El producto ya existe en el local");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                     } else {
                         Juego nuevo = new Juego(nombre, valor, cantidadInicial, cantidadInicial,prestable, condicion, fechaLanzamiento, descuento, puntosRequeridos, genero, plataforma);
                         local.agregarProducto(nuevo);
@@ -3882,12 +3892,12 @@ public class Main {
                     while (true) {
                         imprimirSeparador();
                         System.out.println("Ingrese la marca de la consola: ");
-                        marca = scDio.nextLine();
-                        scInvent.nextLine();
+                        marca = scPoo.nextLine();
+                        scDio.nextLine();
                         if (marca.isEmpty()) {
                             imprimirSeparador();
                             System.out.println("La marca no puede estar vacio");
-                            scInvent.nextLine();
+                            scPoo.nextLine();
                             continue;
                         }
                         break;
@@ -3904,7 +3914,7 @@ public class Main {
                     if (existe) {
                         imprimirSeparador();
                         System.out.println("El producto ya existe en el local");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                     } else {
                         Consola nuevo = new Consola(nombre, valor, cantidadInicial, cantidadInicial,prestable, condicion, fechaLanzamiento, descuento, puntosRequeridos, marca);
                         local.agregarProducto(nuevo);
@@ -3916,12 +3926,12 @@ public class Main {
                     while (true) {
                         imprimirSeparador();
                         System.out.println("Ingrese la marca del accesorio: ");
-                        marca = scDio.nextLine();
-                        scInvent.nextLine();
+                        marca = scPoo.nextLine();
+                        scDio.nextLine();
                         if (marca.isEmpty()) {
                             imprimirSeparador();
                             System.out.println("La marca no puede estar vacio");
-                            scInvent.nextLine();
+                            scPoo.nextLine();
                             continue;
                         }
                         break;
@@ -3930,12 +3940,12 @@ public class Main {
                     while (true) {
                         imprimirSeparador();
                         System.out.println("Ingrese la consola del accesorio: ");
-                        consola = scDio.nextLine();
-                        scInvent.nextLine();
+                        consola = scPoo.nextLine();
+                        scDio.nextLine();
                         if (consola.isEmpty()) {
                             imprimirSeparador();
                             System.out.println("La consola no puede estar vacia");
-                            scInvent.nextLine();
+                            scPoo.nextLine();
                             continue;
                         }
                         break;
@@ -3952,7 +3962,7 @@ public class Main {
                     if (existe) {
                         imprimirSeparador();
                         System.out.println("El producto ya existe en el local");
-                        scInvent.nextLine();
+                        scPoo.nextLine();
                     } else {
                         Accesorio nuevo = new Accesorio(nombre, valor, cantidadInicial, cantidadInicial,prestable, condicion, fechaLanzamiento, descuento, puntosRequeridos, marca, consola);
                         local.agregarProducto(nuevo);
