@@ -2587,11 +2587,12 @@ public class Main {
                                 scInvent.nextLine();
                                 continue;
                             }
-                            ArrayList<Producto> lista = new ArrayList<>();
+
                             int decision = 0;
                             switch (opcion) {
                                 case 1://Alta prioridad
                                     while (true) {
+                                        ArrayList<Producto> lista = new ArrayList<>();
                                         for (Producto i : local.getInventario()) {
                                             if (i.getPrioridad().equalsIgnoreCase("prioridad alta") || i.getPrioridad().equalsIgnoreCase("prioridad muy alta")) {
                                                 lista.add(i);
@@ -2622,19 +2623,23 @@ public class Main {
                                         }
                                         boolean esTrue = false;
                                         int indice = 0;
+                                        Producto producto = null;
                                         ArrayList<Tienda> localesValidos = new ArrayList<>();
                                         for (Producto i : lista) {
                                             if (i.getCodigo() == decision) {
                                                 esTrue = true;
-                                                indice = lista.indexOf(i);
+                                                producto = i;
                                                 break;
                                             }
                                         }
                                         if (esTrue) {
                                             for (Tienda t : Tienda.getLocales()) {//recorrer los locales en busca del producto
                                                 for (Producto p : t.getInventario()) {
-                                                    if (lista.get(indice).getNombre().equalsIgnoreCase(p.getNombre()) && t != local) {
-                                                        if (p.getPrioridad().equalsIgnoreCase("prioridad media") || p.getPrioridad().equalsIgnoreCase("prioridad baja")) {
+                                                    if(p.getPrioridad()==null){
+                                                        continue;
+                                                    }
+                                                    if (producto.getNombre().equalsIgnoreCase(p.getNombre()) && t != local) {
+                                                        if ("prioridad media".equalsIgnoreCase(p.getPrioridad()) || "prioridad baja".equalsIgnoreCase(p.getPrioridad())) {
                                                             localesValidos.add(t);
                                                         }
                                                     }
@@ -2658,7 +2663,7 @@ public class Main {
                                             System.out.println("Locales con el producto en cuestion");
                                             for (Tienda t : localesValidos) {//recorrer los locales en busca del producto
                                                 for (Producto p : t.getInventario()) {
-                                                    if (lista.get(indice).getNombre().equalsIgnoreCase(p.getNombre())) {
+                                                    if (producto.getNombre().equalsIgnoreCase(p.getNombre())) {
                                                         if (p.getPrioridad().equalsIgnoreCase("prioridad media") || p.getPrioridad().equalsIgnoreCase("prioridad baja")) {
                                                             System.out.println("•" + t.getNombre() + "| cantidad: " + p.getCantidad());
                                                         }
@@ -2758,6 +2763,7 @@ public class Main {
                                     continue;
                                 case 2://Baja prioridad
                                     while (true) {
+                                        ArrayList<Producto> lista = new ArrayList<>();
                                         for (Producto i : local.getInventario()) {
                                             if (i.getPrioridad().equalsIgnoreCase("prioridad baja")) {
                                                 lista.add(i);
@@ -2788,18 +2794,23 @@ public class Main {
                                         }
                                         boolean esTrue = false;
                                         int indice = 0;
+                                        Producto producto = null;
                                         ArrayList<Tienda> localesValidos = new ArrayList<>();
                                         for (Producto i : lista) {
                                             if (i.getCodigo() == decision) {
                                                 esTrue = true;
                                                 indice = lista.indexOf(i);
+                                                producto = i;
                                                 break;
                                             }
                                         }
                                         if (esTrue) {
                                             for (Tienda t : Tienda.getLocales()) {//recorrer los locales en busca del producto
                                                 for (Producto p : t.getInventario()) {
-                                                    if (lista.get(indice).getNombre().equalsIgnoreCase(p.getNombre()) && t != local) {
+                                                    if(p.getPrioridad()==null){
+                                                        continue;
+                                                    }
+                                                    if (producto.getNombre().equalsIgnoreCase(p.getNombre()) && t != local) {
                                                         if (p.getPrioridad().equalsIgnoreCase("prioridad alta") || p.getPrioridad().equalsIgnoreCase("prioridad muy alta")) {
                                                             localesValidos.add(t);
                                                         }
@@ -2810,7 +2821,7 @@ public class Main {
                                                 imprimirSeparador();
                                                 System.out.println("No se encontro necesidad del producto en ningun local.");
                                                 scInvent.nextLine();
-                                                continue;
+                                                break;
                                             }
                                         } else {
                                             imprimirSeparador();
@@ -2824,7 +2835,7 @@ public class Main {
                                             System.out.println("Locales con el producto en cuestion");
                                             for (Tienda t : localesValidos) {//recorrer los locales en busca del producto
                                                 for (Producto p : t.getInventario()) {
-                                                    if (lista.get(indice).getNombre().equalsIgnoreCase(p.getNombre())) {
+                                                    if (producto.getNombre().equalsIgnoreCase(p.getNombre())) {
                                                         if (p.getPrioridad().equalsIgnoreCase("prioridad alta") || p.getPrioridad().equalsIgnoreCase("prioridad muy alta")) {
                                                             imprimirSeparador();
                                                             System.out.println("•" + t.getNombre() + "| cantidad: " + p.getCantidad() + " | Prioridad: " + p.getPrioridad());
@@ -2854,7 +2865,7 @@ public class Main {
                                                             continue;
                                                         }
                                                         for (Producto p : i.getInventario()) {
-                                                            if (p.getNombre().equalsIgnoreCase(lista.get(indice).getNombre())) {
+                                                            if (p.getNombre().equalsIgnoreCase(producto.getNombre())) {
                                                                 if (local.getInventario().get(indice).getCantidad() - cantidad >= local.getInventario().get(indice).getCantidadInicial() * 0.4) {
                                                                     Producto pclonado;
                                                                     try {
