@@ -1,13 +1,11 @@
 package uiMain;
 
-import java.sql.ClientInfoStatus;
+
 import java.util.*;
 
 import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.*;
 import gestorAplicacion.productos.*;
-
-import javax.crypto.spec.OAEPParameterSpec;
 
 import static uiMain.Main.*;
 
@@ -631,6 +629,7 @@ public class Funcionalidad3 {
                 continue;
             }
             Tienda localDestino = null;
+            Tienda localOrigen = null;
             ArrayList<Producto> listaDeObjetos = new ArrayList<>();
             switch (opcion){
                 case 1://Reabastecer manualmente
@@ -638,7 +637,7 @@ public class Funcionalidad3 {
                         ArrayList<Juego> lista = new ArrayList<>();
                         try{
                             imprimirSeparador();
-                            System.out.println("Desea filtrar \n1.Genero \n2.Plataforma\n3.Rango de precio ");
+                            System.out.println("Desea filtrar \n1.Genero \n2.Plataforma\n3.Rango de precio \n4.Regresar");
                             opcion = sc.nextByte();
                             sc.nextLine();}
                         catch (Exception e) {
@@ -664,6 +663,7 @@ public class Funcionalidad3 {
                                     }
                                 }
                                 local.agregarOrden(reabastecerManual(local,lista,fechaActual,2));
+                                continue;
 
                             case 2://Plataforma
                                 for(Producto i:local.getInventario()){
@@ -672,9 +672,14 @@ public class Funcionalidad3 {
                                     }
                                 }
                                 local.agregarOrden(reabastecerManual(local,lista,fechaActual));
+                                continue;
 
                             case 3://Rango
                                 local.agregarOrden(reabastecerManual(local,local.getInventario(),fechaActual,"rango"));
+                                continue;
+                        }
+                        if (opcion==4){
+                            break;
                         }
                         System.out.println("La opción no es válida");
                     }
@@ -684,7 +689,8 @@ public class Funcionalidad3 {
                             System.out.println("Desea ver \n1.Alta\n2.Baja\n3.Regresar");
                             opcion = sc.nextByte();
                             sc.nextLine();
-                        }catch (Exception e){
+                        }
+                        catch (Exception e){
                             imprimirSeparador();
                             System.out.println("\n### ERROR ###");
                             System.out.println("El valor debe ser numerico");
@@ -772,7 +778,7 @@ public class Funcionalidad3 {
                                         System.out.println("Ingrese el nombre del local");
                                         eleccion = sc.nextLine();
                                         sc.nextLine();
-                                        double cantidad = 0;
+                                        int cantidad = 0;
                                         for (Tienda i : localesValidos) {
                                             if (i.getNombre().equalsIgnoreCase(eleccion)) {
                                                 while (true) {
@@ -780,24 +786,31 @@ public class Funcionalidad3 {
                                                         imprimirSeparador();
                                                         System.out.println("Ingrese la cantidad");
                                                         cantidad = sc.nextInt();
-                                                        cantidad = (int) cantidad;
-                                                        localDestino = i;
-                                                    } catch (Exception e) {
+                                                        localOrigen = i;
+                                                    }
+                                                    catch (Exception e) {
                                                         imprimirSeparador();
                                                         System.out.println("\n### ERROR ###");
                                                         System.out.println("El valor debe ser numerico");
                                                         sc.nextLine();
                                                         continue;
                                                     }
+                                                    Producto pclonado;
                                                     for (Producto p : i.getInventario()) {
                                                         if (p.getNombre().equalsIgnoreCase(lista.get(indice).getNombre())) {
                                                             if (p.getCantidad() - cantidad >= p.getCantidadInicial() * 0.4) {
-                                                                //TODO:Encontrar la manera de clonar el obeto y agregarlo a la lista, ademas restar la cantidad enviada al objeto dentro del local y darle ese valor al objeto dentro de la listaDeObjetos
-                                                                listaDeObjetos.add(p);
+                                                                try {
+                                                                    pclonado= p.clone();
+                                                                } catch (CloneNotSupportedException e) {
+                                                                    throw new RuntimeException(e);
+                                                                }
+                                                                pclonado.setCantidadInicial(cantidad);
+                                                                pclonado.setCantidad(cantidad);
+                                                                localOrigen.retirarProducto(p, cantidad);//quitar las unidades del producto en el local
+                                                                listaDeObjetos.add(pclonado);
                                                             } else {
                                                                 if (p.getCantidad() - p.getCantidadInicial() * 0.4 >= 0) {
-                                                                    cantidad = p.getCantidad() - p.getCantidadInicial() * 0.4;
-                                                                    cantidad = (int) cantidad;
+                                                                    cantidad = p.getCantidad() - (int) (p.getCantidadInicial() * 0.4);
                                                                 } else if (p.getCantidad() - p.getCantidadInicial() * 0.4 < 0) {
                                                                     cantidad = 0;
                                                                 }
@@ -831,7 +844,7 @@ public class Funcionalidad3 {
                                         while (true) {
                                             try {
                                                 imprimirSeparador();
-                                                System.out.println("Desea \n1.Añadir otro producto \n2.Crear rebastecimiento");
+                                                System.out.println("Desea \n1.Añadir otro producto \n2.Crear rebastecimiento \n3.Cancelar");
                                                 decision = sc.nextInt();
                                                 sc.nextLine();
                                                 break;
@@ -845,7 +858,9 @@ public class Funcionalidad3 {
                                         if (decision == 1) {
                                             continue;
                                         } else if (decision == 2) {
-                                            local.agregarOrden(new Reabastecimiento(localDestino, local, new Fecha(fechaActual.getTotalDias() + 30), listaDeObjetos));
+                                            local.agregarOrden(new Reabastecimiento(localOrigen, local, new Fecha(fechaActual.getTotalDias() + 30), listaDeObjetos));
+                                            break;
+                                        }else if (decision == 3){
                                             break;
                                         }
 
@@ -864,7 +879,7 @@ public class Funcionalidad3 {
                                         imprimirSeparador();
                                         System.out.println("No hay productos con prioridad baja en este local.");
                                         sc.nextLine();
-                                        continue;
+                                        break;
                                     } else {
                                         for (Producto j : lista) {
                                             System.out.println("Nombre: " + j.getNombre() + " | Prioridad: " + j.getPrioridad() + " | ID: " + j.getCodigo());
@@ -908,7 +923,8 @@ public class Funcionalidad3 {
                                             sc.nextLine();
                                             continue;
                                         }
-                                    } else {
+                                    }
+                                    else {
                                         imprimirSeparador();
                                         System.out.println("El ID ingresado no existe");
                                         continue;
@@ -932,7 +948,7 @@ public class Funcionalidad3 {
                                         System.out.println("Ingrese el nombre del local");
                                         eleccion = sc.nextLine();
                                         sc.nextLine();
-                                        double cantidad = 0;
+                                        int cantidad = 0;
                                         for (Tienda i : localesValidos) {
                                             if (i.getNombre().equalsIgnoreCase(eleccion)) {
                                                 while (true) {
@@ -940,7 +956,7 @@ public class Funcionalidad3 {
                                                         imprimirSeparador();
                                                         System.out.println("Ingrese la cantidad del producto");
                                                         cantidad = sc.nextInt();
-                                                        cantidad = (int) cantidad;
+
                                                         localDestino = i;
                                                     } catch (Exception e) {
                                                         imprimirSeparador();
@@ -952,12 +968,19 @@ public class Funcionalidad3 {
                                                     for (Producto p : i.getInventario()) {
                                                         if (p.getNombre().equalsIgnoreCase(lista.get(indice).getNombre())) {
                                                             if (local.getInventario().get(indice).getCantidad() - cantidad >= local.getInventario().get(indice).getCantidadInicial() * 0.4) {
-                                                                //TODO:Encontrar la manera de clonar el obeto y agregarlo a la lista, ademas restar la cantidad enviada al objeto dentro del local y darle ese valor al objeto dentro de la listaDeObjetos
-                                                                listaDeObjetos.add(lista.get(indice));
+                                                                Producto pclonado;
+                                                                try {
+                                                                    pclonado = p.clone();
+                                                                } catch (CloneNotSupportedException e) {
+                                                                    throw new RuntimeException(e);
+                                                                }
+                                                                pclonado.setCantidadInicial(cantidad);
+                                                                pclonado.setCantidad(cantidad);
+                                                                local.retirarProducto(p, cantidad);//quitar las unidades del producto en el local
+                                                                listaDeObjetos.add(pclonado);
                                                             } else {
                                                                 if (local.getInventario().get(indice).getCantidad() - local.getInventario().get(indice).getCantidadInicial() * 0.4 >= 0) {
-                                                                    cantidad = local.getInventario().get(indice).getCantidad() - local.getInventario().get(indice).getCantidadInicial() * 0.4;
-                                                                    cantidad = (int) cantidad;
+                                                                    cantidad = local.getInventario().get(indice).getCantidad() - (int)(local.getInventario().get(indice).getCantidadInicial() * 0.4);
                                                                 } else if (local.getInventario().get(indice).getCantidad() - local.getInventario().get(indice).getCantidadInicial() * 0.4 < 0) {
                                                                     cantidad = 0;
                                                                 }
@@ -995,7 +1018,7 @@ public class Funcionalidad3 {
                                         while (true) {
                                             try {
                                                 imprimirSeparador();
-                                                System.out.println("Desea \n1.Añadir otro producto \n2.Crear rebastecimiento");
+                                                System.out.println("Desea \n1.Añadir otro producto \n2.Crear rebastecimiento \n3.Cancelar");
                                                 decision = sc.nextInt();
                                                 sc.nextLine();
                                                 break;
@@ -1010,6 +1033,8 @@ public class Funcionalidad3 {
                                             continue;
                                         } else if (decision == 2) {
                                             localDestino.agregarOrden(new Reabastecimiento(local, localDestino, new Fecha(fechaActual.getTotalDias() + 30), listaDeObjetos));
+                                            break;
+                                        }else if (decision == 3){
                                             break;
                                         }
 
@@ -1288,7 +1313,7 @@ public class Funcionalidad3 {
         boolean existe = false;
         String nombre ="";
         Juego producto = null;
-        Tienda localDestino = null;
+        Tienda localOrigen = null;
         ArrayList<String> plataformas = new ArrayList<>();
         ArrayList<Producto> listadeObjetos = new ArrayList<>();
         while (true) {
@@ -1341,16 +1366,21 @@ public class Funcionalidad3 {
                     break;
                 }
             }
+            if(producto == null){
+                System.out.println("El producto ingresado no existe");
+                sc.nextLine();
+                continue;
+            }
             imprimirSeparador();
             for (Tienda t:Tienda.getLocales()){
                 for(Producto i:t.getInventario()){
                     if (i.getNombre().equalsIgnoreCase(producto.getNombre())){
                         existe = true;
-                        double valor = i.getCantidad()-i.getCantidadInicial()*0.4;
-                        if (valor < 0){
-                            valor = 0;
+                        cantidad = i.getCantidad()-(int)(i.getCantidadInicial()*0.4);
+                        if (cantidad < 0){
+                            cantidad = 0;
                         }
-                        System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+(int)valor);
+                        System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+cantidad);
                     } else if (Tienda.getLocales().indexOf(t)==Tienda.getLocales().size()-1 && t.getInventario().indexOf(i) == t.getInventario().size()-1 && !existe) {
                         System.out.println("No se han encontrado productos en otros locales");
                         sc.nextLine();
@@ -1368,33 +1398,40 @@ public class Funcionalidad3 {
                 sc.nextLine();
                 for(Tienda t: Tienda.getLocales()){
                     if(t.getNombre().equalsIgnoreCase(nombre)){
-                        localDestino = t;
+                        localOrigen = t;
                     }
                 }
-                if(localDestino == null){
+                if(localOrigen == null){
                     imprimirSeparador();
                     System.out.println("El local ingresado no existe");
                     continue;
                 }
                 break;
             }
-            double valor = 0;
-            for(Producto i: localDestino.getInventario()){
+            cantidad = 0;
+            for(Producto i: localOrigen.getInventario()){
                 if(i.getNombre().equalsIgnoreCase(producto.getNombre())){
-                    valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+                    cantidad = i.getCantidad()-(int)(i.getCantidadInicial()*0.4);
                 }
             }
-            if (valor < 0){
+            if (cantidad < 0){
                 System.out.println("No es posible reabastecer el producto desde este local.");
                 continue;
             }
-            while (true) {
+            while (true) {//ingresar la cantidad a reabastecer
                 try {
                     imprimirSeparador();
-                    System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " + (int) valor);
+                    System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " + cantidad);
                     System.out.println("Ingrese la cantidad a reabastecer: ");
-                    opcion = sc.nextInt();
+                    cantidad = sc.nextInt();
                     sc.nextLine();
+                    if(cantidad > producto.getCantidadInicial()*0.4){
+                        imprimirSeparador();
+                        System.out.println("La cantidad ingresada es superior a la permitida");
+                        System.out.println("Cantidad maxima permitida: "+(int)(producto.getCantidadInicial()*0.4));
+                        sc.nextLine();
+                        continue;
+                    }
                     break;
                 }catch (Exception e){
                     imprimirSeparador();
@@ -1425,7 +1462,16 @@ public class Funcionalidad3 {
             }
             if (opcion == 1){
                 //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
-                //listadeObjetos.add();
+                Producto pclonado;
+                try {
+                    pclonado = producto.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+                pclonado.setCantidadInicial(cantidad);
+                pclonado.setCantidad(cantidad);
+                localOrigen.retirarProducto(producto,cantidad);//quitar las unidades del producto en el local
+                listadeObjetos.add(pclonado);
                 continue;
             }else if (opcion == 2){
                 break;
@@ -1433,17 +1479,18 @@ public class Funcionalidad3 {
                 return null;
             }
         }
-        return new Reabastecimiento(localDestino,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
+        return new Reabastecimiento(localOrigen,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
     }
 
     //sobrecarga del metodo para utilizarlo en dos situaciones, crea una orden de reabastecimiento a partir de la plataforma
     private static Reabastecimiento reabastecerManual(Tienda local,ArrayList<Juego> p,Fecha fechaActual,int l){
         int opcion;
+        l =l+2;
         int cantidad = 0;
         boolean existe = false;
         String nombre ="";
         Juego producto = null;
-        Tienda localDestino = null;
+        Tienda localOrigen = null;
         ArrayList<String> generos = new ArrayList<>();
         ArrayList<Producto> listadeObjetos = new ArrayList<>();
         while (true) {
@@ -1501,11 +1548,11 @@ public class Funcionalidad3 {
                 for(Producto i:t.getInventario()){
                     if (i.getNombre().equalsIgnoreCase(producto.getNombre())){
                         existe = true;
-                        double valor = i.getCantidad()-i.getCantidadInicial()*0.4;
-                        if (valor < 0){
-                            valor = 0;
+                         cantidad = i.getCantidad()-(int)(i.getCantidadInicial()*0.4);
+                        if (cantidad < 0){
+                            cantidad = 0;
                         }
-                        System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+(int)valor);
+                        System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+cantidad);
                     } else if (Tienda.getLocales().indexOf(t)==Tienda.getLocales().size()-1 && t.getInventario().indexOf(i) == t.getInventario().size()-1 && !existe) {
                         System.out.println("No se han encontrado productos en otros locales");
                         sc.nextLine();
@@ -1523,32 +1570,31 @@ public class Funcionalidad3 {
                 sc.nextLine();
                 for(Tienda t: Tienda.getLocales()){
                     if(t.getNombre().equalsIgnoreCase(nombre)){
-                        localDestino = t;
+                        localOrigen = t;
                     }
                 }
-                if(localDestino == null){
+                if(localOrigen == null){
                     imprimirSeparador();
                     System.out.println("El local ingresado no existe");
                     continue;
                 }
                 break;
             }
-            double valor = 0;
-            for(Producto i: localDestino.getInventario()){
+            for(Producto i: localOrigen.getInventario()){
                 if(i.getNombre().equalsIgnoreCase(producto.getNombre())){
-                    valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+                    cantidad = i.getCantidad()-(int) (i.getCantidadInicial()*0.4);
                 }
             }
-            if (valor < 0){
+            if (cantidad < 0){
                 System.out.println("No es posible reabastecer el producto desde este local.");
                 continue;
             }
             while (true) {
                 try {
                     imprimirSeparador();
-                    System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " + (int) valor);
+                    System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " +cantidad);
                     System.out.println("Ingrese la cantidad a reabastecer: ");
-                    opcion = sc.nextInt();
+                    cantidad = sc.nextInt();
                     sc.nextLine();
                     break;
                 }catch (Exception e){
@@ -1579,7 +1625,16 @@ public class Funcionalidad3 {
             }
             if (opcion == 1){
                 //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
-                //listadeObjetos.add();
+                Producto pclonado;
+                try {
+                    pclonado = producto.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+                pclonado.setCantidadInicial(cantidad);
+                pclonado.setCantidad(cantidad);
+                localOrigen.retirarProducto(producto,cantidad);//quitar las unidades del producto en el local
+                listadeObjetos.add(pclonado);
                 continue;
             }else if (opcion == 2){
                 break;
@@ -1587,18 +1642,19 @@ public class Funcionalidad3 {
                 return null;
             }
         }
-        return new Reabastecimiento(localDestino,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
+        return new Reabastecimiento(localOrigen,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
     }
     //sobrecarga para rango
     private static Reabastecimiento reabastecerManual(Tienda local,ArrayList<Producto> p,Fecha fechaActual,String l){
         int rango1;
         int rango2;
+        l ="Actually"+l;
         int opcion;
         int cantidad = 0;
         boolean existe = false;
         String nombre ="";
         Producto producto = null;
-        Tienda localDestino = null;
+        Tienda localOrigen = null;
         ArrayList<Producto> listadeObjetos = new ArrayList<>();
         ArrayList<Producto> lista = new ArrayList<>();
         while (true){
@@ -1636,11 +1692,11 @@ public class Funcionalidad3 {
             for(Producto i:t.getInventario()){
                 if (i.getNombre().equalsIgnoreCase(producto.getNombre())){
                     existe = true;
-                    double valor = i.getCantidad()-i.getCantidadInicial()*0.4;
-                    if (valor < 0){
-                        valor = 0;
+                    cantidad = i.getCantidad()-(int)(i.getCantidadInicial()*0.4);
+                    if (cantidad < 0){
+                        cantidad = 0;
                     }
-                    System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+(int)valor);
+                    System.out.println("•Local: "+t.getNombre()+" | Cantidad disponible: "+cantidad);
                 } else if (Tienda.getLocales().indexOf(t)==Tienda.getLocales().size()-1 && t.getInventario().indexOf(i) == t.getInventario().size()-1 && !existe) {
                     System.out.println("No se han encontrado productos en otros locales");
                     sc.nextLine();
@@ -1651,7 +1707,7 @@ public class Funcionalidad3 {
             continue;
         }
         while (true){
-            if(localDestino != null && !listadeObjetos.isEmpty()){
+            if(localOrigen != null && !listadeObjetos.isEmpty()){
                 break;
             }
             nombre = "";
@@ -1661,32 +1717,31 @@ public class Funcionalidad3 {
             sc.nextLine();
             for(Tienda t: Tienda.getLocales()){
                 if(t.getNombre().equalsIgnoreCase(nombre)){
-                    localDestino = t;
+                    localOrigen = t;
                 }
             }
-            if(localDestino == null){
+            if(localOrigen == null){
                 imprimirSeparador();
                 System.out.println("El local ingresado no existe");
                 continue;
             }
             break;
         }
-        double valor = 0;
-        for(Producto i: localDestino.getInventario()){
+        for(Producto i: localOrigen.getInventario()){
             if(i.getNombre().equalsIgnoreCase(producto.getNombre())){
-                valor = i.getCantidad()-i.getCantidadInicial()*0.4;
+                cantidad = i.getCantidad()-(int)(i.getCantidadInicial()*0.4);
             }
         }
-        if (valor < 0){
+        if (cantidad < 0){
             System.out.println("No es posible reabastecer el producto desde este local.");
             continue;
         }
         while (true) {
             try {
                 imprimirSeparador();
-                System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " + (int) valor);
+                System.out.println("•" + producto.getNombre() + " | Cantidad disponible para el reabastecimiento: " + cantidad);
                 System.out.println("Ingrese la cantidad a reabastecer: ");
-                opcion = sc.nextInt();
+                cantidad = sc.nextInt();
                 sc.nextLine();
                 break;
             }catch (Exception e){
@@ -1717,7 +1772,16 @@ public class Funcionalidad3 {
         }
         if (opcion == 1){
             //TODO:clonar el objeto, y agregarlo a la listadeObjetos cambiando la cantidadInicial y cantidad, por la variable cantidad
-            //listadeObjetos.add();
+            Producto pclonado;
+            try {
+                pclonado = producto.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
+            pclonado.setCantidadInicial(cantidad);
+            pclonado.setCantidad(cantidad);
+            localOrigen.retirarProducto(producto,cantidad);//quitar las unidades del producto en el local
+            listadeObjetos.add(pclonado);
             continue;
         }else if (opcion == 2){
             break;
@@ -1725,6 +1789,6 @@ public class Funcionalidad3 {
             return null;
         }
     }
-    return new Reabastecimiento(localDestino,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
+    return new Reabastecimiento(localOrigen,local,new Fecha(fechaActual.getTotalDias()+30),listadeObjetos);
     }
 }
