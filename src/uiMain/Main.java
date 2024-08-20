@@ -1790,7 +1790,6 @@ public class Main {
                 imprimirSeparador();
                 System.out.println("Desea\n1. Revisar los productos del local \n2. Modificar la informacion de algun producto\n3. Calcular la prioridad de estos\n4. Crear objeto\n5. Salir ");
                 //Evitar un error al ingresar un dato no numerico
-
                 opcion = 0;
 
                 try {
@@ -2543,11 +2542,6 @@ public class Main {
                                 scInvent.nextLine();
                                 continue;
                             }
-                            for (Producto i : local.getInventario()) {
-                                if (i instanceof Juego) {
-                                    lista.add((Juego) i);
-                                }
-                            }
                             String valorActual = null;//Variable para recorrer un atributo string
                             boolean existe = false;//valor booleano para comprobar si existe
                             int ID = 0; //ID del objeto a buscar
@@ -2582,6 +2576,7 @@ public class Main {
                     case 2://Prioridad
                         while (true) {
                             try {
+                                imprimirSeparador();
                                 System.out.println("Desea ver \n1.Alta\n2.Baja\n3.Regresar");
                                 opcion = scInvent.nextByte();
                                 scInvent.nextLine();
