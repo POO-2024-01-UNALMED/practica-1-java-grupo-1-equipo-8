@@ -100,8 +100,50 @@ public class Main {
         Empleado empleado2 = new Empleado(2004, "Joma", "jomachado@hotmail.com", 3444405, 1500, 12, (byte) 5, tienda1);
 
         //metas
-        new Meta(empleado1, 15, 6, 2024, 30, 8000);
-        new Meta(empleado1, 18, 6, 2024, 35, 10000);
+        Meta meta1 = new Meta(empleado1, 15, 6, 2024, 30, 8000);
+        Meta meta2 = new Meta(empleado1, 22, 6, 2024, 26, 8000);
+        Meta meta3 = new Meta(empleado1, 21, 6, 2024, 24, 8000);
+        Meta meta4 = new Meta(empleado1, 18, 6, 2024, 35, 10000);
+        Meta meta5 = new Meta(empleado1, 19, 6, 2024, 28, 10000);
+        Meta meta6 = new Meta(empleado1, 31, 6, 2024, 30, 10000);
+
+        meta1.setAcumulado(29);
+        meta2.setAcumulado(29);
+        meta3.setAcumulado(29);
+        meta4.setAcumulado(29);
+        meta5.setAcumulado(29);
+        meta6.setAcumulado(29);
+
+        Cliente cliente1 = new Cliente(1312, "David", "dad", 323);
+
+        Fecha fecha1 = new Fecha(15,6,2024);
+        Fecha fecha2 = new Fecha(11,6,2024);
+        Fecha fecha3 = new Fecha(14,6,2024);
+        Fecha fecha4 = new Fecha(13,6,2024);
+        Fecha fecha5 = new Fecha(10,6,2024);
+        Fecha fecha6 = new Fecha(12,6,2024);
+        Fecha fecha7 = new Fecha(11,6,2024);
+
+        Fecha fecha8 = new Fecha(8,6,2024);
+        Fecha fecha9 = new Fecha(7,6,2024);
+        Fecha fecha10 = new Fecha(8,6,2024);
+        Fecha fecha11 = new Fecha(5,6,2024);
+        Fecha fecha12 = new Fecha(7,6,2024);
+
+
+        new Transaccion(fecha1, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha2, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha3, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha4, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha5, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha6, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha7, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+
+        new Transaccion(fecha8, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha9, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha10, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha11, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
+        new Transaccion(fecha12, cliente1, empleado1, tienda1, new ArrayList<Producto>(), 10000);
     }
 
     static Tienda tienda2 = new Tienda("Robledo", 1420);

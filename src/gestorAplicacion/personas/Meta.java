@@ -61,7 +61,7 @@ public class Meta implements Serializable{
     public int getAcumulado() {
         return acumulado;
     }
-    public void setAcumuladoAcumulado(int acumulado) {
+    public void setAcumulado(int acumulado) {
         this.acumulado = acumulado;
     }
     public int getCodigo() {
