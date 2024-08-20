@@ -6,13 +6,13 @@ import gestorAplicacion.manejoLocal.Fecha;
 public class Meta implements Serializable{
     /*~~ Atributos ~~*/
     private static int ultimoID = 1;
+    private int codigo;
     private Empleado empleado;
     private Fecha fecha;
     private int valorAlcanzar;
     private int valorBonificacion;
     private String estado = "En proceso";
     private int acumulado;
-    private int codigo;
 
                     /*~~ Constructor ~~*/
     public Meta (Empleado empleado, int diaLimite, int mesLimite, int yearLimite, int valorAlcanzar, int valorBonificacion){
