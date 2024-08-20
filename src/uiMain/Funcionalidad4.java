@@ -15,9 +15,9 @@ import gestorAplicacion.personas.Meta;
 
 public class Funcionalidad4 {
     static Scanner sc = new Scanner(System.in);
-    private static int totalVentasSemanaActual = 0;
-    private static int totaVentasMesActual = 0;
-    private static int totalVentasYearActual = 0;
+    private static double totalVentasSemanaActual = 0;
+    private static double totaVentasMesActual = 0;
+    private static double totalVentasYearActual = 0;
     public static void inspeccionEmpleado(Tienda local, Fecha fechaActual) {
         /* ~~~ Identificacion del empleado ~~~ */
         Empleado empleado = identificarEmpleado(local);
@@ -424,7 +424,7 @@ public class Funcionalidad4 {
                         }
                     }
                     imprimirSeparador();
-                    System.out.println("El total de ventas semanales del empleado " + empleado.getNombre() + " son: " + totalVentasSemanaActual);
+                    System.out.println("El total de ventas semanales del empleado " + empleado.getNombre() + " son: " + (int)totalVentasSemanaActual);
                     break;
 
                 case 2: //Ver la cantidad de ventas del empleado en el mes
@@ -435,7 +435,7 @@ public class Funcionalidad4 {
                         }
                     }
                     imprimirSeparador();
-                    System.out.println("El total de ventas mensuales del empleado " + empleado.getNombre() + " son: " + totaVentasMesActual);
+                    System.out.println("El total de ventas mensuales del empleado " + empleado.getNombre() + " son: " + (int)totaVentasMesActual);
                     break;
 
                 case 3: //Ver la cantidad de ventas del empleado en el año
@@ -446,7 +446,7 @@ public class Funcionalidad4 {
                         }
                     }
                     imprimirSeparador();
-                    System.out.println("El total de ventas anuales del empleado " + empleado.getNombre() + " son: " + totalVentasYearActual);
+                    System.out.println("El total de ventas anuales del empleado " + empleado.getNombre() + " son: " + (int)totalVentasYearActual);
                     break;
 
                 default: //Si se ingresa un numero no valido
@@ -494,7 +494,7 @@ public class Funcionalidad4 {
 
         switch (decision) {
             case 1: //Comparar la cantidad de ventas con la semana pasada
-                int totalSemana = 0;
+                double totalSemana = 0;
                 for (Transaccion t : empleado.getTransacciones()) {
                     //Sumar 1 al total de ventas de la semana pasada si la fecha de la venta es mayor a la fecha actual -14 y ademas es menor al de la fecha actual -7
                     if (fechaActual.getTotalDias() - 14 <= t.getFecha().getTotalDias() && fechaActual.getTotalDias() - 7 >= t.getFecha().getTotalDias()){
@@ -502,14 +502,14 @@ public class Funcionalidad4 {
                     }
                 }
                 imprimirSeparador();
-                System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron:" + totalSemana);
+                System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron: " + (int)totalSemana);
                 System.out.println("Presione Enter para continuar.\n");
                 sc.nextLine(); // Limpiar el buffer
                 sc.nextLine(); // Esperar a que el usuario presione Enter
 
                 //Si el total de ventas de la semana actual es mayor al total de ventas de la semana pasada, calcular porcentaje de incremento
                 if (totalSemana < totalVentasSemanaActual){
-                    int calculo = ((totalVentasSemanaActual - totalSemana)/totalSemana)*100;
+                    double calculo = ((totalVentasSemanaActual - totalSemana)/ totalSemana)* 100;
                     imprimirSeparador();
                     System.out.println("El total de ventas en esta semana incremento en un " + calculo + "%");
                     if (calculo > 30 ){
@@ -521,14 +521,14 @@ public class Funcionalidad4 {
                 //Si el total de ventas de la semana actual es igual al total de ventas de la semana pasada
                 } else if (totalSemana == totalVentasSemanaActual) {
                     imprimirSeparador();
-                    System.out.println("El total de ventas fue igual al de la semana pasada " + totalSemana + " ventas.");
+                    System.out.println("El total de ventas fue igual al de la semana pasada: " + (int)totalSemana + " ventas.");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
 
                 //Si el total de ventas de la semana actual es menor al total de ventas de la semana pasada, calcular porcentaje de decremento
                 } else {
-                    int calculo = ((totalSemana - totalVentasSemanaActual)/totalSemana)*100;
+                    double calculo = ((totalSemana - totalVentasSemanaActual) / totalSemana)*100;
                     imprimirSeparador();
                     System.out.println("El total de ventas en esta semana disminuyo en un " + calculo +"%");
                     System.out.println("Presione Enter para continuar.\n");
@@ -538,13 +538,13 @@ public class Funcionalidad4 {
                 break;
 
             case 2:
-                int totalMes = 0;
+                double totalMes = 0;
                 for (Transaccion t : empleado.getTransacciones()) {
                     //Sumar 1 al total de ventas de la semana pasada si la fecha de la venta es mayor a la fecha actual -62 y ademas es menor al de la fecha actual -31
                     if (fechaActual.getTotalDias() - 62 <= t.getFecha().getTotalDias() && fechaActual.getTotalDias() - 31 >= t.getFecha().getTotalDias()) {
                         totalMes++;
                         imprimirSeparador();
-                        System.out.println("El total de ventas en el mes anterior del empleado " + empleado.getNombre() + " fueron: " + totalMes);
+                        System.out.println("El total de ventas en el mes anterior del empleado " + empleado.getNombre() + " fueron: " + (int)totalMes);
                         System.out.println("Presione Enter para continuar.\n");
                         sc.nextLine(); // Limpiar el buffer
                         sc.nextLine(); // Esperar a que el usuario presione Enter
@@ -553,7 +553,7 @@ public class Funcionalidad4 {
 
                 //Si el total de ventas del mes actual es mayor al total de ventas del mes pasado, calcular porcentaje de incremento
                 if (totalMes < totaVentasMesActual){
-                    int calculo = ((totaVentasMesActual - totalMes)/totalMes)*100;
+                    double calculo = ((totaVentasMesActual - totalMes)/totalMes)*100;
                     imprimirSeparador();
                     System.out.println("El total de ventas en este mes incremento en un " + calculo + "%");
                     if (calculo > 30 ){
@@ -567,14 +567,14 @@ public class Funcionalidad4 {
                 //Si el total de ventas del mes actual es igual al total de ventas del mes pasado
                 } else if (totalMes == totaVentasMesActual) {
                     imprimirSeparador();
-                    System.out.println("El total de ventas fue igual al del mes pasado: " + totalMes + " ventas.");
+                    System.out.println("El total de ventas fue igual al del mes pasado: " + (int)totalMes + " ventas.");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
 
                 //Si el total de ventas del mes actual es menor al total de ventas del mes pasado, calcular porcentaje de decremento
                 } else {
-                    int calculo = ((totalMes - totaVentasMesActual)/totalMes)*100;
+                    double calculo = ((totalMes - totaVentasMesActual)/totalMes)*100;
                     imprimirSeparador();
                     System.out.println("El total de ventas en este mes disminuyo en un " + calculo +"%");
                     System.out.println("Presione Enter para continuar.\n");
@@ -584,13 +584,13 @@ public class Funcionalidad4 {
                 break;
 
             case 3:
-                int totalYear = 0;
+                double totalYear = 0;
                 for (Transaccion t : empleado.getTransacciones()) {
                     //Sumar 1 al total de ventas de la semana pasada si la fecha de la venta es mayor a la fecha actual -730 y ademas es menor al de la fecha actual -365
                     if (fechaActual.getTotalDias() - 730 <= t.getFecha().getTotalDias() && fechaActual.getTotalDias() - 365 >= t.getFecha().getTotalDias()) {
                         totalYear++;
                         imprimirSeparador();
-                        System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron:" + totalYear);
+                        System.out.println("El total de ventas en la semana anterior del empleado " + empleado.getNombre() + " fueron:" + (int)totalYear);
                         System.out.println("Presione Enter para continuar.\n");
                         sc.nextLine(); // Limpiar el buffer
                         sc.nextLine(); // Esperar a que el usuario presione Enter
@@ -599,7 +599,7 @@ public class Funcionalidad4 {
 
                 //Si el total de ventas del año actual es mayor al total de ventas del año pasado, calcular porcentaje de decremento
                 if (totalYear < totalVentasYearActual){
-                    int calculo = ((totalVentasYearActual - totalYear)/totalYear)*100;
+                    double calculo = ((totalVentasYearActual - totalYear)/totalYear)*100;
                     imprimirSeparador();
                     System.out.println("El total de ventas en esta semana incremento en un " + calculo + "%");
                     if (calculo > 30 ){
@@ -612,14 +612,14 @@ public class Funcionalidad4 {
                 //Si el total de ventas del año actual es igual al total de ventas del año pasado
                 } else if (totalYear == totalVentasYearActual) {
                     imprimirSeparador();
-                    System.out.println("El total de ventas fue igual al de la semana pesada " + totalYear + " ventas.");
+                    System.out.println("El total de ventas fue igual al de la semana pesada " + (int)totalYear + " ventas.");
                     System.out.println("Presione Enter para continuar.\n");
                     sc.nextLine(); // Limpiar el buffer
                     sc.nextLine(); // Esperar a que el usuario presione Enter
 
                 //Si el total de ventas del año actual es menor al total de ventas del año pasado, calcular porcentaje de decremento
                 } else {
-                    int calculo = ((totalYear - totalVentasYearActual)/totalYear)*100;
+                    double calculo = ((totalYear - totalVentasYearActual)/totalYear)*100;
                     imprimirSeparador();
                     System.out.println("El total de ventas en esta semana disminuyo en un " + calculo +"%");
                     System.out.println("Presione Enter para continuar.\n");
