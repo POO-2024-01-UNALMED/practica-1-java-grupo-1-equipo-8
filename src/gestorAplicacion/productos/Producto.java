@@ -31,7 +31,19 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 		this.codigo = ultimoCodigo;
 		ultimoCodigo++;
 	}
-
+	public  Producto(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, Fecha fechaLanzamiento, int descuento, int puntosRequeridos) {
+		this.codigo = ultimoCodigo;
+		ultimoCodigo++;
+		this.nombre = nombre;
+		this.valor = valor;
+		this.cantidad = cantidad;
+		this.cantidadInicial = cantidadInicial;
+		this.prestable = prestable;
+		this.condicion = condicion;
+		this.fechaLanzamiento = fechaLanzamiento;
+		this.descuento = descuento;
+		this.puntosRequeridos = puntosRequeridos;
+	}
 	// Constructor con todos los atributos. Recibe dia, mes y año por separado
     public Producto (String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, int descuento, int puntosRequeridos) {
 		this.codigo = ultimoCodigo;
@@ -67,6 +79,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 	public Producto (String nombre, int valor, int cantidad, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz) {
 		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0);
 	}
+
 
 
 	/* ~~~ Métodos ~~~ */

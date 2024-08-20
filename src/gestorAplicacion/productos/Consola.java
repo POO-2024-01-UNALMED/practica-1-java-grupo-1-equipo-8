@@ -1,4 +1,5 @@
 package gestorAplicacion.productos;
+import gestorAplicacion.manejoLocal.Fecha;
 
 import java.util.Comparator;
 
@@ -9,6 +10,11 @@ public class Consola extends Producto{
 
 	/* ~~~ Constructores ~~~ */
 	public Consola(){}	// constructor vacío //
+	//Constructor con fecha
+	public Consola(String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, Fecha fecha, int descuento, int puntosRequeridos, String marca) {
+		super(nombre, valor, cantidad, cantidadInicial, prestable, condicion, fecha, descuento, puntosRequeridos);
+		this.marca = marca;
+	}
 
 	// Constructor con todos los atributos
 	public Consola (String nombre, int valor, int cantidad, int cantidadInicial, boolean prestable, byte condicion, int diaLanz, int mesLanz, int yearLanz, int descuento, int puntosRequeridos, String marca) {
