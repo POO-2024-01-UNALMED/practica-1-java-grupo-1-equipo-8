@@ -38,12 +38,20 @@ public class Prestamo implements Serializable{
     /* ~~~ Metodos ~~~ */
     public String toString() {
         return "ID: " + this.id +
-                "Fecha de inicio: " + this.fechaInicio +
-                "Fecha de fin: " + this.fechaFin +
-                "Cliente: " + this.cliente +
-                "Productos: " + this.productos +
-                "Valor total: " + this.valorTotal +
-                "Estado: " + this.estado;
+                " | Fecha de inicio: " + this.fechaInicio +
+                " | Fecha de fin: " + this.fechaFin +
+                " | Cliente: " + this.cliente.getNombre() +
+                " | Valor total: " + this.valorTotal +
+                " | Estado: " + this.estado +
+                " | Productos: \n" + imprimirProductos();
+    }
+
+    public String imprimirProductos() {
+        String productos = "";
+        for (Producto producto : this.productos) {
+            productos += "    * ID: " + producto.getCodigo() + " | Nombre: " + producto.getNombre() + "\n";
+        }
+        return productos;
     }
 
 

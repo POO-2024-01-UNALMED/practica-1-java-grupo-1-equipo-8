@@ -16,7 +16,6 @@ import static uiMain.Main.*;
 
 public class Funcionalidad5 {
     static Scanner scSub = new Scanner(System.in); // variable scanner
-    static int puntosUsados = 0; // Cantidad de puntos que se usan en la transaccion. Siempre sera menor a la cantidad de puntos del cliente
 
     public static void subastar(Tienda local, Fecha fecha) {
 
@@ -352,7 +351,7 @@ public class Funcionalidad5 {
     public static void comprobarSubastas(Tienda local, Fecha fecha) {
         for (Subasta subasta : local.getSubastas()) {
             // Hay subastas con fecha anterior a la actual
-            if (subasta.getFechaFin().getTotalDias() < fecha.getTotalDias()) {
+            if (subasta.getFechaFin().getTotalDias() < fecha.getTotalDias() && subasta.getEstado().equalsIgnoreCase("Activa")) {
                 imprimirSeparadorPequeno();
 
                 // Seleccionar subasta vencida

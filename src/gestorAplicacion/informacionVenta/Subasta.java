@@ -180,7 +180,7 @@ public class Subasta implements Serializable {
                 "Tipo: " + tipo + "\n" +
                 "Productos: " + "\n" +imprimirProductos() +
                 "Oferta mayor: " + ofertaMayor + "\n" +
-                "Ofertantes: " + imprimirOfertantes();
+                "Ofertantes: \n" + imprimirOfertantes();
     }
 
     public String imprimirProductos() {

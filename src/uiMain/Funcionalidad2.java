@@ -1,17 +1,14 @@
 package uiMain;
 
 import gestorAplicacion.informacionVenta.Prestamo;
-import gestorAplicacion.informacionVenta.Transaccion;
 import gestorAplicacion.manejoLocal.Fecha;
 import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
-import gestorAplicacion.personas.Empleado;
 import gestorAplicacion.productos.Accesorio;
 import gestorAplicacion.productos.Consola;
 import gestorAplicacion.productos.Juego;
 import gestorAplicacion.productos.Producto;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -33,12 +30,7 @@ public class Funcionalidad2 {
         comprobarPrestamos(cliente, fecha);
 
         if (tieneVencidos(cliente)) {
-            System.out.println("El cliente tiene los siguientes prestamos vencidos:\n");
-            for (Prestamo p : cliente.getPrestamos()) {
-                if (p.getEstado().equals("Vencido")) {
-                    System.out.println(p);
-                }
-            }
+            System.out.println("El cliente tiene uno o más prestamos vencidos:");
         }
 
         /* ~~ Devolucion de productos prestados ~~ */
@@ -51,6 +43,7 @@ public class Funcionalidad2 {
             }
         }
 
+        // Devolver productos prestados
         if (prestamoActivo) {
             if (siNo("¿Desea devolver productos prestados?")) {
                 for (Prestamo p : cliente.getPrestamos()) {
@@ -62,7 +55,7 @@ public class Funcionalidad2 {
                             multa += (int) (producto.getValor() * 0.1 * diasVencidos);
                         }
 
-                        System.out.println("* Prestamo con ID " + p.getId() + " generado el " + p.getFechaInicio() + ", con fecha de fin el " + p.getFechaFin() + " y productos: " + p.getProductos());
+                        System.out.println(p);
                         System.out.println("Este prestamo esta vencido.");
 
                         if (siNo("¿Desea devolver los productos de este prestamo?")) {
@@ -270,7 +263,7 @@ public class Funcionalidad2 {
                         // Recibir efectivo
                         while (true) {
                             valorIngresado = 0;
-                            System.out.print("Ingrese el valor con el que pagara:");
+                            System.out.print("Ingrese el valor con el que pagara: ");
 
                             try {
                                 valorIngresado = sc.nextInt();
@@ -574,7 +567,7 @@ public class Funcionalidad2 {
         while (true) {
             int valorIngresado = 0;
             System.out.println("Valor de multa: " + valorMulta);
-            System.out.print("Ingrese el valor con el que pagara:");
+            System.out.print("Ingrese el valor con el que pagara: ");
 
             try {
                 valorIngresado = sc.nextInt();
