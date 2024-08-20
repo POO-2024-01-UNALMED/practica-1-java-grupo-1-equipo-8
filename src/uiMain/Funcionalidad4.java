@@ -59,7 +59,7 @@ public class Funcionalidad4 {
 
             int rendimiento = verRendimiento(empleado, fechaActual);
             compararRendimiento(empleado, fechaActual, rendimiento);
-            System.out.println("¿Qué desea hacer?");
+            System.out.println("¿Que desea hacer?");
             System.out.println("1. Ver rendimiento en otro periodo");
             System.out.println("2. Asignar sueldo");
 
@@ -81,7 +81,7 @@ public class Funcionalidad4 {
         while (true) {
             byte decision;
 
-            System.out.println("¿Qué desea hacer?");
+            System.out.println("¿Que desea hacer?");
             System.out.println("1. Modificar salarios");
             System.out.println("2. Modificar días laborales");
             System.out.println("3. Continuar a asignar meta");
@@ -127,7 +127,7 @@ public class Funcionalidad4 {
         while (true){
             byte pregunta;
 
-            System.out.println("¿Qué desea hacer?");
+            System.out.println("¿Que desea hacer?");
             System.out.println("1. Asignar una meta");
             System.out.println("2. Terminar");
 
@@ -164,7 +164,7 @@ public class Funcionalidad4 {
     }
 
     private static Empleado identificarEmpleado(Tienda local) {
-        /* ~~ Elegir con qué empleado se desea usar la funcionalidad ~~ */
+        /* ~~ Elegir con que empleado se desea usar la funcionalidad ~~ */
 
         imprimirSeparador();
 
@@ -179,9 +179,9 @@ public class Funcionalidad4 {
         }
 
         while (true) {
-            System.out.println("Ingrese la cédula del empleado");
+            System.out.println("Ingrese la cedula del empleado");
 
-            // Buscar al empleado en la lista de empleados por su cédula
+            // Buscar al empleado en la lista de empleados por su cedula
             try {
                 cedula = sc.nextInt();
 
@@ -368,7 +368,7 @@ public class Funcionalidad4 {
                 System.out.println("Fecha no válida, presione enter para volver a intentar");
                 sc.nextLine();
                 sc.nextLine();
-            } else { //Si la fecha de la meta es después de la actual
+            } else { //Si la fecha de la meta es despues de la actual
                 imprimirSeparador();
                 System.out.println("Fecha actualizada. La meta " + meta.getCodigo() + " quedó para " + meta.getFecha().toString());
                 System.out.println("Presione enter para continuar");
@@ -450,7 +450,7 @@ public class Funcionalidad4 {
             while (true){
                 try { //Elegir si se desea ver el rendimiento en otro periodo o pasar a compararlo
                     imprimirSeparador();
-                    System.out.println("¿Qué desea hacer?");
+                    System.out.println("¿Que desea hacer?");
                     System.out.println("1. Ver el rendimiento en otro periodo de tiempo");
                     System.out.println("2. Comparar rendimiento con periodo anterior");
 
