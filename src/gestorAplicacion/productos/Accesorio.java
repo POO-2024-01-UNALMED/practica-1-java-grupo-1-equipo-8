@@ -29,6 +29,16 @@ public class Accesorio extends Producto{
 		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, marca, consola);
 	}
 
+	/* ~~~ Metodo tostring ~~~ */
+	@Override
+	public String toString() {
+		return "COD: " + codigo + " | " +
+				"NOMBRE: " + nombre + " | " +
+				"CONSOLA: " + consola + " | " +
+				"$ " + valor + " | " +
+				"CANT: " + cantidad;
+	}
+
 	/* ~~ Metodo compare ~~ */
 	@Override
 	public int compare(Producto o1, Producto o2){

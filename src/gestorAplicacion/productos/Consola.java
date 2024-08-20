@@ -27,6 +27,17 @@ public class Consola extends Producto{
 		this(nombre, valor, cantidad, cantidad, prestable, condicion, diaLanz, mesLanz, yearLanz, 0, 0, marca);
 	}
 
+	/* ~~~~ Metodo tostring ~~~~ */
+	@Override
+	public String toString() {
+		return "COD: " + codigo + " | " +
+				"NOMBRE: " + nombre + " | " +
+				"MARCA: " + marca + " | " +
+				"$ " + valor + " | " +
+				"CANT: " + cantidad;
+	}
+
+
 										//~~~~~~~~~~~~~~~~~~ Metodos get y set ~~~~~~~~~~~~~~~~~~//
 	public String getMarca(){
 		return marca;

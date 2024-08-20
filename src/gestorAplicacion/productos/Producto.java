@@ -163,12 +163,7 @@ public abstract class Producto implements Serializable, Cloneable,Comparable<Pro
 
 	/* ~ Metodo toString ~ */
 	@Override
-	public String toString() {
-		return "COD: " + codigo + " | " +
-				"NOMBRE: " + nombre + " | " +
-				"$ " + valor + " | " +
-				"CANT: " + cantidad;
-	}
+	public abstract String toString();
 
 	/* ~ Imprimir precio de prestamo ~ */
 	public String toStringPrestable() {
