@@ -158,8 +158,6 @@ public class Subasta implements Serializable {
             int yearsDiferencia = Math.abs(fechaActual.getYear() - producto.getFechaLanzamiento().getYear());
             rareza += yearsDiferencia / 5;
 
-            // TODO: Valorar por cantidad de productos en stock
-
             // Valorar por condicion
             rareza += producto.getCondicion() - 1;
 

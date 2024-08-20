@@ -192,7 +192,7 @@ public class Main {
     public static void main(String[] args) {
         /* ~~~ Carga de objetos serializados ~~~ */
         // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIÓN
-
+/*
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
         ultimaFecha = Deserializador.deserializarFecha();
@@ -513,7 +513,6 @@ public class Main {
                 System.out.print("Ingrese día: ");
                 dia = sc.nextInt();
 
-                //TODO: Validar que el día sea válido para el mes
                 if (dia <= 0 || dia > 31) {
                     throw new Exception("Día inválido");
                 }

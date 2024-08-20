@@ -60,8 +60,6 @@ public class Funcionalidad1 {
                 }
             }
 
-            // TODO: Recomendar juegos del género más comprado
-
             // Mostrar género favorito
             if (!generosCant.isEmpty()) {
                 System.out.println("Género favorito: " + generoFav);
@@ -207,8 +205,6 @@ public class Funcionalidad1 {
                     System.out.println("Valor total de la compra: $" + valorFinal + "\n");
 
                     // Ingreso de dinero
-                    // TODO: Pago fraccionado
-
                     int valorIngresado = 0;
                     int cambio = 0;
 

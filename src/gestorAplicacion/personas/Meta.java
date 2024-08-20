@@ -33,8 +33,6 @@ public class Meta implements Serializable{
         }
     }
 
-    // TODO: implementar llamado a este metodo en funcionalidades 1  y 2
-
                     /*~~ Metodos get y set ~~*/
     public Empleado getEmpleado() {
         return empleado;
