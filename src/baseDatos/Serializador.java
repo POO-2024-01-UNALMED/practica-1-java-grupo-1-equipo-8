@@ -13,11 +13,9 @@ import gestorAplicacion.manejoLocal.Tienda;
 import gestorAplicacion.personas.Cliente;
 
 public class Serializador {
-    private static File archivo = new File("");
-
     public static void serializarTiendas(ArrayList<Tienda> locales) {
         try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath() + "\\src\\baseDatos\\temp\\locales.txt"));
+            FileOutputStream f = new FileOutputStream(new File("src\\baseDatos\\temp\\locales.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
             o.writeObject(locales);
 
@@ -34,11 +32,9 @@ public class Serializador {
 
     public static void serializarClientes(ArrayList<Cliente> clientes) {
         try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath() + "\\src\\baseDatos\\temp\\clientes.txt"));
+            FileOutputStream f = new FileOutputStream(new File("src\\baseDatos\\temp\\clientes.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
             o.writeObject(clientes);
-
-            System.out.println("Serializando..........");
 
             o.close();
             f.close();
@@ -53,7 +49,7 @@ public class Serializador {
 
     public static void serializarUltimaFecha(Fecha fecha) {
         try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath() + "\\src\\baseDatos\\temp\\ultimaFecha.txt"));
+            FileOutputStream f = new FileOutputStream(new File("src\\baseDatos\\temp\\ultimaFecha.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
             o.writeObject(fecha);
 

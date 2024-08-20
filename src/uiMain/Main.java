@@ -192,7 +192,7 @@ public class Main {
     public static void main(String[] args) {
         /* ~~~ Carga de objetos serializados ~~~ */
         // DESCOMENTAR PARA ACTIVAR LA DESERIALIZACIoN
-/*
+
         Deserializador.deserializarTiendas();
         Deserializador.deserializarClientes();
         ultimaFecha = Deserializador.deserializarFecha();
@@ -338,7 +338,7 @@ public class Main {
         while (true) { // Recibir fecha actual
             imprimirSeparador();
 
-            System.out.println("ultimo acceso: " + ultimaFecha);
+            System.out.println("Ultimo acceso: " + ultimaFecha);
             System.out.println("Ingrese la fecha actual");
 
             fechaActual = recibirFecha();
